@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.mailextract;
 
@@ -57,7 +67,6 @@ public class MailExtractLogger {
     public static final int MESSAGE_DETAILS = 60;
     public static final Marker MESSAGE_DETAILS_MARKER = MarkerFactory.getMarker("MESSAGE_DETAILS");
 
-
     /**
      * The global logger.
      */
@@ -79,8 +88,10 @@ public class MailExtractLogger {
      * @return the app logger
      */
     public static MailExtractLogger getGlobalLogger() {
-        if (globalLogger == null)
-            globalLogger = new MailExtractLogger(LoggerFactory.getLogger(MailExtractApp.class.getSimpleName()), GLOBAL);
+        if (globalLogger == null) globalLogger = new MailExtractLogger(
+            LoggerFactory.getLogger(MailExtractApp.class.getSimpleName()),
+            GLOBAL
+        );
         return globalLogger;
     }
 
@@ -94,11 +105,13 @@ public class MailExtractLogger {
 
         PatternLayoutEncoder consoleEncoder = new PatternLayoutEncoder();
         consoleEncoder.setContext(logCtx);
-        consoleEncoder.setPattern("%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            consoleEncoder.setCharset(Charset.forName("cp850"));
-        else
-            consoleEncoder.setCharset(Charset.forName("UTF-8"));
+        consoleEncoder.setPattern(
+            "%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n"
+        );
+        if (System.getProperty("os.name").toLowerCase().contains("win")) consoleEncoder.setCharset(
+            Charset.forName("cp850")
+        );
+        else consoleEncoder.setCharset(Charset.forName("UTF-8"));
         consoleEncoder.start();
 
         ConsoleAppender<ch.qos.logback.classic.spi.ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
@@ -109,11 +122,15 @@ public class MailExtractLogger {
 
         PatternLayoutEncoder fileEncoder = new PatternLayoutEncoder();
         fileEncoder.setContext(logCtx);
-        fileEncoder.setPattern("%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
+        fileEncoder.setPattern(
+            "%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n"
+        );
         fileEncoder.setCharset(Charset.forName("UTF-8"));
         fileEncoder.start();
 
-        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<ch.qos.logback.classic.spi.ILoggingEvent>();
+        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<
+            ch.qos.logback.classic.spi.ILoggingEvent
+        >();
         logFileAppender.setContext(logCtx);
         logFileAppender.setName("logFile");
         logFileAppender.setEncoder(fileEncoder);
@@ -132,20 +149,13 @@ public class MailExtractLogger {
     }
 
     public static int getLevel(String levelName) throws MailExtractException {
-        if (levelName.equals("OFF"))
-            return -1;
-        else if (levelName.equals(GLOBAL_MARKER.getName()))
-            return GLOBAL;
-        else if (levelName.equals(WARNING_MARKER.getName()))
-            return WARNING;
-        else if (levelName.equals(FOLDER_MARKER.getName()))
-            return FOLDER;
-        else if (levelName.equals(MESSAGE_GROUP_MARKER.getName()))
-            return MESSAGE_GROUP;
-        else if (levelName.equals(MESSAGE_MARKER.getName()))
-            return MESSAGE;
-        else if (levelName.equals(MESSAGE_DETAILS_MARKER.getName()))
-            return MESSAGE_DETAILS;
+        if (levelName.equals("OFF")) return -1;
+        else if (levelName.equals(GLOBAL_MARKER.getName())) return GLOBAL;
+        else if (levelName.equals(WARNING_MARKER.getName())) return WARNING;
+        else if (levelName.equals(FOLDER_MARKER.getName())) return FOLDER;
+        else if (levelName.equals(MESSAGE_GROUP_MARKER.getName())) return MESSAGE_GROUP;
+        else if (levelName.equals(MESSAGE_MARKER.getName())) return MESSAGE;
+        else if (levelName.equals(MESSAGE_DETAILS_MARKER.getName())) return MESSAGE_DETAILS;
         throw new MailExtractException("Unknown log level");
     }
 
@@ -170,10 +180,8 @@ public class MailExtractLogger {
     public void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null) {
-                if (level >= GLOBAL)
-                    logger.info(getMarker(level), message);
+                if (level >= GLOBAL) logger.info(getMarker(level), message);
                 else logger.error(message);
-
             }
         }
     }
@@ -187,8 +195,8 @@ public class MailExtractLogger {
     }
 
     public void close() {
-        if (logger instanceof ch.qos.logback.classic.Logger)
-            ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
+        if (
+            logger instanceof ch.qos.logback.classic.Logger
+        ) ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
     }
-
 }

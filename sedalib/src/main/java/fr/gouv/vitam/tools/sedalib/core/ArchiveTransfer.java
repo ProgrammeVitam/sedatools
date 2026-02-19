@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
@@ -114,23 +124,35 @@ public class ArchiveTransfer {
                 case V2_1:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                            "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
+                    xmlWriter.writeAttribute(
+                        "xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance",
+                        "schemaLocation",
+                        "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd"
+                    );
                     break;
                 case V2_2:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.2");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                            "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd");
+                    xmlWriter.writeAttribute(
+                        "xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance",
+                        "schemaLocation",
+                        "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd"
+                    );
                     break;
                 case V2_3:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.3");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                            "fr:gouv:culture:archivesdefrance:seda:v2.3 seda-2.3-main.xsd");
+                    xmlWriter.writeAttribute(
+                        "xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance",
+                        "schemaLocation",
+                        "fr:gouv:culture:archivesdefrance:seda:v2.3 seda-2.3-main.xsd"
+                    );
                     break;
                 default:
-                    throw new SEDALibException("Version ["+ SedaContext.getVersion() +"] sans schéma", null);
+                    throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
             }
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
@@ -148,8 +170,7 @@ public class ArchiveTransfer {
     private void exportHeader(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeElementValueIfNotEmpty("Comment", globalMetadata.comment);
-            if (globalMetadata.isNowFlag())
-                globalMetadata.date = SEDAXMLStreamWriter.getStringFromDateTime(null);
+            if (globalMetadata.isNowFlag()) globalMetadata.date = SEDAXMLStreamWriter.getStringFromDateTime(null);
             xmlWriter.writeElementValueIfNotEmpty("Date", globalMetadata.date);
             xmlWriter.writeElementValueIfNotEmpty("MessageIdentifier", globalMetadata.messageIdentifier);
             xmlWriter.writeElementValueIfNotEmpty("ArchivalAgreement", globalMetadata.archivalAgreement);
@@ -168,15 +189,21 @@ public class ArchiveTransfer {
 
     private void exportFooter(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeElementValueIfNotEmpty("TransferRequestReplyIdentifier",
-                    globalMetadata.transferRequestReplyIdentifier);
+            xmlWriter.writeElementValueIfNotEmpty(
+                "TransferRequestReplyIdentifier",
+                globalMetadata.transferRequestReplyIdentifier
+            );
             xmlWriter.writeStartElement("ArchivalAgency");
             xmlWriter.writeElementValue("Identifier", globalMetadata.archivalAgencyIdentifier);
-            xmlWriter.writeRawXMLBlockIfNotEmpty(globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData);
+            xmlWriter.writeRawXMLBlockIfNotEmpty(
+                globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData
+            );
             xmlWriter.writeEndElement();
             xmlWriter.writeStartElement("TransferringAgency");
             xmlWriter.writeElementValue("Identifier", globalMetadata.transferringAgencyIdentifier);
-            xmlWriter.writeRawXMLBlockIfNotEmpty(globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData);
+            xmlWriter.writeRawXMLBlockIfNotEmpty(
+                globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData
+            );
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML de la fin du manifest", e);
@@ -210,8 +237,11 @@ public class ArchiveTransfer {
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException, InterruptedException {
+    public void toSedaXml(
+        SEDAXMLStreamWriter xmlWriter,
+        boolean imbricateFlag,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         exportStartDocument(xmlWriter);
         exportHeader(xmlWriter);
         dataObjectPackage.toSedaXml(xmlWriter, imbricateFlag, sedaLibProgressLogger);
@@ -228,13 +258,11 @@ public class ArchiveTransfer {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importStartDocument(SEDAXMLEventReader xmlReader)
-            throws SEDALibException {
+    private static void importStartDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
         try {
             event = xmlReader.nextUsefullEvent();
-            if (!event.isStartDocument())
-                throw new SEDALibException("Pas de document XML");
+            if (!event.isStartDocument()) throw new SEDALibException("Pas de document XML");
             if (!xmlReader.nextBlockIfNamed("ArchiveTransfer")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
@@ -251,16 +279,19 @@ public class ArchiveTransfer {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer) throws SEDALibException {
+    private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer)
+        throws SEDALibException {
         try {
             archiveTransfer.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveTransfer.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveTransfer.globalMetadata.messageIdentifier = xmlReader.nextMandatoryValue("MessageIdentifier");
-            if (xmlReader.peekBlockIfNamed("Signature"))
-                throw new SEDALibException("L'élément Signature dans l'ArchiveTransfer n'est pas supporté");
+            if (xmlReader.peekBlockIfNamed("Signature")) throw new SEDALibException(
+                "L'élément Signature dans l'ArchiveTransfer n'est pas supporté"
+            );
             archiveTransfer.globalMetadata.archivalAgreement = xmlReader.nextValueIfNamed("ArchivalAgreement");
-            archiveTransfer.globalMetadata
-                    .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
+            archiveTransfer.globalMetadata.codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString(
+                "CodeListVersions"
+            );
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML d'entête du manifest", e);
         }
@@ -274,25 +305,28 @@ public class ArchiveTransfer {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
     private static void importFooter(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer)
-            throws SEDALibException {
+        throws SEDALibException {
         try {
-            if (xmlReader.peekBlockIfNamed("RelatedTransferReference"))
-                throw new SEDALibException(
-                        "L'élément RelatedTransferReference dans l'ArchiveTransfer n'est pas supporté");
+            if (xmlReader.peekBlockIfNamed("RelatedTransferReference")) throw new SEDALibException(
+                "L'élément RelatedTransferReference dans l'ArchiveTransfer n'est pas supporté"
+            );
 
-            archiveTransfer.globalMetadata
-                    .transferRequestReplyIdentifier = xmlReader.nextValueIfNamed("TransferRequestReplyIdentifier");
-            if (!xmlReader.nextBlockIfNamed("ArchivalAgency"))
-                throw new SEDALibException("Elément ArchivalAgency obligatoire");
+            archiveTransfer.globalMetadata.transferRequestReplyIdentifier = xmlReader.nextValueIfNamed(
+                "TransferRequestReplyIdentifier"
+            );
+            if (!xmlReader.nextBlockIfNamed("ArchivalAgency")) throw new SEDALibException(
+                "Elément ArchivalAgency obligatoire"
+            );
             archiveTransfer.globalMetadata.archivalAgencyIdentifier = xmlReader.nextMandatoryValue("Identifier");
             archiveTransfer.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData =
-                    xmlReader.nextBlockAsStringIfNamed("OrganizationDescriptiveMetadata");
+                xmlReader.nextBlockAsStringIfNamed("OrganizationDescriptiveMetadata");
             xmlReader.endBlockNamed("ArchivalAgency");
-            if (!xmlReader.nextBlockIfNamed("TransferringAgency"))
-                throw new SEDALibException("Elément TransferingAgency Obligatoire");
+            if (!xmlReader.nextBlockIfNamed("TransferringAgency")) throw new SEDALibException(
+                "Elément TransferingAgency Obligatoire"
+            );
             archiveTransfer.globalMetadata.transferringAgencyIdentifier = xmlReader.nextMandatoryValue("Identifier");
             archiveTransfer.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData =
-                    xmlReader.nextBlockAsStringIfNamed("OrganizationDescriptiveMetadata");
+                xmlReader.nextBlockAsStringIfNamed("OrganizationDescriptiveMetadata");
             xmlReader.endBlockNamed("TransferringAgency");
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture de la fin du manifest", e);
@@ -305,14 +339,12 @@ public class ArchiveTransfer {
      * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
-    private static void importEndDocument(SEDAXMLEventReader xmlReader)
-            throws SEDALibException {
+    private static void importEndDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
         try {
             xmlReader.endBlockNamed("ArchiveTransfer");
             event = xmlReader.peekUsefullEvent();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Pas de fin attendue du document XML");
+            if (!event.isEndDocument()) throw new SEDALibException("Pas de fin attendue du document XML");
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture de la cloture du manifest", e);
         }
@@ -329,8 +361,11 @@ public class ArchiveTransfer {
      * @throws SEDALibException     if the XML can't be read or is not in expected form
      * @throws InterruptedException if export process is interrupted
      */
-    public static ArchiveTransfer fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
-                                              SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public static ArchiveTransfer fromSedaXml(
+        SEDAXMLEventReader xmlReader,
+        String rootDir,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         ArchiveTransfer archiveTransfer;
         importStartDocument(xmlReader);
         archiveTransfer = new ArchiveTransfer();
@@ -340,18 +375,20 @@ public class ArchiveTransfer {
         importFooter(xmlReader, archiveTransfer);
         importEndDocument(xmlReader);
 
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
-                "sedalib: ArchiveTransfer importé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: ArchiveTransfer importé", null);
 
         return archiveTransfer;
     }
 
     // SEDA Validator
 
-    public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException, InterruptedException {
         String manifest;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
+        try (
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)
+        ) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
             manifest = baos.toString(StandardCharsets.UTF_8);
         } catch (XMLStreamException | IOException e) {
@@ -362,10 +399,13 @@ public class ArchiveTransfer {
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 
-    public void sedaProfileValidate(String profileFileName, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public void sedaProfileValidate(String profileFileName, SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException, InterruptedException {
         String manifest;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
+        try (
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)
+        ) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
             manifest = baos.toString(StandardCharsets.UTF_8);
         } catch (XMLStreamException | IOException e) {
@@ -373,15 +413,11 @@ public class ArchiveTransfer {
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema;
-        if (profileFileName.endsWith(".rng"))
-            sedaSchema = sedaXMLvalidator.getSchemaFromRNGFile(profileFileName);
-        else
-            sedaSchema = sedaXMLvalidator.getSchemaFromXSDFile(profileFileName);
+        if (profileFileName.endsWith(".rng")) sedaSchema = sedaXMLvalidator.getSchemaFromRNGFile(profileFileName);
+        else sedaSchema = sedaXMLvalidator.getSchemaFromXSDFile(profileFileName);
 
-        if (profileFileName.endsWith(".rng"))
-            sedaXMLvalidator.checkWithRNGSchema(manifest, sedaSchema);
-        else
-            sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
+        if (profileFileName.endsWith(".rng")) sedaXMLvalidator.checkWithRNGSchema(manifest, sedaSchema);
+        else sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 
     // Getters and setters

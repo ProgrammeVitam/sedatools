@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
@@ -70,7 +80,7 @@ public abstract class RuleType extends ComplexListType {
      */
     public RuleType(String elementName, String rule, LocalDate startDate) throws SEDALibException {
         super(elementName);
-        addNewMetadata(RULE_TAG,rule,startDate);
+        addNewMetadata(RULE_TAG, rule, startDate);
     }
 
     /**
@@ -80,7 +90,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule) throws SEDALibException {
-        addNewMetadata(RULE_TAG,rule,null);
+        addNewMetadata(RULE_TAG, rule, null);
     }
 
     /**
@@ -91,7 +101,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule, LocalDate startDate) throws SEDALibException {
-        addNewMetadata(RULE_TAG,rule,startDate);
+        addNewMetadata(RULE_TAG, rule, startDate);
     }
 
     /**
@@ -101,7 +111,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void setPreventInheritance(boolean preventInheritance) throws SEDALibException {
-        addNewMetadata(PREVENTINHERITANCE_TAG,preventInheritance);
+        addNewMetadata(PREVENTINHERITANCE_TAG, preventInheritance);
     }
 
     /**
@@ -111,7 +121,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRefNonRuleId(String rule) throws SEDALibException {
-        addNewMetadata(REFNONRULEID_TAG,rule);
+        addNewMetadata(REFNONRULEID_TAG, rule);
     }
 
     /**
@@ -122,12 +132,13 @@ public abstract class RuleType extends ComplexListType {
      */
     public void setFinalAction(String finalAction) throws SEDALibException {
         List<String> finalValues = getFinalActionList();
-        if (finalValues == null)
-            throw new SEDALibException("Le type de règle [" + elementName + "] n'a pas de FinalAction");
-        if (!finalValues.contains(finalAction))
-            throw new SEDALibException(
-                    "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]");
-        addNewMetadata(FINALACTION_TAG,finalAction);
+        if (finalValues == null) throw new SEDALibException(
+            "Le type de règle [" + elementName + "] n'a pas de FinalAction"
+        );
+        if (!finalValues.contains(finalAction)) throw new SEDALibException(
+            "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]"
+        );
+        addNewMetadata(FINALACTION_TAG, finalAction);
     }
 
     /*
@@ -155,13 +166,10 @@ public abstract class RuleType extends ComplexListType {
                 if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                     previousXMLElementName = sm.getXmlElementName();
                     count = 0;
-                } else
-                    count++;
+                } else count++;
                 final String addedName;
-                if (isAMultiValuedMetadata(sm.getXmlElementName()))
-                    addedName = sm.getXmlElementName() + "." + count;
-                else
-                    addedName = sm.getXmlElementName();
+                if (isAMultiValuedMetadata(sm.getXmlElementName())) addedName = sm.getXmlElementName() + "." + count;
+                else addedName = sm.getXmlElementName();
                 smCsvList = sm.toCsvList();
                 smCsvList.forEach((key, value) -> result.put(addedName + (key.isEmpty() ? "" : "." + key), value));
             }
@@ -174,8 +182,9 @@ public abstract class RuleType extends ComplexListType {
      *
      * @return the final action list
      */
-    public List<String> getFinalActionList(){return null;}
-
+    public List<String> getFinalActionList() {
+        return null;
+    }
 
     @Override
     public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
@@ -185,17 +194,15 @@ public abstract class RuleType extends ComplexListType {
         i = 0;
         setFlag = false;
         if (addOrderIndex == -1) {
-            if (isNotExpandable())
-                throw new SEDALibException(
-                    "Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                        + elementName + "]");
+            if (isNotExpandable()) throw new SEDALibException(
+                "Impossible d'étendre le schéma avec des métadonnées non prévues [" + elementName + "]"
+            );
             manyFlag = true;
             boolean noBeforeEqual = true;
             for (SEDAMetadata sm : metadataList) {
-                if ((sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && noBeforeEqual)
-                    noBeforeEqual = false;
-                if (!(sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && !noBeforeEqual)
-                    break;
+                if ((sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && noBeforeEqual) noBeforeEqual =
+                    false;
+                if (!(sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && !noBeforeEqual) break;
                 i++;
             }
         } else {
@@ -211,19 +218,15 @@ public abstract class RuleType extends ComplexListType {
                     setFlag = true;
                     break;
                 }
-                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
-                    break;
+                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) break;
                 i++;
             }
             i += lastRuleIndex;
         }
-        if (manyFlag)
-            metadataList.add(i, sedaMetadata);
+        if (manyFlag) metadataList.add(i, sedaMetadata);
         else {
-            if (setFlag)
-                metadataList.set(i, sedaMetadata);
-            else
-                metadataList.add(i, sedaMetadata);
+            if (setFlag) metadataList.set(i, sedaMetadata);
+            else metadataList.add(i, sedaMetadata);
         }
     }
 
@@ -238,13 +241,16 @@ public abstract class RuleType extends ComplexListType {
     }
 
     public List<String> getRuleMetadataKindList() throws SEDALibException {
-        return this.getMetadataMap().entrySet().stream().filter(e -> e.getValue() instanceof RuleMetadataKind)
-            .map(Entry::getKey).collect(Collectors.toList());
+        return this.getMetadataMap()
+            .entrySet()
+            .stream()
+            .filter(e -> e.getValue() instanceof RuleMetadataKind)
+            .map(Entry::getKey)
+            .collect(Collectors.toList());
     }
 
     @Override
-    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader)
-        throws SEDALibException {
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         Class<?> metadataClass;
         try {
             if (xmlReader.nextBlockIfNamed(elementName)) {
@@ -252,21 +258,17 @@ public abstract class RuleType extends ComplexListType {
                 while (tmp != null) {
                     ComplexListMetadataKind mi = getMetadataMap().get(tmp);
                     if (mi == null) {
-                        if (isNotExpandable())
-                            throw new SEDALibException(
-                                "Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                                    + tmp + "]");
-                        else
-                            metadataClass = AnyXMLType.class;
-                    } else
-                        metadataClass = mi.getMetadataClass();
+                        if (isNotExpandable()) throw new SEDALibException(
+                            "Impossible d'étendre le schéma avec des métadonnées non prévues [" + tmp + "]"
+                        );
+                        else metadataClass = AnyXMLType.class;
+                    } else metadataClass = mi.getMetadataClass();
                     SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
                     addMetadata(sm);
                     tmp = xmlReader.peekName();
                 }
                 xmlReader.endBlockNamed(elementName);
-            } else
-                return false;
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]", e);
         }

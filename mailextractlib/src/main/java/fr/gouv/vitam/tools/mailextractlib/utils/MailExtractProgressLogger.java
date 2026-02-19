@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.mailextractlib.utils;
 
@@ -77,7 +87,6 @@ public class MailExtractProgressLogger {
      */
     @FunctionalInterface
     public interface ProgressLogFunc {
-
         /**
          * Do progress log.
          *
@@ -90,22 +99,22 @@ public class MailExtractProgressLogger {
     /**
      * The progress log func.
      */
-    final private ProgressLogFunc progressLogFunc;
+    private final ProgressLogFunc progressLogFunc;
 
     /**
      * The logger.
      */
-    final private Logger logger;
+    private final Logger logger;
 
     /**
      * The number used to determine if an accumulation as to be a progress log or not.
      */
-    final private int step;
+    private final int step;
 
     /**
      * The number of seconds expected between to "step" log publication.
      */
-    final private int stepDuration;
+    private final int stepDuration;
 
     /**
      * The last "step" log epoch seconds.
@@ -186,7 +195,13 @@ public class MailExtractProgressLogger {
      * @param step             the step value
      * @param stepDuration     the step duration
      */
-    public MailExtractProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step, int stepDuration) {
+    public MailExtractProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -209,8 +224,15 @@ public class MailExtractProgressLogger {
      * @param stepDuration         the maximum time duration in seconds between progress updates
      * @param progressFuncLogLevel the progress log level specifically for the progress function
      */
-    public MailExtractProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer,
-                                     int step, int stepDuration, int progressFuncLogLevel, int progressFuncStep) {
+    public MailExtractProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration,
+        int progressFuncLogLevel,
+        int progressFuncStep
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -247,15 +269,14 @@ public class MailExtractProgressLogger {
      * @param e the exception
      * @return the messages stack string
      */
-    static public String getMessagesStackString(Throwable e) {
+    public static String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
-        if (e.getCause() instanceof Exception)
-            result += "\n" + getMessagesStackString((Exception) e.getCause());
+        if (e.getCause() instanceof Exception) result += "\n" + getMessagesStackString((Exception) e.getCause());
         return result;
     }
 
-    static private String getJavaStackString(Throwable e) {
+    private static String getJavaStackString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
@@ -268,11 +289,11 @@ public class MailExtractProgressLogger {
      * @param e the exception
      * @return the all java stack string
      */
-    static public String getAllJavaStackString(Throwable e) {
+    public static String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
-        if (e.getCause() instanceof Exception)
-            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+        if (e.getCause() instanceof Exception) result +=
+        "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
         return result;
     }
 
@@ -286,18 +307,21 @@ public class MailExtractProgressLogger {
      * @param log   the log
      * @param e     the exception
      */
-    static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Throwable e) {
+    public static void doProgressLogWithoutInterruption(
+        MailExtractProgressLogger mepl,
+        int level,
+        String log,
+        Throwable e
+    ) {
         if (mepl != null) {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (mepl) {
                 if (level <= mepl.progressLogLevel) {
-                    if (e != null)
-                        log += "\n" + getMessagesStackString(e);
+                    if (e != null) log += "\n" + getMessagesStackString(e);
                     if ((mepl.progressLogFunc != null) && (level <= mepl.progressFuncLogLevel)) {
                         mepl.progressLogFunc.doProgressLog(-1, log);
                     }
-                    if ((e != null) && mepl.debugFlag)
-                        log += "\n" + getAllJavaStackString(e);
+                    if ((e != null) && mepl.debugFlag) log += "\n" + getAllJavaStackString(e);
                     mepl.log(level, log);
                 }
             }
@@ -313,7 +337,7 @@ public class MailExtractProgressLogger {
      * @param log  the log
      * @param e    the exception
      */
-    static public void doProgressLogIfDebug(MailExtractProgressLogger mepl, String log, Throwable e) {
+    public static void doProgressLogIfDebug(MailExtractProgressLogger mepl, String log, Throwable e) {
         if ((mepl != null) && mepl.debugFlag) {
             doProgressLogWithoutInterruption(mepl, GLOBAL, log, e);
         }
@@ -330,7 +354,8 @@ public class MailExtractProgressLogger {
      * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLog(MailExtractProgressLogger mepl, int level, String log, Throwable e) throws InterruptedException {
+    public static void doProgressLog(MailExtractProgressLogger mepl, int level, String log, Throwable e)
+        throws InterruptedException {
         if (mepl != null) {
             doProgressLogWithoutInterruption(mepl, level, log, e);
             Thread.sleep(1);
@@ -346,7 +371,8 @@ public class MailExtractProgressLogger {
      * @param log   the log that can contain %count key replaced by the number
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLogOneMoreCountedObject(MailExtractProgressLogger mepl, int level, String log) throws InterruptedException {
+    public static void doProgressLogOneMoreCountedObject(MailExtractProgressLogger mepl, int level, String log)
+        throws InterruptedException {
         if (mepl != null) {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (mepl) {
@@ -355,8 +381,12 @@ public class MailExtractProgressLogger {
                     int rank = mepl.counter.addAndGet(1);
                     if (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds) {
                         log = log.replace("%count", Integer.toString(rank));
-                        if ((mepl.progressLogFunc != null) && (level <= mepl.progressFuncLogLevel))
-                            mepl.progressLogFunc.doProgressLog(rank, (rank % mepl.progressFuncStep == 0 ? "" : "* ") + log);
+                        if (
+                            (mepl.progressLogFunc != null) && (level <= mepl.progressFuncLogLevel)
+                        ) mepl.progressLogFunc.doProgressLog(
+                            rank,
+                            (rank % mepl.progressFuncStep == 0 ? "" : "* ") + log
+                        );
                         mepl.log(level, log);
                         Thread.sleep(1);
                         mepl.previousStepEpochSeconds = nowEpochSeconds;
@@ -368,8 +398,7 @@ public class MailExtractProgressLogger {
                         mepl.log(level, countLog);
                     }
                     if ((mepl.progressLogFunc != null) && (rank % mepl.progressFuncStep) == 0) {
-                        if (countLog == null)
-                            countLog = log.replace("%count", Integer.toString(rank));
+                        if (countLog == null) countLog = log.replace("%count", Integer.toString(rank));
                         mepl.progressLogFunc.doProgressLog(rank, countLog);
                         Thread.sleep(1);
                     }
@@ -385,9 +414,8 @@ public class MailExtractProgressLogger {
      * @return the string
      */
     public static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -419,7 +447,6 @@ public class MailExtractProgressLogger {
         return getMarker(progressLogLevel).getName();
     }
 
-
     /**
      * Gets the current progress log level.
      *
@@ -440,14 +467,12 @@ public class MailExtractProgressLogger {
 
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
-            if (logger != null)
-                logger.info(getMarker(level), message);
+            if (logger != null) logger.info(getMarker(level), message);
         }
     }
 
     /**
      * Close.
      */
-    public void close() {
-    }
+    public void close() {}
 }

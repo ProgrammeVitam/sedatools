@@ -1,28 +1,39 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.mailextract;
 
@@ -52,9 +63,9 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
     int port;
     private String container, folder;
     private String rootpath, outputname;
-    
+
     StoreExtractorOptions storeExtractorOptions;
-    
+
     private boolean debug = false;
     private String verbatim;
     private boolean english;
@@ -76,9 +87,21 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
      * @param verbatim              the verbosity level for logging
      * @param english               the flag indicating if English language is used
      */
-    MailExtractGraphicApp(String type, String user, String password, String hostname, int port, String container, String folder,
-                          String rootpath, String outputname, StoreExtractorOptions storeExtractorOptions,
-                          boolean debug, String verbatim, boolean english) {
+    MailExtractGraphicApp(
+        String type,
+        String user,
+        String password,
+        String hostname,
+        int port,
+        String container,
+        String folder,
+        String rootpath,
+        String outputname,
+        StoreExtractorOptions storeExtractorOptions,
+        boolean debug,
+        String verbatim,
+        boolean english
+    ) {
         this.type = type;
         this.user = user;
         this.password = password;
@@ -238,20 +261,14 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
             mainWindow.passwordField.setEnabled(true);
         } else if (command.equals("container")) {
             String filename = selectPath(mainWindow.containerField.getText(), false);
-            if (filename != null)
-                mainWindow.containerField.setText(filename);
+            if (filename != null) mainWindow.containerField.setText(filename);
         } else if (command.equals("savedir")) {
             String dirname = selectPath(mainWindow.savedirField.getText(), true);
-            if (dirname != null)
-                mainWindow.savedirField.setText(dirname);
-        } else if (command.equals("list"))
-            doAction(LIST_ACTION);
-        else if (command.equals("stat"))
-            doAction(STAT_ACTION);
-        else if (command.equals("extract"))
-            doAction(EXTRACT_ACTION);
-        else if (command.equals("empty"))
-            doAction(EMPTY_LOG);
+            if (dirname != null) mainWindow.savedirField.setText(dirname);
+        } else if (command.equals("list")) doAction(LIST_ACTION);
+        else if (command.equals("stat")) doAction(STAT_ACTION);
+        else if (command.equals("extract")) doAction(EXTRACT_ACTION);
+        else if (command.equals("empty")) doAction(EMPTY_LOG);
     }
 
     // get a file and/or directory from a standard selection dialog
@@ -260,19 +277,18 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
         File file;
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser
-                .setFileSelectionMode((dirBool ? JFileChooser.DIRECTORIES_ONLY : JFileChooser.FILES_AND_DIRECTORIES));
+        fileChooser.setFileSelectionMode(
+            (dirBool ? JFileChooser.DIRECTORIES_ONLY : JFileChooser.FILES_AND_DIRECTORIES)
+        );
         fileChooser.setFileHidingEnabled(false);
         file = new File(folder);
-        if (file.exists())
-            fileChooser.setSelectedFile(file);
+        if (file.exists()) fileChooser.setSelectedFile(file);
         int returnVal = fileChooser.showOpenDialog(this.mainWindow);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
             return (file.getAbsolutePath());
-        } else
-            return null;
+        } else return null;
     }
 
     /**
@@ -301,44 +317,49 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
 
         if (actionNumber == EMPTY_LOG) {
             mainWindow.consoleTextArea.setText("");
-        } else
-            new MailExtractThread(mainWindow, actionNumber, type, hostname, port, user, password, container, folder, rootpath,
-                    outputname, storeExtractorOptions, verbatim, debug).start();
+        } else new MailExtractThread(
+            mainWindow,
+            actionNumber,
+            type,
+            hostname,
+            port,
+            user,
+            password,
+            container,
+            folder,
+            rootpath,
+            outputname,
+            storeExtractorOptions,
+            verbatim,
+            debug
+        ).start();
     }
 
     /**
      * The loglevel strings.
      */
-    String[] loglevelStrings = {"OFF", "GLOBAL", "WARNING", "FOLDER", "MESSAGE_GROUP", "MESSAGE", "MESSAGE_DETAILS"};
+    String[] loglevelStrings = { "OFF", "GLOBAL", "WARNING", "FOLDER", "MESSAGE_GROUP", "MESSAGE", "MESSAGE_DETAILS" };
 
     // get the global parameters from the graphic fields
     private void parseParams() {
         // local
         if (mainWindow.localRadioButton.isSelected()) {
-            if (mainWindow.thunderbirdRadioButton.isSelected())
-                type = "thunderbird";
-            else if (mainWindow.emlRadioButton.isSelected())
-                type = "eml";
-            else if (mainWindow.msgRadioButton.isSelected())
-                type = "msg";
-            else if (mainWindow.mboxRadioButton.isSelected())
-                type = "mbox";
-            else if (mainWindow.pstRadioButton.isSelected())
-                type = "pst";
+            if (mainWindow.thunderbirdRadioButton.isSelected()) type = "thunderbird";
+            else if (mainWindow.emlRadioButton.isSelected()) type = "eml";
+            else if (mainWindow.msgRadioButton.isSelected()) type = "msg";
+            else if (mainWindow.mboxRadioButton.isSelected()) type = "mbox";
+            else if (mainWindow.pstRadioButton.isSelected()) type = "pst";
             container = mainWindow.containerField.getText();
         }
         // server
         else {
-            if (mainWindow.imapsRadioButton.isSelected())
-                type = "imaps";
-            else
-                type = "imap";
+            if (mainWindow.imapsRadioButton.isSelected()) type = "imaps";
+            else type = "imap";
             String server = mainWindow.serverField.getText();
             if (server.indexOf(':') >= 0) {
                 hostname = server.substring(0, server.indexOf(':'));
                 port = Integer.parseInt(server.substring(server.indexOf(':') + 1));
-            } else
-                hostname = server;
+            } else hostname = server;
             user = mainWindow.userField.getText();
             password = mainWindow.passwordField.getText();
         }

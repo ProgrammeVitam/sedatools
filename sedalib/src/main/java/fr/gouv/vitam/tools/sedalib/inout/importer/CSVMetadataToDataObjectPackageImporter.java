@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
@@ -96,6 +106,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 public class CSVMetadataToDataObjectPackageImporter {
 
     private class Line {
+
         /**
          * The Guid.
          */
@@ -135,14 +146,19 @@ public class CSVMetadataToDataObjectPackageImporter {
          * @param file               the file
          * @param contentXMLMetadata the content xml metadata
          */
-        public Line(String guid, String parentGUID, String file, String objectFiles, String contentXMLMetadata, String managementXMLMetadata) {
+        public Line(
+            String guid,
+            String parentGUID,
+            String file,
+            String objectFiles,
+            String contentXMLMetadata,
+            String managementXMLMetadata
+        ) {
             this.guid = guid;
             this.parentGUID = parentGUID;
             this.file = file;
-            if (objectFiles.trim().isEmpty())
-                this.objectFiles = Arrays.asList();
-            else
-                this.objectFiles = Arrays.asList(objectFiles.split("\\|"));
+            if (objectFiles.trim().isEmpty()) this.objectFiles = Arrays.asList();
+            else this.objectFiles = Arrays.asList(objectFiles.split("\\|"));
             this.contentXMLMetadata = contentXMLMetadata;
             this.managementXMLMetadata = managementXMLMetadata;
             this.au = null;
@@ -203,9 +219,17 @@ public class CSVMetadataToDataObjectPackageImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file doesn't exist
      */
-    public CSVMetadataToDataObjectPackageImporter(String csvMetadataFileName, String encoding, char separator, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
-        if (!Files.isRegularFile(Paths.get(csvMetadataFileName), java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + csvMetadataFileName + "] pointant vers le fichier csv ne désigne pas un fichier");
+    public CSVMetadataToDataObjectPackageImporter(
+        String csvMetadataFileName,
+        String encoding,
+        char separator,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
+        if (
+            !Files.isRegularFile(Paths.get(csvMetadataFileName), java.nio.file.LinkOption.NOFOLLOW_LINKS)
+        ) throw new SEDALibException(
+            "Le chemin [" + csvMetadataFileName + "] pointant vers le fichier csv ne désigne pas un fichier"
+        );
 
         this.csvMetadataFileName = csvMetadataFileName;
         this.csvMetadataDirectoryPath = Paths.get(csvMetadataFileName).getParent();
@@ -230,39 +254,52 @@ public class CSVMetadataToDataObjectPackageImporter {
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(String[].class).withColumnSeparator(separator);
         mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
-        try (InputStreamReader isr = new InputStreamReader(new FileInputStream(csvMetadataFileName), encoding);
-             MappingIterator<String[]> it = mapper.readerFor(String[].class).with(schema).readValues(isr)) {
+        try (
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(csvMetadataFileName), encoding);
+            MappingIterator<String[]> it = mapper.readerFor(String[].class).with(schema).readValues(isr)
+        ) {
             while (it.hasNext()) {
                 String[] row = it.next();
                 lineCount++;
                 // jump header line
                 if (lineCount == 1) {
-                    metadataFormatter = new CSVMetadataFormatter(row, Paths.get(csvMetadataFileName).toAbsolutePath().getParent());
+                    metadataFormatter = new CSVMetadataFormatter(
+                        row,
+                        Paths.get(csvMetadataFileName).toAbsolutePath().getParent()
+                    );
                     isExtendedFormat = metadataFormatter.isExtendedFormat();
                     continue;
                 }
                 try {
-                    currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row), //NOSONAR
-                            metadataFormatter.getFile(row), metadataFormatter.getObjectFiles(row), metadataFormatter.doFormatAndExtractContentXML(row), metadataFormatter.extractManagementXML());
+                    currentLine = new Line(
+                        metadataFormatter.getGUID(row),
+                        metadataFormatter.getParentGUID(row), //NOSONAR
+                        metadataFormatter.getFile(row),
+                        metadataFormatter.getObjectFiles(row),
+                        metadataFormatter.doFormatAndExtractContentXML(row),
+                        metadataFormatter.extractManagementXML()
+                    );
                 } catch (SEDALibException e) {
-                    throw new SEDALibException("Erreur sur la ligne "+lineCount, e);
+                    throw new SEDALibException("Erreur sur la ligne " + lineCount, e);
                 }
                 linesMap.put(metadataFormatter.getGUID(row), currentLine);
-                doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount + " lignes interprétées");
+                doProgressLogIfStep(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    lineCount,
+                    "sedalib: " + lineCount + " lignes interprétées"
+                );
             }
         } catch (IOException e) {
             throw new SEDALibException("Le fichier csv [" + csvMetadataFileName + "] n'est pas accessible");
         }
-        if (metadataFormatter != null)
-            return metadataFormatter.needIdRegeneration();
-        else //if file empty...
-            return false;
+        if (metadataFormatter != null) return metadataFormatter.needIdRegeneration();
+        else return false; //if file empty...
     }
 
     private Path getAbsolutePath(String file) {
         Path path = Paths.get(file);
-        if (!path.isAbsolute())
-            path = csvMetadataDirectoryPath.resolve(path);
+        if (!path.isAbsolute()) path = csvMetadataDirectoryPath.resolve(path);
         return path;
     }
 
@@ -286,39 +323,64 @@ public class CSVMetadataToDataObjectPackageImporter {
             for (String objectFile : line.objectFiles) {
                 Path objectPath = getAbsolutePath(objectFile);
                 if (!Files.isRegularFile(objectPath)) {
-                    doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                            "sedalib: la référence sur le disque du fichier objet [" + objectFile + "] n'est plus valable", null);
+                    doProgressLog(
+                        sedaLibProgressLogger,
+                        SEDALibProgressLogger.OBJECTS_GROUP,
+                        "sedalib: la référence sur le disque du fichier objet [" + objectFile + "] n'est plus valable",
+                        null
+                    );
                     continue;
                 }
                 String fileName = path.getFileName().toString();
-                if ((objectFile.matches("__\\w+__.+")) || (objectFile.matches("__\\w+_.+")))
-                    implicitDog = DiskToDataObjectPackageImporter.addBinaryDataObject(dataObjectPackage, objectPath, fileName, au, implicitDog);
+                if ((objectFile.matches("__\\w+__.+")) || (objectFile.matches("__\\w+_.+"))) implicitDog =
+                    DiskToDataObjectPackageImporter.addBinaryDataObject(
+                        dataObjectPackage,
+                        objectPath,
+                        fileName,
+                        au,
+                        implicitDog
+                    );
                 else {
-                    bdo = new BinaryDataObject(dataObjectPackage, objectPath, path.getFileName().toString(),
-                            "BinaryMaster_1");
+                    bdo = new BinaryDataObject(
+                        dataObjectPackage,
+                        objectPath,
+                        path.getFileName().toString(),
+                        "BinaryMaster_1"
+                    );
                     au.addDataObjectById(bdo.getInDataObjectPackageId());
                 }
             }
         } else {
             if (Files.isRegularFile(path)) {
-                bdo = new BinaryDataObject(dataObjectPackage, path, path.getFileName().toString(),
-                        "BinaryMaster_1");
+                bdo = new BinaryDataObject(dataObjectPackage, path, path.getFileName().toString(), "BinaryMaster_1");
                 au.addDataObjectById(bdo.getInDataObjectPackageId());
             } else if (Files.isDirectory(path)) {
                 try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
                     for (Path subPath : stream) {
                         if (Files.isRegularFile(subPath)) {
                             String fileName = path.getFileName().toString();
-                            if ((fileName.matches("__\\w+__.+")) || (fileName.matches("__\\w+_.+")))
-                                implicitDog = DiskToDataObjectPackageImporter.addBinaryDataObject(dataObjectPackage, path, fileName, au, implicitDog);
+                            if ((fileName.matches("__\\w+__.+")) || (fileName.matches("__\\w+_.+"))) implicitDog =
+                                DiskToDataObjectPackageImporter.addBinaryDataObject(
+                                    dataObjectPackage,
+                                    path,
+                                    fileName,
+                                    au,
+                                    implicitDog
+                                );
                         }
                     }
                 } catch (IOException e) {
-                    throw new SEDALibException("Les fichiers dans le répertoire [" + path + "] ne sont pas accessibles");
+                    throw new SEDALibException(
+                        "Les fichiers dans le répertoire [" + path + "] ne sont pas accessibles"
+                    );
                 }
             } else if (!line.file.isEmpty()) {
-                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                        "sedalib: la référence sur le disque de l'archiveUnit [" + line.guid + "] n'est plus valable", null);
+                doProgressLog(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    "sedalib: la référence sur le disque de l'archiveUnit [" + line.guid + "] n'est plus valable",
+                    null
+                );
             }
         }
         return au;
@@ -329,8 +391,12 @@ public class CSVMetadataToDataObjectPackageImporter {
             line.au = createLineAU(line);
             Line parentLine = linesMap.get(line.parentGUID);
             if ((parentLine == null) || parentLine.equals(line)) {
-                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                        "sedalib: archiveUnit [" + line.guid + "] n'a pas de parent, elle est mise en racine", null);
+                doProgressLog(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    "sedalib: archiveUnit [" + line.guid + "] n'a pas de parent, elle est mise en racine",
+                    null
+                );
                 dataObjectPackage.addRootAu(line.au);
             } else {
                 ArchiveUnit parentAU = createToRoot(parentLine);
@@ -361,36 +427,60 @@ public class CSVMetadataToDataObjectPackageImporter {
         String log = "sedalib: début de l'import du fichier csv de métadonnées\n";
         log += "en [" + csvMetadataFileName + "]\n";
         log += "date=" + DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         boolean needIdRegeneration = readCSVFile();
         dataObjectPackage = new DataObjectPackage();
 
-        int lineCount=0;
+        int lineCount = 0;
         for (Map.Entry<String, Line> e : linesMap.entrySet()) {
             if (e.getValue().au != null) continue;
             createToRoot(e.getValue());
             lineCount++;
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount + " ArchiveUnits importées");
+            doProgressLogIfStep(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                lineCount,
+                "sedalib: " + lineCount + " ArchiveUnits importées"
+            );
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: " + lineCount + " ArchiveUnits importées", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.STEP,
+            "sedalib: " + lineCount + " ArchiveUnits importées",
+            null
+        );
 
         dataObjectPackage.vitamNormalize(sedaLibProgressLogger);
-        if (needIdRegeneration)
-            dataObjectPackage.regenerateContinuousIds();
+        if (needIdRegeneration) dataObjectPackage.regenerateContinuousIds();
 
         lineCount = 0;
         for (Map.Entry<String, BinaryDataObject> pair : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
-            FileInfo fileInfo= pair.getValue().getMetadataFileInfo();
-            if (fileInfo.getSimpleMetadata("LastModified") == null)
-                pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
+            FileInfo fileInfo = pair.getValue().getMetadataFileInfo();
+            if (fileInfo.getSimpleMetadata("LastModified") == null) pair
+                .getValue()
+                .extractTechnicalElements(sedaLibProgressLogger);
             lineCount++;
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount +
-                    " fichiers BinaryDataObject analysés");
+            doProgressLogIfStep(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                lineCount,
+                "sedalib: " + lineCount + " fichiers BinaryDataObject analysés"
+            );
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: " + lineCount + " fichiers BinaryDataObject analysés et importés dans le DataObjectPackage", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.STEP,
+            "sedalib: " + lineCount + " fichiers BinaryDataObject analysés et importés dans le DataObjectPackage",
+            null
+        );
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import du fichier csv de métadonnées terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: import du fichier csv de métadonnées terminé",
+            null
+        );
     }
 
     /**
@@ -411,9 +501,7 @@ public class CSVMetadataToDataObjectPackageImporter {
         String result;
 
         result = dataObjectPackage.getDescription() + "\n";
-        if (start != null)
-            result += "chargé en "
-                    + Duration.between(start, end).toString().substring(2) + "\n";
+        if (start != null) result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

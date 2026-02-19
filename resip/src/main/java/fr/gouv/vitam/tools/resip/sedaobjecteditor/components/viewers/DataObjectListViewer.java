@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA dataObjectPackage the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
@@ -58,7 +68,6 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      */
     private BinaryDataObject actionBdo;
 
-
     /**
      * Instantiates a new data object list viewer.
      *
@@ -77,32 +86,37 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                 if (index >= 0) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         list.container.selectDataObject(list.getModel().getElementAt(index));
-                        if (e.getClickCount() == 2)
-                            list.container.buttonOpenObject();
+                        if (e.getClickCount() == 2) list.container.buttonOpenObject();
                     } else if (SwingUtilities.isRightMouseButton(e)) {
                         DataObject dataObject = list.getModel().getElementAt(index);
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                            FormatIdentification fi=bdo.getMetadataFormatIdentification();
-                            if ((fi!=null) &&
-                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(fi.getSimpleMetadata("FormatId")))) {
+                            FormatIdentification fi = bdo.getMetadataFormatIdentification();
+                            if (
+                                (fi != null) &&
+                                (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(
+                                        fi.getSimpleMetadata("FormatId")
+                                    ))
+                            ) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par le décompressé");
                                 mi.addActionListener(list);
                                 mi.setActionCommand("Expand");
-                                list.actionBdo =bdo;
+                                list.actionBdo = bdo;
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
-                            if ((fi!=null) &&
-                                    (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId"))!=null)) {
+                            if (
+                                (fi != null) &&
+                                (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId")) != null)
+                            ) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par l'extraction des messages");
                                 mi.addActionListener(list);
                                 mi.setActionCommand("MailExtract");
-                                list.actionBdo =bdo;
+                                list.actionBdo = bdo;
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
@@ -134,19 +148,15 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      *
      * @param dataObjectGroup the data object group
      */
-    public void initDataObjectGroup(DataObjectGroup dataObjectGroup){
+    public void initDataObjectGroup(DataObjectGroup dataObjectGroup) {
         DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) getModel();
         model.removeAllElements();
         if (dataObjectGroup != null) {
-            for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList())
-                model.addElement(bdo);
-            for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList())
-                model.addElement(pdo);
+            for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList()) model.addElement(bdo);
+            for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList()) model.addElement(pdo);
         }
-        if (model.isEmpty())
-            container.selectDataObject(null);
-        else
-            container.selectDataObject(model.elementAt(0));
+        if (model.isEmpty()) container.selectDataObject(null);
+        else container.selectDataObject(model.elementAt(0));
     }
 
     /**
@@ -171,10 +181,8 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     public void removeDataObject(DataObject dataObject) {
         container.getEditedArchiveUnit().getTheDataObjectGroup().removeDataObject(dataObject);
         ((DefaultListModel<DataObject>) getModel()).removeElement(dataObject);
-        if (((DefaultListModel<DataObject>) getModel()).isEmpty())
-            container.selectDataObject(null);
-        else
-            container.selectDataObject(getModel().getElementAt(0));
+        if (((DefaultListModel<DataObject>) getModel()).isEmpty()) container.selectDataObject(null);
+        else container.selectDataObject(getModel().getElementAt(0));
         ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
         ResipGraphicApp.getTheWindow().treePane.refreshTreeLabel();
     }
@@ -183,17 +191,17 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Expand")) {
             ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
-        }
-        else if (ae.getActionCommand().equals("MailExtract")) {
-            MailExtractThread.launchMailExtractThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
+        } else if (ae.getActionCommand().equals("MailExtract")) {
+            MailExtractThread.launchMailExtractThread(
+                ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(),
+                actionBdo
+            );
         }
     }
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
-        if (getModel().getSize() == 0)
-            return new Dimension(200, 128);
-        else
-            return super.getPreferredScrollableViewportSize();
+        if (getModel().getSize() == 0) return new Dimension(200, 128);
+        else return super.getPreferredScrollableViewportSize();
     }
 }

@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.frame.preferences;
 
@@ -164,11 +174,44 @@ public class PreferencesDialog extends JDialog {
     /**
      * The proposed charsets.
      */
-    private static final String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
-            "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
-            "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
-            "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
-            "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+    private static final String[] charsetStrings = {
+        "windows-1252",
+        "ISO-8859-1",
+        "UTF-8",
+        "CESU-8",
+        "IBM00858",
+        "IBM437",
+        "IBM775",
+        "IBM850",
+        "IBM852",
+        "IBM855",
+        "IBM857",
+        "IBM862",
+        "IBM866",
+        "ISO-8859-2",
+        "ISO-8859-4",
+        "ISO-8859-5",
+        "ISO-8859-7",
+        "ISO-8859-9",
+        "ISO-8859-13",
+        "ISO-8859-15",
+        "KOI8-R",
+        "KOI8-U",
+        "US-ASCII",
+        "UTF-16",
+        "UTF-16BE",
+        "UTF-16LE",
+        "UTF-32",
+        "UTF-32BE",
+        "UTF-32LE",
+        "x-UTF-32BE-BOM",
+        "x-UTF-32LE-BOM",
+        "windows-1250",
+        "windows-1251",
+        "windows-1253",
+        "windows-1254",
+        "windows-1257",
+    };
 
     private SedaVersion currentVersion;
 
@@ -187,10 +230,11 @@ public class PreferencesDialog extends JDialog {
      * @throws ResipException                  the resip exception
      * @throws InterruptedException            the interrupted exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
-        ResipGraphicApp rga = new ResipGraphicApp(null);//NOSONAR used for debug run
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+        ResipGraphicApp rga = new ResipGraphicApp(null); //NOSONAR used for debug run
         Thread.sleep(1000);
-        TestDialogWindow window = new TestDialogWindow(PreferencesDialog.class);//NOSONAR used for debug run
+        TestDialogWindow window = new TestDialogWindow(PreferencesDialog.class); //NOSONAR used for debug run
     }
 
     /**
@@ -200,7 +244,6 @@ public class PreferencesDialog extends JDialog {
      */
     public PreferencesDialog(JFrame owner) {
         super(owner, "Edition des paramètres par défaut", true);
-
         EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
             this.currentVersion = event.getNewVersion();
         });
@@ -220,8 +263,8 @@ public class PreferencesDialog extends JDialog {
 
         Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.rowWeights = new double[]{1.0, 0.1};
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0};
+        gridBagLayout.rowWeights = new double[] { 1.0, 0.1 };
+        gridBagLayout.columnWeights = new double[] { 1.0, 1.0 };
         contentPane.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc;
@@ -239,12 +282,17 @@ public class PreferencesDialog extends JDialog {
 
         // header and footer simple fields
         JPanel headerFooterSimplePanel = new JPanel();
-        tabbedPane.addTab("Métadonnées globales", new ImageIcon(getClass().getResource("/icon/document-properties.png")), headerFooterSimplePanel, null);
+        tabbedPane.addTab(
+            "Métadonnées globales",
+            new ImageIcon(getClass().getResource("/icon/document-properties.png")),
+            headerFooterSimplePanel,
+            null
+        );
         GridBagLayout gblHeaderFooterSimplePanel = new GridBagLayout();
-        gblHeaderFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
-        gblHeaderFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gblHeaderFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gblHeaderFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+        gblHeaderFooterSimplePanel.columnWidths = new int[] { 0, 0, 0 };
+        gblHeaderFooterSimplePanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        gblHeaderFooterSimplePanel.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+        gblHeaderFooterSimplePanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0 };
         headerFooterSimplePanel.setLayout(gblHeaderFooterSimplePanel);
 
         JLabel presentationLabel = new JLabel("Champs globaux du SIP");
@@ -388,7 +436,9 @@ public class PreferencesDialog extends JDialog {
         headerFooterSimplePanel.add(lblTransferringAgencyIdentifier, gbc);
 
         transferringAgencyIdentifierTextField = new JTextField();
-        transferringAgencyIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier);
+        transferringAgencyIdentifierTextField.setText(
+            gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier
+        );
         transferringAgencyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -401,12 +451,17 @@ public class PreferencesDialog extends JDialog {
 
         // Header and footer complex fields
         JPanel headerFooterComplexPanel = new JPanel();
-        tabbedPane.addTab("Métadonnées globales étendues", new ImageIcon(getClass().getResource("/icon/text-x-generic.png")), headerFooterComplexPanel, null);
+        tabbedPane.addTab(
+            "Métadonnées globales étendues",
+            new ImageIcon(getClass().getResource("/icon/text-x-generic.png")),
+            headerFooterComplexPanel,
+            null
+        );
         GridBagLayout gblHeaderFooterComplexPanel = new GridBagLayout();
-        gblHeaderFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
-        gblHeaderFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gblHeaderFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gblHeaderFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
+        gblHeaderFooterComplexPanel.columnWidths = new int[] { 0, 0, 0 };
+        gblHeaderFooterComplexPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+        gblHeaderFooterComplexPanel.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+        gblHeaderFooterComplexPanel.rowWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0 };
         headerFooterComplexPanel.setLayout(gblHeaderFooterComplexPanel);
 
         JLabel presentationComplexLabel = new JLabel("Champs globaux étendus du SIP");
@@ -480,26 +535,28 @@ public class PreferencesDialog extends JDialog {
 
         transferRequestReplyIdentifierTextField = new JTextField();
         transferRequestReplyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
-        transferRequestReplyIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier);
+        transferRequestReplyIdentifierTextField.setText(
+            gmc.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier
+        );
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 3;
-        headerFooterComplexPanel.add(transferRequestReplyIdentifierTextField,
-                gbc);
+        headerFooterComplexPanel.add(transferRequestReplyIdentifierTextField, gbc);
         transferRequestReplyIdentifierTextField.setColumns(10);
 
         JLabel archivalAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur d'archivage :");
-        archivalAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée ArchivalAgency ");
+        archivalAgencyOrganizationDescriptiveMetadataLabel.setToolTipText(
+            "Bloc XML OrganisationDescriptiveMetadata de la métadonnée ArchivalAgency "
+        );
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
-                gbc);
+        headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel, gbc);
 
         JScrollPane scrollPane3 = new JScrollPane();
         gbc = new GridBagConstraints();
@@ -513,19 +570,23 @@ public class PreferencesDialog extends JDialog {
         archivalAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
         archivalAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
-        archivalAgencyOrganizationDescriptiveMetadataTextArea
-                .setText(gmc.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData);
+        archivalAgencyOrganizationDescriptiveMetadataTextArea.setText(
+            gmc.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData
+        );
         archivalAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
-        JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur de transfert :");
-        transferringAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée TransferringAgency ");
+        JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel(
+            "Détails sur l'acteur de transfert :"
+        );
+        transferringAgencyOrganizationDescriptiveMetadataLabel.setToolTipText(
+            "Bloc XML OrganisationDescriptiveMetadata de la métadonnée TransferringAgency "
+        );
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 5;
-        headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
-                gbc);
+        headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel, gbc);
 
         JScrollPane scrollPane4 = new JScrollPane();
         gbc = new GridBagConstraints();
@@ -539,17 +600,23 @@ public class PreferencesDialog extends JDialog {
         transferringAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
-        transferringAgencyOrganizationDescriptiveMetadataTextArea
-                .setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
+        transferringAgencyOrganizationDescriptiveMetadataTextArea.setText(
+            gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData
+        );
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
         // ExportParameters Panel
         JPanel exportParametersPanel = new JPanel();
-        tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
+        tabbedPane.addTab(
+            "Export",
+            new ImageIcon(getClass().getResource("/icon/document-save.png")),
+            exportParametersPanel,
+            null
+        );
         GridBagLayout gblExportParametersPanel = new GridBagLayout();
-        gblExportParametersPanel.columnWeights = new double[]{0, 0.5, 0.5, 0};
-        gblExportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gblExportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+        gblExportParametersPanel.columnWeights = new double[] { 0, 0.5, 0.5, 0 };
+        gblExportParametersPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        gblExportParametersPanel.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
         exportParametersPanel.setLayout(gblExportParametersPanel);
 
         JLabel inSIPLabel = new JLabel("Options de formation du SIP");
@@ -592,10 +659,8 @@ public class PreferencesDialog extends JDialog {
         hierarchicalAUButtonGroup.add(flatRadioButton);
         hierarchicalAUButtonGroup.add(hierarchicalRadioButton);
         hierarchicalAUButtonGroup.clearSelection();
-        if (gmc.isHierarchicalArchiveUnits())
-            hierarchicalRadioButton.setSelected(true);
-        else
-            flatRadioButton.setSelected(true);
+        if (gmc.isHierarchicalArchiveUnits()) hierarchicalRadioButton.setSelected(true);
+        else flatRadioButton.setSelected(true);
 
         JLabel xmlPresentationLabel = new JLabel("Présentation XML dans le SIP:");
         gbc = new GridBagConstraints();
@@ -624,10 +689,8 @@ public class PreferencesDialog extends JDialog {
         indentedButtonGroup.add(linearRadioButton);
         indentedButtonGroup.add(indentedRadioButton);
         indentedButtonGroup.clearSelection();
-        if (gmc.isIndented())
-            indentedRadioButton.setSelected(true);
-        else
-            linearRadioButton.setSelected(true);
+        if (gmc.isIndented()) indentedRadioButton.setSelected(true);
+        else linearRadioButton.setSelected(true);
 
         JLabel xmlReindexLabel = new JLabel("Renumérotation des éléments XML avant export:");
         gbc = new GridBagConstraints();
@@ -657,10 +720,8 @@ public class PreferencesDialog extends JDialog {
         reindexButtonGroup.add(reindexYesRadioButton);
         reindexButtonGroup.add(reindexNoRadioButton);
         reindexButtonGroup.clearSelection();
-        if (gmc.isReindex())
-            reindexYesRadioButton.setSelected(true);
-        else
-            reindexNoRadioButton.setSelected(true);
+        if (gmc.isReindex()) reindexYesRadioButton.setSelected(true);
+        else reindexNoRadioButton.setSelected(true);
 
         JLabel inCSVLabel = new JLabel("Options d'export en hiérarchie simplifiée et fichier csv");
         inCSVLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -790,12 +851,15 @@ public class PreferencesDialog extends JDialog {
         metadataFilterTextArea = new JTextArea();
         metadataFilterTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane.setViewportView(metadataFilterTextArea);
-        if (gmc.getKeptMetadataList() != null)
-            metadataFilterTextArea.setText(String.join("\n", String.join("\n", gmc.getKeptMetadataList())));
+        if (gmc.getKeptMetadataList() != null) metadataFilterTextArea.setText(
+            String.join("\n", String.join("\n", gmc.getKeptMetadataList()))
+        );
         metadataFilterTextArea.setCaretPosition(0);
 
         metadataFilterCheckBox = new JCheckBox("Seules métadonnées exportées :");
-        metadataFilterCheckBox.setToolTipText("Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché ");
+        metadataFilterCheckBox.setToolTipText(
+            "Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché "
+        );
         metadataFilterCheckBox.setSelected(gmc.isMetadataFilterFlag());
         metadataFilterTextArea.setEnabled(gmc.isMetadataFilterFlag());
         gbc = new GridBagConstraints();
@@ -810,9 +874,14 @@ public class PreferencesDialog extends JDialog {
 
         // ImportParameters Panel
         JPanel importParametersPanel = new JPanel();
-        tabbedPane.addTab("Import", new ImageIcon(getClass().getResource("/icon/document-open.png")), importParametersPanel, null);
+        tabbedPane.addTab(
+            "Import",
+            new ImageIcon(getClass().getResource("/icon/document-open.png")),
+            importParametersPanel,
+            null
+        );
         GridBagLayout gblImportParametersPanel = new GridBagLayout();
-        gblImportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+        gblImportParametersPanel.columnWeights = new double[] { 0.1, 0.1, 0.5, 0.1 };
         importParametersPanel.setLayout(gblImportParametersPanel);
 
         JLabel mailImportLabel = new JLabel("Import des messageries");
@@ -940,11 +1009,14 @@ public class PreferencesDialog extends JDialog {
         ignorePatternsTextArea = new JTextArea();
         ignorePatternsTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane5.setViewportView(ignorePatternsTextArea);
-        if (dic.getIgnorePatternList() != null)
-            ignorePatternsTextArea.setText(String.join("\n", String.join("\n", dic.getIgnorePatternList())));
+        if (dic.getIgnorePatternList() != null) ignorePatternsTextArea.setText(
+            String.join("\n", String.join("\n", dic.getIgnorePatternList()))
+        );
 
         JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports :");
-        ignorePatternsLabel.setToolTipText("Liste d'expressions régulières définissant les noms de fichiers à ne pas prendre en compte");
+        ignorePatternsLabel.setToolTipText(
+            "Liste d'expressions régulières définissant les noms de fichiers à ne pas prendre en compte"
+        );
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
@@ -1018,11 +1090,16 @@ public class PreferencesDialog extends JDialog {
         if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
             // CompactParameters Panel
             JPanel compactParametersPanel = new JPanel();
-            tabbedPane.addTab("Compact", new ImageIcon(getClass().getResource("/icon/package-x-generic.png")), compactParametersPanel, null);
+            tabbedPane.addTab(
+                "Compact",
+                new ImageIcon(getClass().getResource("/icon/package-x-generic.png")),
+                compactParametersPanel,
+                null
+            );
             GridBagLayout gblCompactParametersPanel = new GridBagLayout();
-            gblCompactParametersPanel.columnWeights = new double[]{0.20, 0.15, 0.25, 0.15, 0.25};
-            gblCompactParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-            gblCompactParametersPanel.rowWeights = new double[]{0, 0, 0, 0.4, 0, 0, 0, 1};
+            gblCompactParametersPanel.columnWeights = new double[] { 0.20, 0.15, 0.25, 0.15, 0.25 };
+            gblCompactParametersPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            gblCompactParametersPanel.rowWeights = new double[] { 0, 0, 0, 0.4, 0, 0, 0, 1 };
             compactParametersPanel.setLayout(gblCompactParametersPanel);
 
             JLabel compactLabel = new JLabel("Limites des paquets de documents");
@@ -1111,8 +1188,11 @@ public class PreferencesDialog extends JDialog {
             compactDocumentDataObjectVersionFilterTextArea = new JTextArea();
             compactDocumentDataObjectVersionFilterTextArea.setFont(MainWindow.DETAILS_FONT);
             scrollPane.setViewportView(compactDocumentDataObjectVersionFilterTextArea);
-            if (coc.getDocumentKeptDataObjectVersionList() != null)
-                compactDocumentDataObjectVersionFilterTextArea.setText(String.join("\n", String.join("\n", coc.getDocumentKeptDataObjectVersionList())));
+            if (
+                coc.getDocumentKeptDataObjectVersionList() != null
+            ) compactDocumentDataObjectVersionFilterTextArea.setText(
+                String.join("\n", String.join("\n", coc.getDocumentKeptDataObjectVersionList()))
+            );
             compactDocumentDataObjectVersionFilterTextArea.setCaretPosition(0);
 
             compactLabel = new JLabel("Sous-documents:");
@@ -1135,8 +1215,11 @@ public class PreferencesDialog extends JDialog {
             compactSubDocumentDataObjectVersionFilterTextArea = new JTextArea();
             compactSubDocumentDataObjectVersionFilterTextArea.setFont(MainWindow.DETAILS_FONT);
             scrollPane.setViewportView(compactSubDocumentDataObjectVersionFilterTextArea);
-            if (coc.getSubDocumentKeptDataObjectVersionList() != null)
-                compactSubDocumentDataObjectVersionFilterTextArea.setText(String.join("\n", String.join("\n", coc.getSubDocumentKeptDataObjectVersionList())));
+            if (
+                coc.getSubDocumentKeptDataObjectVersionList() != null
+            ) compactSubDocumentDataObjectVersionFilterTextArea.setText(
+                String.join("\n", String.join("\n", coc.getSubDocumentKeptDataObjectVersionList()))
+            );
             compactSubDocumentDataObjectVersionFilterTextArea.setCaretPosition(0);
 
             compactLabel = new JLabel("Mode de construction des paquets de documents");
@@ -1170,10 +1253,8 @@ public class PreferencesDialog extends JDialog {
             arcMethodButtonGroup.add(zipRadioButton);
             arcMethodButtonGroup.add(tarRadioButton);
             arcMethodButtonGroup.clearSelection();
-            if (coc.isDeflatedFlag())
-                zipRadioButton.setSelected(true);
-            else
-                tarRadioButton.setSelected(true);
+            if (coc.isDeflatedFlag()) zipRadioButton.setSelected(true);
+            else tarRadioButton.setSelected(true);
 
             compactLabel = new JLabel("Filtrage des métadonnées");
             compactLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -1200,12 +1281,15 @@ public class PreferencesDialog extends JDialog {
             compactMetadataFilterTextArea = new JTextArea();
             compactMetadataFilterTextArea.setFont(MainWindow.DETAILS_FONT);
             scrollPane.setViewportView(compactMetadataFilterTextArea);
-            if (coc.getKeptMetadataList() != null)
-                compactMetadataFilterTextArea.setText(String.join("\n", String.join("\n", coc.getKeptMetadataList())));
+            if (coc.getKeptMetadataList() != null) compactMetadataFilterTextArea.setText(
+                String.join("\n", String.join("\n", coc.getKeptMetadataList()))
+            );
             compactMetadataFilterTextArea.setCaretPosition(0);
 
             compactMetadataFilterCheckBox = new JCheckBox("Seules métadonnées compactées :");
-            compactMetadataFilterCheckBox.setToolTipText("Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché ");
+            compactMetadataFilterCheckBox.setToolTipText(
+                "Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché "
+            );
             compactMetadataFilterCheckBox.setSelected(coc.isMetadataFilterFlag());
             compactMetadataFilterTextArea.setEnabled(coc.isMetadataFilterFlag());
             gbc = new GridBagConstraints();
@@ -1220,11 +1304,15 @@ public class PreferencesDialog extends JDialog {
 
         // TreatmentParameters Panel
         JPanel treatmentParametersPanel = new JPanel();
-        tabbedPane.addTab("Traitement/Interface", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
-                treatmentParametersPanel, null);
+        tabbedPane.addTab(
+            "Traitement/Interface",
+            new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
+            treatmentParametersPanel,
+            null
+        );
         GridBagLayout gblTreatmentParametersPanel = new GridBagLayout();
-        gblTreatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gblTreatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 1.0};
+        gblTreatmentParametersPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        gblTreatmentParametersPanel.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 1.0 };
         treatmentParametersPanel.setLayout(gblTreatmentParametersPanel);
 
         JLabel workDirLabel = new JLabel("Répertoire de travail");
@@ -1363,10 +1451,8 @@ public class PreferencesDialog extends JDialog {
         interfaceTypeButtonGroup.add(classicInterfaceRadioButton);
         interfaceTypeButtonGroup.add(structuredInterfaceRadioButton);
         interfaceTypeButtonGroup.clearSelection();
-        if (ip.isStructuredMetadataEditionFlag())
-            structuredInterfaceRadioButton.setSelected(true);
-        else
-            classicInterfaceRadioButton.setSelected(true);
+        if (ip.isStructuredMetadataEditionFlag()) structuredInterfaceRadioButton.setSelected(true);
+        else classicInterfaceRadioButton.setSelected(true);
 
         JLabel debugModeLabel = new JLabel("Modes spécifiques:");
         gbc = new GridBagConstraints();
@@ -1420,6 +1506,7 @@ public class PreferencesDialog extends JDialog {
         pack();
         setLocationRelativeTo(owner);
     }
+
     // actions
 
     private void metadataFilterEvent(ItemEvent event) {
@@ -1444,8 +1531,7 @@ public class PreferencesDialog extends JDialog {
     }
 
     private void buttonOk() {
-        if (!extractFromDialog())
-            return;
+        if (!extractFromDialog()) return;
         returnValue = OK_DIALOG;
         setVisible(false);
     }
@@ -1453,29 +1539,30 @@ public class PreferencesDialog extends JDialog {
     private String chooseDirectory() {
         JFileChooser fileChooser = new JFileChooser(cc.getWorkDir());
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-            try {
-                return fileChooser.getSelectedFile().getCanonicalPath();
-            } catch (IOException e) {
-                return null;
-            }
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) try {
+            return fileChooser.getSelectedFile().getCanonicalPath();
+        } catch (IOException e) {
+            return null;
+        }
         return null;
     }
 
     private void buttonChooseWorkDir() {
         try {
             String dir = chooseDirectory();
-            if (dir == null)
-                return;
+            if (dir == null) return;
 
             workDirTextField.setText(dir);
         } catch (Exception e) {
-            UserInteractionDialog.getUserAnswer(this.owner,
-                    "Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage(),
-                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                    null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque", e);
+            UserInteractionDialog.getUserAnswer(
+                this.owner,
+                "Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.ERROR, "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque", e);
         }
     }
 
@@ -1516,10 +1603,9 @@ public class PreferencesDialog extends JDialog {
         ResipGraphicApp.getTheWindow().load();
     }
 
-    private int getPositiveInt(String numberString){
+    private int getPositiveInt(String numberString) {
         int result = Integer.parseInt(numberString);
-        if (result <= 0)
-            throw new NumberFormatException("Number not strictly positive");
+        if (result <= 0) throw new NumberFormatException("Number not strictly positive");
         return result;
     }
 
@@ -1542,28 +1628,32 @@ public class PreferencesDialog extends JDialog {
         gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
         gmc.setIndented(indentedRadioButton.isSelected());
         gmc.setReindex(reindexYesRadioButton.isSelected());
-        if (firstUsageButton.isSelected())
-            gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
-        else if (allUsageButton.isSelected())
-            gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
-        else if (lastUsageButton.isSelected())
-            gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
+        if (firstUsageButton.isSelected()) gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
+        else if (allUsageButton.isSelected()) gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
+        else if (lastUsageButton.isSelected()) gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
         try {
             tmp = getPositiveInt(nameMaxSizeTextField.getText());
         } catch (NumberFormatException e) {
             tabbedPane.setSelectedIndex(3);
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                    "La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
-                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
-                    null);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
+                "Information",
+                UserInteractionDialog.IMPORTANT_DIALOG,
+                null
+            );
             return false;
         }
         gmc.setMaxNameSize(tmp);
         gmc.setCsvExtendedFormat(csvExtendedFormatChexBox.isSelected());
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
         gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
-        gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
-                .stream().map(String::trim).collect(Collectors.toList()));
+        gmc.setKeptMetadataList(
+            Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList())
+        );
 
         gmc.getArchiveTransferGlobalMetadata().comment = commentTextArea.getText();
         gmc.getArchiveTransferGlobalMetadata().date = dateTextField.getText();
@@ -1571,13 +1661,15 @@ public class PreferencesDialog extends JDialog {
         gmc.getArchiveTransferGlobalMetadata().messageIdentifier = messageIdentifierTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().archivalAgreement = archivalAgreementTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().codeListVersionsXmlData = clvTextArea.getText();
-        gmc.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier = transferRequestReplyIdentifierTextField.getText();
+        gmc.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier =
+            transferRequestReplyIdentifierTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().archivalAgencyIdentifier = archivalAgencyIdentifierTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData =
-                archivalAgencyOrganizationDescriptiveMetadataTextArea.getText();
-        gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier = transferringAgencyIdentifierTextField.getText();
+            archivalAgencyOrganizationDescriptiveMetadataTextArea.getText();
+        gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier =
+            transferringAgencyIdentifierTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData =
-                transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
+            transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
 
         cic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
         cic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
@@ -1585,37 +1677,53 @@ public class PreferencesDialog extends JDialog {
         if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
             try {
                 tmp = Integer.parseInt(maxMetadataSizeTextField.getText());
-                if (tmp < 0)
-                    throw new NumberFormatException("Number not strictly positive");
+                if (tmp < 0) throw new NumberFormatException("Number not strictly positive");
             } catch (NumberFormatException e) {
                 tabbedPane.setSelectedIndex(3);
-                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                        "La taille limite des métadonnées exportées doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
-                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
-                        null);
+                UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "La taille limite des métadonnées exportées doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
+                    "Information",
+                    UserInteractionDialog.IMPORTANT_DIALOG,
+                    null
+                );
                 return false;
             }
             coc.setMaxMetadataSize(tmp);
             try {
                 tmp = Integer.parseInt(maxDocumentNumberTextField.getText());
-                if (tmp < 0)
-                    throw new NumberFormatException("Number not strictly positive");
+                if (tmp < 0) throw new NumberFormatException("Number not strictly positive");
             } catch (NumberFormatException e) {
                 tabbedPane.setSelectedIndex(3);
-                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                        "Le nombre limite de documents dans un paquet doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
-                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
-                        null);
+                UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "Le nombre limite de documents dans un paquet doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
+                    "Information",
+                    UserInteractionDialog.IMPORTANT_DIALOG,
+                    null
+                );
                 return false;
             }
             coc.setMaxDocumentNumber(tmp);
             coc.setMetadataFilterFlag(compactMetadataFilterCheckBox.isSelected());
-            coc.setDocumentKeptDataObjectVersionList(Arrays.asList(compactDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList()));
-            coc.setSubDocumentKeptDataObjectVersionList(Arrays.asList(compactSubDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList()));
-            coc.setKeptMetadataList(Arrays.asList(compactMetadataFilterTextArea.getText().split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList()));
+            coc.setDocumentKeptDataObjectVersionList(
+                Arrays.asList(compactDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream()
+                    .map(String::trim)
+                    .collect(Collectors.toList())
+            );
+            coc.setSubDocumentKeptDataObjectVersionList(
+                Arrays.asList(compactSubDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream()
+                    .map(String::trim)
+                    .collect(Collectors.toList())
+            );
+            coc.setKeptMetadataList(
+                Arrays.asList(compactMetadataFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream()
+                    .map(String::trim)
+                    .collect(Collectors.toList())
+            );
             coc.setDeflatedFlag(zipRadioButton.isSelected());
         }
 
@@ -1623,23 +1731,24 @@ public class PreferencesDialog extends JDialog {
             tmp = getPositiveInt(dupMaxTextField.getText());
         } catch (NumberFormatException e) {
             tabbedPane.setSelectedIndex(4);
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                    "La valeur limite d'aggrégation des doublons doit être un nombre strictement supérieur à 0.",
-                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
-                    null);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "La valeur limite d'aggrégation des doublons doit être un nombre strictement supérieur à 0.",
+                "Information",
+                UserInteractionDialog.IMPORTANT_DIALOG,
+                null
+            );
             return false;
         }
         tp.setDupMax(tmp);
 
         SedaVersion selectedVersion = sedaVersionSelector.getSelectedVersion();
 
-        if (!selectedVersion.equals(currentVersion)
-            && ResipGraphicApp.getTheApp().currentWork != null) {
-
+        if (!selectedVersion.equals(currentVersion) && ResipGraphicApp.getTheApp().currentWork != null) {
             String message = String.format(
                 "Attention, un SIP est actuellement ouvert en version %s.\n" +
-                    "Vous avez sélectionné la version %s.\n" +
-                    "Voulez-vous essayer de convertir le SIP vers cette nouvelle version ?",
+                "Vous avez sélectionné la version %s.\n" +
+                "Voulez-vous essayer de convertir le SIP vers cette nouvelle version ?",
                 currentVersion.toString(),
                 selectedVersion.toString()
             );
@@ -1652,11 +1761,9 @@ public class PreferencesDialog extends JDialog {
                 null
             );
 
-            if (userChoice != OK_DIALOG)
-                return false;
+            if (userChoice != OK_DIALOG) return false;
 
-            if (!tryToConvertCurrentWorkSedaVersion(currentVersion, selectedVersion))
-                return false;
+            if (!tryToConvertCurrentWorkSedaVersion(currentVersion, selectedVersion)) return false;
         }
 
         EventBus.publish(new SedaVersionChangedEvent(selectedVersion));

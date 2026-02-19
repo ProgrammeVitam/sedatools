@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.formattools.TikaExtractor;
@@ -32,7 +42,6 @@ import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.activation.MimeType;
 import jakarta.activation.MimeTypeParseException;
 
@@ -122,8 +131,17 @@ public class StoreAttachment {
      * @param contentID             Mime multipart content ID useful for inline
      * @param attachmentType        Type of attachment (inline, simple file, another store...)
      */
-    public StoreAttachment(StoreElement fatherElement, Object storeContent, String attachmentStoreScheme, String name, Date creationDate,
-                           Date modificationDate, String mimeType, String contentID, int attachmentType) {
+    public StoreAttachment(
+        StoreElement fatherElement,
+        Object storeContent,
+        String attachmentStoreScheme,
+        String name,
+        Date creationDate,
+        Date modificationDate,
+        String mimeType,
+        String contentID,
+        int attachmentType
+    ) {
         this.fatherElement = fatherElement;
         this.attachmentContent = storeContent;
         this.attachmentStoreScheme = attachmentStoreScheme;
@@ -142,10 +160,8 @@ public class StoreAttachment {
      * @throws MailExtractLibException the extraction exception
      */
     public byte[] getRawAttachmentContent() throws MailExtractLibException {
-        if (attachmentContent instanceof byte[])
-            return (byte[]) attachmentContent;
-        else
-            throw new MailExtractLibException("mailextractlib: this attachment has no binary form", null);
+        if (attachmentContent instanceof byte[]) return (byte[]) attachmentContent;
+        else throw new MailExtractLibException("mailextractlib: this attachment has no binary form", null);
     }
 
     /**
@@ -205,10 +221,8 @@ public class StoreAttachment {
             this.mimeType = mimeType;
         } catch (MimeTypeParseException e) {
             int i = mimeType.lastIndexOf('/');
-            if ((i != -1) && (i < mimeType.length()))
-                this.mimeType = "application/" + mimeType.substring(i + 1);
-            else
-                this.mimeType = "application/octet-stream";
+            if ((i != -1) && (i < mimeType.length())) this.mimeType = "application/" + mimeType.substring(i + 1);
+            else this.mimeType = "application/octet-stream";
         }
     }
 
@@ -234,21 +248,22 @@ public class StoreAttachment {
      *
      * @param attachments the attachments
      */
-    static protected void detectStoreAttachments(List<StoreAttachment> attachments) {
+    protected static void detectStoreAttachments(List<StoreAttachment> attachments) {
         String mimeType;
 
         if (attachments != null && !attachments.isEmpty()) {
             for (StoreAttachment a : attachments) {
-                if ((a.attachmentType != StoreAttachment.STORE_ATTACHMENT)
-                        && (a.attachmentContent instanceof byte[])
-                        // special case for ms-tnef attachments "winmail.dat" because tika can identify them as rfc822
-                        // when part of it is mail
-                        && (!a.mimeType.toLowerCase().equals("application/ms-tnef")
-                        && (!a.mimeType.toLowerCase().equals("application/vnd.ms-tnef")))) {
+                if (
+                    (a.attachmentType != StoreAttachment.STORE_ATTACHMENT) &&
+                    (a.attachmentContent instanceof byte[]) &&
+                    // special case for ms-tnef attachments "winmail.dat" because tika can identify them as rfc822
+                    // when part of it is mail
+                    (!a.mimeType.toLowerCase().equals("application/ms-tnef") &&
+                        (!a.mimeType.toLowerCase().equals("application/vnd.ms-tnef")))
+                ) {
                     try {
                         mimeType = TikaExtractor.getInstance().getMimeType(a.getRawAttachmentContent());
-                        if (mimeType == null)
-                            continue;
+                        if (mimeType == null) continue;
                         for (String mt : StoreExtractor.mimeTypeSchemeMap.keySet()) {
                             if (mimeType.equals(mt)) {
                                 a.setStoreScheme(StoreExtractor.mimeTypeSchemeMap.get(mt));
@@ -274,17 +289,29 @@ public class StoreAttachment {
      * @throws MailExtractLibException the mail extract lib exception
      * @throws InterruptedException    the interrupted exception
      */
-    static public void extractAttachments(List<StoreAttachment> attachments, ArchiveUnit messageNode, boolean writeFlag)
-            throws MailExtractLibException, InterruptedException {
+    public static void extractAttachments(
+        List<StoreAttachment> attachments,
+        ArchiveUnit messageNode,
+        boolean writeFlag
+    ) throws MailExtractLibException, InterruptedException {
         if (attachments != null) {
             for (StoreAttachment a : attachments) {
                 // message identification
                 if (a.attachmentType == StoreAttachment.STORE_ATTACHMENT) {
                     // recursive extraction of a message in attachment...
-                    doProgressLog(a.fatherElement.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
-                    if (a.extractAsStoreAttachment(messageNode, writeFlag))
-                        continue;
-                    doProgressLog(a.fatherElement.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: can't extract as an attached message, extract as standard attachment", null);
+                    doProgressLog(
+                        a.fatherElement.getProgressLogger(),
+                        MailExtractProgressLogger.MESSAGE_DETAILS,
+                        "mailextractlib: attached message extraction",
+                        null
+                    );
+                    if (a.extractAsStoreAttachment(messageNode, writeFlag)) continue;
+                    doProgressLog(
+                        a.fatherElement.getProgressLogger(),
+                        MailExtractProgressLogger.MESSAGE_DETAILS,
+                        "mailextractlib: can't extract as an attached message, extract as standard attachment",
+                        null
+                    );
                 }
                 // standard attachment file
                 a.extractAsFileOrInlineAttachment(messageNode, writeFlag);
@@ -295,12 +322,12 @@ public class StoreAttachment {
     /**
      * Extract a file or inline message attachment.
      */
-    private void extractAsFileOrInlineAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
+    private void extractAsFileOrInlineAttachment(ArchiveUnit node, boolean writeFlag)
+        throws MailExtractLibException, InterruptedException {
         ArchiveUnit attachmentNode;
         StoreExtractor fatherExtractor = fatherElement.getStoreExtractor();
 
-        if ((name == null) || name.isEmpty())
-            name = "[Vide]";
+        if ((name == null) || name.isEmpty()) name = "[Vide]";
         attachmentNode = new ArchiveUnit(fatherExtractor, node, "Attachment", name);
         attachmentNode.addMetadata("DescriptionLevel", "Item", true);
         attachmentNode.addMetadata("Title", name, true);
@@ -311,84 +338,120 @@ public class StoreAttachment {
         // (max for correcting a current confusion between theese two dates)
         Date date = null;
         if (creationDate != null) {
-            if (modificationDate != null)
-                date = (creationDate.compareTo(modificationDate) > 0 ? creationDate
-                        : modificationDate);
-            else
-                date = creationDate;
-        } else if (modificationDate != null)
-            date = modificationDate;
-        if (date != null)
-            attachmentNode.addMetadata("CreatedDate", DateRange.getISODateString(creationDate), true);
+            if (modificationDate != null) date = (creationDate.compareTo(modificationDate) > 0
+                    ? creationDate
+                    : modificationDate);
+            else date = creationDate;
+        } else if (modificationDate != null) date = modificationDate;
+        if (date != null) attachmentNode.addMetadata("CreatedDate", DateRange.getISODateString(creationDate), true);
 
         // Raw object extraction
-        if (name.endsWith(".lnk"))
-            name=name+".txt"; // break windows shortcuts
+        if (name.endsWith(".lnk")) name = name + ".txt"; // break windows shortcuts
         attachmentNode.addObject(getRawAttachmentContent(), name, "BinaryMaster", 1);
 
         // Text object extraction
         String textExtract = null;
-        if (fatherExtractor.options.extractFileTextFile || fatherExtractor.options.extractFileTextMetadata)
-            try {
-                textExtract = TikaExtractor.getInstance().extractTextFromBinary(getRawAttachmentContent());
-            } catch (MailExtractLibException ee) {
-                doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
-                        "mailextractlib: can't extract text content from attachment " + name, ee);
-            }
+        if (fatherExtractor.options.extractFileTextFile || fatherExtractor.options.extractFileTextMetadata) try {
+            textExtract = TikaExtractor.getInstance().extractTextFromBinary(getRawAttachmentContent());
+        } catch (MailExtractLibException ee) {
+            doProgressLog(
+                fatherExtractor.getProgressLogger(),
+                MailExtractProgressLogger.MESSAGE_DETAILS,
+                "mailextractlib: can't extract text content from attachment " + name,
+                ee
+            );
+        }
         // put in file
         if (fatherExtractor.options.extractFileTextFile && (!((textExtract == null) || textExtract.trim().isEmpty()))) {
             attachmentNode.addObject(textExtract.getBytes(StandardCharsets.UTF_8), name + ".txt", "TextContent", 1);
         }
         // put in metadata
-        if (fatherExtractor.options.extractFileTextMetadata
-                && (!((textExtract == null) || textExtract.isEmpty()))) {
+        if (fatherExtractor.options.extractFileTextMetadata && (!((textExtract == null) || textExtract.isEmpty()))) {
             attachmentNode.addLongMetadata("TextContent", textExtract, true);
         }
 
-        if (writeFlag)
-            attachmentNode.write();
+        if (writeFlag) attachmentNode.write();
     }
 
     /**
      * Extract a store attachment
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private boolean extractAsStoreAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private boolean extractAsStoreAttachment(ArchiveUnit node, boolean writeFlag)
+        throws MailExtractLibException, InterruptedException {
         StoreExtractor fatherExtractor = fatherElement.getStoreExtractor();
         Boolean isContainerScheme = false;
         StoreExtractor extractor = null;
 
-        doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
-                "mailextractlib: begin " + attachmentStoreScheme + " store content extraction from an attachment in " + fatherElement.getLogDescription(), null);
+        doProgressLog(
+            fatherExtractor.getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: begin " +
+            attachmentStoreScheme +
+            " store content extraction from an attachment in " +
+            fatherElement.getLogDescription(),
+            null
+        );
         Class storeExtractorClass = StoreExtractor.schemeStoreExtractorClassMap.get(attachmentStoreScheme);
         if (storeExtractorClass == null) {
-            fatherElement.logMessageWarning("mailextractlib: unknown embedded store type=" + attachmentStoreScheme
-                    + " , extracting unit in path " + node.getFullName(), null);
+            fatherElement.logMessageWarning(
+                "mailextractlib: unknown embedded store type=" +
+                attachmentStoreScheme +
+                " , extracting unit in path " +
+                node.getFullName(),
+                null
+            );
         } else {
             isContainerScheme = StoreExtractor.schemeContainerMap.get(attachmentStoreScheme);
             if (isContainerScheme) {
-                node = new ArchiveUnit(fatherExtractor, node, "Container",
-                        (name == null ? "Infile" : name));
+                node = new ArchiveUnit(fatherExtractor, node, "Container", (name == null ? "Infile" : name));
                 node.addMetadata("DescriptionLevel", "Item", true);
-                node.addMetadata("Title",
-                        "Conteneur " + attachmentStoreScheme + (name == null ? "" : " " + name), true);
-                node.addMetadata("Description",
-                        "Extraction d'un conteneur " + attachmentStoreScheme + (name == null ? "" : " " + name),
-                        true);
+                node.addMetadata(
+                    "Title",
+                    "Conteneur " + attachmentStoreScheme + (name == null ? "" : " " + name),
+                    true
+                );
+                node.addMetadata(
+                    "Description",
+                    "Extraction d'un conteneur " + attachmentStoreScheme + (name == null ? "" : " " + name),
+                    true
+                );
             }
             try {
                 extractor = (StoreExtractor) storeExtractorClass
-                        .getConstructor(StoreAttachment.class, ArchiveUnit.class, StoreExtractorOptions.class,
-                                StoreExtractor.class, StoreElement.class, MailExtractProgressLogger.class)
-                        .newInstance(this, node, fatherExtractor.options, fatherExtractor, fatherElement, fatherElement.getProgressLogger());
+                    .getConstructor(
+                        StoreAttachment.class,
+                        ArchiveUnit.class,
+                        StoreExtractorOptions.class,
+                        StoreExtractor.class,
+                        StoreElement.class,
+                        MailExtractProgressLogger.class
+                    )
+                    .newInstance(
+                        this,
+                        node,
+                        fatherExtractor.options,
+                        fatherExtractor,
+                        fatherElement,
+                        fatherElement.getProgressLogger()
+                    );
             } catch (InvocationTargetException e) {
                 Throwable te = e.getCause();
-                fatherElement.logMessageWarning("mailextractlib: dysfonctional embedded store type=" + attachmentStoreScheme
-                        + " , extracting unit in path " + node.getFullName(), te);
-            }
-            catch (Exception e){
-                fatherElement.logMessageWarning("mailextractlib: dysfonctional embedded store type=" + attachmentStoreScheme
-                        + " , extracting unit in path " + node.getFullName(), e);
+                fatherElement.logMessageWarning(
+                    "mailextractlib: dysfonctional embedded store type=" +
+                    attachmentStoreScheme +
+                    " , extracting unit in path " +
+                    node.getFullName(),
+                    te
+                );
+            } catch (Exception e) {
+                fatherElement.logMessageWarning(
+                    "mailextractlib: dysfonctional embedded store type=" +
+                    attachmentStoreScheme +
+                    " , extracting unit in path " +
+                    node.getFullName(),
+                    e
+                );
             }
         }
         if (extractor != null) {
@@ -398,20 +461,39 @@ public class StoreAttachment {
                 fatherExtractor.accumulateSubElements(extractor);
                 extractor.endStoreExtractor();
                 if (extractor.getRootFolder().getDateRange().isDefined() && isContainerScheme) {
-                    node.addMetadata("StartDate",
-                            DateRange.getISODateString(extractor.getRootFolder().getDateRange().getStart()), true);
-                    node.addMetadata("EndDate",
-                            DateRange.getISODateString(extractor.getRootFolder().getDateRange().getEnd()), true);
+                    node.addMetadata(
+                        "StartDate",
+                        DateRange.getISODateString(extractor.getRootFolder().getDateRange().getStart()),
+                        true
+                    );
+                    node.addMetadata(
+                        "EndDate",
+                        DateRange.getISODateString(extractor.getRootFolder().getDateRange().getEnd()),
+                        true
+                    );
                 }
-                if (writeFlag)
-                    node.write();
-                doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
-                        "mailextractlib: end " + attachmentStoreScheme + " store content extraction from an attachment in " + fatherElement.getLogDescription(), null);
+                if (writeFlag) node.write();
+                doProgressLog(
+                    fatherExtractor.getProgressLogger(),
+                    MailExtractProgressLogger.MESSAGE_DETAILS,
+                    "mailextractlib: end " +
+                    attachmentStoreScheme +
+                    " store content extraction from an attachment in " +
+                    fatherElement.getLogDescription(),
+                    null
+                );
             } catch (MailExtractLibException ee) {
-                doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
-                        "mailextractlib: can't extract " + attachmentStoreScheme + " store content from an attachment in " + fatherElement.getLogDescription(), ee);
+                doProgressLog(
+                    fatherExtractor.getProgressLogger(),
+                    MailExtractProgressLogger.MESSAGE_DETAILS,
+                    "mailextractlib: can't extract " +
+                    attachmentStoreScheme +
+                    " store content from an attachment in " +
+                    fatherElement.getLogDescription(),
+                    ee
+                );
             }
         }
-        return(extractor != null);
+        return (extractor != null);
     }
 }

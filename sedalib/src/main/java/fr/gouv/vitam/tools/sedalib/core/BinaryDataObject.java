@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
@@ -60,6 +70,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 public class BinaryDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
 
     private static class MetadataField {
+
         final String key;
         final ComplexListMetadataKind kind;
         final Set<Integer> versions;
@@ -76,25 +87,31 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     }
 
     private static final List<MetadataField> ALL_FIELDS = Arrays.asList(
-            new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
-            new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
-            new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
-            new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
-            new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
-            new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
-            new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
-            new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
-            new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-            new MetadataField("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false), 1,
-                    2, 3),
-            new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
-            new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
-            new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3));
+        new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
+        new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
+        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
+        new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
+        new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
+        new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
+        new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
+        new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
+        new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField(
+            "FormatIdentification",
+            new ComplexListMetadataKind(FormatIdentification.class, false),
+            1,
+            2,
+            3
+        ),
+        new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
+        new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
+        new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3)
+    );
 
     private static LinkedHashMap<String, ComplexListMetadataKind> createMetadataMapForVersion(int version) {
         LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
@@ -121,8 +138,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface
-                .getMetadataMap(this.getClass());
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(this.getClass());
     }
 
     /**
@@ -131,8 +147,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @JsonIgnore
     @Override
     public boolean isNotExpandable() {
-        return ComplexListInterface
-                .isNotExpandable(this.getClass());
+        return ComplexListInterface.isNotExpandable(this.getClass());
     }
 
     // Inner element
@@ -172,16 +187,15 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      */
     private void addFilenameMetadata(Path path, String explicitFilename) {
         String nameValue = explicitFilename != null
-                ? explicitFilename
-                : (path != null ? path.getFileName().toString() : null);
+            ? explicitFilename
+            : (path != null ? path.getFileName().toString() : null);
         if (nameValue == null) {
             return;
         }
         FileInfo fileInfo = new FileInfo();
         try {
             fileInfo.addNewMetadata("Filename", nameValue);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
         metadataList.add(fileInfo);
     }
 
@@ -198,11 +212,14 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * @param explicitFilename  the filename metadata
      * @param dataObjectVersion the DataObjectVersion
      */
-    public BinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String explicitFilename,
-            String dataObjectVersion) {
+    public BinaryDataObject(
+        DataObjectPackage dataObjectPackage,
+        Path path,
+        String explicitFilename,
+        String dataObjectVersion
+    ) {
         super(dataObjectPackage);
-        if (dataObjectVersion != null)
-            metadataList.add(new StringType("DataObjectVersion", dataObjectVersion));
+        if (dataObjectVersion != null) metadataList.add(new StringType("DataObjectVersion", dataObjectVersion));
         addFilenameMetadata(path, explicitFilename);
         this.onDiskPath = (path != null ? path.toAbsolutePath().normalize() : null);
     }
@@ -253,8 +270,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * @return the extension
      */
     private static String getExtension(String fileName) {
-        if (fileName == null)
-            return "";
+        if (fileName == null) return "";
         int i = fileName.lastIndexOf('.');
         return i < 0 ? "seda" : fileName.substring(i + 1);
     }
@@ -275,8 +291,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         if (fileInfo == null) {
             fileInfo = new FileInfo();
             filename = null;
-        } else
-            filename = fileInfo.getSimpleMetadata("Filename");
+        } else filename = fileInfo.getSimpleMetadata("Filename");
 
         if (filename == null) {
             filename = onDiskPath.getFileName().toString();
@@ -299,10 +314,11 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
             return DroidIdentifier.getInstance().getIdentificationResult(path);
         } catch (SEDALibException e) {
             doProgressLogWithoutInterruption(
-                    logger,
-                    OBJECTS_WARNINGS,
-                    "sedalib: impossible de faire l'identification Droid pour le fichier [" + path + "]",
-                    e);
+                logger,
+                OBJECTS_WARNINGS,
+                "sedalib: impossible de faire l'identification Droid pour le fichier [" + path + "]",
+                e
+            );
             return null;
         }
     }
@@ -323,19 +339,23 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
             size = Files.size(onDiskPath);
             lastModifiedTime = Files.getLastModifiedTime(onDiskPath);
         } catch (IOException e) {
-            throw new SEDALibException("Impossible d'obtenir les infos techniques pour le fichier ["
-                    + onDiskPath.toString() + "]", e);
+            throw new SEDALibException(
+                "Impossible d'obtenir les infos techniques pour le fichier [" + onDiskPath.toString() + "]",
+                e
+            );
         }
 
         updateFileInfo(lastModifiedTime);
-        addMetadata(new DigestType("MessageDigest", DigestSha512.compute(onDiskPath, sedaLibProgressLogger), "SHA-512"));
+        addMetadata(
+            new DigestType("MessageDigest", DigestSha512.compute(onDiskPath, sedaLibProgressLogger), "SHA-512")
+        );
         addMetadata(new IntegerType("Size", size));
 
         IdentificationResult idResult = identifyFormat(sedaLibProgressLogger, onDiskPath);
-        if (idResult != null)
-            addMetadata(new FormatIdentification(idResult.getName(), idResult.getMimeType(), idResult.getPuid(), null));
-        else
-            addMetadata(new FormatIdentification("Unknown", null, "UNKNOWN", null));
+        if (idResult != null) addMetadata(
+            new FormatIdentification(idResult.getName(), idResult.getMimeType(), idResult.getPuid(), null)
+        );
+        else addMetadata(new FormatIdentification("Unknown", null, "UNKNOWN", null));
     }
 
     /**
@@ -368,7 +388,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * sedalib.xml.SEDAXMLStreamWriter)
      */
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
-            throws InterruptedException, SEDALibException {
+        throws InterruptedException, SEDALibException {
         finalizeUri();
         super.toSedaXml(xmlWriter, sedaLibProgressLogger);
     }
@@ -388,13 +408,17 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
-    public static BinaryDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-            SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public static BinaryDataObject fromSedaXml(
+        SEDAXMLEventReader xmlReader,
+        DataObjectPackage dataObjectPackage,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         BinaryDataObject bdo = new BinaryDataObject();
-        return (importUnitaryDataObjectPackageIdElementFromSedaXml(bdo, xmlReader, dataObjectPackage,
-                sedaLibProgressLogger)
-                        ? bdo
-                        : null);
+        return (
+            importUnitaryDataObjectPackageIdElementFromSedaXml(bdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
+                ? bdo
+                : null
+        );
     }
 
     /**

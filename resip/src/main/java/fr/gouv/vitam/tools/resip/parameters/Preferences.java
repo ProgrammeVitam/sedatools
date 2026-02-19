@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -66,15 +76,13 @@ public class Preferences {
      */
     private static Preferences instance;
 
-
     /**
      * Gets the single instance of Prefs.
      *
      * @return single instance of Prefs
      */
     public static Preferences getInstance() {
-        if (instance == null)
-            instance = new Preferences();
+        if (instance == null) instance = new Preferences();
         return instance;
     }
 
@@ -84,8 +92,7 @@ public class Preferences {
     private Preferences() {
         try {
             // to get the properties sorted by key when stored work for java 8/9/10
-            prefProperties = new Properties(){
-
+            prefProperties = new Properties() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -95,15 +102,15 @@ public class Preferences {
 
                 @Override
                 public Set<Map.Entry<Object, Object>> entrySet() {
-
                     Set<Map.Entry<Object, Object>> set1 = super.entrySet();
                     Set<Map.Entry<Object, Object>> set2 = new LinkedHashSet<>(set1.size());
 
-                    Iterator<Map.Entry<Object, Object>> iterator = set1.stream()
-                            .sorted((o1, o2) -> o1.getKey().toString().compareTo(o2.getKey().toString())).iterator();
+                    Iterator<Map.Entry<Object, Object>> iterator = set1
+                        .stream()
+                        .sorted((o1, o2) -> o1.getKey().toString().compareTo(o2.getKey().toString()))
+                        .iterator();
 
-                    while (iterator.hasNext())
-                        set2.add(iterator.next());
+                    while (iterator.hasNext()) set2.add(iterator.next());
 
                     return set2;
                 }
@@ -114,26 +121,38 @@ public class Preferences {
                 }
             };
             try {
-                prefPropertiesFilename=PREFERENCES_FILENAME;
+                prefPropertiesFilename = PREFERENCES_FILENAME;
                 load();
             } catch (ResipException e) {
-                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
-                        "Resip.GraphicApp: Le fichier de préférences global \"" + prefPropertiesFilename + "\" n'a pas " +
-                                "été trouvé. Recherche de la version personnelle.",e);
+                ResipLogger.getGlobalLogger()
+                    .log(
+                        ResipLogger.GLOBAL,
+                        "Resip.GraphicApp: Le fichier de préférences global \"" +
+                        prefPropertiesFilename +
+                        "\" n'a pas " +
+                        "été trouvé. Recherche de la version personnelle.",
+                        e
+                    );
 
                 try {
-                    prefPropertiesFilename= Preferences.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
+                    prefPropertiesFilename = Preferences.getDefaultWorkDir() + File.separator + PREFERENCES_FILENAME;
                     load();
                 } catch (ResipException ee) {
-                    ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
-                            "Resip.GraphicApp: Le fichier de préférences personnel \"" + prefPropertiesFilename + "\" n'a pas non plus " +
-                                    "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.",ee);
+                    ResipLogger.getGlobalLogger()
+                        .log(
+                            ResipLogger.GLOBAL,
+                            "Resip.GraphicApp: Le fichier de préférences personnel \"" +
+                            prefPropertiesFilename +
+                            "\" n'a pas non plus " +
+                            "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.",
+                            ee
+                        );
                     createDefaultPrefs();
                 }
             }
         } catch (Exception e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences.",e);
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.ERROR, "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences.", e);
             System.exit(1);
         }
     }
@@ -200,8 +219,12 @@ public class Preferences {
         try {
             Files.createDirectories(Paths.get(filename).getParent());
         } catch (IOException e) {
-            throw new ResipException("Impossible de créer le répertoire des préférences ["+
-                    Paths.get(filename).getParent().toString()+"]", e);
+            throw new ResipException(
+                "Impossible de créer le répertoire des préférences [" +
+                Paths.get(filename).getParent().toString() +
+                "]",
+                e
+            );
         }
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             prefProperties.store(fos, "Resip preferences");
@@ -239,10 +262,10 @@ public class Preferences {
      * @return the default work dir
      */
     public static String getDefaultWorkDir() {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip";
-        else
-            return System.getProperty("user.home") + File.separator + ".Resip";
+        if (System.getProperty("os.name").toLowerCase().contains("win")) return (
+            System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip"
+        );
+        else return System.getProperty("user.home") + File.separator + ".Resip";
     }
 
     /**
@@ -270,8 +293,7 @@ public class Preferences {
      */
     public String getPrefsLoadDir() {
         String result = prefProperties.getProperty("global.loadDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
         return result;
     }
@@ -298,8 +320,7 @@ public class Preferences {
      */
     public String getPrefsImportDir() throws ResipException {
         String result = prefProperties.getProperty("global.importDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
         return result;
     }
@@ -325,10 +346,9 @@ public class Preferences {
      */
     public String getPrefsExportDir() {
         String result = prefProperties.getProperty("global.exportDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
-         return result;
+        return result;
     }
 
     /**
@@ -339,7 +359,7 @@ public class Preferences {
      */
     public void setPrefsExportDirFromChild(String exportDir) throws ResipException {
         Path tmp = Paths.get(exportDir).toAbsolutePath().normalize().getParent();
-        if (tmp != null){
+        if (tmp != null) {
             prefProperties.setProperty("global.exportDir", tmp.toString());
             save();
         }

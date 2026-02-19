@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
@@ -62,8 +72,9 @@ public class ComplexListTypeEditor extends CompositeEditor {
      */
     public ComplexListTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof ComplexListType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof ComplexListType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     /**
@@ -84,7 +95,8 @@ public class ComplexListTypeEditor extends CompositeEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    public static SEDAMetadata getSEDAMetadataSample(Class<?> complexListSubType, String elementName, boolean minimal) throws SEDALibException {
+    public static SEDAMetadata getSEDAMetadataSample(Class<?> complexListSubType, String elementName, boolean minimal)
+        throws SEDALibException {
         ComplexListType result;
         try {
             result = (ComplexListType) complexListSubType.getConstructor().newInstance();
@@ -92,25 +104,42 @@ public class ComplexListTypeEditor extends CompositeEditor {
             try {
                 result = (ComplexListType) complexListSubType.getConstructor(String.class).newInstance(elementName);
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e2) {
-                throw new SEDALibException("La création d'une métadonnée de type [" + complexListSubType + "] n'est pas possible", e2);
+                throw new SEDALibException(
+                    "La création d'une métadonnée de type [" + complexListSubType + "] n'est pas possible",
+                    e2
+                );
             } catch (InvocationTargetException te) {
-                throw new SEDALibException("La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur", te.getTargetException());
+                throw new SEDALibException(
+                    "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
+                    te.getTargetException()
+                );
             }
         } catch (InvocationTargetException te) {
-            throw new SEDALibException("La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur", te.getTargetException());
+            throw new SEDALibException(
+                "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
+                te.getTargetException()
+            );
         }
         result.elementName = elementName;
         for (String metadataName : result.getMetadataMap().keySet()) {
             if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
                 ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
-                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
+                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
+                    complexListMetadataKind.getMetadataClass().getSimpleName(),
+                    metadataName,
+                    minimal
+                );
                 try {
                     result.addMetadata(metadataObject);
                 } catch (SEDALibException ignored) {
                     // no real case
                 }
                 if ((complexListMetadataKind.isMany()) && !minimal) {
-                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
+                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
+                        complexListMetadataKind.getMetadataClass().getSimpleName(),
+                        metadataName,
+                        minimal
+                    );
                     try {
                         result.addMetadata(metadataObject);
                     } catch (SEDALibException ignored) {
@@ -119,12 +148,14 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 }
             }
         }
-        if (!result.isNotExpandable() && !minimal)
-            try {
-                result.addNewMetadata("AnyXMLType", "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>");
-            } catch (SEDALibException ignored) {
-                // no real case
-            }
+        if (!result.isNotExpandable() && !minimal) try {
+            result.addNewMetadata(
+                "AnyXMLType",
+                "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>"
+            );
+        } catch (SEDALibException ignored) {
+            // no real case
+        }
         return result;
     }
 
@@ -137,7 +168,6 @@ public class ComplexListTypeEditor extends CompositeEditor {
         }
         return getComplexListTypeMetadata();
     }
-
 
     // Cut length for SEDAMetadata summary generation before expansion
     private static final int SUMMARY_CUT = 160;
@@ -155,25 +185,21 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 if (length > SUMMARY_CUT) break;
             }
             result = String.join(", ", summaryList) + (length > SUMMARY_CUT ? "..." : "");
-            if (depth > 0)
-                result = "{" + result + "}";
+            if (depth > 0) result = "{" + result + "}";
         } else if ((sm instanceof NamedTypeMetadata)) {
             result = ((NamedTypeMetadata) sm).getValue().toString();
-        } else
-            result = "?";
+        } else result = "?";
         return result;
     }
 
     @Override
     public String getSummary() throws SEDALibException {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        if (hasSubeditorsCreatedWhenExpandedFlag())
-            return getSEDAMetadataSummary((SEDAMetadata) editedObject, 0, 0);
+        if (hasSubeditorsCreatedWhenExpandedFlag()) return getSEDAMetadataSummary((SEDAMetadata) editedObject, 0, 0);
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             String summary = objectEditor.getSummary().trim();
             if (!summary.isEmpty() && !summary.equals("{}")) {
-                if (objectEditor instanceof ComplexListTypeEditor)
-                    summary = "{" + summary + "}";
+                if (objectEditor instanceof ComplexListTypeEditor) summary = "{" + summary + "}";
                 summaryList.add(summary);
             }
         }
@@ -202,12 +228,16 @@ public class ComplexListTypeEditor extends CompositeEditor {
             used.add(soe.getTag());
         }
         for (String metadataName : getComplexListTypeMetadata().getMetadataMap().keySet()) {
-            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
-                result.add(Pair.of(metadataName, translateTag(metadataName)));
+            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
+                .getMetadataMap()
+                .get(metadataName);
+            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName))) result.add(
+                Pair.of(metadataName, translateTag(metadataName))
+            );
         }
-        if (!getComplexListTypeMetadata().isNotExpandable())
-            result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
+        if (!getComplexListTypeMetadata().isNotExpandable()) result.add(
+            Pair.of("AnyXMLType", translateTag("AnyXMLType"))
+        );
 
         result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
         return result;
@@ -220,14 +250,16 @@ public class ComplexListTypeEditor extends CompositeEditor {
         boolean manyFlag;
         addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
         i = 0;
-        if (addOrderIndex == -1)
-            return Integer.MAX_VALUE;
+        if (addOrderIndex == -1) return Integer.MAX_VALUE;
         else {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
                 curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
-                if ((!manyFlag) && (curOrderIndex == addOrderIndex) ||
-                        (curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) {
+                if (
+                    ((!manyFlag) && (curOrderIndex == addOrderIndex)) ||
+                    (curOrderIndex == -1) ||
+                    (curOrderIndex > addOrderIndex)
+                ) {
                     break;
                 }
                 i++;
@@ -239,30 +271,34 @@ public class ComplexListTypeEditor extends CompositeEditor {
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
-        if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType"))
-            sedaMetadata = createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
+        if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
+            createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
         else {
-            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
-            if (complexListMetadataKind == null)
-                throw new SEDALibException("La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]");
-            sedaMetadata = createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, true);
+            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
+                .getMetadataMap()
+                .get(metadataName);
+            if (complexListMetadataKind == null) throw new SEDALibException(
+                "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
+            );
+            sedaMetadata = createSEDAMetadataSample(
+                complexListMetadataKind.getMetadataClass().getSimpleName(),
+                metadataName,
+                true
+            );
         }
 
         if (sedaMetadata != null) {
             int insertionSEDAObjectEditorIndex = getInsertionSEDAObjectEditorIndex(metadataName);
             SEDAObjectEditor addedSEDAObjectEditor = createSEDAObjectEditor(sedaMetadata, this);
-            if (insertionSEDAObjectEditorIndex == Integer.MAX_VALUE)
-                objectEditorList.add(addedSEDAObjectEditor);
-            else
-                objectEditorList.add(insertionSEDAObjectEditorIndex, addedSEDAObjectEditor);
+            if (insertionSEDAObjectEditorIndex == Integer.MAX_VALUE) objectEditorList.add(addedSEDAObjectEditor);
+            else objectEditorList.add(insertionSEDAObjectEditorIndex, addedSEDAObjectEditor);
             ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
         }
     }
 
     @Override
     public boolean canContainsMultiple(String metadataName) throws SEDALibException {
-        if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null)
-            return true;
+        if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null) return true;
         return getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
     }
 
@@ -271,8 +307,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
      */
     @Override
     public boolean hasSubeditorsCreatedWhenExpandedFlag() {
-        if (((SEDAMetadata) getEditedObject()).getXmlElementName().contains("Document"))
-            return noSubEditors;
+        if (((SEDAMetadata) getEditedObject()).getXmlElementName().contains("Document")) return noSubEditors;
         return false;
     }
 
@@ -285,15 +320,17 @@ public class ComplexListTypeEditor extends CompositeEditor {
             for (SEDAMetadata detail : getComplexListTypeMetadata().getMetadataList()) {
                 SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
                 objectEditorList.add(objectEditor);
-                if (objectEditor instanceof CompositeEditor)
-                    ((CompositeEditor) objectEditor).doExpand(false, false);
+                if (objectEditor instanceof CompositeEditor) ((CompositeEditor) objectEditor).doExpand(false, false);
             }
             ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
         } catch (SEDALibException e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                    "Erreur fatale durant la création d'éditeur à la volée des structures\n" +
-                            " -> " + e.getMessage(), "Erreur",
-                    UserInteractionDialog.ERROR_DIALOG, null);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "Erreur fatale durant la création d'éditeur à la volée des structures\n" + " -> " + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
         }
         noSubEditors = false;
     }

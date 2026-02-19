@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -35,9 +45,8 @@ import fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg.PstEmb
 import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-import org.apache.poi.util.IOUtils;
-
 import jakarta.mail.URLName;
+import org.apache.poi.util.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +66,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -174,11 +182,11 @@ public abstract class StoreExtractor {
      * The formatter used for zoned date conversion to String
      */
     public static final DateTimeFormatter ISO_8601 = new DateTimeFormatterBuilder()
-            .append(ISO_LOCAL_DATE_TIME)
-            .optionalStart()
-            .appendOffsetId()
-            .optionalStart()
-            .toFormatter();
+        .append(ISO_LOCAL_DATE_TIME)
+        .optionalStart()
+        .appendOffsetId()
+        .optionalStart()
+        .toFormatter();
 
     /**
      * The map of mimetypes/scheme known relations.
@@ -217,14 +225,14 @@ public abstract class StoreExtractor {
      *    - PstStoreExtractor
      *    - PstEmbeddedStoreExtractor
      *
-     * 3. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction 
-     *    failures when handling large attachments in TNEF files. This change overrides 
+     * 3. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction
+     *    failures when handling large attachments in TNEF files. This change overrides
      *    the default 1 MB limit with a maximum value of 2 GB.
      *
      * 4. Configures Jakarta Mail properties to handle malformed MIME messages:
      *    - Enables fallback for unknown content-transfer-encoding values, which allows
      *      the parsing of messages with invalid encoding values (e.g., "iso-8859-1").
-     *    - Disables strict decoding of MIME-encoded headers, allowing the library 
+     *    - Disables strict decoding of MIME-encoded headers, allowing the library
      *      to tolerate malformed headers and return raw, undecoded text instead of throwing exceptions.
      *    - Enables lenient Base64 decoding to tolerate malformed or corrupted Base64 encoded data,
      *      avoiding exceptions during data extraction.
@@ -232,7 +240,6 @@ public abstract class StoreExtractor {
      * 4. Sets the default time zone for the application to UTC.
      */
     public static void initDefaultExtractors(boolean allowsExternalToolsForTextExtraction) {
-
         if (!allowsExternalToolsForTextExtraction) {
             preventExternalToolsForTextExtractionInTika();
         }
@@ -404,8 +411,12 @@ public abstract class StoreExtractor {
     /**
      * The accumulated elements classes
      */
-    static Class[] accumulatedElements = {StoreFolder.class, StoreMessage.class,
-            StoreAppointment.class, StoreContact.class};
+    static Class[] accumulatedElements = {
+        StoreFolder.class,
+        StoreMessage.class,
+        StoreAppointment.class,
+        StoreContact.class,
+    };
 
     /**
      * The extracted elements counters map.
@@ -432,8 +443,7 @@ public abstract class StoreExtractor {
      * Useful only for testing purposes.
      */
     private static final double THREAD_MULTIPLIER = Double.parseDouble(System.getProperty("thread.factor", "1.5"));
-    private int maxParallelThreads = (int) Math.round(
-            Runtime.getRuntime().availableProcessors() * THREAD_MULTIPLIER);
+    private int maxParallelThreads = (int) Math.round(Runtime.getRuntime().availableProcessors() * THREAD_MULTIPLIER);
 
     /**
      * Add mimetypes, scheme, isContainer, store extractor known relation.
@@ -450,12 +460,16 @@ public abstract class StoreExtractor {
      * @param extractor   the extractor
      */
     @SuppressWarnings("rawtypes")
-    public static void addExtractionRelation(String mimeType, String droidFormat, String scheme, boolean isContainer, Class extractor) {
+    public static void addExtractionRelation(
+        String mimeType,
+        String droidFormat,
+        String scheme,
+        boolean isContainer,
+        Class extractor
+    ) {
         // if there is a file mimetype for this scheme
-        if (mimeType != null)
-            mimeTypeSchemeMap.put(mimeType, scheme);
-        if (droidFormat != null)
-            droidFormatSchemeMap.put(droidFormat, scheme);
+        if (mimeType != null) mimeTypeSchemeMap.put(mimeType, scheme);
+        if (droidFormat != null) droidFormatSchemeMap.put(droidFormat, scheme);
         schemeStoreExtractorClassMap.put(scheme, extractor);
         schemeContainerMap.put(scheme, isContainer);
     }
@@ -487,16 +501,12 @@ public abstract class StoreExtractor {
             result = scheme + "://";
             if (user != null && !user.isEmpty()) {
                 result += URLEncoder.encode(user, "UTF-8");
-                if (password != null && !password.isEmpty())
-                    result += ":" + URLEncoder.encode(password, "UTF-8");
+                if (password != null && !password.isEmpty()) result += ":" + URLEncoder.encode(password, "UTF-8");
                 result += "@";
             }
-            if (authority != null && !authority.isEmpty())
-                result += authority;
-            else
-                result += "localhost";
-            if (path != null && !path.isEmpty())
-                result += "/" + URLEncoder.encode(path, "UTF-8");
+            if (authority != null && !authority.isEmpty()) result += authority;
+            else result += "localhost";
+            if (path != null && !path.isEmpty()) result += "/" + URLEncoder.encode(path, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             // impossible case with UTF-8
         }
@@ -512,24 +522,33 @@ public abstract class StoreExtractor {
      * @return the initialized global list ps
      */
     @SuppressWarnings("unchecked")
-    synchronized public PrintStream getGlobalListPS(Class listClass) {
+    public synchronized PrintStream getGlobalListPS(Class listClass) {
         String globalListName = null;
         PrintStream result = null;
         try {
             globalListName = (String) listClass.getMethod("getElementName").invoke(null);
             result = globalListsPSMap.get(globalListName);
             if (result == null) {
-                String dirname = this.destRootPath
-                        + File.separator + this.destName + File.separator;
+                String dirname = this.destRootPath + File.separator + this.destName + File.separator;
                 Files.createDirectories(Paths.get(dirname));
                 result = new PrintStream(dirname + listClass.getMethod("getElementName").invoke(null) + ".csv");
                 globalListsPSMap.put(globalListName, result);
                 listClass.getMethod("printGlobalListCSVHeader", PrintStream.class).invoke(null, result);
             }
         } catch (IOException | NoSuchMethodException | IllegalAccessException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", e);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create global list for [" + globalListName + "] csv file",
+                e
+            );
         } catch (InvocationTargetException te) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", te.getTargetException());
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create global list for [" + globalListName + "] csv file",
+                te.getTargetException()
+            );
         }
         return result;
     }
@@ -545,7 +564,7 @@ public abstract class StoreExtractor {
      * @return the initialized global list counter
      */
     @SuppressWarnings("unchecked")
-    synchronized public int getElementCounter(Class listClass, boolean subFlag) {
+    public synchronized int getElementCounter(Class listClass, boolean subFlag) {
         String elementName = null;
         Integer result = 0;
         try {
@@ -556,13 +575,30 @@ public abstract class StoreExtractor {
                 result = 0;
             }
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", e);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create counter for " +
+                (subFlag ? "sub " : "") +
+                "[" +
+                elementName +
+                "] csv file",
+                e
+            );
         } catch (InvocationTargetException te) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", te.getTargetException());
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create counter for " +
+                (subFlag ? "sub " : "") +
+                "[" +
+                elementName +
+                "] csv file",
+                te.getTargetException()
+            );
         }
         return result;
     }
-
 
     /**
      * Adds a value to the counter for a specific type of extracted element (e.g., message, folder, appointment, contact...) and returns the updated counter.
@@ -576,25 +612,40 @@ public abstract class StoreExtractor {
      * @return the updated counter value
      */
     @SuppressWarnings("unchecked")
-    synchronized public int addElementCounter(int value, Class listClass, boolean subFlag) {
+    public synchronized int addElementCounter(int value, Class listClass, boolean subFlag) {
         String elementName = null;
         Integer result = 0;
         try {
             elementName = (String) listClass.getMethod("getElementName").invoke(null);
             result = (subFlag ? subElementsCounterMap : elementsCounterMap).get(elementName);
-            if (result == null)
-                result = value;
-            else
-                result += value;
+            if (result == null) result = value;
+            else result += value;
             (subFlag ? subElementsCounterMap : elementsCounterMap).put(elementName, result);
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", e);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create counter for " +
+                (subFlag ? "sub " : "") +
+                "[" +
+                elementName +
+                "] csv file",
+                e
+            );
         } catch (InvocationTargetException te) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", te.getTargetException());
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextractlib: can't create counter for " +
+                (subFlag ? "sub " : "") +
+                "[" +
+                elementName +
+                "] csv file",
+                te.getTargetException()
+            );
         }
         return result;
     }
-
 
     /**
      * Increment the counter for a certain type of extracted element (message, folder, appointment, contact...), and return the counter if it exists.
@@ -614,12 +665,10 @@ public abstract class StoreExtractor {
      *
      * @param subExtractor the sub extractor
      */
-    synchronized public void accumulateSubElements(StoreExtractor subExtractor) {
+    public synchronized void accumulateSubElements(StoreExtractor subExtractor) {
         for (Class c : accumulatedElements) {
-            int value = subExtractor.getElementCounter(c, false) +
-                    subExtractor.getElementCounter(c, true);
-            if (value > 0)
-                addElementCounter(value, c, true);
+            int value = subExtractor.getElementCounter(c, false) + subExtractor.getElementCounter(c, true);
+            if (value > 0) addElementCounter(value, c, true);
         }
     }
 
@@ -644,9 +693,15 @@ public abstract class StoreExtractor {
      * @param logger               logger used
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
      */
-    protected StoreExtractor(String urlString, String rootStoreFolderName, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor fatherStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
-
+    protected StoreExtractor(
+        String urlString,
+        String rootStoreFolderName,
+        String destPathString,
+        StoreExtractorOptions options,
+        StoreExtractor fatherStoreExtractor,
+        StoreElement fatherElement,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException {
         URLName url;
         url = new URLName(urlString);
 
@@ -658,12 +713,9 @@ public abstract class StoreExtractor {
         String tempPassword = null;
         String tempPath = null;
         try {
-            if (url.getUsername() != null)
-                tempUser = URLDecoder.decode(url.getUsername(), "UTF-8");
-            if (url.getPassword() != null)
-                tempPassword = URLDecoder.decode(url.getPassword(), "UTF-8");
-            if (url.getFile() != null)
-                tempPath = URLDecoder.decode(url.getFile(), "UTF-8");
+            if (url.getUsername() != null) tempUser = URLDecoder.decode(url.getUsername(), "UTF-8");
+            if (url.getPassword() != null) tempPassword = URLDecoder.decode(url.getPassword(), "UTF-8");
+            if (url.getFile() != null) tempPath = URLDecoder.decode(url.getFile(), "UTF-8");
         } catch (UnsupportedEncodingException ignored) {
             // not possible
         }
@@ -674,19 +726,15 @@ public abstract class StoreExtractor {
         this.rootStoreFolderName = rootStoreFolderName;
         this.destRootPath = Paths.get(destPathString).toAbsolutePath().normalize().getParent().toString();
         this.destName = Paths.get(destPathString).toAbsolutePath().normalize().getFileName().toString();
-        if (options == null)
-            this.options = new StoreExtractorOptions();
-        else
-            this.options = options;
+        if (options == null) this.options = new StoreExtractorOptions();
+        else this.options = options;
 
         this.totalRawSize = new AtomicLong(0);
 
         this.fatherStoreExtractor = fatherStoreExtractor;
         this.fatherElement = fatherElement;
-        if (fatherStoreExtractor == null)
-            this.rootStoreExtractor = this;
-        else
-            this.rootStoreExtractor = fatherStoreExtractor.rootStoreExtractor;
+        if (fatherStoreExtractor == null) this.rootStoreExtractor = this;
+        else this.rootStoreExtractor = fatherStoreExtractor.rootStoreExtractor;
         this.logger = logger;
 
         this.description = ":p:" + scheme + ":u:" + user;
@@ -697,8 +745,20 @@ public abstract class StoreExtractor {
 
         uniqID = new AtomicInteger(0);
 
-        doProgressLogIfDebug(logger, "StoreExtractor [" + this + "] created with url=" + urlString +
-                " rootFolder=" + rootStoreFolderName + " destPath=" + destPathString + " rootExtractor=" + fatherStoreExtractor, null);
+        doProgressLogIfDebug(
+            logger,
+            "StoreExtractor [" +
+            this +
+            "] created with url=" +
+            urlString +
+            " rootFolder=" +
+            rootStoreFolderName +
+            " destPath=" +
+            destPathString +
+            " rootExtractor=" +
+            fatherStoreExtractor,
+            null
+        );
     }
 
     /**
@@ -707,19 +767,35 @@ public abstract class StoreExtractor {
      * @throws InterruptedException the interrupted exception
      */
     public void writeTargetLog() throws InterruptedException {
-
         // if root extractor log extraction context
         if (fatherStoreExtractor == null) {
-            doProgressLog(logger, MailExtractProgressLogger.GLOBAL,
-                    "mailextract :target store with scheme=" + scheme + (host == null || host.isEmpty() ? "" : "  server=" + host)
-                            + (port == -1 ? "" : ":" + Integer.toString(port))
-                            + (user == null || user.isEmpty() ? "" : " user=" + user)
-                            + (password == null || password.isEmpty() ? "" : " password=" + password)
-                            + (path == null || path.isEmpty() ? "" : " path=" + path)
-                            + (rootStoreFolderName == null || rootStoreFolderName.isEmpty() ? "" : " store folder=" + rootStoreFolderName), null);
-            doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "to " + destRootPath + " in " + destName + " directory", null);
-            if ((logger != null) && logger.getDebugFlag())
-                doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "DEBUG MODE", null);
+            doProgressLog(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "mailextract :target store with scheme=" +
+                scheme +
+                (host == null || host.isEmpty() ? "" : "  server=" + host) +
+                (port == -1 ? "" : ":" + Integer.toString(port)) +
+                (user == null || user.isEmpty() ? "" : " user=" + user) +
+                (password == null || password.isEmpty() ? "" : " password=" + password) +
+                (path == null || path.isEmpty() ? "" : " path=" + path) +
+                (rootStoreFolderName == null || rootStoreFolderName.isEmpty()
+                        ? ""
+                        : " store folder=" + rootStoreFolderName),
+                null
+            );
+            doProgressLog(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "to " + destRootPath + " in " + destName + " directory",
+                null
+            );
+            if ((logger != null) && logger.getDebugFlag()) doProgressLog(
+                logger,
+                MailExtractProgressLogger.GLOBAL,
+                "DEBUG MODE",
+                null
+            );
 
             boolean first = true;
             String optionsLog = "";
@@ -728,19 +804,16 @@ public abstract class StoreExtractor {
                 first = false;
             }
             if (options.dropEmptyFolders) {
-                if (!first)
-                    optionsLog += ", ";
+                if (!first) optionsLog += ", ";
                 optionsLog += "droping all empty folders";
                 first = false;
             }
             if (options.warningMsgProblem) {
-                if (!first)
-                    optionsLog += ", ";
+                if (!first) optionsLog += ", ";
                 optionsLog += "generate warning when there's a problem on a message (otherwise log at FINEST level)";
                 first = false;
             }
-            if (!first)
-                optionsLog += ", ";
+            if (!first) optionsLog += ", ";
             optionsLog += "with names length=" + Integer.toString(options.namesLength);
             optionsLog += ", ";
             optionsLog += "with log level " + getProgressLogger().getLevelName();
@@ -783,12 +856,10 @@ public abstract class StoreExtractor {
      * @return a unique ID
      */
 
-    synchronized public int getNewUniqID() {
+    public synchronized int getNewUniqID() {
         int id;
-        if (fatherStoreExtractor == null)
-            id = uniqID.addAndGet(1);
-        else
-            id = rootStoreExtractor.getNewUniqID();
+        if (fatherStoreExtractor == null) id = uniqID.addAndGet(1);
+        else id = rootStoreExtractor.getNewUniqID();
         return id;
     }
 
@@ -880,11 +951,23 @@ public abstract class StoreExtractor {
      * @return the store extractor, constructed as a non abstract subclass
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
      */
-    public static StoreExtractor createStoreExtractor(String urlString, String rootStoreFolderName, String destPathString,
-                                                      StoreExtractorOptions options, MailExtractProgressLogger logger) throws MailExtractLibException {
+    public static StoreExtractor createStoreExtractor(
+        String urlString,
+        String rootStoreFolderName,
+        String destPathString,
+        StoreExtractorOptions options,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException {
         StoreExtractor storeExtractor;
 
-        storeExtractor = createInternalStoreExtractor(urlString, rootStoreFolderName, destPathString, options, null, logger);
+        storeExtractor = createInternalStoreExtractor(
+            urlString,
+            rootStoreFolderName,
+            destPathString,
+            options,
+            null,
+            logger
+        );
 
         return storeExtractor;
     }
@@ -892,20 +975,26 @@ public abstract class StoreExtractor {
     /**
      * Create an internal depth store extractor as a factory creator.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private static StoreExtractor createInternalStoreExtractor(String urlString, String rootStoreFolderName,
-                                                               String destPathString, StoreExtractorOptions options, StoreExtractor
-                                                                       rootStoreExtractor, MailExtractProgressLogger logger
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private static StoreExtractor createInternalStoreExtractor(
+        String urlString,
+        String rootStoreFolderName,
+        String destPathString,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        MailExtractProgressLogger logger
     ) throws MailExtractLibException {
-
         StoreExtractor store;
         URLName url;
 
         url = new URLName(urlString);
 
         // get read of leading file separator in folder
-        if ((rootStoreFolderName != null) && (!rootStoreFolderName.isEmpty()) && (rootStoreFolderName.substring(0, 1).equals(File.separator)))
-            rootStoreFolderName = rootStoreFolderName.substring(1);
+        if (
+            (rootStoreFolderName != null) &&
+            (!rootStoreFolderName.isEmpty()) &&
+            (rootStoreFolderName.substring(0, 1).equals(File.separator))
+        ) rootStoreFolderName = rootStoreFolderName.substring(1);
 
         // find the store extractor constructor for scheme in URL
         Class storeExtractorClass = StoreExtractor.schemeStoreExtractorClassMap.get(url.getProtocol());
@@ -913,11 +1002,23 @@ public abstract class StoreExtractor {
             throw new MailExtractLibException("mailextractlib: unknown store type=" + url.getProtocol(), null);
         } else {
             try {
-                store = (StoreExtractor) storeExtractorClass.getConstructor(String.class, String.class, String.class,
-                                StoreExtractorOptions.class, StoreExtractor.class, MailExtractProgressLogger.class)
-                        .newInstance(urlString, rootStoreFolderName, destPathString, options, rootStoreExtractor, logger);
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                     | SecurityException e) {
+                store = (StoreExtractor) storeExtractorClass
+                    .getConstructor(
+                        String.class,
+                        String.class,
+                        String.class,
+                        StoreExtractorOptions.class,
+                        StoreExtractor.class,
+                        MailExtractProgressLogger.class
+                    )
+                    .newInstance(urlString, rootStoreFolderName, destPathString, options, rootStoreExtractor, logger);
+            } catch (
+                InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | NoSuchMethodException
+                | SecurityException e
+            ) {
                 throw new MailExtractLibException("mailextractlib: dysfonctional store type=" + url.getProtocol(), e);
             } catch (InvocationTargetException e) {
                 Throwable te = e.getCause();
@@ -928,9 +1029,8 @@ public abstract class StoreExtractor {
     }
 
     private static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -952,15 +1052,12 @@ public abstract class StoreExtractor {
             }
             Integer count = elementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
-                if (!elementSummary.isEmpty())
-                    elementSummary += ",";
+                if (!elementSummary.isEmpty()) elementSummary += ",";
                 elementSummary += " " + count + " " + elementName;
             }
         }
-        if (elementSummary.isEmpty())
-            summary += " empty extraction";
-        else
-            summary += " writing" + elementSummary;
+        if (elementSummary.isEmpty()) summary += " empty extraction";
+        else summary += " writing" + elementSummary;
         String subElementSummary = "";
         for (Class elementClass : accumulatedElements) {
             String elementName = null;
@@ -971,15 +1068,12 @@ public abstract class StoreExtractor {
             }
             Integer count = subElementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
-                if (!subElementSummary.isEmpty())
-                    subElementSummary += ",";
+                if (!subElementSummary.isEmpty()) subElementSummary += ",";
                 subElementSummary += " " + count + " " + elementName;
             }
         }
-        if (subElementSummary.isEmpty())
-            summary += " without embedded elements";
-        else
-            summary += " with" + subElementSummary + " embedded";
+        if (subElementSummary.isEmpty()) summary += " without embedded elements";
+        else summary += " with" + subElementSummary + " embedded";
         summary += " for a total size of " + readableFileSize(getTotalRawSize());
         return summary;
     }
@@ -1010,19 +1104,23 @@ public abstract class StoreExtractor {
         rootNode.addMetadata("DescriptionLevel", "RecordGrp", true);
 
         // title generation from context
-        if ((user != null) && (!user.isEmpty()))
-            title = "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) envoyés et reçus par le compte " + user;
-        else if ((path != null) && (!path.isEmpty()))
-            title = "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) du container " + path;
-        else
-            title = "Ensemble de messages électroniques et informations associées (contacts, rendez-vous...)";
-        if ((host != null) && (!host.isEmpty()) && (!host.equals("localhost")))
-            title += " sur le serveur " + host + (port == -1 ? "" : ":" + Integer.toString(port));
+        if ((user != null) && (!user.isEmpty())) title =
+            "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) envoyés et reçus par le compte " +
+            user;
+        else if ((path != null) && (!path.isEmpty())) title =
+            "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) du container " +
+            path;
+        else title = "Ensemble de messages électroniques et informations associées (contacts, rendez-vous...)";
+        if ((host != null) && (!host.isEmpty()) && (!host.equals("localhost"))) title +=
+        " sur le serveur " + host + (port == -1 ? "" : ":" + Integer.toString(port));
         title += " à la date du " + start;
         rootNode.addMetadata("Title", title, true);
         if (rootStoreFolder.getDateRange().isDefined()) {
-            rootNode.addMetadata("StartDate", DateRange.getISODateString(rootStoreFolder.getDateRange().getStart()),
-                    true);
+            rootNode.addMetadata(
+                "StartDate",
+                DateRange.getISODateString(rootStoreFolder.getDateRange().getStart()),
+                true
+            );
             rootNode.addMetadata("EndDate", DateRange.getISODateString(rootStoreFolder.getDateRange().getEnd()), true);
         }
         rootNode.write();
@@ -1053,7 +1151,7 @@ public abstract class StoreExtractor {
 
         start = Instant.now();
 
-        int memProgressLogLevel=logger.getProgressLogLevel();
+        int memProgressLogLevel = logger.getProgressLogLevel();
         logger.setProgressLogLevel(GLOBAL);
         writeTargetLog();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: listing begin", null);
@@ -1096,11 +1194,9 @@ public abstract class StoreExtractor {
      * @return true, if successful
      */
     public static boolean hasMagicNumber(byte[] content, byte[] magicNumber, int offset) {
-        if (content.length < magicNumber.length + offset)
-            return false;
+        if (content.length < magicNumber.length + offset) return false;
         for (int i = 0; i < magicNumber.length; i++) {
-            if (content[i + offset] != magicNumber[i])
-                return false;
+            if (content[i + offset] != magicNumber[i]) return false;
         }
         return true;
     }
@@ -1158,5 +1254,4 @@ public abstract class StoreExtractor {
     public StoreExtractor getRootStoreExtractor() {
         return rootStoreExtractor;
     }
-
 }

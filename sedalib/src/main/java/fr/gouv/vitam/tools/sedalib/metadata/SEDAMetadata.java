@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
@@ -57,7 +67,8 @@ import java.util.LinkedHashMap;
 //used for only json saved SEDAMetadata
 //FileInfo
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
+@JsonSubTypes(
+    {
         // SubTypes for BinaryDataObject
         @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
         @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
@@ -78,7 +89,9 @@ import java.util.LinkedHashMap;
         @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
         @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
-        @JsonSubTypes.Type(value = Event.class, name = "Event")})
+        @JsonSubTypes.Type(value = Event.class, name = "Event"),
+    }
+)
 public abstract class SEDAMetadata {
 
     /**
@@ -97,7 +110,7 @@ public abstract class SEDAMetadata {
      * @return the linked hash map with header title as key and metadata value as value
      * @throws SEDALibException if the XML can't be written
      */
-    public abstract LinkedHashMap<String,String> toCsvList() throws SEDALibException;
+    public abstract LinkedHashMap<String, String> toCsvList() throws SEDALibException;
 
     /**
      * Return the indented XML export form as the String representation.
@@ -106,16 +119,16 @@ public abstract class SEDAMetadata {
      */
     public String toString() {
         String result = null;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+        try (
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)
+        ) {
             toSedaXml(xmlWriter);
             xmlWriter.flush();
             result = baos.toString("UTF-8");
-            if (result.startsWith("\n"))
-                result = result.substring(1);
+            if (result.startsWith("\n")) result = result.substring(1);
         } catch (XMLStreamException | IOException | SEDALibException e) {
-            if (result == null)
-                result = super.toString();
+            if (result == null) result = super.toString();
         }
         return result;
     }
@@ -128,7 +141,6 @@ public abstract class SEDAMetadata {
      * @throws SEDALibException the seda lib exception
      */
     public abstract boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException;
-
 
     /**
      * Return the SEDAMetadata object from an XML event reader.
@@ -144,20 +156,26 @@ public abstract class SEDAMetadata {
             SEDAMetadata sm;
             if (needName) {
                 XMLEvent event = xmlReader.peekUsefullEvent();
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, event.asStartElement().getName().getLocalPart());
-            } else
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[])null);
-            if (sm.fillFromSedaXml(xmlReader))
-                return sm;
+                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(
+                    target,
+                    event.asStartElement().getName().getLocalPart()
+                );
+            } else sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[]) null);
+            if (sm.fillFromSedaXml(xmlReader)) return sm;
             Method method = target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
             return (SEDAMetadata) method.invoke(null, xmlReader);
-        } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                | SecurityException | InstantiationException e) {
+        } catch (
+            IllegalAccessException
+            | IllegalArgumentException
+            | NoSuchMethodException
+            | SecurityException
+            | InstantiationException e
+        ) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), e);
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), te.getTargetException());
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type "+target.getSimpleName(), e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type " + target.getSimpleName(), e);
         }
     }
 
@@ -172,14 +190,15 @@ public abstract class SEDAMetadata {
     public static SEDAMetadata fromString(String xmlData, Class<?> target) throws SEDALibException {
         SEDAMetadata result;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
             result = fromSedaXml(xmlReader, target);
             XMLEvent event = xmlReader.xmlReader.peek();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Il y a des champs illégaux");
+            if (!event.isEndDocument()) throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture de " + target.getSimpleName(), e);
         }

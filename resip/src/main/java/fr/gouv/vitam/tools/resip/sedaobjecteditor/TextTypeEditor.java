@@ -1,36 +1,46 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.AutomaticGrowingTextArea;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -61,7 +71,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
     /**
      * The graphic elements
      */
-    private JLabel beforeLabel,innerLabel;
+    private JLabel beforeLabel, innerLabel;
     private JButton langButton;
     private GridBagLayout labelGBL;
     private int algorithmWidth;
@@ -75,8 +85,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
      */
     public TextTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof TextType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof TextType)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private TextType getTextTypeMetadata() {
@@ -91,19 +100,15 @@ public class TextTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new TextType(elementName, "");
-        else
-            return new TextType(elementName, "Text");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new TextType(elementName, "");
+        else return new TextType(elementName, "Text");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField!=null)
-            getTextTypeMetadata().setValue(valueTextField.getText());
-        else
-            getTextTypeMetadata().setValue(valueTextArea.getText());
+        if (valueTextField != null) getTextTypeMetadata().setValue(valueTextField.getText());
+        else getTextTypeMetadata().setValue(valueTextArea.getText());
         String attr = attributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getTextTypeMetadata().setLang(attr);
@@ -113,14 +118,13 @@ public class TextTypeEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         String tmp;
-        String result="";
-        if (valueTextField!=null)
-            tmp= valueTextField.getText();
-        else
-            tmp= valueTextArea.getText();
-        if ((attributeTextField.getText()!=null) && !attributeTextField.getText().isEmpty())
-            result="("+ attributeTextField.getText()+")";
-        return result+tmp;
+        String result = "";
+        if (valueTextField != null) tmp = valueTextField.getText();
+        else tmp = valueTextArea.getText();
+        if ((attributeTextField.getText() != null) && !attributeTextField.getText().isEmpty()) result = "(" +
+        attributeTextField.getText() +
+        ")";
+        return result + tmp;
     }
 
     @Override
@@ -129,12 +133,12 @@ public class TextTypeEditor extends SEDAObjectEditor {
         GridBagLayout gbl;
 
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        algorithmWidth=(int) SEDAObjectEditor.LABEL_FONT.getStringBounds("ww",frc).getWidth();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        algorithmWidth = (int) SEDAObjectEditor.LABEL_FONT.getStringBounds("ww", frc).getWidth();
 
-        labelGBL= new GridBagLayout();
-        labelGBL.columnWidths = new int[]{0, 0, 0};
-        labelGBL.columnWeights = new double[]{1.0, 0.0, 0.0};
+        labelGBL = new GridBagLayout();
+        labelGBL.columnWidths = new int[] { 0, 0, 0 };
+        labelGBL.columnWeights = new double[] { 1.0, 0.0, 0.0 };
         labelPanel.setLayout(labelGBL);
 
         beforeLabel = new JLabel(getName() + (getTextTypeMetadata().getLang() == null ? "" : "("));
@@ -172,12 +176,11 @@ public class TextTypeEditor extends SEDAObjectEditor {
         if (getTextTypeMetadata().getLang() == null) {
             langButton.setVisible(true);
             attributeTextField.setVisible(false);
-            labelGBL.columnWidths = new int[]{0, 0, 0};
-        }
-        else{
+            labelGBL.columnWidths = new int[] { 0, 0, 0 };
+        } else {
             langButton.setVisible(false);
             attributeTextField.setVisible(true);
-            labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+            labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
         }
 
         innerLabel = new JLabel((getTextTypeMetadata().getLang() == null ? ":" : ") :"));
@@ -190,13 +193,13 @@ public class TextTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(innerLabel, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0,0.0};
-        gbl.rowWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
-        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())){
+        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())) {
             valueTextArea = new AutomaticGrowingTextArea(6);
             valueTextArea.setText(getTextTypeMetadata().getValue());
             valueTextArea.setCaretPosition(0);
@@ -209,7 +212,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 0;
             gbc.gridy = 0;
             editPanel.add(valueTextArea.getScrollPane(), gbc);
-            JButton editButton=new JButton();
+            JButton editButton = new JButton();
             editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
             editButton.setToolTipText("Ouvrir pour édition...");
             editButton.setText("");
@@ -226,8 +229,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 1;
             gbc.gridy = 0;
             editPanel.add(editButton, gbc);
-        }
-        else {
+        } else {
             valueTextField = new JTextField();
             valueTextField.setText(getTextTypeMetadata().getValue());
             valueTextField.setCaretPosition(0);
@@ -240,24 +242,25 @@ public class TextTypeEditor extends SEDAObjectEditor {
             editPanel.add(valueTextField, gbc);
         }
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 
-    private void langActivate()
-    {
+    private void langActivate() {
         langButton.setVisible(false);
         attributeTextField.setVisible(true);
-        labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+        labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
         beforeLabel.setText(getName() + " (");
         innerLabel.setText(") :");
         attributeTextField.grabFocus();
     }
 
-    private void editButton()
-    {
-        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText(), getName());
+    private void editButton() {
+        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(
+            ResipGraphicApp.getTheWindow(),
+            valueTextArea.getText(),
+            getName()
+        );
         bigTextEditDialog.setVisible(true);
-        if (bigTextEditDialog.getReturnValue())
-            valueTextArea.setText(bigTextEditDialog.getResult());
+        if (bigTextEditDialog.getReturnValue()) valueTextArea.setText(bigTextEditDialog.getResult());
     }
 }

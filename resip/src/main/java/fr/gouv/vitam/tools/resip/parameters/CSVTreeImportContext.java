@@ -1,5 +1,42 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -12,8 +49,8 @@ public class CSVTreeImportContext extends CSVImportContext {
      * Instantiates a new csv tree import context.
      */
     public CSVTreeImportContext() {
-		this(null, ';', null, null);
-	}
+        this(null, ';', null, null);
+    }
 
     /**
      * Instantiates a new csv tree import context.
@@ -24,8 +61,8 @@ public class CSVTreeImportContext extends CSVImportContext {
      * @param workDir        the work dir
      */
     public CSVTreeImportContext(String csvCharsetName, char delimiter, String onDiskInput, String workDir) {
-		super(csvCharsetName, delimiter, onDiskInput, workDir);
-	}
+        super(csvCharsetName, delimiter, onDiskInput, workDir);
+    }
 
     /**
      * Instantiates a new csv tree import context from preferences.
@@ -33,12 +70,11 @@ public class CSVTreeImportContext extends CSVImportContext {
      * @param preferences the prefs
      */
     public CSVTreeImportContext(Preferences preferences) {
-		super(preferences);
-	}
+        super(preferences);
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(Prefs)
-	 */
-	public void toPrefs(Preferences preferences) {
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#toPrefs(Prefs)
+     */
+    public void toPrefs(Preferences preferences) {}
 }

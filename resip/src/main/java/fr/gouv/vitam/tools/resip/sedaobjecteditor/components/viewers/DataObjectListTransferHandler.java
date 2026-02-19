@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 /*
  *
  */
@@ -45,7 +82,9 @@ class DataObjectListTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport ts) {
-        return ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.getEditedArchiveUnit() != null);
+        return (
+            ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.getEditedArchiveUnit() != null)
+        );
     }
 
     @Override
@@ -54,17 +93,19 @@ class DataObjectListTransferHandler extends TransferHandler {
             return false;
         }
         try {
-            List<File> files = (List<File>) ts.getTransferable().getTransferData(
-                    DataFlavor.javaFileListFlavor);
+            List<File> files = (List<File>) ts.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
             if (files.size() < 1) {
                 return false;
             }
             for (File file : files) {
                 if (file.isDirectory()) {
-                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
-                            "Il n'est pas possible de mettre\nen objet un répertoire",
-                            "Avertissement", UserInteractionDialog.IMPORTANT_DIALOG,
-                            null);
+                    UserInteractionDialog.getUserAnswer(
+                        ResipGraphicApp.getTheApp().mainWindow,
+                        "Il n'est pas possible de mettre\nen objet un répertoire",
+                        "Avertissement",
+                        UserInteractionDialog.IMPORTANT_DIALOG,
+                        null
+                    );
                     return false;
                 }
             }
@@ -87,10 +128,14 @@ class DataObjectListTransferHandler extends TransferHandler {
                 list.container.getEditedArchiveUnit().addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
                 ResipGraphicApp.getTheWindow().treePane.displayedTreeNodeChanged();
             }
-            if (dataObject instanceof BinaryDataObject)
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((BinaryDataObject) dataObject);
-            else
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
+            if (dataObject instanceof BinaryDataObject) list.container
+                .getEditedArchiveUnit()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((BinaryDataObject) dataObject);
+            else list.container
+                .getEditedArchiveUnit()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
             dataObjectGroup.addDataObject(dataObject);
         } catch (SEDALibException ignored) {}
     }
@@ -101,15 +146,23 @@ class DataObjectListTransferHandler extends TransferHandler {
         String filename = path.getFileName().toString();
         if (filename.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
             try {
-                PhysicalDataObject pdo = new PhysicalDataObject(archiveUnit.getDataObjectPackage(), new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
+                PhysicalDataObject pdo = new PhysicalDataObject(
+                    archiveUnit.getDataObjectPackage(),
+                    new String(Files.readAllBytes(path), StandardCharsets.UTF_8)
+                );
                 addToArchiveUnitDataObjectGroup(pdo);
                 ((DefaultListModel<DataObject>) list.getModel()).addElement(pdo);
                 list.selectDataObjectListItem(pdo);
             } catch (IOException | SEDALibException e) {
-                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                        "Impossible d'ouvrir le fichier " + path.toString()
-                                + "\nLes données peuvent avoir été parteillement modifiées",
-                        "Erreur", UserInteractionDialog.ERROR_DIALOG, null);
+                UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "Impossible d'ouvrir le fichier " +
+                    path.toString() +
+                    "\nLes données peuvent avoir été parteillement modifiées",
+                    "Erreur",
+                    UserInteractionDialog.ERROR_DIALOG,
+                    null
+                );
                 return;
             }
         } else {
@@ -124,11 +177,15 @@ class DataObjectListTransferHandler extends TransferHandler {
                     dataObjectVersion = "Undefined_Undefined";
                 }
             }
-            BinaryDataObject bdo = new BinaryDataObject(archiveUnit.getDataObjectPackage(), path, filename, dataObjectVersion);
+            BinaryDataObject bdo = new BinaryDataObject(
+                archiveUnit.getDataObjectPackage(),
+                path,
+                filename,
+                dataObjectVersion
+            );
             try {
                 bdo.extractTechnicalElements(null);
-            } catch (SEDALibException ignored) {
-            }
+            } catch (SEDALibException ignored) {}
             addToArchiveUnitDataObjectGroup(bdo);
             ((DefaultListModel<DataObject>) list.getModel()).addElement(bdo);
             list.selectDataObjectListItem(bdo);

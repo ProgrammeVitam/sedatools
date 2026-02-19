@@ -1,33 +1,44 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird;
 
 import jakarta.mail.*;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -69,7 +80,6 @@ public class ThunderbirdStore extends Store {
      */
     public ThunderbirdStore(Session session, URLName url) {
         super(session, url);
-
         try {
             container = URLDecoder.decode(url.getFile(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -100,10 +110,10 @@ public class ThunderbirdStore extends Store {
     @Override
     protected boolean protocolConnect(String host, int port, String user, String passwd) throws MessagingException {
         // verify params significance in ThunderMBox context
-        if (!((passwd == null) || (passwd.isEmpty())))
-            throw new MessagingException("ThunderMBox: does not allow passwords");
-        if (port != -1)
-            throw new MessagingException("ThunderMBox: does not allow port selection");
+        if (!((passwd == null) || (passwd.isEmpty()))) throw new MessagingException(
+            "ThunderMBox: does not allow passwords"
+        );
+        if (port != -1) throw new MessagingException("ThunderMBox: does not allow port selection");
 
         // verify declared directory for thunderbird mbox hierarchy availability
         File test = new File(container);
@@ -130,10 +140,8 @@ public class ThunderbirdStore extends Store {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if (name.equals(container))
-            name = null;
-        else if (name.startsWith(container))
-            name = name.substring(container.length() + 1);
+        if (name.equals(container)) name = null;
+        else if (name.startsWith(container)) name = name.substring(container.length() + 1);
         return new ThunderbirdFolder(this, name);
     }
 
@@ -151,9 +159,9 @@ public class ThunderbirdStore extends Store {
         } catch (UnsupportedEncodingException e) {
             // not possible
         }
-        if (!filename.startsWith(container))
-            throw new MessagingException("ThunderMBox: folder must be in directory declared for the store");
+        if (!filename.startsWith(container)) throw new MessagingException(
+            "ThunderMBox: folder must be in directory declared for the store"
+        );
         return getFolder(url.getFile().substring(container.length()));
     }
-
 }

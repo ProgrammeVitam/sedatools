@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.process;
 
@@ -159,7 +169,8 @@ public class DeCompactor {
         this.dataObjectPackage = archiveUnit.getDataObjectPackage();
     }
 
-    private RecordGrp extractInformationAndRecordGrpFromDocumentContainer(ArchiveUnit archiveUnit) throws SEDALibException {
+    private RecordGrp extractInformationAndRecordGrpFromDocumentContainer(ArchiveUnit archiveUnit)
+        throws SEDALibException {
         DocumentContainer documentContainer;
         RecordGrp recordGrp = null;
 
@@ -167,8 +178,9 @@ public class DeCompactor {
         expectedFileObjectNumber = 0;
 
         documentContainer = (DocumentContainer) archiveUnit.getContent().getFirstNamedMetadata("DocumentContainer");
-        if (documentContainer == null)
-            throw new SEDALibException(MODULE + "pas de DocumentContainer dans l'ArchiveUnit");
+        if (documentContainer == null) throw new SEDALibException(
+            MODULE + "pas de DocumentContainer dans l'ArchiveUnit"
+        );
         for (SEDAMetadata sm : documentContainer.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "DocumentsCount":
@@ -181,14 +193,24 @@ public class DeCompactor {
                     recordGrp = (RecordGrp) sm;
                     break;
                 default:
-                    throw new SEDALibException(MODULE + " metadonnée [" + sm.getXmlElementName()
-                            + "] inattendue dans le DocumentContainer ["
-                            + archiveUnit.getInDataObjectPackageId() + "]", null);
+                    throw new SEDALibException(
+                        MODULE +
+                        " metadonnée [" +
+                        sm.getXmlElementName() +
+                        "] inattendue dans le DocumentContainer [" +
+                        archiveUnit.getInDataObjectPackageId() +
+                        "]",
+                        null
+                    );
             }
         }
-        if (recordGrp == null)
-            throw new SEDALibException(MODULE + "pas de RecordGrp dans le DocumentContainer de l'ArchiveUnit ["
-                    + archiveUnit.getInDataObjectPackageId() + "]", null);
+        if (recordGrp == null) throw new SEDALibException(
+            MODULE +
+            "pas de RecordGrp dans le DocumentContainer de l'ArchiveUnit [" +
+            archiveUnit.getInDataObjectPackageId() +
+            "]",
+            null
+        );
         return recordGrp;
     }
 
@@ -212,20 +234,25 @@ public class DeCompactor {
                     result.addChildArchiveUnit(constructArchiveUnitTree((RecordGrp) sm));
                     break;
                 default:
-                    throw new SEDALibException(MODULE + " metadonnée [" + sm.getXmlElementName()
-                            + "] inattendue dans un RecordGrp");
+                    throw new SEDALibException(
+                        MODULE + " metadonnée [" + sm.getXmlElementName() + "] inattendue dans un RecordGrp"
+                    );
             }
         }
-        if (nodeName == null)
-            throw new SEDALibException(MODULE + " manque le nom d'un noeud RecordGrp");
+        if (nodeName == null) throw new SEDALibException(MODULE + " manque le nom d'un noeud RecordGrp");
         treeNodeNameArchiveUnitMap.put(nodeName, result);
         int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                MODULE + counter + " ArchiveUnit decompactées");
+        doProgressLogIfStep(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            counter,
+            MODULE + counter + " ArchiveUnit decompactées"
+        );
         return result;
     }
 
-    private Path extractInformationAndArchiveUnitsFromDocumentPack(ArchiveUnit archiveUnit) throws SEDALibException, InterruptedException {
+    private Path extractInformationAndArchiveUnitsFromDocumentPack(ArchiveUnit archiveUnit)
+        throws SEDALibException, InterruptedException {
         DocumentPack documentPack;
         RecordGrp recordGrp = null;
         List<Document> documentList = new ArrayList<>();
@@ -234,8 +261,7 @@ public class DeCompactor {
         long packExpectedFileObjectNumber = 0;
 
         documentPack = (DocumentPack) archiveUnit.getContent().getFirstNamedMetadata("DocumentPack");
-        if (documentPack == null)
-            throw new SEDALibException(MODULE + "pas de DocumentPack dans l'ArchiveUnit");
+        if (documentPack == null) throw new SEDALibException(MODULE + "pas de DocumentPack dans l'ArchiveUnit");
         for (SEDAMetadata sm : documentPack.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "DocumentsCount":
@@ -246,33 +272,51 @@ public class DeCompactor {
                     break;
                 case "RecordGrp":
                     recordGrp = (RecordGrp) sm;
-                    if (!recordGrp.toString().equals(containerRecordGrpXMLData))
-                        throw new SEDALibException(MODULE + " le RecordGrp du DocumentPack ["
-                                + archiveUnit.getInDataObjectPackageId() + "] est inconsistant avec celui du DocumentContainer");
+                    if (!recordGrp.toString().equals(containerRecordGrpXMLData)) throw new SEDALibException(
+                        MODULE +
+                        " le RecordGrp du DocumentPack [" +
+                        archiveUnit.getInDataObjectPackageId() +
+                        "] est inconsistant avec celui du DocumentContainer"
+                    );
                     break;
                 case "Document":
                     documentList.add((Document) sm);
                     break;
                 default:
-                    throw new SEDALibException(MODULE + " metadonnée [" + sm.getXmlElementName()
-                            + "] inattendue dans le DocumentPack ["
-                            + archiveUnit.getInDataObjectPackageId() + "]", null);
+                    throw new SEDALibException(
+                        MODULE +
+                        " metadonnée [" +
+                        sm.getXmlElementName() +
+                        "] inattendue dans le DocumentPack [" +
+                        archiveUnit.getInDataObjectPackageId() +
+                        "]",
+                        null
+                    );
             }
         }
-        if (recordGrp == null)
-            throw new SEDALibException(MODULE + "pas de RecordGrp dans le DocumentPack de l'ArchiveUnit");
-        if (documentList.size() != packExpectedDocumentNumber)
-            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
-                    MODULE + "le nombre de Documents est incohérent [prévus " + packExpectedDocumentNumber
-                            + " trouvés " + documentList.size() + "] dans le DocumentPack ["
-                            + archiveUnit.getInDataObjectPackageId() + "]", null);
-        if (archiveUnit.getContent().getSimpleMetadata(TITLE) == null)
-            throw new SEDALibException(MODULE + "pas de Title dans l'ArchiveUnit ["
-                    + archiveUnit.getInDataObjectPackageId() + "]");
-        Path documentDirPath = workDirectoryPath.resolve(archiveUnit.getContent().getSimpleMetadata(TITLE)
-                + "-" + archiveUnit.getInDataObjectPackageId());
-        for (Document document : documentList)
-            extractArchiveUnitsFromDocument(document, documentDirPath);
+        if (recordGrp == null) throw new SEDALibException(
+            MODULE + "pas de RecordGrp dans le DocumentPack de l'ArchiveUnit"
+        );
+        if (documentList.size() != packExpectedDocumentNumber) doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            MODULE +
+            "le nombre de Documents est incohérent [prévus " +
+            packExpectedDocumentNumber +
+            " trouvés " +
+            documentList.size() +
+            "] dans le DocumentPack [" +
+            archiveUnit.getInDataObjectPackageId() +
+            "]",
+            null
+        );
+        if (archiveUnit.getContent().getSimpleMetadata(TITLE) == null) throw new SEDALibException(
+            MODULE + "pas de Title dans l'ArchiveUnit [" + archiveUnit.getInDataObjectPackageId() + "]"
+        );
+        Path documentDirPath = workDirectoryPath.resolve(
+            archiveUnit.getContent().getSimpleMetadata(TITLE) + "-" + archiveUnit.getInDataObjectPackageId()
+        );
+        for (Document document : documentList) extractArchiveUnitsFromDocument(document, documentDirPath);
 
         cumulatedPackExpectedDocumentNumber += packExpectedDocumentNumber;
         cumulatedPackExpectedFileObjectNumber += packExpectedFileObjectNumber;
@@ -298,34 +342,44 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
-                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
-                    if (uri!=null)
-                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
+                    bdo.setMetadataList(((FileObject) sm).getMetadataList());
+                    StringType uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("Uri");
+                    if (uri != null) bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;
                 case "SubDocument":
-                    newArchiveUnit.addChildArchiveUnit(extractArchiveUnitsFromSubDocument((SubDocument) sm, documentDirPath));
+                    newArchiveUnit.addChildArchiveUnit(
+                        extractArchiveUnitsFromSubDocument((SubDocument) sm, documentDirPath)
+                    );
                     break;
                 default:
-                    throw new SEDALibException(MODULE + " metadonnée [" + sm.getXmlElementName()
-                            + "] inattendue dans le Document");
+                    throw new SEDALibException(
+                        MODULE + " metadonnée [" + sm.getXmlElementName() + "] inattendue dans le Document"
+                    );
             }
         }
-        if (recordGrpID == null)
-            throw new SEDALibException(MODULE + " le document [" + document.getSimpleMetadata(TITLE)
-                    + "] n'a pas de lien avec l'arbre de positionnement");
-        if (!dataObjectGroup.getBinaryDataObjectList().isEmpty())
-            newArchiveUnit.addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
+        if (recordGrpID == null) throw new SEDALibException(
+            MODULE +
+            " le document [" +
+            document.getSimpleMetadata(TITLE) +
+            "] n'a pas de lien avec l'arbre de positionnement"
+        );
+        if (!dataObjectGroup.getBinaryDataObjectList().isEmpty()) newArchiveUnit.addDataObjectById(
+            dataObjectGroup.getInDataObjectPackageId()
+        );
         ArchiveUnit treeArchiveUnit = treeNodeNameArchiveUnitMap.get(recordGrpID);
-        if (treeArchiveUnit == null)
-            throw new SEDALibException(MODULE + "mauvaise référence à l'arbre de positionnement du document ["
-                    + document.getSimpleMetadata(TITLE) + "]");
+        if (treeArchiveUnit == null) throw new SEDALibException(
+            MODULE +
+            "mauvaise référence à l'arbre de positionnement du document [" +
+            document.getSimpleMetadata(TITLE) +
+            "]"
+        );
         treeArchiveUnit.addChildArchiveUnit(newArchiveUnit);
     }
 
-    public ArchiveUnit extractArchiveUnitsFromSubDocument(SubDocument subDocument, Path documentDirPath) throws SEDALibException {
+    public ArchiveUnit extractArchiveUnitsFromSubDocument(SubDocument subDocument, Path documentDirPath)
+        throws SEDALibException {
         ArchiveUnit newArchiveUnit = new ArchiveUnit(dataObjectPackage);
         archiveUnitCounter++;
         DataObjectGroup dataObjectGroup = new DataObjectGroup(dataObjectPackage, null);
@@ -340,23 +394,26 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
-                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
-                    if (uri!=null)
-                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
+                    bdo.setMetadataList(((FileObject) sm).getMetadataList());
+                    StringType uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("Uri");
+                    if (uri != null) bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;
                 case "SubDocument":
-                    newArchiveUnit.addChildArchiveUnit(extractArchiveUnitsFromSubDocument((SubDocument) sm, documentDirPath));
+                    newArchiveUnit.addChildArchiveUnit(
+                        extractArchiveUnitsFromSubDocument((SubDocument) sm, documentDirPath)
+                    );
                     break;
                 default:
-                    throw new SEDALibException(MODULE + " metadonnée [" + sm.getXmlElementName()
-                            + "] inattendue dans le Document");
+                    throw new SEDALibException(
+                        MODULE + " metadonnée [" + sm.getXmlElementName() + "] inattendue dans le Document"
+                    );
             }
         }
-        if (!dataObjectGroup.getBinaryDataObjectList().isEmpty())
-            newArchiveUnit.addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
+        if (!dataObjectGroup.getBinaryDataObjectList().isEmpty()) newArchiveUnit.addDataObjectById(
+            dataObjectGroup.getInDataObjectPackageId()
+        );
         return newArchiveUnit;
     }
 
@@ -365,7 +422,11 @@ public class DeCompactor {
             Files.createDirectories(workDirectoryPath);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Création du répertoire de décompression des conteneurs [" + workDirectoryPath + "] impossible\n->" + e.getMessage());
+                "Création du répertoire de décompression des conteneurs [" +
+                workDirectoryPath +
+                "] impossible\n->" +
+                e.getMessage()
+            );
         }
 
         Date d = new Date();
@@ -387,24 +448,44 @@ public class DeCompactor {
 
         for (ArchiveUnit packAU : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
             Path packDirPath = extractInformationAndArchiveUnitsFromDocumentPack(packAU);
-            if ((packAU.getTheDataObjectGroup() == null) ||
-                    (packAU.getTheDataObjectGroup().getBinaryDataObjectList().isEmpty()))
-                throw new SEDALibException(MODULE + "pas de fichier à décompresser dans l'ArchiveUnit du DocumentPack ["
-                        + packAU.getInDataObjectPackageId() + "]");
-            CompressUtility compressUtility = new CompressUtility(packAU.getTheDataObjectGroup().getBinaryDataObjectList().get(0).getOnDiskPath(), packDirPath, "UTF-8", sedaLibProgressLogger);
+            if (
+                (packAU.getTheDataObjectGroup() == null) ||
+                (packAU.getTheDataObjectGroup().getBinaryDataObjectList().isEmpty())
+            ) throw new SEDALibException(
+                MODULE +
+                "pas de fichier à décompresser dans l'ArchiveUnit du DocumentPack [" +
+                packAU.getInDataObjectPackageId() +
+                "]"
+            );
+            CompressUtility compressUtility = new CompressUtility(
+                packAU.getTheDataObjectGroup().getBinaryDataObjectList().get(0).getOnDiskPath(),
+                packDirPath,
+                "UTF-8",
+                sedaLibProgressLogger
+            );
             compressUtility.unCompress();
         }
 
-        if (cumulatedPackExpectedDocumentNumber != expectedDocumentNumber)
-            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, MODULE
-                    + " Erreur: le nombre de documents décompactés n'est pas celui prévu dans le DocumentContainer", null);
-        if (cumulatedPackExpectedFileObjectNumber != expectedFileObjectNumber)
-            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, MODULE
-                    + " Erreur: le nombre de fichiers décompactés n'est pas celui prévu dans le DocumentContainer", null);
+        if (cumulatedPackExpectedDocumentNumber != expectedDocumentNumber) doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            MODULE + " Erreur: le nombre de documents décompactés n'est pas celui prévu dans le DocumentContainer",
+            null
+        );
+        if (cumulatedPackExpectedFileObjectNumber != expectedFileObjectNumber) doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            MODULE + " Erreur: le nombre de fichiers décompactés n'est pas celui prévu dans le DocumentContainer",
+            null
+        );
 
         dataObjectPackage.replaceArchiveUnitBy(archiveUnit, decompactedRootArchiveUnit);
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
-                MODULE + "compactage d'une ArchiveUnit terminée.", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            MODULE + "compactage d'une ArchiveUnit terminée.",
+            null
+        );
         end = Instant.now();
         return decompactedRootArchiveUnit;
     }
@@ -416,12 +497,15 @@ public class DeCompactor {
      */
     public String getSummary() {
         String result = "Decompactage de l'ArchiveUnit [" + archiveUnit.getInDataObjectPackageId() + "]\n";
-        result += "  avec " + expectedDocumentNumber + " documents et "
-                + expectedFileObjectNumber + " fichiers\n";
-        result += "  développé en " + archiveUnitCounter + " ArchiveUnit(s) et "
-                + binaryDataObjectCounter + " BinaryDataObjects\n";
-        if ((start != null) && (end != null))
-            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
+        result += "  avec " + expectedDocumentNumber + " documents et " + expectedFileObjectNumber + " fichiers\n";
+        result +=
+        "  développé en " +
+        archiveUnitCounter +
+        " ArchiveUnit(s) et " +
+        binaryDataObjectCounter +
+        " BinaryDataObjects\n";
+        if ((start != null) && (end != null)) result +=
+        "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

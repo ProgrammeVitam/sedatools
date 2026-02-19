@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
@@ -71,8 +81,14 @@ public class DateTimeType extends NamedTypeMetadata {
      * Enumeration of supported temporal format types.
      */
     public enum DateTimeFormatType {
-        OFFSET_DATE_TIME, DATE_TIME, DATE,
-        G_YEAR, G_YEAR_MONTH, G_MONTH, G_MONTH_DAY, G_DAY
+        OFFSET_DATE_TIME,
+        DATE_TIME,
+        DATE,
+        G_YEAR,
+        G_YEAR_MONTH,
+        G_MONTH,
+        G_MONTH_DAY,
+        G_DAY,
     }
 
     @JsonIgnore
@@ -81,22 +97,18 @@ public class DateTimeType extends NamedTypeMetadata {
     private DateTimeFormatType formatType;
 
     // --- Regex patterns for format detection ---
-    private static final Pattern OFFSET_DATE_TIME_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?([+-]\\d{2}:\\d{2}|Z)$");
-    private static final Pattern DATE_TIME_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$");
-    private static final Pattern DATE_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-    private static final Pattern G_YEAR_PATTERN =
-        Pattern.compile("^\\d{4}$");
-    private static final Pattern G_YEAR_MONTH_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}$");
-    private static final Pattern G_MONTH_PATTERN =
-        Pattern.compile("^--\\d{2}$");
-    private static final Pattern G_MONTH_DAY_PATTERN =
-        Pattern.compile("^--\\d{2}-\\d{2}$");
-    private static final Pattern G_DAY_PATTERN =
-        Pattern.compile("^---\\d{2}$");
+    private static final Pattern OFFSET_DATE_TIME_PATTERN = Pattern.compile(
+        "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?([+-]\\d{2}:\\d{2}|Z)$"
+    );
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile(
+        "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$"
+    );
+    private static final Pattern DATE_PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+    private static final Pattern G_YEAR_PATTERN = Pattern.compile("^\\d{4}$");
+    private static final Pattern G_YEAR_MONTH_PATTERN = Pattern.compile("^\\d{4}-\\d{2}$");
+    private static final Pattern G_MONTH_PATTERN = Pattern.compile("^--\\d{2}$");
+    private static final Pattern G_MONTH_DAY_PATTERN = Pattern.compile("^--\\d{2}-\\d{2}$");
+    private static final Pattern G_DAY_PATTERN = Pattern.compile("^---\\d{2}$");
 
     // =====================================================================================
     // Constructors
@@ -251,15 +263,24 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     private DateTimeFormatter getFormatter() throws SEDALibException {
         switch (formatType) {
-            case OFFSET_DATE_TIME: return DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-            case DATE_TIME: return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-            case DATE: return DateTimeFormatter.ISO_LOCAL_DATE;
-            case G_YEAR: return DateTimeFormatter.ofPattern("uuuu");
-            case G_YEAR_MONTH: return DateTimeFormatter.ofPattern("uuuu-MM");
-            case G_MONTH: return DateTimeFormatter.ofPattern("'--'MM");
-            case G_MONTH_DAY: return DateTimeFormatter.ofPattern("'--'MM-dd");
-            case G_DAY: return DateTimeFormatter.ofPattern("'---'dd");
-            default: throw new SEDALibException("Date type not handled: " + formatType);
+            case OFFSET_DATE_TIME:
+                return DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+            case DATE_TIME:
+                return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+            case DATE:
+                return DateTimeFormatter.ISO_LOCAL_DATE;
+            case G_YEAR:
+                return DateTimeFormatter.ofPattern("uuuu");
+            case G_YEAR_MONTH:
+                return DateTimeFormatter.ofPattern("uuuu-MM");
+            case G_MONTH:
+                return DateTimeFormatter.ofPattern("'--'MM");
+            case G_MONTH_DAY:
+                return DateTimeFormatter.ofPattern("'--'MM-dd");
+            case G_DAY:
+                return DateTimeFormatter.ofPattern("'---'dd");
+            default:
+                throw new SEDALibException("Date type not handled: " + formatType);
         }
     }
 
@@ -293,8 +314,7 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
-            if (!xmlReader.peekBlockIfNamed(elementName))
-                return false;
+            if (!xmlReader.peekBlockIfNamed(elementName)) return false;
             XMLEvent event = xmlReader.nextUsefullEvent();
             elementName = event.asStartElement().getName().getLocalPart();
             event = xmlReader.nextUsefullEvent();
@@ -305,8 +325,9 @@ public class DateTimeType extends NamedTypeMetadata {
                 temporalValue = null;
                 formatType = null;
             }
-            if (!event.isEndElement() || !elementName.equals(event.asEndElement().getName().getLocalPart()))
-                throw new SEDALibException("Element " + elementName + " not properly terminated");
+            if (
+                !event.isEndElement() || !elementName.equals(event.asEndElement().getName().getLocalPart())
+            ) throw new SEDALibException("Element " + elementName + " not properly terminated");
             return true;
         } catch (Exception e) {
             throw new SEDALibException("XML reading error in DateTimeType", e);
@@ -339,8 +360,7 @@ public class DateTimeType extends NamedTypeMetadata {
     /** @return the date/time as a formatted string */
     @JsonGetter("dateTimeString")
     public String getDateTimeString() {
-        if (temporalValue == null)
-            return "";
+        if (temporalValue == null) return "";
         try {
             return getFormatter().format(temporalValue);
         } catch (SEDALibException e) {
@@ -370,27 +390,24 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public String getUtcDateTimeString() {
-        if (temporalValue == null)
-            return "";
-        if (formatType == DateTimeFormatType.G_YEAR
-            || formatType == DateTimeFormatType.G_YEAR_MONTH
-            || formatType == DateTimeFormatType.G_MONTH
-            || formatType == DateTimeFormatType.G_MONTH_DAY
-            || formatType == DateTimeFormatType.G_DAY)
-            return "";
+        if (temporalValue == null) return "";
+        if (
+            formatType == DateTimeFormatType.G_YEAR ||
+            formatType == DateTimeFormatType.G_YEAR_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH_DAY ||
+            formatType == DateTimeFormatType.G_DAY
+        ) return "";
         try {
             OffsetDateTime utcDateTime;
             if (temporalValue instanceof OffsetDateTime) {
                 utcDateTime = ((OffsetDateTime) temporalValue).withOffsetSameInstant(ZoneOffset.UTC);
             } else if (temporalValue instanceof LocalDateTime) {
-                utcDateTime = ((LocalDateTime) temporalValue)
-                    .atZone(ZoneId.systemDefault())
+                utcDateTime = ((LocalDateTime) temporalValue).atZone(ZoneId.systemDefault())
                     .withZoneSameInstant(ZoneOffset.UTC)
                     .toOffsetDateTime();
             } else if (temporalValue instanceof LocalDate) {
-                utcDateTime = ((LocalDate) temporalValue)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toOffsetDateTime();
+                utcDateTime = ((LocalDate) temporalValue).atStartOfDay(ZoneOffset.UTC).toOffsetDateTime();
             } else {
                 return "";
             }
@@ -407,20 +424,18 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public LocalDateTime toLocalDateTime() {
-        if (temporalValue == null)
-            return null;
-        if (formatType == DateTimeFormatType.G_YEAR
-            || formatType == DateTimeFormatType.G_YEAR_MONTH
-            || formatType == DateTimeFormatType.G_MONTH
-            || formatType == DateTimeFormatType.G_MONTH_DAY
-            || formatType == DateTimeFormatType.G_DAY)
-            return null;
+        if (temporalValue == null) return null;
+        if (
+            formatType == DateTimeFormatType.G_YEAR ||
+            formatType == DateTimeFormatType.G_YEAR_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH_DAY ||
+            formatType == DateTimeFormatType.G_DAY
+        ) return null;
         try {
             switch (formatType) {
                 case OFFSET_DATE_TIME:
-                    return ((OffsetDateTime) temporalValue)
-                        .atZoneSameInstant(ZoneId.systemDefault())
-                        .toLocalDateTime();
+                    return ((OffsetDateTime) temporalValue).atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
                 case DATE_TIME:
                     return (LocalDateTime) temporalValue;
                 case DATE:

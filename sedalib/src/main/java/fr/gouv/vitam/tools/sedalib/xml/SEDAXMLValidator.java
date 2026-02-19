@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
@@ -35,11 +72,17 @@ public class SEDAXMLValidator {
     public static Schema getSEDASchema() throws SEDALibException {
         switch (SedaContext.getVersion()) {
             case V2_1:
-                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1));
+                return getSchemaFromXSDResource(
+                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1)
+                );
             case V2_2:
-                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2));
+                return getSchemaFromXSDResource(
+                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2)
+                );
             case V2_3:
-                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_3));
+                return getSchemaFromXSDResource(
+                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_3)
+                );
             default:
                 throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
         }
@@ -48,11 +91,10 @@ public class SEDAXMLValidator {
     public static Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {
         // Was XMLConstants.W3C_XML_SCHEMA_NS_URI
         try {
-            SchemaFactory factory =
-                    SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
+            SchemaFactory factory = SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
             // Load catalog to resolve external schemas even offline.
             final URL catalogUrl = SEDAXMLValidator.class.getClassLoader().getResource(CATALOG_FILENAME);
-            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+            factory.setResourceResolver(new XMLCatalogResolver(new String[] { catalogUrl.toString() }, false));
 
             return factory.newSchema(xsdResource);
         } catch (SAXException e) {
@@ -73,7 +115,7 @@ public class SEDAXMLValidator {
 
             // Load catalog to resolve external schemas even offline.
             final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
-            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+            factory.setResourceResolver(new XMLCatalogResolver(new String[] { catalogUrl.toString() }, false));
 
             return factory.newSchema(new File(xsdFile));
         } catch (SAXException e) {
@@ -94,7 +136,7 @@ public class SEDAXMLValidator {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
             // Load catalog to resolve external schemas even offline.
             final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
-            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+            factory.setResourceResolver(new XMLCatalogResolver(new String[] { catalogUrl.toString() }, false));
 
             return factory.newSchema(new File(rngFile));
         } catch (SAXException e) {
@@ -109,14 +151,22 @@ public class SEDAXMLValidator {
         Scanner scanner = new Scanner(manifest);
         while (scanner.hasNextLine() && (i < e.getLineNumber())) {
             line = scanner.nextLine();
-            if (line.trim().startsWith("<ArchiveUnit "))
-                inArchiveUnit = line.trim();
+            if (line.trim().startsWith("<ArchiveUnit ")) inArchiveUnit = line.trim();
             i++;
         }
-        result = "Contexte de l'erreur: " + (inArchiveUnit.isEmpty() ? "hors AU" : inArchiveUnit) + "\n" +
-                "position de l'erreur identifiée: ligne " + e.getLineNumber() + ", colonne " + e.getColumnNumber() + "\n" +
-                "ligne: " + line + "\n" +
-                "erreur brute: " + e.getMessage();
+        result = "Contexte de l'erreur: " +
+        (inArchiveUnit.isEmpty() ? "hors AU" : inArchiveUnit) +
+        "\n" +
+        "position de l'erreur identifiée: ligne " +
+        e.getLineNumber() +
+        ", colonne " +
+        e.getColumnNumber() +
+        "\n" +
+        "ligne: " +
+        line +
+        "\n" +
+        "erreur brute: " +
+        e.getMessage();
         scanner.close();
         return result;
     }
@@ -145,8 +195,7 @@ public class SEDAXMLValidator {
         } catch (XMLStreamException e) {
             throw new SEDALibException("Impossible d'ouvrir le flux XML", e);
         } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
-                    + getContextualErrorMessage(manifest, e));
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } finally {
@@ -174,8 +223,7 @@ public class SEDAXMLValidator {
             validator.validate(new StreamSource(bais));
             return true;
         } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
-                    + getContextualErrorMessage(manifest, e));
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } catch (IOException e) {

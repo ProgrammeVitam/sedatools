@@ -1,34 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * <p>
- * ---
- * <p>
- * This file is part of javalibpst.
- * <p>
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- * <p>
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -45,12 +50,16 @@ import java.util.HashMap;
 public class PSTAppointment extends PSTMessage {
 
     PSTAppointment(final PSTFile theFile, final DescriptorIndexNode descriptorIndexNode)
-            throws PSTException, IOException {
+        throws PSTException, IOException {
         super(theFile, descriptorIndexNode);
     }
 
-    PSTAppointment(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-                   final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTAppointment(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -76,7 +85,9 @@ public class PSTAppointment extends PSTMessage {
 
     public LocalDateTime getLocalStartTime() {
         return this.getDateItem(this.pstFile.getNameToIdMapItem(0x0000820d, PSTFile.PSETID_Appointment))
-                .toInstant().atZone(getStartTimeZone().getSimpleTimeZone().toZoneId()).toLocalDateTime();
+            .toInstant()
+            .atZone(getStartTimeZone().getSimpleTimeZone().toZoneId())
+            .toLocalDateTime();
     }
 
     public PSTTimeZone getStartTimeZone() {
@@ -89,7 +100,9 @@ public class PSTAppointment extends PSTMessage {
 
     public LocalDateTime getLocalEndTime() {
         return this.getDateItem(this.pstFile.getNameToIdMapItem(0x0000820e, PSTFile.PSETID_Appointment))
-                .toInstant().atZone(getStartTimeZone().getSimpleTimeZone().toZoneId()).toLocalDateTime();
+            .toInstant()
+            .atZone(getStartTimeZone().getSimpleTimeZone().toZoneId())
+            .toLocalDateTime();
     }
 
     public PSTTimeZone getEndTimeZone() {
@@ -98,10 +111,9 @@ public class PSTAppointment extends PSTMessage {
 
     public PSTTimeZone getRecurrenceTimeZone() {
         String desc = this.getStringItem(this.pstFile.getNameToIdMapItem(0x00008234, PSTFile.PSETID_Appointment));
-        final byte[] tzData = this
-                .getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
-        if ((desc == null) || desc.isEmpty())
-            desc = "Unknown";
+        final byte[] tzData =
+            this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
+        if ((desc == null) || desc.isEmpty()) desc = "Unknown";
         if (tzData != null && tzData.length != 0) {
             return new PSTTimeZone(desc, tzData);
         }
@@ -230,20 +242,15 @@ public class PSTAppointment extends PSTMessage {
     }
 
     public PSTGlobalObjectId getGlobalObjectId() {
-
         byte[] tmp = this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00000003, PSTFile.PSETID_Meeting));
-        if (tmp != null)
-            return new PSTGlobalObjectId(tmp);
-        else
-            return null;
+        if (tmp != null) return new PSTGlobalObjectId(tmp);
+        else return null;
     }
 
     public PSTGlobalObjectId getCleanGlobalObjectId() {
         byte[] tmp = this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00000023, PSTFile.PSETID_Meeting));
-        if (tmp != null)
-            return new PSTGlobalObjectId(tmp);
-        else
-            return null;
+        if (tmp != null) return new PSTGlobalObjectId(tmp);
+        else return null;
     }
 
     /**
@@ -258,10 +265,8 @@ public class PSTAppointment extends PSTMessage {
         final long ms_since_16010101 = minutes * (60 * 1000L);
         final long ms_since_19700101 = ms_since_16010101 - EPOCH_DIFF;
         final long tzOffset;
-        if (tz == null)
-            tzOffset = 0;
-        else
-            tzOffset = tz.getSimpleTimeZone().getOffset(ms_since_19700101);
+        if (tz == null) tzOffset = 0;
+        else tzOffset = tz.getSimpleTimeZone().getOffset(ms_since_19700101);
 
         Date utcDate = new Date(ms_since_19700101 - tzOffset);
         return utcDate;
@@ -269,18 +274,64 @@ public class PSTAppointment extends PSTMessage {
 
     @Override
     public String toString() {
-        String result = "IDs:\n  GlobalObjectID: " + getGlobalObjectId() + "\n  CleanGlobalID: " + getCleanGlobalObjectId() + "\n" +
-                "  LocaleID: " + getLocaleId() + "\n";
+        String result =
+            "IDs:\n  GlobalObjectID: " +
+            getGlobalObjectId() +
+            "\n  CleanGlobalID: " +
+            getCleanGlobalObjectId() +
+            "\n" +
+            "  LocaleID: " +
+            getLocaleId() +
+            "\n";
         result += "Info:\n  Subject: " + getSubject() + "\n  Location: " + getLocation() + "\n";
-        result += "Peoples:\n  Required attendees: " + getRequiredAttendees() + "\n  All attendees: " + getAllAttendees() +
-                "\n  To attendees: " + getToAttendees() + "\n  CC attendees: " + getCCAttendees() + "\n";
-        result += "Flags:\n  Busy:" + getShowAsBusy() + "\n  MeetingStatus: " + getMeetingStatus() + "\n  ResponseStatus: " + getResponseStatus() + "\n  " +
-                "isRecursed: " + isRecurring() + "\n";
-        result += "Time:\n  Start: " + getStartTime() + " [TZ=" + (getStartTimeZone()==null?"Unknown":getStartTimeZone().getSimpleTimeZone()) + "]\n  End: " + getEndTime() + " [TZ=" + (getEndTimeZone()==null?"Unknown":getEndTimeZone().getSimpleTimeZone()) + "]\n  " +
-                "Duration: " + getDuration() + "\n";
-        result += "Recurrence:\n  Base: " + getRecurrenceBase() + "\n  Type: " + getRecurrenceType() + "\n  Pattern: " + getRecurrencePattern() + "\n";
+        result +=
+        "Peoples:\n  Required attendees: " +
+        getRequiredAttendees() +
+        "\n  All attendees: " +
+        getAllAttendees() +
+        "\n  To attendees: " +
+        getToAttendees() +
+        "\n  CC attendees: " +
+        getCCAttendees() +
+        "\n";
+        result +=
+        "Flags:\n  Busy:" +
+        getShowAsBusy() +
+        "\n  MeetingStatus: " +
+        getMeetingStatus() +
+        "\n  ResponseStatus: " +
+        getResponseStatus() +
+        "\n  " +
+        "isRecursed: " +
+        isRecurring() +
+        "\n";
+        result +=
+        "Time:\n  Start: " +
+        getStartTime() +
+        " [TZ=" +
+        (getStartTimeZone() == null ? "Unknown" : getStartTimeZone().getSimpleTimeZone()) +
+        "]\n  End: " +
+        getEndTime() +
+        " [TZ=" +
+        (getEndTimeZone() == null ? "Unknown" : getEndTimeZone().getSimpleTimeZone()) +
+        "]\n  " +
+        "Duration: " +
+        getDuration() +
+        "\n";
+        result +=
+        "Recurrence:\n  Base: " +
+        getRecurrenceBase() +
+        "\n  Type: " +
+        getRecurrenceType() +
+        "\n  Pattern: " +
+        getRecurrencePattern() +
+        "\n";
         if (isRecurring()) {
-            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(getRecurrenceStructure(), this, getRecurrenceTimeZone());
+            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(
+                getRecurrenceStructure(),
+                this,
+                getRecurrenceTimeZone()
+            );
             result += par.toString() + "\n";
         }
         result += "Others\n  Color: " + getColor() + "\n";

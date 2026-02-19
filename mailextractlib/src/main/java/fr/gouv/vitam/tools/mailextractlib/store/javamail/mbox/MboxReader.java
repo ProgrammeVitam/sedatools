@@ -1,37 +1,47 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox;
 
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.mail.internet.SharedInputStream;
 import jakarta.mail.util.SharedByteArrayInputStream;
 import jakarta.mail.util.SharedFileInputStream;
+
 import java.io.*;
 
 /**
@@ -105,10 +115,8 @@ public class MboxReader {
      * @throws IOException Unable to close the file.
      */
     public void close() throws IOException {
-        if (raf != null)
-            raf.close();
-        if (sifs instanceof InputStream)
-            ((InputStream) sifs).close();
+        if (raf != null) raf.close();
+        if (sifs instanceof InputStream) ((InputStream) sifs).close();
     }
 
     /**
@@ -131,8 +139,7 @@ public class MboxReader {
             // if File
             if (curPos >= len) {
                 bufferPos = raf.getFilePointer();
-                if ((len = raf.read(buffer)) == -1)
-                    return -1;
+                if ((len = raf.read(buffer)) == -1) return -1;
                 curPos = 0;
             }
         } else {
@@ -140,8 +147,7 @@ public class MboxReader {
             // TODO get rid of buffer when byte[]
             if (curPos >= len) {
                 bufferPos = sifs.getPosition();
-                if ((len = ((ByteArrayInputStream) sifs).read(buffer)) == -1)
-                    return -1;
+                if ((len = ((ByteArrayInputStream) sifs).read(buffer)) == -1) return -1;
                 curPos = 0;
             }
         }
@@ -161,10 +167,8 @@ public class MboxReader {
         lineNum++;
         while (true) {
             b = read();
-            if (b == -1)
-                return -1;
-            if (b == '\n')
-                return i;
+            if (b == -1) return -1;
+            if (b == '\n') return i;
             if (i < 64) {
                 buffer[i++] = (byte) b;
             }
@@ -176,8 +180,7 @@ public class MboxReader {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < len; i++) {
             final char c = (char) (buffer[i]);
-            if (c >= 32)
-                stringBuilder.append(c);
+            if (c >= 32) stringBuilder.append(c);
         }
         return stringBuilder.toString();
     }
@@ -196,12 +199,10 @@ public class MboxReader {
     //After the "From " line is the message itself in RFC 5322 format. The final line is a completely blank line with no spaces or tabs.
     // WARNING: due to tested mbox files diversity the only kept filter is the beginning "From " pattern!
     private boolean isCompliantMBoxDelimiterLine(byte[] buffer, int len) {
-        if ((buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm')
-                && (buffer[4] == ' '))
-            return true;
-        else
-            return false;
-
+        if (
+            (buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm') && (buffer[4] == ' ')
+        ) return true;
+        else return false;
     }
 
     /**
@@ -222,10 +223,10 @@ public class MboxReader {
                 fromLineEnd = -1;
                 return -1;
             }
-                if (isCompliantMBoxDelimiterLine(buffer, len)) {
-                    fromLineEnd = getPointer();
-                    return beg;
-                }
+            if (isCompliantMBoxDelimiterLine(buffer, len)) {
+                fromLineEnd = getPointer();
+                return beg;
+            }
         }
     }
 

@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
@@ -75,8 +85,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
             xmlif = XMLInputFactory.newInstance();
             xmlifFragments = XMLInputFactory2.newInstance();
             // Warning it's a Woodstox specific mode
-            xmlifFragments.setProperty(WstxInputProperties.P_INPUT_PARSING_MODE,
-                    WstxInputProperties.PARSING_MODE_FRAGMENT);
+            xmlifFragments.setProperty(
+                WstxInputProperties.P_INPUT_PARSING_MODE,
+                WstxInputProperties.PARSING_MODE_FRAGMENT
+            );
             xmlof = XMLOutputFactory.newInstance();
             xmlofFragments = XMLOutputFactory2.newInstance();
             xmlofFragments.setProperty(WstxOutputProperties.P_OUTPUT_VALIDATE_STRUCTURE, false);
@@ -100,21 +112,20 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public static String extractNamedElement(String elementName, String xmlString) {
         String result = null;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
-
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             XMLEvent event = xmlReader.nextUsefullEvent();
             while (true) {
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals(elementName)) {
                     event = xmlReader.nextUsefullEvent();
-                    if (event.isCharacters())
-                        result = event.asCharacters().getData();
+                    if (event.isCharacters()) result = event.asCharacters().getData();
                     break;
                 }
                 event = xmlReader.nextUsefullEvent();
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return result;
     }
 
@@ -127,8 +138,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
      */
     public static String extractFragments(String elementName, String xmlData) {
         StringWriter sw = new StringWriter();
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             XMLEvent event = xmlReader.nextUsefullEvent();
             while (true) {
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals(elementName)) {
@@ -137,19 +150,19 @@ public class SEDAXMLEventReader implements AutoCloseable {
 
                     while (xmlReader.xmlReader.hasNext()) {
                         event = xmlReader.xmlReader.nextEvent();
-                        if (event.isStartElement()
-                                && ((StartElement) event).getName().getLocalPart().equals(elementName))
-                            count++;
-                        else if (event.isEndElement()
-                                && ((EndElement) event).getName().getLocalPart().equals(elementName)) {
+                        if (
+                            event.isStartElement() &&
+                            ((StartElement) event).getName().getLocalPart().equals(elementName)
+                        ) count++;
+                        else if (
+                            event.isEndElement() && ((EndElement) event).getName().getLocalPart().equals(elementName)
+                        ) {
                             count--;
-                            if (count == 0)
-                                break;
+                            if (count == 0) break;
                         }
                         xw.add(event);
                     }
-                    if (xw != null)
-                        xw.close();
+                    if (xw != null) xw.close();
                     return sw.toString();
                 }
                 event = xmlReader.nextUsefullEvent();
@@ -183,17 +196,14 @@ public class SEDAXMLEventReader implements AutoCloseable {
         InputStreamReader readerFIS = null;
         try {
             readerFIS = new InputStreamReader(is, StandardCharsets.UTF_8);
-            if (isForElements)
-                xmlReader = xmlifFragments.createXMLEventReader(readerFIS);
-            else
-                xmlReader = xmlif.createXMLEventReader(readerFIS);
+            if (isForElements) xmlReader = xmlifFragments.createXMLEventReader(readerFIS);
+            else xmlReader = xmlif.createXMLEventReader(readerFIS);
         } catch (Exception e) {
-            if (readerFIS != null)
-                try {
-                    readerFIS.close();
-                } catch (IOException e1) {
-                    // too bad
-                }
+            if (readerFIS != null) try {
+                readerFIS.close();
+            } catch (IOException e1) {
+                // too bad
+            }
             throw new SEDALibException("Impossible d'ouvrir un flux de lecture XML", e);
         }
     }
@@ -247,8 +257,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public String peekName() throws XMLStreamException {
         XMLEvent event = peekUsefullEvent();
 
-        if (!event.isStartElement())
-            return null;
+        if (!event.isStartElement()) return null;
         return event.asStartElement().getName().getLocalPart();
     }
 
@@ -262,8 +271,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
         XMLEvent result;
 
         result = xmlReader.peek();
-        while ((result.getEventType() == XMLEvent.COMMENT)
-                || (result.isCharacters() && result.asCharacters().isWhiteSpace())) {
+        while (
+            (result.getEventType() == XMLEvent.COMMENT) ||
+            (result.isCharacters() && result.asCharacters().isWhiteSpace())
+        ) {
             xmlReader.nextEvent();
             result = xmlReader.peek();
         }
@@ -283,8 +294,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
 
         if (peek.isStartElement()) {
             Attribute a = peek.asStartElement().getAttributeByName(new QName(attribute));
-            if (a != null)
-                result = a.getValue();
+            if (a != null) result = a.getValue();
         }
         return result;
     }
@@ -303,8 +313,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
 
         if (peek.isStartElement()) {
             Attribute a = peek.asStartElement().getAttributeByName(new QName(namespace, attribute));
-            if (a != null)
-                result = a.getValue();
+            if (a != null) result = a.getValue();
         }
         return result;
     }
@@ -319,9 +328,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
         XMLEvent result;
 
         result = xmlReader.nextEvent();
-        while ((result.getEventType() == XMLEvent.COMMENT)
-                || (result.isCharacters() && result.asCharacters().isWhiteSpace()))
-            result = xmlReader.nextEvent();
+        while (
+            (result.getEventType() == XMLEvent.COMMENT) ||
+            (result.isCharacters() && result.asCharacters().isWhiteSpace())
+        ) result = xmlReader.nextEvent();
         return result;
     }
 
@@ -335,10 +345,8 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public boolean nextBlockIfNamed(String tag) throws XMLStreamException {
         XMLEvent peek = peekUsefullEvent();
 
-        if (!peek.isStartElement())
-            return false;
-        if (!tag.equals(peek.asStartElement().getName().getLocalPart()))
-            return false;
+        if (!peek.isStartElement()) return false;
+        if (!tag.equals(peek.asStartElement().getName().getLocalPart())) return false;
         nextUsefullEvent();
         return true;
     }
@@ -353,8 +361,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public boolean peekBlockIfNamed(String tag) throws XMLStreamException {
         XMLEvent peek = peekUsefullEvent();
 
-        if (!peek.isStartElement())
-            return false;
+        if (!peek.isStartElement()) return false;
         return tag.equals(peek.asStartElement().getName().getLocalPart());
     }
 
@@ -390,10 +397,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public void endBlockNamed(String tag) throws XMLStreamException, SEDALibException {
         XMLEvent event = nextUsefullEvent();
 
-        if (!event.isEndElement())
-            throw new SEDALibException("Elément " + tag + " mal terminé");
-        if (!tag.equals(event.asEndElement().getName().getLocalPart()))
-            throw new SEDALibException("Elément " + tag + " mal terminé");
+        if (!event.isEndElement()) throw new SEDALibException("Elément " + tag + " mal terminé");
+        if (!tag.equals(event.asEndElement().getName().getLocalPart())) throw new SEDALibException(
+            "Elément " + tag + " mal terminé"
+        );
     }
 
     /**
@@ -415,10 +422,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
                 result = event.asCharacters().getData();
                 event = nextUsefullEvent();
             }
-            if (!event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag))
-                throw new SEDALibException("Elément " + tag + " mal formé");
-            if (result == null)
-                result = "";
+            if (
+                !event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag)
+            ) throw new SEDALibException("Elément " + tag + " mal formé");
+            if (result == null) result = "";
         }
         return result;
     }
@@ -443,8 +450,9 @@ public class SEDAXMLEventReader implements AutoCloseable {
                 tmp = event.asCharacters().getData();
                 event = nextUsefullEvent();
             }
-            if (!event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag) || (tmp == null))
-                throw new SEDALibException("Elément date " + tag + " mal formé");
+            if (
+                !event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag) || (tmp == null)
+            ) throw new SEDALibException("Elément date " + tag + " mal formé");
             try {
                 result = getDateTimeFromString(tmp);
             } catch (DateTimeParseException e) {
@@ -474,8 +482,9 @@ public class SEDAXMLEventReader implements AutoCloseable {
                 tmp = event.asCharacters().getData();
                 event = nextUsefullEvent();
             }
-            if (!event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag) || (tmp == null))
-                throw new SEDALibException("Elément booléen " + tag + " mal formé");
+            if (
+                !event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag) || (tmp == null)
+            ) throw new SEDALibException("Elément booléen " + tag + " mal formé");
             switch (tmp) {
                 case "true":
                 case "1":
@@ -502,8 +511,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
      * @throws SEDALibException   the SEDALibException
      */
     public String nextMandatoryValue(String tag) throws XMLStreamException, SEDALibException {
-        if (!peekBlockIfNamed(tag))
-            throw new SEDALibException("Element " + tag + " non trouvé");
+        if (!peekBlockIfNamed(tag)) throw new SEDALibException("Element " + tag + " non trouvé");
         return nextValueIfNamed(tag);
     }
 
@@ -526,19 +534,15 @@ public class SEDAXMLEventReader implements AutoCloseable {
             while (xmlReader.hasNext()) {
                 event = xmlReader.nextEvent();
                 xw.add(event);
-                if (event.isStartElement() && ((StartElement) event).getName().getLocalPart().equals(tag))
-                    count++;
+                if (event.isStartElement() && ((StartElement) event).getName().getLocalPart().equals(tag)) count++;
                 else if (event.isEndElement() && ((EndElement) event).getName().getLocalPart().equals(tag)) {
                     count--;
-                    if (count == 0)
-                        break;
+                    if (count == 0) break;
                 }
             }
-            if (xw != null)
-                xw.close();
+            if (xw != null) xw.close();
             return sw.toString();
-        } else
-            return null;
+        } else return null;
     }
 
     /**
@@ -551,8 +555,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
      * @throws SEDALibException   if the next block is not a "tag" element
      */
     public String nextMandatoryBlockAsString(String tag) throws XMLStreamException, SEDALibException {
-        if (!peekBlockIfNamed(tag))
-            throw new SEDALibException("Elément " + tag + " non trouvé");
+        if (!peekBlockIfNamed(tag)) throw new SEDALibException("Elément " + tag + " non trouvé");
         return nextBlockAsStringIfNamed(tag);
     }
 }

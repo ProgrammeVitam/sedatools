@@ -1,34 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * <p>
- * ---
- * <p>
- * This file is part of javalibpst.
- * <p>
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- * <p>
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -52,7 +57,7 @@ public class PSTContact extends PSTMessage {
      * @throws IOException  the io exception
      */
     public PSTContact(final PSTFile theFile, final DescriptorIndexNode descriptorIndexNode)
-            throws PSTException, IOException {
+        throws PSTException, IOException {
         super(theFile, descriptorIndexNode);
     }
 
@@ -64,8 +69,12 @@ public class PSTContact extends PSTMessage {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    public PSTContact(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-                      final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    public PSTContact(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -1079,99 +1088,193 @@ public class PSTContact extends PSTMessage {
 
     @Override
     public String toString() {
+        String result =
+            "Name:\n  Account name: " +
+            this.getAccount() +
+            "\n  Display Name: " +
+            this.getDisplayName() +
+            "\n  Display Name Prefix (Contact Title): " +
+            this.getDisplayNamePrefix() +
+            "\n  Given name (First name): " +
+            this.getGivenName() +
+            "\n  Middle Name: " +
+            this.getMiddleName() +
+            "\n  Surname  (Last name): " +
+            this.getSurname() +
+            "\n  Generational abbreviation (name suffix): " +
+            this.getGeneration() +
+            "\n  Initials: " +
+            this.getInitials() +
+            "\n  Original display name: " +
+            this.getOriginalDisplayName() +
+            "\n  Transmittable display name: " +
+            this.getTransmittableDisplayName() +
+            "\n  Nickname: " +
+            this.getNickname() +
+            "\n";
 
-        String result = "Name:\n  Account name: " + this.getAccount()
-                + "\n  Display Name: " + this.getDisplayName()
-                + "\n  Display Name Prefix (Contact Title): " + this.getDisplayNamePrefix()
-                + "\n  Given name (First name): " + this.getGivenName()
-                + "\n  Middle Name: " + this.getMiddleName() + "\n  Surname  (Last name): " + this.getSurname()
-                + "\n  Generational abbreviation (name suffix): " + this.getGeneration()
-                + "\n  Initials: " + this.getInitials()
-                + "\n  Original display name: " + this.getOriginalDisplayName()
-                + "\n  Transmittable display name: " + this.getTransmittableDisplayName()
-                + "\n  Nickname: " + this.getNickname() + "\n";
+        result +=
+        "Elecronic Addresses:\n  SMTP: " +
+        this.getSMTPAddress() +
+        "\n  Email1:\n    Address Type: " +
+        this.getEmail1AddressType() +
+        "\n    Original Display Name: " +
+        this.getEmail1OriginalDisplayName() +
+        "\n    Address: " +
+        this.getEmail1EmailAddress() +
+        "\n  Email2:\n    Address Type: " +
+        this.getEmail2AddressType() +
+        "\n    Original Display Name: " +
+        this.getEmail2OriginalDisplayName() +
+        "\n    Address: " +
+        this.getEmail2EmailAddress() +
+        "\n  Email3:\n    Address Type: " +
+        this.getEmail3AddressType() +
+        "\n    Original Display Name: " +
+        this.getEmail3OriginalDisplayName() +
+        "\n    Address: " +
+        this.getEmail3EmailAddress() +
+        "\n";
 
-        result += "Elecronic Addresses:\n  SMTP: " + this.getSMTPAddress()
-                + "\n  Email1:\n    Address Type: " + this.getEmail1AddressType()
-                + "\n    Original Display Name: " + this.getEmail1OriginalDisplayName()
-                + "\n    Address: " + this.getEmail1EmailAddress()
-                + "\n  Email2:\n    Address Type: " + this.getEmail2AddressType()
-                + "\n    Original Display Name: " + this.getEmail2OriginalDisplayName()
-                + "\n    Address: " + this.getEmail2EmailAddress()
-                + "\n  Email3:\n    Address Type: " + this.getEmail3AddressType()
-                + "\n    Original Display Name: " + this.getEmail3OriginalDisplayName()
-                + "\n    Address: " + this.getEmail3EmailAddress() + "\n";
+        result +=
+        "Business:\n  Company Name: " +
+        this.getCompanyName() +
+        "\n  Job title: " +
+        this.getTitle() +
+        "\n  Department name: " +
+        this.getDepartmentName() +
+        "\n  Profession: " +
+        this.getProfession() +
+        "\n  Assistant's Name: " +
+        this.getAssistant() +
+        "\n  Assistant Phone Number: " +
+        this.getAssistantTelephoneNumber() +
+        "\n  Manager's Name: " +
+        this.getManagerName() +
+        "\n";
 
-        result += "Business:\n  Company Name: " + this.getCompanyName()
-                + "\n  Job title: " + this.getTitle()
-                + "\n  Department name: " + this.getDepartmentName()
-                + "\n  Profession: " + this.getProfession()
-                + "\n  Assistant's Name: " + this.getAssistant()
-                + "\n  Assistant Phone Number: " + this.getAssistantTelephoneNumber()
-                + "\n  Manager's Name: " + this.getManagerName() + "\n";
+        result +=
+        "Call numbers:\n  Primary Telephone: " +
+        this.getPrimaryTelephoneNumber() +
+        "\n  Business/Office Telephone Number: " +
+        this.getBusinessTelephoneNumber() +
+        "\n  Company Main Phone Number: " +
+        this.getCompanyMainPhoneNumber() +
+        "\n  Home Telephone Number: " +
+        this.getHomeTelephoneNumber() +
+        "\n  Home Telephone Number 2: " +
+        this.getHome2TelephoneNumber() +
+        "\n  Secondary office (business) Telephone number: " +
+        this.getBusiness2TelephoneNumber() +
+        "\n  Mobile Telephone Number: " +
+        this.getMobileTelephoneNumber() +
+        "\n  Callback Telephone Number: " +
+        this.getCallbackTelephoneNumber() +
+        "\n  Radio Telephone Number: " +
+        this.getRadioTelephoneNumber() +
+        "\n  Car Telephone Number: " +
+        this.getCarTelephoneNumber() +
+        "\n  Pager Telephone Number: " +
+        this.getPagerTelephoneNumber() +
+        "\n  Primary Fax Number: " +
+        this.getPrimaryFaxNumber() +
+        "\n  Office (business) fax number: " +
+        this.getBusinessFaxNumber() +
+        "\n  Home fax number: " +
+        this.getHomeFaxNumber() +
+        "\n  Telex Number: " +
+        this.getTelexNumber() +
+        "\n  ISDN Number: " +
+        this.getIsdnNumber() +
+        "\n  TTY/TDD Phone: " +
+        this.getTtytddPhoneNumber() +
+        "\n  Other Telephone Number: " +
+        this.getOtherTelephoneNumber() +
+        "\n";
 
-        result += "Call numbers:\n  Primary Telephone: " + this.getPrimaryTelephoneNumber()
-                + "\n  Business/Office Telephone Number: " + this.getBusinessTelephoneNumber()
-                + "\n  Company Main Phone Number: " + this.getCompanyMainPhoneNumber()
-                + "\n  Home Telephone Number: " + this.getHomeTelephoneNumber()
-                + "\n  Home Telephone Number 2: " + this.getHome2TelephoneNumber()
-                + "\n  Secondary office (business) Telephone number: " + this.getBusiness2TelephoneNumber()
-                + "\n  Mobile Telephone Number: " + this.getMobileTelephoneNumber()
-                + "\n  Callback Telephone Number: " + this.getCallbackTelephoneNumber()
-                + "\n  Radio Telephone Number: " + this.getRadioTelephoneNumber()
-                + "\n  Car Telephone Number: " + this.getCarTelephoneNumber()
-                + "\n  Pager Telephone Number: " + this.getPagerTelephoneNumber()
-                + "\n  Primary Fax Number: " + this.getPrimaryFaxNumber()
-                + "\n  Office (business) fax number: " + this.getBusinessFaxNumber()
-                + "\n  Home fax number: " + this.getHomeFaxNumber()
-                + "\n  Telex Number: " + this.getTelexNumber()
-                + "\n  ISDN Number: " + this.getIsdnNumber()
-                + "\n  TTY/TDD Phone: " + this.getTtytddPhoneNumber()
-                + "\n  Other Telephone Number: " + this.getOtherTelephoneNumber() + "\n";
+        result +=
+        "Addresses:\n  Default: " +
+        this.getPostalAddress() +
+        "\n  Business:" +
+        "\n    Office location: " +
+        this.getOfficeLocation() +
+        "\n    Business Address Street: " +
+        this.getBusinessAddressStreet() +
+        "\n    Business Postal Code: " +
+        this.getBusinessPostalCode() +
+        "\n    Business Address City: " +
+        this.getBusinessAddressCity() +
+        "\n    Business Address State: " +
+        this.getBusinessAddressStateOrProvince() +
+        "\n    Business Address Country: " +
+        this.getBusinessAddressCountry() +
+        "\n    Business PO Box: " +
+        this.getBusinessPoBox() +
+        "\n  Home:" +
+        "\n    Location: " +
+        this.getLocation() +
+        "\n    Home Address Street: " +
+        this.getHomeAddressStreet() +
+        "\n    Home Postal Code: " +
+        this.getHomeAddressPostalCode() +
+        "\n    Home Address City: " +
+        this.getHomeAddressCity() +
+        "\n    Home Address State: " +
+        this.getHomeAddressStateOrProvince() +
+        "\n    Home Address Country: " +
+        this.getHomeAddressCountry() +
+        "\n    Home PO Box: " +
+        this.getHomeAddressPostOfficeBox() +
+        "\n  Other:" +
+        "\n    Other Address Street: " +
+        this.getOtherAddressStreet() +
+        "\n    Other Postal Code: " +
+        this.getOtherAddressPostalCode() +
+        "\n    Other Address City: " +
+        this.getOtherAddressCity() +
+        "\n    Other Address State: " +
+        this.getOtherAddressStateOrProvince() +
+        "\n    Other Address Country: " +
+        this.getOtherAddressCountry() +
+        "\n    Other PO Box: " +
+        this.getOtherAddressPostOfficeBox() +
+        "\n";
 
-        result += "Addresses:\n  Default: " + this.getPostalAddress()
-                + "\n  Business:"
-                + "\n    Office location: " + this.getOfficeLocation()
-                + "\n    Business Address Street: " + this.getBusinessAddressStreet()
-                + "\n    Business Postal Code: " + this.getBusinessPostalCode()
-                + "\n    Business Address City: " + this.getBusinessAddressCity()
-                + "\n    Business Address State: " + this.getBusinessAddressStateOrProvince()
-                + "\n    Business Address Country: " + this.getBusinessAddressCountry()
-                + "\n    Business PO Box: " + this.getBusinessPoBox()
-                + "\n  Home:"
-                + "\n    Location: " + this.getLocation()
-                + "\n    Home Address Street: " + this.getHomeAddressStreet()
-                + "\n    Home Postal Code: " + this.getHomeAddressPostalCode()
-                + "\n    Home Address City: " + this.getHomeAddressCity()
-                + "\n    Home Address State: " + this.getHomeAddressStateOrProvince()
-                + "\n    Home Address Country: " + this.getHomeAddressCountry()
-                + "\n    Home PO Box: " + this.getHomeAddressPostOfficeBox()
-                + "\n  Other:"
-                + "\n    Other Address Street: " + this.getOtherAddressStreet()
-                + "\n    Other Postal Code: " + this.getOtherAddressPostalCode()
-                + "\n    Other Address City: " + this.getOtherAddressCity()
-                + "\n    Other Address State: " + this.getOtherAddressStateOrProvince()
-                + "\n    Other Address Country: " + this.getOtherAddressCountry()
-                + "\n    Other PO Box: " + this.getOtherAddressPostOfficeBox() + "\n";
+        result +=
+        "IDs:\n  Government ID Number: " +
+        this.getGovernmentIdNumber() +
+        "\n  Organizational ID number: " +
+        this.getOrganizationalIdNumber() +
+        "\n  Customer ID: " +
+        this.getCustomerId() +
+        "\n";
 
-        result += "IDs:\n  Government ID Number: " + this.getGovernmentIdNumber()
-                + "\n  Organizational ID number: " + this.getOrganizationalIdNumber()
-                + "\n  Customer ID: " + this.getCustomerId() + "\n";
+        result +=
+        "Misc\n  Keyword: " +
+        this.getKeyword() +
+        "\n  Contact's language: " +
+        this.getLanguage() +
+        "\n  MHS Common Name: " +
+        this.getMhsCommonName() +
+        "\n  Hobbies: " +
+        this.getHobbies() +
+        "\n  Preferred By Name: " +
+        this.getPreferredByName() +
+        "\n  Spouse's Name: " +
+        this.getSpouseName() +
+        "\n  Childrens names: " +
+        this.getChildrensNames() +
+        "\n  Computer Network Name: " +
+        this.getComputerNetworkName() +
+        "\n  Ftp Site: " +
+        this.getFtpSite() +
+        "\n  Personal Home Page: " +
+        this.getPersonalHomePage() +
+        "\n  Business Home Page: " +
+        this.getBusinessHomePage() +
+        "\n";
 
-        result += "Misc\n  Keyword: " + this.getKeyword()
-                + "\n  Contact's language: " + this.getLanguage()
-                + "\n  MHS Common Name: " + this.getMhsCommonName()
-                + "\n  Hobbies: " + this.getHobbies()
-                + "\n  Preferred By Name: " + this.getPreferredByName()
-                + "\n  Spouse's Name: " + this.getSpouseName()
-                + "\n  Childrens names: " + this.getChildrensNames()
-                + "\n  Computer Network Name: " + this.getComputerNetworkName()
-                + "\n  Ftp Site: " + this.getFtpSite()
-                + "\n  Personal Home Page: " + this.getPersonalHomePage()
-                + "\n  Business Home Page: " + this.getBusinessHomePage() + "\n";
-
-        if ((this.getBody() != null) && !(this.getBody().isEmpty()))
-            result += "Body:\n" + this.getBody();
+        if ((this.getBody() != null) && !(this.getBody().isEmpty())) result += "Body:\n" + this.getBody();
 
         return result;
     }

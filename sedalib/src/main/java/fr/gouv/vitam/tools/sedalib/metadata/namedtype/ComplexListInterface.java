@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
@@ -76,8 +86,6 @@ import java.util.*;
  * </pre>
  */
 public interface ComplexListInterface {
-
-
     /**
      * Gets list of fields with ComplexListMetadataMap annotation.
      * <p>
@@ -87,7 +95,7 @@ public interface ComplexListInterface {
      * @param targetClass the class to analyze
      * @return list of fields having ComplexListMetadataMap annotation
      */
-    static private List<Field> getFieldsWithAnnotationComplexListMetadataMap(Class<?> targetClass) {
+    private static List<Field> getFieldsWithAnnotationComplexListMetadataMap(Class<?> targetClass) {
         List<Field> result = new ArrayList<>();
         for (Field field : targetClass.getDeclaredFields()) {
             if (field.isAnnotationPresent(ComplexListMetadataMap.class)) {
@@ -106,9 +114,7 @@ public interface ComplexListInterface {
      */
     private static List<SedaVersion> getSedaVersions(ComplexListMetadataMap annotation) {
         SedaVersion[] explicit = annotation.sedaVersion();
-        return explicit.length == 0
-            ? Arrays.asList(SedaVersion.values())
-            : Arrays.asList(explicit);
+        return explicit.length == 0 ? Arrays.asList(SedaVersion.values()) : Arrays.asList(explicit);
     }
 
     /**
@@ -135,9 +141,9 @@ public interface ComplexListInterface {
      * @throws RuntimeException if metadata initialization fails due to reflection errors
      */
     static void initMetadataMaps(
-            Class<?> targetClass,
-            Map<SedaVersion, Map<String, ComplexListMetadataKind>> versionedMetadataDefinitions,
-            Map<SedaVersion, Boolean> versionedNotExpandableFlags
+        Class<?> targetClass,
+        Map<SedaVersion, Map<String, ComplexListMetadataKind>> versionedMetadataDefinitions,
+        Map<SedaVersion, Boolean> versionedNotExpandableFlags
     ) {
         try {
             List<Field> annotatedFields = getFieldsWithAnnotationComplexListMetadataMap(targetClass);
@@ -145,8 +151,10 @@ public interface ComplexListInterface {
                 ComplexListMetadataMap ann = field.getAnnotation(ComplexListMetadataMap.class);
 
                 @SuppressWarnings("unchecked")
-                LinkedHashMap<String, ComplexListMetadataKind> map =
-                        (LinkedHashMap<String, ComplexListMetadataKind>) field.get(null);
+                LinkedHashMap<String, ComplexListMetadataKind> map = (LinkedHashMap<
+                        String,
+                        ComplexListMetadataKind
+                    >) field.get(null);
 
                 boolean isExpandable = ann.isExpandable();
                 for (SedaVersion version : getSedaVersions(ann)) {
@@ -156,7 +164,9 @@ public interface ComplexListInterface {
             }
         } catch (ReflectiveOperationException | ClassCastException e) {
             throw new RuntimeException(
-                    "Erreur d'initialisation des metadata pour la classe " + targetClass.getName(), e);
+                "Erreur d'initialisation des metadata pour la classe " + targetClass.getName(),
+                e
+            );
         }
     }
 
@@ -169,16 +179,17 @@ public interface ComplexListInterface {
                 ComplexListMetadataMap ann = field.getAnnotation(ComplexListMetadataMap.class);
 
                 @SuppressWarnings("unchecked")
-                LinkedHashMap<String, ComplexListMetadataKind> map =
-                    (LinkedHashMap<String, ComplexListMetadataKind>) field.get(null);
+                LinkedHashMap<String, ComplexListMetadataKind> map = (LinkedHashMap<
+                        String,
+                        ComplexListMetadataKind
+                    >) field.get(null);
 
                 for (SedaVersion version : getSedaVersions(ann)) {
                     versionedMetadataDefinitions.put(version, map);
                 }
             }
         } catch (ReflectiveOperationException | ClassCastException e) {
-            throw new RuntimeException(
-                "Erreur d'initialisation des metadata pour la classe " + clazz.getName(), e);
+            throw new RuntimeException("Erreur d'initialisation des metadata pour la classe " + clazz.getName(), e);
         }
 
         return versionedMetadataDefinitions;
@@ -197,8 +208,7 @@ public interface ComplexListInterface {
                 }
             }
         } catch (ClassCastException e) {
-            throw new RuntimeException(
-                "Erreur d'initialisation des metadata pour la classe " + clazz.getName(), e);
+            throw new RuntimeException("Erreur d'initialisation des metadata pour la classe " + clazz.getName(), e);
         }
 
         return versionedNotExpandableFlags;
@@ -212,20 +222,24 @@ public interface ComplexListInterface {
      * @return the metadata map
      * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
-    static Map<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass) throws SEDALibException {
-        final Map<SedaVersion, Map<String, ComplexListMetadataKind>> metadataDefinitions = ComplexListInterface
-            .metadataDefinitions(complexListTypeMetadataClass);
+    static Map<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass)
+        throws SEDALibException {
+        final Map<SedaVersion, Map<String, ComplexListMetadataKind>> metadataDefinitions =
+            ComplexListInterface.metadataDefinitions(complexListTypeMetadataClass);
 
         if (metadataDefinitions.containsKey(SedaContext.getVersion())) {
             return metadataDefinitions.get(SedaContext.getVersion());
         }
 
-        return metadataDefinitions.values().stream()
+        return metadataDefinitions
+            .values()
+            .stream()
             .findFirst()
             .orElseThrow(() -> {
-                final String errorMessage = "Le type "
-                    + complexListTypeMetadataClass.getName()
-                    + " ne dispose pas de définitions seda versionnée";
+                final String errorMessage =
+                    "Le type " +
+                    complexListTypeMetadataClass.getName() +
+                    " ne dispose pas de définitions seda versionnée";
 
                 return new SEDALibException(errorMessage);
             });
@@ -238,8 +252,9 @@ public interface ComplexListInterface {
      * @return true, if is not expendable
      */
     static Boolean isNotExpandable(Class<?> complexListTypeMetadataClass) {
-        final Map<SedaVersion, Boolean> notExpandableFlags = ComplexListInterface
-            .notExpandableFlags(complexListTypeMetadataClass);
+        final Map<SedaVersion, Boolean> notExpandableFlags = ComplexListInterface.notExpandableFlags(
+            complexListTypeMetadataClass
+        );
 
         if (notExpandableFlags.containsKey(SedaContext.getVersion())) {
             return notExpandableFlags.get(SedaContext.getVersion());
@@ -298,25 +313,16 @@ public interface ComplexListInterface {
      * @param type the class type to wrap
      * @return the wrapped class type for primitives, or the original type if not primitive
      */
-    static private Class<?> wrapPrimitives(Class<?> type) {
-        if (!type.isPrimitive())
-            return type;
-        if (type == int.class)
-            return (Integer.class);
-        if (type == long.class)
-            return (Long.class);
-        if (type == double.class)
-            return (Double.class);
-        if (type == float.class)
-            return (Float.class);
-        if (type == boolean.class)
-            return (Boolean.class);
-        if (type == char.class)
-            return (Character.class);
-        if (type == byte.class)
-            return (Byte.class);
-        if (type == short.class)
-            return (Short.class);
+    private static Class<?> wrapPrimitives(Class<?> type) {
+        if (!type.isPrimitive()) return type;
+        if (type == int.class) return (Integer.class);
+        if (type == long.class) return (Long.class);
+        if (type == double.class) return (Double.class);
+        if (type == float.class) return (Float.class);
+        if (type == boolean.class) return (Boolean.class);
+        if (type == char.class) return (Character.class);
+        if (type == byte.class) return (Byte.class);
+        if (type == short.class) return (Short.class);
         return type;
     }
 
@@ -334,19 +340,16 @@ public interface ComplexListInterface {
      * @param paramTypes the expected parameter types from a constructor
      * @return true if the arguments are compatible, false otherwise
      */
-    static private boolean areArgsCompatible(Object[] args, Class<?>[] paramTypes) {
-        if (args.length != paramTypes.length)
-            return false;
+    private static boolean areArgsCompatible(Object[] args, Class<?>[] paramTypes) {
+        if (args.length != paramTypes.length) return false;
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
             Class<?> expectedType = paramTypes[i];
             if (arg == null) {
-                if (expectedType.isPrimitive())
-                    return false;
+                if (expectedType.isPrimitive()) return false;
                 continue;
             }
-            if (!wrapPrimitives(expectedType).isAssignableFrom(arg.getClass()))
-                return false;
+            if (!wrapPrimitives(expectedType).isAssignableFrom(arg.getClass())) return false;
         }
         return true;
     }
@@ -361,11 +364,10 @@ public interface ComplexListInterface {
      * @param args  array of arguments to match against constructor parameters
      * @return the first compatible constructor found, or null if no compatible constructor exists
      */
-    static private Constructor<?> getCompatibleConstructor(Class<?> clazz, Object[] args) {
+    private static Constructor<?> getCompatibleConstructor(Class<?> clazz, Object[] args) {
         Constructor<?>[] constructors = clazz.getConstructors();
         for (Constructor<?> constructor : constructors) {
-            if (areArgsCompatible(args, constructor.getParameterTypes()))
-                return constructor;
+            if (areArgsCompatible(args, constructor.getParameterTypes())) return constructor;
         }
         return null;
     }
@@ -381,11 +383,7 @@ public interface ComplexListInterface {
      * @param originalArgs array of original constructor arguments
      * @return array of arguments with element name prepended if needed
      */
-    static private Object[] prepareConstructorArgs(
-            boolean isNamedType,
-            String elementName,
-            Object[] originalArgs
-    ) {
+    private static Object[] prepareConstructorArgs(boolean isNamedType, String elementName, Object[] originalArgs) {
         if (!isNamedType) {
             return originalArgs;
         }
@@ -410,21 +408,26 @@ public interface ComplexListInterface {
      * @throws InvocationTargetException if constructor invocation results in an exception
      * @throws InstantiationException    if the metadataClass cannot be instantiated
      */
-    static private SEDAMetadata getClassMemberConstructedFromArgs(Class<?> metadataClass, String elementName, Object[] args) throws SEDALibException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static SEDAMetadata getClassMemberConstructedFromArgs(
+        Class<?> metadataClass,
+        String elementName,
+        Object[] args
+    ) throws SEDALibException, IllegalAccessException, InvocationTargetException, InstantiationException {
         boolean isNamedType = metadataClass.getName().contains(".namedtype.");
         SEDAMetadata sm;
 
         Object[] constructorArgs = prepareConstructorArgs(isNamedType, elementName, args);
-        Constructor<?> compatibleCtor
-                = getCompatibleConstructor(metadataClass, constructorArgs);
+        Constructor<?> compatibleCtor = getCompatibleConstructor(metadataClass, constructorArgs);
 
         if (compatibleCtor == null) {
             // Try to use a constructor with a variable argument list (Object... args) pattern
             try {
-                if (isNamedType)
-                    sm = (SEDAMetadata) metadataClass.getConstructor(String.class, Object[].class).newInstance(elementName, args);
-                else
-                    sm = (SEDAMetadata) metadataClass.getConstructor(Object[].class).newInstance(new Object[]{args});
+                if (isNamedType) sm = (SEDAMetadata) metadataClass
+                    .getConstructor(String.class, Object[].class)
+                    .newInstance(elementName, args);
+                else sm = (SEDAMetadata) metadataClass
+                    .getConstructor(Object[].class)
+                    .newInstance(new Object[] { args });
             } catch (NoSuchMethodException e) {
                 throw new SEDALibException("Pas de constructeur de l'élément [" + elementName + "]", e);
             }
@@ -439,7 +442,6 @@ public interface ComplexListInterface {
         return sm;
     }
 
-
     /**
      * Constructs a new instance of SEDA metadata.
      * <p>
@@ -453,17 +455,19 @@ public interface ComplexListInterface {
      */
     default SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap = this.getMetadataMap();
-        if (metadataMap == null)
-            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "] en "+ SedaContext.getVersion(), null);
+        if (metadataMap == null) throw new SEDALibException(
+            "Impossible de construire l'élément [" + elementName + "] en " + SedaContext.getVersion(),
+            null
+        );
         ComplexListMetadataKind metadataKind = metadataMap.get(elementName);
         try {
             Class<?> metadataClass = (metadataKind != null ? metadataKind.getMetadataClass() : AnyXMLType.class);
             SEDAMetadata metadata = getClassMemberConstructedFromArgs(metadataClass, elementName, args);
-            if (metadata == null)
-                throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]");
+            if (metadata == null) throw new SEDALibException(
+                "Impossible de construire l'élément [" + elementName + "]"
+            );
             return metadata;
-        } catch (SecurityException | InstantiationException | IllegalAccessException
-                 | IllegalArgumentException e) {
+        } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException e) {
             throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", e);
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", te.getCause());
@@ -483,8 +487,7 @@ public interface ComplexListInterface {
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap = this.getMetadataMap();
         int index = 0;
         for (String key : metadataMap.keySet()) {
-            if (key.equals(elementName))
-                return index;
+            if (key.equals(elementName)) return index;
             index++;
         }
         return -1;
@@ -506,13 +509,19 @@ public interface ComplexListInterface {
      */
     default void addNewMetadata(String elementName, Object... args) throws SEDALibException {
         if (args.length > 0) {
-            try  {
+            try {
                 SEDAMetadata sm = newSEDAMetadata(elementName, args);
                 addMetadata(sm);
-            }
-            catch(SEDALibException e) {
-                throw new SEDALibException("Impossible d'ajouter l'élément [" + elementName + "] au type composé ["
-                        +this.getXmlElementName()+"] en "+ SedaContext.getVersion(), e);
+            } catch (SEDALibException e) {
+                throw new SEDALibException(
+                    "Impossible d'ajouter l'élément [" +
+                    elementName +
+                    "] au type composé [" +
+                    this.getXmlElementName() +
+                    "] en " +
+                    SedaContext.getVersion(),
+                    e
+                );
             }
         }
     }
@@ -522,6 +531,7 @@ public interface ComplexListInterface {
      * into the metadata list.
      */
     class InsertionInfo {
+
         /**
          * The index position where the new metadata should be inserted
          */
@@ -554,8 +564,7 @@ public interface ComplexListInterface {
      * @param isMany   Whether this metadata type allows multiple values
      * @return InsertionInfo with computed insertion position and replacement flag
      */
-    private InsertionInfo computeInsertionInfoForKnownType(
-            int newIndex, boolean isMany) throws SEDALibException {
+    private InsertionInfo computeInsertionInfoForKnownType(int newIndex, boolean isMany) throws SEDALibException {
         List<SEDAMetadata> metadataList = getMetadataList();
         int index = 0;
         boolean replaceExisting = false;
@@ -586,13 +595,14 @@ public interface ComplexListInterface {
      * @return InsertionInfo with computed insertion position
      * @throws SEDALibException if schema is not expandable
      */
-    private InsertionInfo computeInsertionInfoForUnknownType(
-            String xmlName,
-            boolean notExpandable) throws SEDALibException {
+    private InsertionInfo computeInsertionInfoForUnknownType(String xmlName, boolean notExpandable)
+        throws SEDALibException {
         List<SEDAMetadata> metadataList = getMetadataList();
 
         if (notExpandable) {
-            throw new SEDALibException("Impossible d'étendre le schéma avec des métadonnées non prévues [" + xmlName + "]");
+            throw new SEDALibException(
+                "Impossible d'étendre le schéma avec des métadonnées non prévues [" + xmlName + "]"
+            );
         }
         int index = 0;
         boolean seen = false;
@@ -616,18 +626,16 @@ public interface ComplexListInterface {
      * @throws SEDALibException if adding unknown metadata to a non-expandable type or if other constraints are violated
      */
     default void addMetadata(SEDAMetadata metadata) throws SEDALibException {
-        if (metadata == null)
-            return;
+        if (metadata == null) return;
 
         List<SEDAMetadata> metadataList = getMetadataList();
         boolean notExpandable = isNotExpandable();
         String xmlName = metadata.getXmlElementName();
         int newIndex = indexOfMetadata(xmlName);
 
-
         InsertionInfo info = (newIndex == -1)
-                ? computeInsertionInfoForUnknownType(xmlName, notExpandable)
-                : computeInsertionInfoForKnownType(newIndex, isAMultiValuedMetadata(xmlName));
+            ? computeInsertionInfoForUnknownType(xmlName, notExpandable)
+            : computeInsertionInfoForKnownType(newIndex, isAMultiValuedMetadata(xmlName));
 
         if (info.replaceExisting) {
             metadataList.set(info.insertionIndex, metadata);
@@ -645,8 +653,7 @@ public interface ComplexListInterface {
     default boolean isMetadataLacking(String elementName) {
         List<SEDAMetadata> metadataList = this.getMetadataList();
         for (SEDAMetadata sm : metadataList) {
-            if (sm.getXmlElementName().equals(elementName))
-                return false;
+            if (sm.getXmlElementName().equals(elementName)) return false;
         }
         return true;
     }
@@ -659,8 +666,7 @@ public interface ComplexListInterface {
      */
     default void toSedaXmlMetadataList(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         List<SEDAMetadata> metadataList = getMetadataList();
-        for (SEDAMetadata sm : metadataList)
-            sm.toSedaXml(xmlWriter);
+        for (SEDAMetadata sm : metadataList) sm.toSedaXml(xmlWriter);
     }
 
     /**
@@ -681,10 +687,8 @@ public interface ComplexListInterface {
                 count = 0;
             } else count++;
             final String addedName;
-            if (isAMultiValuedMetadata(sm.getXmlElementName()))
-                addedName = sm.getXmlElementName() + "." + count;
-            else
-                addedName = sm.getXmlElementName();
+            if (isAMultiValuedMetadata(sm.getXmlElementName())) addedName = sm.getXmlElementName() + "." + count;
+            else addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
             for (Map.Entry<String, String> e : smCsvList.entrySet()) {
                 result.put(addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
@@ -710,14 +714,11 @@ public interface ComplexListInterface {
             while (tmp != null) {
                 ComplexListMetadataKind mi = metadataMap.get(tmp);
                 if (mi == null) {
-                    if (isNotExpandable)
-                        throw new SEDALibException(
-                                "Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                                        + tmp + "]");
-                    else
-                        metadataClass = AnyXMLType.class;
-                } else
-                    metadataClass = mi.getMetadataClass();
+                    if (isNotExpandable) throw new SEDALibException(
+                        "Impossible d'étendre le schéma avec des métadonnées non prévues [" + tmp + "]"
+                    );
+                    else metadataClass = AnyXMLType.class;
+                } else metadataClass = mi.getMetadataClass();
                 SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
                 this.addMetadata(sm);
                 tmp = xmlReader.peekName();
@@ -741,17 +742,19 @@ public interface ComplexListInterface {
      * @return resolved metadata class
      * @throws SEDALibException if element not found in non-expandable schema
      */
-    static private Class<?> resolveMetadataClass(String name,
-                                                 Map<String, ComplexListMetadataKind> metadataMap,
-                                                 boolean notExpandable)
-            throws SEDALibException {
+    private static Class<?> resolveMetadataClass(
+        String name,
+        Map<String, ComplexListMetadataKind> metadataMap,
+        boolean notExpandable
+    ) throws SEDALibException {
         ComplexListMetadataKind kind = metadataMap.get(name);
         if (kind != null) {
             return kind.getMetadataClass();
         }
         if (notExpandable) {
-            throw new SEDALibException("Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                    + name + "]");
+            throw new SEDALibException(
+                "Impossible d'étendre le schéma avec des métadonnées non prévues [" + name + "]"
+            );
         }
         return AnyXMLType.class;
     }
@@ -766,9 +769,10 @@ public interface ComplexListInterface {
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap = this.getMetadataMap();
         boolean isNotExpandable = this.isNotExpandable();
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
-
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             xmlReader.nextUsefullEvent(); // jump document start
             String elementName = xmlReader.peekName();
             while (elementName != null) {
@@ -791,8 +795,7 @@ public interface ComplexListInterface {
     default SEDAMetadata getFirstNamedMetadata(String elementName) {
         List<SEDAMetadata> metadataList = this.getMetadataList();
         for (SEDAMetadata sm : metadataList) {
-            if (elementName.equals(sm.getXmlElementName()))
-                return sm;
+            if (elementName.equals(sm.getXmlElementName())) return sm;
         }
         return null;
     }
@@ -825,14 +828,13 @@ public interface ComplexListInterface {
         String langText = null;
         for (SEDAMetadata sm : metadataList) {
             if (sm.getXmlElementName().equals(metadataName)) {
-                if (sm instanceof StringType)
-                    return ((StringType) sm).getValue();
-                else if ((sm instanceof TextType) && (((TextType) sm).getLang() == null))
-                    return ((TextType) sm).getValue();
-                else if ((sm instanceof TextType) && (((TextType) sm).getLang().equals("fr")))
-                    langText = ((TextType) sm).getValue();
-                else if ((sm instanceof EnumType))
-                    return ((EnumType) sm).getValue();
+                if (sm instanceof StringType) return ((StringType) sm).getValue();
+                else if ((sm instanceof TextType) && (((TextType) sm).getLang() == null)) return (
+                    (TextType) sm
+                ).getValue();
+                else if ((sm instanceof TextType) && (((TextType) sm).getLang().equals("fr"))) langText =
+                    ((TextType) sm).getValue();
+                else if ((sm instanceof EnumType)) return ((EnumType) sm).getValue();
                 else if (sm instanceof DateTimeType) {
                     return (((DateTimeType) sm).getDateTimeString());
                 }
@@ -851,8 +853,7 @@ public interface ComplexListInterface {
     default boolean isAMultiValuedMetadata(String metadataName) throws SEDALibException {
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap = getMetadataMap();
         ComplexListMetadataKind clmk = metadataMap.get(metadataName);
-        if (clmk == null)
-            return true;
+        if (clmk == null) return true;
         return clmk.isMany();
     }
 }

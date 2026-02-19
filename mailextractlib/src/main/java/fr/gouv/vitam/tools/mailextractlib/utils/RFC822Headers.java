@@ -1,34 +1,43 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.utils;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
@@ -62,14 +71,12 @@ public class RFC822Headers extends InternetHeaders {
      * @return the bais
      */
     static ByteArrayInputStream getBAIS(String headersString) {
-        if (headersString == null)
-            headersString = "";
+        if (headersString == null) headersString = "";
         headersString += "\n\n";
         ByteArrayInputStream bais = null;
         try {
             bais = new ByteArrayInputStream(headersString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException ignored) {
-        }
+        } catch (UnsupportedEncodingException ignored) {}
         return bais;
     }
 
@@ -92,17 +99,15 @@ public class RFC822Headers extends InternetHeaders {
      * @param line the line
      * @return the header value
      */
-// utility function to get the value part of an header string
+    // utility function to get the value part of an header string
     public static String getHeaderValue(String line) {
         int i = line.indexOf(':');
-        if (i < 0)
-            return line;
+        if (i < 0) return line;
         // skip whitespace after ':'
         int j;
         for (j = i + 1; j < line.length(); j++) {
             char c = line.charAt(j);
-            if (!(c == ' ' || c == '\t' || c == '\r' || c == '\n'))
-                break;
+            if (!(c == ' ' || c == '\t' || c == '\r' || c == '\n')) break;
         }
         return line.substring(j);
     }
@@ -118,34 +123,28 @@ public class RFC822Headers extends InternetHeaders {
         if (refHeader != null) {
             result = new ArrayList<String>();
             String[] refList = getHeaderValue(refHeader).split(" ");
-            for (String tmp : refList)
-                try {
-                    result.add(MimeUtility.decodeText(tmp));
-                } catch (UnsupportedEncodingException ignored) {
-                }
+            for (String tmp : refList) try {
+                result.add(MimeUtility.decodeText(tmp));
+            } catch (UnsupportedEncodingException ignored) {}
         }
         return result;
     }
 
-    static private String getElementalStringAddress(InternetAddress address) {
+    private static String getElementalStringAddress(InternetAddress address) {
         String result;
         String s;
 
         if (address != null) {
             s = address.getPersonal();
-            if ((s != null) && !s.isEmpty())
-                result = s + " ";
-            else
-                result = "";
+            if ((s != null) && !s.isEmpty()) result = s + " ";
+            else result = "";
             s = address.getAddress();
-            if ((s != null) && !s.isEmpty())
-                result += "<" + s + ">";
-        } else
-            result = "";
+            if ((s != null) && !s.isEmpty()) result += "<" + s + ">";
+        } else result = "";
         return result;
     }
 
-    static private String getStringAddress(InternetAddress address) {
+    private static String getStringAddress(InternetAddress address) {
         String result;
 
         if (address != null) {
@@ -156,8 +155,7 @@ public class RFC822Headers extends InternetHeaders {
                     result += ":";
                     InternetAddress[] group = address.getGroup(false);
                     for (int k = 0; k < group.length; k++) {
-                        if (k > 0)
-                            result += ",";
+                        if (k > 0) result += ",";
                         result += getElementalStringAddress(group[k]);
                     }
                 }
@@ -165,8 +163,7 @@ public class RFC822Headers extends InternetHeaders {
                 // not supposed to be
                 result = "";
             }
-        } else
-            result = "";
+        } else result = "";
         return result;
     }
 
@@ -184,7 +181,6 @@ public class RFC822Headers extends InternetHeaders {
         return treatAddressHeaderString(name, message, addressHeaderString);
     }
 
-
     /**
      * Processes a raw address header string and returns a list of email addresses.
      * <p>
@@ -198,7 +194,8 @@ public class RFC822Headers extends InternetHeaders {
      * @param addressHeaderString the raw address header string to process
      * @return a list of processed email address strings
      */
-    public static List<String> treatAddressHeaderString(String name, StoreMessage message, String addressHeaderString) throws InterruptedException {
+    public static List<String> treatAddressHeaderString(String name, StoreMessage message, String addressHeaderString)
+        throws InterruptedException {
         List<String> result = new ArrayList<String>();
 
         if (addressHeaderString != null) {
@@ -208,15 +205,19 @@ public class RFC822Headers extends InternetHeaders {
             } catch (AddressException e) {
                 // try at least to Mime decode
                 addressHeaderString = decodeRfc2047Flexible(addressHeaderString);
-                message.logMessageWarning("mailextractlib.rfc822: wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name, e);
+                message.logMessageWarning(
+                    "mailextractlib.rfc822: wrongly formatted address " +
+                    addressHeaderString +
+                    ", keep raw address list in metadata in header " +
+                    name,
+                    e
+                );
                 result.add(addressHeaderString);
                 return result;
             }
             for (InternetAddress ia : iAddressArray) {
                 String address = getStringAddress(ia);
-                if (address.contains("=?"))
-                    address = decodeRfc2047Flexible(address);
+                if (address.contains("=?")) address = decodeRfc2047Flexible(address);
                 result.add(address);
             }
         }
@@ -224,14 +225,10 @@ public class RFC822Headers extends InternetHeaders {
     }
 
     // RFC 2047 block patterns
-    private static final Pattern ENCODED_WORD_PATTERN_BEGIN = Pattern.compile(
-            "(=\\?[^?]+\\?[BbQq]\\?[^?]+)");
-    private static final Pattern ENCODED_WORD_PATTERN = Pattern.compile(
-            "(=\\?[^?]+\\?[BbQq]\\?[^?]+\\?=)");
-    private static final Pattern Q_ENCODING_PATTERN = Pattern.compile(
-            "=\\?[^?]+\\?[Qq]\\?[^?]+\\?=");
-    private static final Pattern BASE64_BLOCK_PATTERN = Pattern.compile(
-            "=\\?([^?]+)\\?[Bb]\\?([^?]+)\\?=");
+    private static final Pattern ENCODED_WORD_PATTERN_BEGIN = Pattern.compile("(=\\?[^?]+\\?[BbQq]\\?[^?]+)");
+    private static final Pattern ENCODED_WORD_PATTERN = Pattern.compile("(=\\?[^?]+\\?[BbQq]\\?[^?]+\\?=)");
+    private static final Pattern Q_ENCODING_PATTERN = Pattern.compile("=\\?[^?]+\\?[Qq]\\?[^?]+\\?=");
+    private static final Pattern BASE64_BLOCK_PATTERN = Pattern.compile("=\\?([^?]+)\\?[Bb]\\?([^?]+)\\?=");
 
     /**
      * Decodes a string containing RFC 2047 encoded words,
@@ -251,8 +248,7 @@ public class RFC822Headers extends InternetHeaders {
         input = input.replaceAll("\\r?\\n[ \t]*", "");
 
         // add encoded bloc end if needed
-        if (ENCODED_WORD_PATTERN_BEGIN.matcher(input).find() && !input.trim().endsWith("?="))
-            input+="?=";
+        if (ENCODED_WORD_PATTERN_BEGIN.matcher(input).find() && !input.trim().endsWith("?=")) input += "?=";
 
         // Split the encoded blocs even without spaces
         Matcher matcher = ENCODED_WORD_PATTERN.matcher(input);
@@ -292,7 +288,7 @@ public class RFC822Headers extends InternetHeaders {
     }
 
     public static final Pattern SIMPLE_EMAIL_WITH_NAME_PATTERN = Pattern.compile(
-            "^\\s*.*?<\\s*[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]{0,62}[a-zA-Z0-9])?@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\s*>\\s*$"
+        "^\\s*.*?<\\s*[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]{0,62}[a-zA-Z0-9])?@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\s*>\\s*$"
     );
 
     /**
@@ -311,12 +307,12 @@ public class RFC822Headers extends InternetHeaders {
 
         List<String> decodedList = new ArrayList<>();
         for (String address : addressList) {
-            if (SIMPLE_EMAIL_WITH_NAME_PATTERN.matcher(address).matches())
-                decodedList.add(address.toLowerCase().trim());
+            if (SIMPLE_EMAIL_WITH_NAME_PATTERN.matcher(address).matches()) decodedList.add(
+                address.toLowerCase().trim()
+            );
         }
 
-        if (decodedList.isEmpty())
-            decodedList=addressList;
+        if (decodedList.isEmpty()) decodedList = addressList;
 
         return new ArrayList<>(new LinkedHashSet<>(decodedList));
     }

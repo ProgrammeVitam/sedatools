@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
@@ -34,19 +71,20 @@ class CSVMetadataExporterTest {
         try {
             if (Files.isSymbolicLink(path)) {
                 return true;
-            } else if (TestUtilities.isWindowsOS() && Files.isRegularFile(path)
-                    && path.getFileName().toString().toLowerCase().endsWith(".lnk")) {
+            } else if (
+                TestUtilities.isWindowsOS() &&
+                Files.isRegularFile(path) &&
+                path.getFileName().toString().toLowerCase().endsWith(".lnk")
+            ) {
                 WindowsShortcut ws = new WindowsShortcut(path.toFile());
                 return true;
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return false;
     }
 
     private static boolean compareTwoPathString(Path pathA, Path pathB) {
-        if (Files.isDirectory(pathA) && Files.isDirectory(pathB))
-            return true;
+        if (Files.isDirectory(pathA) && Files.isDirectory(pathB)) return true;
         else if (Files.isSymbolicLink(pathA) && Files.isSymbolicLink(pathB)) {
             try {
                 if (!Files.readSymbolicLink(pathA).equals(Files.readSymbolicLink(pathB))) {
@@ -129,19 +167,16 @@ class CSVMetadataExporterTest {
                 // create the parent directory structure if needed
                 destinationParent.mkdirs();
 
-                if (entry.isDirectory())
-                    destFile.mkdirs();
+                if (entry.isDirectory()) destFile.mkdirs();
                 else {
-                    BufferedInputStream is = new BufferedInputStream(zip
-                            .getInputStream(entry));
+                    BufferedInputStream is = new BufferedInputStream(zip.getInputStream(entry));
                     int currentByte;
                     // establish buffer for writing file
                     byte[] data = new byte[BUFFER];
 
                     // write the current file to disk
                     FileOutputStream fos = new FileOutputStream(destFile);
-                    BufferedOutputStream dest = new BufferedOutputStream(fos,
-                            BUFFER);
+                    BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
 
                     // read and write until last byte is encountered
                     while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
@@ -151,8 +186,6 @@ class CSVMetadataExporterTest {
                     dest.close();
                     is.close();
                 }
-
-
             }
         } catch (Exception e) {
             System.err.println("Can't unzip " + e.getMessage());
@@ -163,7 +196,10 @@ class CSVMetadataExporterTest {
     void exportDiskOK() throws SEDALibException, InterruptedException, IOException {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -173,21 +209,39 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterDisk");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
+        cme = new DataObjectPackageToCSVMetadataExporter(
+            di.getArchiveTransfer().getDataObjectPackage(),
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
         cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk", "metadata.csv");
 
-        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
+        unzip(
+            "src/test/resources/ExpectedResults/ExportedMetadata.zip",
+            "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"
+        );
 
         // Then exported directory is equivalent to imported one
-        assertThat(compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
-                Paths.get("target/tmpJunit/CSVMetadataExporterDisk"))).isTrue();
+        assertThat(
+            compareDirectories(
+                Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
+                Paths.get("target/tmpJunit/CSVMetadataExporterDisk")
+            )
+        ).isTrue();
     }
 
     @Test
     void exportCSVOK() throws SEDALibException, InterruptedException, IOException {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -197,11 +251,21 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
-        csvMetadataExporter = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
+        csvMetadataExporter = new DataObjectPackageToCSVMetadataExporter(
+            di.getArchiveTransfer().getDataObjectPackage(),
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
         csvMetadataExporter.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = TestUtilities.SlackNormalize(FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8"));
+        String generatedFileContent = TestUtilities.SlackNormalize(
+            FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8")
+        );
         String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadata.csv");
 
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
@@ -211,7 +275,10 @@ class CSVMetadataExporterTest {
     void exportCSVWithExtendedFormat() throws SEDALibException, InterruptedException, IOException {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -221,12 +288,24 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, true, 0, null);
+        cme = new DataObjectPackageToCSVMetadataExporter(
+            di.getArchiveTransfer().getDataObjectPackage(),
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            true,
+            0,
+            null
+        );
         cme.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = TestUtilities.SlackNormalize(FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8"));
-        String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadataWithExtendedFormat.csv");
+        String generatedFileContent = TestUtilities.SlackNormalize(
+            FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8")
+        );
+        String expectedFileContent = ResourceUtils.getResourceAsString(
+            "ExpectedResults/ExportedMetadataWithExtendedFormat.csv"
+        );
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
@@ -234,7 +313,10 @@ class CSVMetadataExporterTest {
     void exportZipOK() throws SEDALibException, InterruptedException, IOException {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -244,15 +326,32 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterZIP");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
+        cme = new DataObjectPackageToCSVMetadataExporter(
+            di.getArchiveTransfer().getDataObjectPackage(),
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
         cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip", "metadata.csv");
 
-        unzip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/unzip");
-        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
+        unzip(
+            "target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip",
+            "target/tmpJunit/CSVMetadataExporterZIP/unzip"
+        );
+        unzip(
+            "src/test/resources/ExpectedResults/ExportedMetadata.zip",
+            "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"
+        );
 
         // Then exported directory in the zip is equivalent to imported one
-        assertThat(compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
-                Paths.get("target/tmpJunit/CSVMetadataExporterZIP/unzip"))).isTrue();
+        assertThat(
+            compareDirectories(
+                Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
+                Paths.get("target/tmpJunit/CSVMetadataExporterZIP/unzip")
+            )
+        ).isTrue();
     }
-
 }

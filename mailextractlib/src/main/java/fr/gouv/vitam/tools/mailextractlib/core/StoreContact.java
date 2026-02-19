@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -92,12 +102,14 @@ public abstract class StoreContact extends StoreElement {
     @Override
     public String getLogDescription() {
         String result = "contact " + listLineId;
-        if (fullName != null)
-            result += " [" + fullName + "]";
-        else if ((givenName != null) || (lastName != null))
-            result += " [" + (givenName != null ? givenName : "NoGivenName") + " " + (lastName != null ? lastName : "NoLastName") + "]";
-        else
-            result += " [no name]";
+        if (fullName != null) result += " [" + fullName + "]";
+        else if ((givenName != null) || (lastName != null)) result +=
+        " [" +
+        (givenName != null ? givenName : "NoGivenName") +
+        " " +
+        (lastName != null ? lastName : "NoLastName") +
+        "]";
+        else result += " [no name]";
         return result;
     }
 
@@ -112,7 +124,7 @@ public abstract class StoreContact extends StoreElement {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    abstract public void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException;
+    public abstract void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException;
 
     /**
      * Analyze contact to collect contact picture if any.
@@ -124,7 +136,7 @@ public abstract class StoreContact extends StoreElement {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    abstract public void analyzeContactPicture() throws MailExtractLibException, InterruptedException;
+    public abstract void analyzeContactPicture() throws MailExtractLibException, InterruptedException;
 
     /**
      * Analyze contact to collect contact information and optionally picture.
@@ -136,8 +148,7 @@ public abstract class StoreContact extends StoreElement {
         analyzeAllContactInformations();
         try {
             analyzeContactPicture();
-        } catch (MailExtractLibException ignored) {
-        }
+        } catch (MailExtractLibException ignored) {}
     }
 
     /**
@@ -145,7 +156,7 @@ public abstract class StoreContact extends StoreElement {
      *
      * @return the element name
      */
-    static public String getElementName() {
+    public static String getElementName() {
         return "contacts";
     }
 
@@ -154,13 +165,15 @@ public abstract class StoreContact extends StoreElement {
      *
      * @param ps the dedicated print stream
      */
-    static public void printGlobalListCSVHeader(PrintStream ps) {
+    public static void printGlobalListCSVHeader(PrintStream ps) {
         synchronized (ps) {
-            ps.println("ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
-                    "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
-                    "Business Telephone Number;Business Address;RefID;" +
-                    "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
-                    "Home Location;Home Telephone Number;Home Address;Nickname");
+            ps.println(
+                "ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
+                "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
+                "Business Telephone Number;Business Address;RefID;" +
+                "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
+                "Home Location;Home Telephone Number;Home Address;Nickname"
+            );
         }
     }
 
@@ -175,11 +188,10 @@ public abstract class StoreContact extends StoreElement {
      */
     public void extractContact(boolean writeFlag) throws InterruptedException, MailExtractLibException {
         if (writeFlag) {
-            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
-                writeToContactsList();
-            if ((pictureData != null)
-                    && storeFolder.getStoreExtractor().getOptions().extractElementsContent)
-                extractPicture();
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList) writeToContactsList();
+            if (
+                (pictureData != null) && storeFolder.getStoreExtractor().getOptions().extractElementsContent
+            ) extractPicture();
         }
     }
 
@@ -218,12 +230,23 @@ public abstract class StoreContact extends StoreElement {
     }
 
     private void extractPicture() throws InterruptedException, MailExtractLibException {
-        ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
-                File.separator + storeFolder.storeExtractor.destName + File.separator + "contacts", "ContactPicture#" + listLineId);
+        ArchiveUnit attachmentNode = new ArchiveUnit(
+            storeFolder.storeExtractor,
+            storeFolder.storeExtractor.destRootPath +
+            File.separator +
+            storeFolder.storeExtractor.destName +
+            File.separator +
+            "contacts",
+            "ContactPicture#" + listLineId
+        );
         attachmentNode.addMetadata("DescriptionLevel", "Item", true);
         attachmentNode.addMetadata("Title", "Contact Picture #" + listLineId, true);
         attachmentNode.addMetadata("Description", "Contact picture extracted for " + fullName, true);
-        attachmentNode.addPersonMetadata("Recipient", fullName + (smtpAddress.isEmpty() ? "" : "<" + smtpAddress + ">"), false);
+        attachmentNode.addPersonMetadata(
+            "Recipient",
+            fullName + (smtpAddress.isEmpty() ? "" : "<" + smtpAddress + ">"),
+            false
+        );
         attachmentNode.addObject(pictureData, pictureFileName, "BinaryMaster", 1);
         attachmentNode.write();
     }
@@ -239,7 +262,8 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        if (storeFolder.getStoreExtractor().getOptions().extractContacts)
-            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+        if (storeFolder.getStoreExtractor().getOptions().extractContacts) listLineId = storeFolder
+            .getStoreExtractor()
+            .incElementCounter(this.getClass());
     }
 }

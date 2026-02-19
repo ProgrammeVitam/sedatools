@@ -1,38 +1,48 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMMimeMessage;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxReader;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.mail.*;
 import org.eclipse.angus.mail.imap.protocol.BASE64MailboxDecoder;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +72,7 @@ public class ThunderbirdFolder extends Folder {
     private MailExtractProgressLogger logger;
 
     private class MessageFork {
+
         long beg, end;
 
         MessageFork(long beg, long end) {
@@ -99,8 +110,8 @@ public class ThunderbirdFolder extends Folder {
         this.mstore = store;
 
         this.folderFullName = folderFullName;
-        holdsFlags = (isBoxHoldingMessages(folderFullName) ? HOLDS_MESSAGES : 0)
-                | (isBoxHoldingFolders(folderFullName) ? HOLDS_FOLDERS : 0);
+        holdsFlags = (isBoxHoldingMessages(folderFullName) ? HOLDS_MESSAGES : 0) |
+        (isBoxHoldingFolders(folderFullName) ? HOLDS_FOLDERS : 0);
         if (folderFullName != null) {
             folderFile = new File(getFilePathFromFolderFullName(folderFullName));
         }
@@ -135,13 +146,21 @@ public class ThunderbirdFolder extends Folder {
     }
 
     private String getSubFolderDirectoryPathFromFolderFullName(String folderPath) {
-        return mstore.getContainer() + File.separator + folderPath.replace(File.separator, ".sbd" + File.separator)
-                + ".sbd";
+        return (
+            mstore.getContainer() +
+            File.separator +
+            folderPath.replace(File.separator, ".sbd" + File.separator) +
+            ".sbd"
+        );
     }
 
     private String getIndexFilePathFromFolderFullName(String folderPath) {
-        return mstore.getContainer() + File.separator + folderPath.replace(File.separator, ".sbd" + File.separator)
-                + ".msf";
+        return (
+            mstore.getContainer() +
+            File.separator +
+            folderPath.replace(File.separator, ".sbd" + File.separator) +
+            ".msf"
+        );
     }
 
     private String getFolderNameFromFileName(String fileName) {
@@ -149,17 +168,13 @@ public class ThunderbirdFolder extends Folder {
     }
 
     private String getFolderNameFromIndexFileName(String fileName) {
-        if (fileName.endsWith(".msf"))
-            return fileName.substring(0, fileName.length() - 4);
-        else
-            return fileName;
+        if (fileName.endsWith(".msf")) return fileName.substring(0, fileName.length() - 4);
+        else return fileName;
     }
 
     private String getFolderNameFromSubFolderDirectoryName(String fileName) {
-        if (fileName.endsWith(".sbd"))
-            return fileName.substring(0, fileName.length() - 4);
-        else
-            return fileName;
+        if (fileName.endsWith(".sbd")) return fileName.substring(0, fileName.length() - 4);
+        else return fileName;
     }
 
     private String getFolderFullNameFromPath(String filePath) {
@@ -180,11 +195,8 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public String getName() {
-        if (folderFullName == null)
-            return "";
-        else
-            // XXXX
-            return BASE64MailboxDecoder.decode(folderFile.getName());
+        if (folderFullName == null) return "";
+        else return BASE64MailboxDecoder.decode(folderFile.getName()); // XXXX
     }
 
     /*
@@ -194,21 +206,21 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public String getFullName() {
-        if (folderFullName == null)
-            return "";
-        else
-            return BASE64MailboxDecoder.decode(folderFullName);
+        if (folderFullName == null) return "";
+        else return BASE64MailboxDecoder.decode(folderFullName);
     }
 
     // test functions used to determine if a folder hold messages and/or
     // subfolders
     private boolean isSubFoldersDirectory(File test) {
-        if (!test.exists() || !test.isDirectory())
-            return false;
+        if (!test.exists() || !test.isDirectory()) return false;
         if (!test.getName().endsWith(".sbd")) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
-                    "ThunderMBox: Maybe sub folders directory " + test.getPath() + " without .sbd suffix is ignored",
-                    null);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.WARNING,
+                "ThunderMBox: Maybe sub folders directory " + test.getPath() + " without .sbd suffix is ignored",
+                null
+            );
             return false;
         }
         return true;
@@ -216,8 +228,7 @@ public class ThunderbirdFolder extends Folder {
 
     private boolean isThundebirdMboxFile(File test) {
         // first is it a file
-        if (!test.exists() || !test.isFile())
-            return false;
+        if (!test.exists() || !test.isFile()) return false;
         // then verify that the file content is beginning with "From "
         BufferedReader reader = null;
         try {
@@ -225,62 +236,55 @@ public class ThunderbirdFolder extends Folder {
             String firstline = "";
             while (firstline.isEmpty()) {
                 firstline = reader.readLine();
-                if (firstline == null)
-                    break;
+                if (firstline == null) break;
                 firstline = firstline.trim();
             }
-            if (firstline == null || !firstline.startsWith("From"))
-                return false;
+            if (firstline == null || !firstline.startsWith("From")) return false;
         } catch (IOException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
-                    "ThunderMBox: Maybe mailbox file " + test.getPath() + " can't be opened and is ignored",
-                    e);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.WARNING,
+                "ThunderMBox: Maybe mailbox file " + test.getPath() + " can't be opened and is ignored",
+                e
+            );
         } finally {
             try {
-                if (reader != null)
-                    reader.close();
+                if (reader != null) reader.close();
             } catch (IOException e) {
                 // forget it
             }
         }
         // then verify that an index file exists "fileName".msf
         test = new File(test.getPath() + ".msf");
-        if (!test.exists())
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
-                    "ThunderMBox: Maybe mailbox file " + test.getPath() + " don't have an index file but is analyzed",
-                    null);
+        if (!test.exists()) doProgressLogWithoutInterruption(
+            logger,
+            MailExtractProgressLogger.WARNING,
+            "ThunderMBox: Maybe mailbox file " + test.getPath() + " don't have an index file but is analyzed",
+            null
+        );
         return true;
     }
 
     private boolean isThunderIndexFile(File test) {
-        if (!test.exists() || !test.isFile())
-            return false;
+        if (!test.exists() || !test.isFile()) return false;
         return (test.getName().endsWith(".msf"));
     }
 
     private boolean isBoxHoldingMessages(String folderFullName) {
-        if (folderFullName == null)
-            return false;
-        else
-            return isThundebirdMboxFile(new File(getFilePathFromFolderFullName(folderFullName)));
+        if (folderFullName == null) return false;
+        else return isThundebirdMboxFile(new File(getFilePathFromFolderFullName(folderFullName)));
     }
 
     private boolean isBoxHoldingFolders(String folderFullName) {
-        if (folderFullName == null)
-            return true;
-        else
-            return isSubFoldersDirectory(new File(getSubFolderDirectoryPathFromFolderFullName(folderFullName)));
+        if (folderFullName == null) return true;
+        else return isSubFoldersDirectory(new File(getSubFolderDirectoryPathFromFolderFullName(folderFullName)));
     }
 
     private boolean isBox(String folderPath) {
-        if (isThundebirdMboxFile(new File(getFilePathFromFolderFullName(folderPath))))
-            return true;
-        else if (isSubFoldersDirectory(new File(getSubFolderDirectoryPathFromFolderFullName(folderPath))))
-            return true;
-        else if (isThunderIndexFile(new File(getIndexFilePathFromFolderFullName(folderPath))))
-            return true;
-        else
-            return false;
+        if (isThundebirdMboxFile(new File(getFilePathFromFolderFullName(folderPath)))) return true;
+        else if (isSubFoldersDirectory(new File(getSubFolderDirectoryPathFromFolderFullName(folderPath)))) return true;
+        else if (isThunderIndexFile(new File(getIndexFilePathFromFolderFullName(folderPath)))) return true;
+        else return false;
     }
 
     /*
@@ -325,8 +329,7 @@ public class ThunderbirdFolder extends Folder {
 
         File folder = new File(sbdPath);
         File[] listOfFiles = folder.listFiles();
-        if (listOfFiles == null)
-            return result;
+        if (listOfFiles == null) return result;
 
         HashMap<String, Integer> boxes = new HashMap<String, Integer>();
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -347,11 +350,18 @@ public class ThunderbirdFolder extends Folder {
                 continue;
             }
             // fourth case empty file
-            if (listOfFiles[i].isFile() && listOfFiles[i].length() == 0)
-                continue;
+            if (listOfFiles[i].isFile() && listOfFiles[i].length() == 0) continue;
             // then garbage and warning
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING, "ThunderMBox: Wrong mailbox file " + listOfFiles[i].getName() + " in "
-                    + (folderFullName == null ? "root folder" : "folder " + folderFullName) + " is ignored", null);
+            doProgressLogWithoutInterruption(
+                logger,
+                MailExtractProgressLogger.WARNING,
+                "ThunderMBox: Wrong mailbox file " +
+                listOfFiles[i].getName() +
+                " in " +
+                (folderFullName == null ? "root folder" : "folder " + folderFullName) +
+                " is ignored",
+                null
+            );
         }
 
         ArrayList<Folder> folders = new ArrayList<Folder>();
@@ -371,10 +381,8 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public Folder getParent() throws MessagingException {
-        if (folderFullName == null)
-            return this;
-        else
-            return getFolder(getFolderFullNameFromPath(folderFile.getParent()));
+        if (folderFullName == null) return this;
+        else return getFolder(getFolderFullNameFromPath(folderFile.getParent()));
     }
 
     /*
@@ -384,8 +392,7 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public boolean exists() {
-        if (folderFullName == null)
-            return true;
+        if (folderFullName == null) return true;
         else {
             return isBox(folderFullName);
         }
@@ -473,21 +480,24 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public void open(int mode) throws MessagingException {
-        if (opened)
-            throw new IllegalStateException("ThunderMBox: Folder " + folderFullName + " is already open");
+        if (opened) throw new IllegalStateException("ThunderMBox: Folder " + folderFullName + " is already open");
 
-        if ((getType() & HOLDS_MESSAGES) == 0)
-            throw new MessagingException("Folder " + folderFullName + " cannot contain messages");
-        if (!folderFile.exists())
-            throw new FolderNotFoundException(this, "ThunderMBox: Folder " + folderFullName + " doesn't exist");
+        if ((getType() & HOLDS_MESSAGES) == 0) throw new MessagingException(
+            "Folder " + folderFullName + " cannot contain messages"
+        );
+        if (!folderFile.exists()) throw new FolderNotFoundException(
+            this,
+            "ThunderMBox: Folder " + folderFullName + " doesn't exist"
+        );
         this.mode = mode;
         switch (mode) {
             case READ_WRITE:
                 throw new MethodNotSupportedException("ThunderMBox: no writing supported");
             case READ_ONLY:
             default:
-                if (!folderFile.canRead())
-                    throw new MessagingException("ThunderMBox: open Failure, can't read: " + folderFile.getPath());
+                if (!folderFile.canRead()) throw new MessagingException(
+                    "ThunderMBox: open Failure, can't read: " + folderFile.getPath()
+                );
                 break;
         }
 
@@ -521,8 +531,7 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public void close(boolean expunge) throws MessagingException {
-        if (!opened)
-            throw new IllegalStateException("ThunderMBox: Folder " + folderFullName + " is not Open");
+        if (!opened) throw new IllegalStateException("ThunderMBox: Folder " + folderFullName + " is not Open");
         messages = null;
         opened = false;
         try {
@@ -539,8 +548,7 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public int getMessageCount() throws MessagingException {
-        if (!opened)
-            return -1;
+        if (!opened) return -1;
 
         return total;
     }
@@ -552,16 +560,17 @@ public class ThunderbirdFolder extends Folder {
      */
     @Override
     public Message getMessage(int msgno) throws MessagingException {
-        if (msgno < 1) // message-numbers start at 1
-            throw new IndexOutOfBoundsException("message number " + msgno + " < 1");
-        else if (msgno > total) // Still out of range ? Throw up ...
-            throw new IndexOutOfBoundsException("message number " + msgno + " > " + total);
+        if (msgno < 1) throw new IndexOutOfBoundsException("message number " + msgno + " < 1"); // message-numbers start at 1
+        else if (msgno > total) throw new IndexOutOfBoundsException("message number " + msgno + " > " + total); // Still out of range ? Throw up ...
         Message m;
         // each get regenerate a message with no strong link so that it can be
         // GC
         // optimal for the extraction usage with only one get by message
-        m = new JMMimeMessage(this, mboxfilereader.newStream(messages.get(msgno - 1).beg, messages.get(msgno - 1).end),
-                msgno);
+        m = new JMMimeMessage(
+            this,
+            mboxfilereader.newStream(messages.get(msgno - 1).beg, messages.get(msgno - 1).end),
+            msgno
+        );
 
         return m;
     }
@@ -591,7 +600,14 @@ public class ThunderbirdFolder extends Folder {
     public URLName getURLName() {
         URLName storeURL = getStore().getURLName();
 
-        return new URLName(storeURL.getProtocol(), storeURL.getHost(), storeURL.getPort(),
-                mstore.getContainer() + File.separator + getFullName(), storeURL.getUsername(), null /* no password */);
+        return new URLName(
+            storeURL.getProtocol(),
+            storeURL.getHost(),
+            storeURL.getPort(),
+            mstore.getContainer() + File.separator + getFullName(),
+            storeURL.getUsername(),
+            null
+            /* no password */
+        );
     }
 }

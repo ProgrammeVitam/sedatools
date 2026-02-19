@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -94,7 +104,14 @@ public abstract class StoreAppointment extends StoreElement {
      * Human-readable text for the statuses defined in {@link #MESSAGE_STATUS_UNKNOWN},
      * {@link #MESSAGE_STATUS_LOCAL}, etc.
      */
-    public static final String[] MESSAGE_STATUS_TEXT = {"Unknown", "Local", "Request", "Resp.Yes", "Resp.May", "Resp.No"};
+    public static final String[] MESSAGE_STATUS_TEXT = {
+        "Unknown",
+        "Local",
+        "Request",
+        "Resp.Yes",
+        "Resp.May",
+        "Resp.No",
+    };
 
     /**
      * A unique identifier for the appointment (used to differentiate it from other elements).
@@ -213,10 +230,8 @@ public abstract class StoreAppointment extends StoreElement {
     @Override
     public String getLogDescription() {
         String result = "appointment " + listLineId;
-        if (subject != null)
-            result += " [" + subject + "/";
-        else
-            result += " [no subject/";
+        if (subject != null) result += " [" + subject + "/";
+        else result += " [no subject/";
         result += getDateInDefinedTimeZone(startTime) + " - " + getDateInDefinedTimeZone(endTime) + "]";
         return result;
     }
@@ -250,10 +265,12 @@ public abstract class StoreAppointment extends StoreElement {
      */
     public static void printGlobalListCSVHeader(PrintStream ps) {
         synchronized (ps) {
-            ps.println("ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
-                    "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
-                    "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
-                    "ExceptionFromId;ExceptionDate;isDeletion;hasAttachment");
+            ps.println(
+                "ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
+                "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
+                "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
+                "ExceptionFromId;ExceptionDate;isDeletion;hasAttachment"
+            );
         }
     }
 
@@ -265,44 +282,49 @@ public abstract class StoreAppointment extends StoreElement {
      * @throws InterruptedException    the interrupted exception
      * @throws MailExtractLibException the mail extract lib exception
      */
-    public void extractAppointment(boolean writeFlag, StoreAppointment father) throws InterruptedException, MailExtractLibException {
+    public void extractAppointment(boolean writeFlag, StoreAppointment father)
+        throws InterruptedException, MailExtractLibException {
         if (writeFlag) {
-            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
-                writeToAppointmentsList(father);
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList) writeToAppointmentsList(father);
             if (storeFolder.getStoreExtractor().getOptions().extractElementsContent) {
                 if ((attachments != null) && (!attachments.isEmpty())) {
-                    ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
-                            File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
+                    ArchiveUnit attachmentNode = new ArchiveUnit(
+                        storeFolder.storeExtractor,
+                        storeFolder.storeExtractor.destRootPath +
+                        File.separator +
+                        storeFolder.storeExtractor.destName +
+                        File.separator +
+                        "appointments",
+                        "AppointmentAttachments#" + listLineId
+                    );
                     attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
                     attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
-                    attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
+                    attachmentNode.addMetadata(
+                        "Description",
+                        "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]",
+                        true
+                    );
                     attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
                     attachmentNode.addMetadata("EndDate", getDateInUTCTimeZone(endTime), true);
                     attachmentNode.write();
                     StoreAttachment.extractAttachments(attachments, attachmentNode, writeFlag);
                 }
             }
-            if (exceptions != null)
-                for (StoreAppointment a : exceptions)
-                    a.extractAppointment(writeFlag, this);
+            if (exceptions != null) for (StoreAppointment a : exceptions) a.extractAppointment(writeFlag, this);
         }
     }
 
     private String getDateInUTCTimeZone(ZonedDateTime date) {
         String result;
-        if (date != null)
-            result = date.withZoneSameInstant(ZoneId.of("UTC")).format(ISO_8601);
-        else
-            result = "";
+        if (date != null) result = date.withZoneSameInstant(ZoneId.of("UTC")).format(ISO_8601);
+        else result = "";
         return result;
     }
 
     private String getDateInDefinedTimeZone(ZonedDateTime date) {
         String result;
-        if (date != null)
-            result = date.format(ISO_8601);
-        else
-            result = "";
+        if (date != null) result = date.format(ISO_8601);
+        else result = "";
         return result;
     }
 
@@ -349,7 +371,10 @@ public abstract class StoreAppointment extends StoreElement {
             ps.format("\"%s\";", (father != null ? father.listLineId : ""));
             ps.format("\"%s\";", getDateInDefinedTimeZone(exceptionDate));
             ps.format("\"%s\";", (isRecurrenceDeletion ? "X" : ""));
-            ps.format("\"%s\"", ((attachments != null) && (!attachments.isEmpty()) ? Integer.toString(attachments.size()) : ""));
+            ps.format(
+                "\"%s\"",
+                ((attachments != null) && (!attachments.isEmpty()) ? Integer.toString(attachments.size()) : "")
+            );
             ps.println("");
             ps.flush();
         }
@@ -370,8 +395,7 @@ public abstract class StoreAppointment extends StoreElement {
         if (storeFolder.getStoreExtractor().getOptions().extractAppointments) {
             listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
             analyzeAppointment();
-            if (statsFlag)
-                extractAppointment(false, null);
+            if (statsFlag) extractAppointment(false, null);
         }
     }
 }

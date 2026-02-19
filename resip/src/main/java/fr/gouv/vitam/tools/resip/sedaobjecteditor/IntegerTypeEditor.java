@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
@@ -56,8 +66,9 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
      */
     public IntegerTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof IntegerType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof IntegerType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private IntegerType getIntegerTypeMetadata() {
@@ -72,19 +83,15 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new IntegerType(elementName);
-        else
-            return new IntegerType(elementName, 42);
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new IntegerType(elementName);
+        else return new IntegerType(elementName, 42);
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField.getText().isEmpty())
-            getIntegerTypeMetadata().setValue(null);
-        else
-            getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty()) getIntegerTypeMetadata().setValue(null);
+        else getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
         return getIntegerTypeMetadata();
     }
 
@@ -97,7 +104,7 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -112,14 +119,16 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{100, 0};
-        gbl.columnWeights = new double[]{0.0, 1.0};
+        gbl.columnWidths = new int[] { 100, 0 };
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
         DocumentFilter filter = new IntegerFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getIntegerTypeMetadata().getValue() == null ? "" : Long.toString(getIntegerTypeMetadata().getValue())));
+        valueTextField.setText(
+            (getIntegerTypeMetadata().getValue() == null ? "" : Long.toString(getIntegerTypeMetadata().getValue()))
+        );
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

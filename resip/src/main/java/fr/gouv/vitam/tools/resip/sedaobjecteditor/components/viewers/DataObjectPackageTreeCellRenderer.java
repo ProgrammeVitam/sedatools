@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * contact.vitam@programmevitam.fr
- * 
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives 
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high 
- * volumetry securely and efficiently.
+ * contact@programmevitam.fr
  *
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
@@ -38,30 +48,36 @@ import java.awt.*;
  */
 public class DataObjectPackageTreeCellRenderer extends DefaultTreeCellRenderer {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -7719104276024284446L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -7719104276024284446L;
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
-	 */
-	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean exp, boolean leaf,
-			int row, boolean hasFocus) {
-		super.getTreeCellRendererComponent(tree, value, sel, exp, leaf, row, hasFocus);
+    /* (non-Javadoc)
+     * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+     */
+    @Override
+    public Component getTreeCellRendererComponent(
+        JTree tree,
+        Object value,
+        boolean sel,
+        boolean exp,
+        boolean leaf,
+        int row,
+        boolean hasFocus
+    ) {
+        super.getTreeCellRendererComponent(tree, value, sel, exp, leaf, row, hasFocus);
 
-		// Assuming you have a tree of DataObjectPackageTreeNode
-		DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) value;
+        // Assuming you have a tree of DataObjectPackageTreeNode
+        DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) value;
 
-		// If the node is a leaf and ends with "xxx"
-		if ((node.getParents()!=null) && (node.getParents().size()>1)) {
-			// Paint the node in blue
-			setForeground(new Color(25, 25, 225));
-		}
-		else if (leaf) {
-			// Paint the node in blue
-			setForeground(new Color(25, 175, 25));
-		}
+        // If the node is a leaf and ends with "xxx"
+        if ((node.getParents() != null) && (node.getParents().size() > 1)) {
+            // Paint the node in blue
+            setForeground(new Color(25, 25, 225));
+        } else if (leaf) {
+            // Paint the node in blue
+            setForeground(new Color(25, 175, 25));
+        }
 
-		return this;
-	}
+        return this;
+    }
 }

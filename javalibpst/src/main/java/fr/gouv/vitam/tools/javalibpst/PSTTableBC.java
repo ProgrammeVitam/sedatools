@@ -1,35 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -38,7 +42,7 @@ import java.util.HashMap;
 /**
  * The BC Table type. (Property Context)
  * Used by pretty much everything.
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTableBC extends PSTTable {
@@ -74,24 +78,25 @@ class PSTTableBC extends PSTTable {
         // Read the key table
         int offset = 0;
         for (int x = 0; x < this.numberOfKeys; x++) {
-
             final PSTTableBCItem item = new PSTTableBCItem();
             item.itemIndex = x;
             item.entryType = (int) PSTObject.convertLittleEndianBytesToLong(keyTableInfo, offset + 0, offset + 2);
             // item.entryType =(int)in.seekAndReadLong(offset, 2);
             item.entryValueType = (int) PSTObject.convertLittleEndianBytesToLong(keyTableInfo, offset + 2, offset + 4);
             // item.entryValueType = (int)in.seekAndReadLong(offset+2, 2);
-            item.entryValueReference = (int) PSTObject.convertLittleEndianBytesToLong(keyTableInfo, offset + 4,
-                offset + 8);
+            item.entryValueReference = (int) PSTObject.convertLittleEndianBytesToLong(
+                keyTableInfo,
+                offset + 4,
+                offset + 8
+            );
             // item.entryValueReference = (int)in.seekAndReadLong(offset+4, 4);
 
             // Data is in entryValueReference for all types <= 4 bytes long
             switch (item.entryValueType) {
-
-            case 0x0002: // 16bit integer
-                item.entryValueReference &= 0xFFFF;
-            case 0x0003: // 32bit integer
-            case 0x000A: // 32bit error code
+                case 0x0002: // 16bit integer
+                    item.entryValueReference &= 0xFFFF;
+                case 0x0003: // 32bit integer
+                case 0x000A: // 32bit error code
                 /*
                  * System.out.printf("Integer%s: 0x%04X:%04X, %d\n",
                  * (item.entryValueType == 0x0002) ? "16" : "32",
@@ -99,78 +104,76 @@ class PSTTableBC extends PSTTable {
                  * item.entryValueReference);
                  * /
                  **/
-            case 0x0001: // Place-holder
-            case 0x0004: // 32bit floating
-                item.isExternalValueReference = true;
-                break;
-
-            case 0x000b: // Boolean - a single byte
-                item.entryValueReference &= 0xFF;
-                /*
-                 * System.out.printf("boolean: 0x%04X:%04X, %s\n",
-                 * item.entryType, item.entryValueType,
-                 * (item.entryValueReference == 0) ? "false" : "true");
-                 * /
-                 **/
-                item.isExternalValueReference = true;
-                break;
-
-            case 0x000D:
-            default:
-                // Is it in the local heap?
-                item.isExternalValueReference = true; // Assume not
-                // System.out.println(item.entryValueReference);
-                // byte[] nodeInfo = getNodeInfo(item.entryValueReference);
-                final NodeInfo nodeInfoNodeInfo = this.getNodeInfo(item.entryValueReference);
-                if (nodeInfoNodeInfo == null) {
-                    // It's an external reference that we don't deal with here.
+                case 0x0001: // Place-holder
+                case 0x0004: // 32bit floating
+                    item.isExternalValueReference = true;
+                    break;
+                case 0x000b: // Boolean - a single byte
+                    item.entryValueReference &= 0xFF;
                     /*
-                     * System.out.printf("%s: %shid 0x%08X\n",
-                     * (item.entryValueType == 0x1f || item.entryValueType ==
-                     * 0x1e) ? "String" : "Other",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType),
-                     * item.entryValueReference);
+                     * System.out.printf("boolean: 0x%04X:%04X, %s\n",
+                     * item.entryType, item.entryValueType,
+                     * (item.entryValueReference == 0) ? "false" : "true");
                      * /
                      **/
-                } else {
-                    // Make a copy of the data
-                    // item.data = new
-                    // byte[nodeInfo.endOffset-nodeInfo.startOffset];
-                    final byte[] nodeInfo = new byte[nodeInfoNodeInfo.length()];
-                    nodeInfoNodeInfo.in.seek(nodeInfoNodeInfo.startOffset);
-                    nodeInfoNodeInfo.in.readCompletely(nodeInfo);
-                    item.data = nodeInfo; // should be new array, so just use it
-                    // System.arraycopy(nodeInfo.data, nodeInfo.startOffset,
-                    // item.data, 0, item.data.length);
-                    item.isExternalValueReference = false;
-                    /*
-                     * if ( item.entryValueType == 0x1f ||
-                     * item.entryValueType == 0x1e )
-                     * {
-                     * try {
-                     * // if ( item.entryType == 0x0037 )
-                     * {
-                     * String temp = new String(item.data, item.entryValueType
-                     * == 0x1E ? "UTF8" : "UTF-16LE");
-                     * System.out.printf("String: 0x%04X:%04X, \"%s\"\n",
-                     * item.entryType, item.entryValueType, temp);
-                     * }
-                     * } catch (UnsupportedEncodingException e) {
-                     * e.printStackTrace();
-                     * }
-                     * }
-                     * else
-                     * {
-                     * 
-                     * System.out.printf("Other: 0x%04X:%04X, %d bytes\n",
-                     * item.entryType, item.entryValueType, item.data.length);
-                     * 
-                     * }
-                     * /
-                     **/
-                }
-                break;
+                    item.isExternalValueReference = true;
+                    break;
+                case 0x000D:
+                default:
+                    // Is it in the local heap?
+                    item.isExternalValueReference = true; // Assume not
+                    // System.out.println(item.entryValueReference);
+                    // byte[] nodeInfo = getNodeInfo(item.entryValueReference);
+                    final NodeInfo nodeInfoNodeInfo = this.getNodeInfo(item.entryValueReference);
+                    if (nodeInfoNodeInfo == null) {
+                        // It's an external reference that we don't deal with here.
+                        /*
+                         * System.out.printf("%s: %shid 0x%08X\n",
+                         * (item.entryValueType == 0x1f || item.entryValueType ==
+                         * 0x1e) ? "String" : "Other",
+                         * PSTFile.getPropertyDescription(item.entryType,
+                         * item.entryValueType),
+                         * item.entryValueReference);
+                         * /
+                         **/
+                    } else {
+                        // Make a copy of the data
+                        // item.data = new
+                        // byte[nodeInfo.endOffset-nodeInfo.startOffset];
+                        final byte[] nodeInfo = new byte[nodeInfoNodeInfo.length()];
+                        nodeInfoNodeInfo.in.seek(nodeInfoNodeInfo.startOffset);
+                        nodeInfoNodeInfo.in.readCompletely(nodeInfo);
+                        item.data = nodeInfo; // should be new array, so just use it
+                        // System.arraycopy(nodeInfo.data, nodeInfo.startOffset,
+                        // item.data, 0, item.data.length);
+                        item.isExternalValueReference = false;
+                        /*
+                         * if ( item.entryValueType == 0x1f ||
+                         * item.entryValueType == 0x1e )
+                         * {
+                         * try {
+                         * // if ( item.entryType == 0x0037 )
+                         * {
+                         * String temp = new String(item.data, item.entryValueType
+                         * == 0x1E ? "UTF8" : "UTF-16LE");
+                         * System.out.printf("String: 0x%04X:%04X, \"%s\"\n",
+                         * item.entryType, item.entryValueType, temp);
+                         * }
+                         * } catch (UnsupportedEncodingException e) {
+                         * e.printStackTrace();
+                         * }
+                         * }
+                         * else
+                         * {
+                         *
+                         * System.out.printf("Other: 0x%04X:%04X, %d bytes\n",
+                         * item.entryType, item.entryValueType, item.data.length);
+                         *
+                         * }
+                         * /
+                         **/
+                    }
+                    break;
             }
 
             offset = offset + 8;
@@ -194,7 +197,6 @@ class PSTTableBC extends PSTTable {
 
     @Override
     public String toString() {
-
         if (this.isDescNotYetInitiated) {
             this.isDescNotYetInitiated = false;
 

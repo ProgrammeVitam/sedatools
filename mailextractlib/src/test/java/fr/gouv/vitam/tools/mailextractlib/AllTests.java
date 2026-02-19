@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.mailextractlib;
 
 import ch.qos.logback.classic.LoggerContext;
@@ -8,7 +45,6 @@ import ch.qos.logback.core.FileAppender;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -21,11 +57,9 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
 import static org.assertj.core.api.Assertions.assertThat;
 
 public interface AllTests {
-
     static void initializeTests(String testName) throws IOException {
-        File testDir=new File("target/tmpJUnit/"+testName);
-        if (testDir.isDirectory())
-            FileUtils.deleteDirectory(testDir);
+        File testDir = new File("target/tmpJUnit/" + testName);
+        if (testDir.isDirectory()) FileUtils.deleteDirectory(testDir);
         StoreExtractor.initDefaultExtractors(false);
     }
 
@@ -111,7 +145,6 @@ public interface AllTests {
         return String.join("\n", lineList);
     }
 
-
     /**
      * Removes the specified columns from each line of a given array of CSV strings.
      *
@@ -144,7 +177,11 @@ public interface AllTests {
         return result;
     }
 
-    static public void assertThatDirectoriesContainSameFilesWithExtensions(String expectedPath, String resultPath, String[] extensions) throws IOException {
+    public static void assertThatDirectoriesContainSameFilesWithExtensions(
+        String expectedPath,
+        String resultPath,
+        String[] extensions
+    ) throws IOException {
         // Test data: paths of directories to compare
         File expectedDir = new File(expectedPath); // Expected directory
         File actualDir = new File(resultPath); // Produced directory
@@ -157,7 +194,7 @@ public interface AllTests {
         compareDirectories(expectedDir, actualDir, extensions);
     }
 
-    static private void compareDirectories(File dir1, File dir2, String[] extensions) throws IOException {
+    private static void compareDirectories(File dir1, File dir2, String[] extensions) throws IOException {
         // List the files in each directory
         File[] dir1Files = dir1.listFiles();
         File[] dir2Files = dir2.listFiles();
@@ -165,42 +202,60 @@ public interface AllTests {
         // Filter with extensions
         if (extensions != null) {
             dir1Files = Arrays.stream(dir1Files)
-                    .filter(file -> file.isDirectory() || Arrays.stream(extensions)
-                            .anyMatch(ext -> file.getName().toLowerCase(Locale.ROOT).endsWith("." + ext.toLowerCase(Locale.ROOT))))
-                    .toArray(File[]::new);
+                .filter(
+                    file ->
+                        file.isDirectory() ||
+                        Arrays.stream(extensions).anyMatch(
+                            ext -> file.getName().toLowerCase(Locale.ROOT).endsWith("." + ext.toLowerCase(Locale.ROOT))
+                        )
+                )
+                .toArray(File[]::new);
 
             dir2Files = Arrays.stream(dir2Files)
-                    .filter(file -> file.isDirectory() || Arrays.stream(extensions)
-                            .anyMatch(ext -> file.getName().toLowerCase(Locale.ROOT).endsWith("." + ext.toLowerCase(Locale.ROOT))))
-                    .toArray(File[]::new);
+                .filter(
+                    file ->
+                        file.isDirectory() ||
+                        Arrays.stream(extensions).anyMatch(
+                            ext -> file.getName().toLowerCase(Locale.ROOT).endsWith("." + ext.toLowerCase(Locale.ROOT))
+                        )
+                )
+                .toArray(File[]::new);
         }
 
         // Ensure both directories are not null
         assertThat(dir1Files)
-                .as("Expected directory files (%s) have to be not null", dir1.getAbsolutePath())
-                .isNotNull();
-        assertThat(dir2Files)
-                .as("Actual directory files (%s) have to be not null", dir2.getAbsolutePath())
-                .isNotNull();
+            .as("Expected directory files (%s) have to be not null", dir1.getAbsolutePath())
+            .isNotNull();
+        assertThat(dir2Files).as("Actual directory files (%s) have to be not null", dir2.getAbsolutePath()).isNotNull();
 
         // Sort files to ensure consistent order (avoiding dependence on file system order)
-        Arrays.sort(dir1Files, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2) {
-                return f1.getName().compareTo(f2.getName());
+        Arrays.sort(
+            dir1Files,
+            new Comparator<File>() {
+                @Override
+                public int compare(File f1, File f2) {
+                    return f1.getName().compareTo(f2.getName());
+                }
             }
-        });
-        Arrays.sort(dir2Files, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2) {
-                return f1.getName().compareTo(f2.getName());
+        );
+        Arrays.sort(
+            dir2Files,
+            new Comparator<File>() {
+                @Override
+                public int compare(File f1, File f2) {
+                    return f1.getName().compareTo(f2.getName());
+                }
             }
-        });
+        );
 
         // Verify both directories contain the same number of files
         assertThat(dir2Files)
-                .as("Directories do not contain the same number of files: %s and %s", dir1.getAbsolutePath(), dir2.getAbsolutePath())
-                .hasSameSizeAs(dir1Files);
+            .as(
+                "Directories do not contain the same number of files: %s and %s",
+                dir1.getAbsolutePath(),
+                dir2.getAbsolutePath()
+            )
+            .hasSameSizeAs(dir1Files);
 
         // Compare files one by one
         for (int i = 0; i < dir1Files.length; i++) {
@@ -209,8 +264,8 @@ public interface AllTests {
 
             // Verify file names are identical
             assertThat(file2.getName())
-                    .as("File names differ at position %d: %s vs %s", i, file1.getName(), file2.getName())
-                    .isEqualTo(file1.getName());
+                .as("File names differ at position %d: %s vs %s", i, file1.getName(), file2.getName())
+                .isEqualTo(file1.getName());
 
             if (file1.isDirectory() && file2.isDirectory()) {
                 // Recursive comparison of sub-directories
@@ -221,19 +276,31 @@ public interface AllTests {
                     String content1 = FileUtils.readFileToString(file1, "UTF-8");
                     String content2 = FileUtils.readFileToString(file2, "UTF-8");
                     assertThat(content2)
-                            .as("Content of .xml/.txt files differs: %s and %s", file1.getAbsolutePath(), file2.getAbsolutePath())
-                            .isEqualToNormalizingNewlines(content1);
+                        .as(
+                            "Content of .xml/.txt files differs: %s and %s",
+                            file1.getAbsolutePath(),
+                            file2.getAbsolutePath()
+                        )
+                        .isEqualToNormalizingNewlines(content1);
                 } else {
                     byte[] content1 = Files.readAllBytes(file1.toPath());
                     byte[] content2 = Files.readAllBytes(file2.toPath());
                     assertThat(content2)
-                            .as("Content of binary files differs: %s and %s", file1.getAbsolutePath(), file2.getAbsolutePath())
-                            .isEqualTo(content1);
+                        .as(
+                            "Content of binary files differs: %s and %s",
+                            file1.getAbsolutePath(),
+                            file2.getAbsolutePath()
+                        )
+                        .isEqualTo(content1);
                 }
             } else {
                 // One is a file, the other is a directory (error)
-                throw new AssertionError("Elements do not match in directories: " +
-                        file1.getAbsolutePath() + " and " + file2.getAbsolutePath());
+                throw new AssertionError(
+                    "Elements do not match in directories: " +
+                    file1.getAbsolutePath() +
+                    " and " +
+                    file2.getAbsolutePath()
+                );
             }
         }
     }

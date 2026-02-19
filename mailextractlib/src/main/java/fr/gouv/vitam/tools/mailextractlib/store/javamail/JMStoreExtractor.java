@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
@@ -37,8 +47,8 @@ import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxStore;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdStore;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.mail.*;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Properties;
@@ -50,6 +60,7 @@ import java.util.Properties;
  * could also be used for POP3 and Gmail, via StoreExtractor (not tested).
  */
 public class JMStoreExtractor extends StoreExtractor {
+
     private Store store;
 
     /**
@@ -58,14 +69,14 @@ public class JMStoreExtractor extends StoreExtractor {
      * This is in default list.
      */
     public static void subscribeStoreExtractor() {
-        addExtractionRelation("message/rfc822", "fmt/278","eml", false, JMStoreExtractor.class);
-        addExtractionRelation("message/rfc822", "fmt/950","eml", false, JMStoreExtractor.class);
-        addExtractionRelation("application/mbox", "fmt/720","mbox", true, JMStoreExtractor.class);
-        addExtractionRelation(null, null,"thunderbird", true, JMStoreExtractor.class);
-        addExtractionRelation(null, null,"imap", true, JMStoreExtractor.class);
-        addExtractionRelation(null, null,"imaps", true, JMStoreExtractor.class);
-        addExtractionRelation(null, null,"gimap", true, JMStoreExtractor.class);
-        addExtractionRelation(null, null,"pop3", true, JMStoreExtractor.class);
+        addExtractionRelation("message/rfc822", "fmt/278", "eml", false, JMStoreExtractor.class);
+        addExtractionRelation("message/rfc822", "fmt/950", "eml", false, JMStoreExtractor.class);
+        addExtractionRelation("application/mbox", "fmt/720", "mbox", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null, "thunderbird", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null, "imap", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null, "imaps", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null, "gimap", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null, "pop3", true, JMStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -93,15 +104,19 @@ public class JMStoreExtractor extends StoreExtractor {
      *             Any unrecoverable extraction exception (access trouble, major
      *             format problems...)
      */
-    public JMStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
-                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
+    public JMStoreExtractor(
+        String urlString,
+        String folder,
+        String destPathString,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, null, logger);
-
         String url;
 
         url = urlString;
-        if (folder != null && !folder.isEmpty())
-            url += "/" + folder;
+        if (folder != null && !folder.isEmpty()) url += "/" + folder;
 
         try {
             // Connect to the store
@@ -112,17 +127,35 @@ public class JMStoreExtractor extends StoreExtractor {
             Session session = Session.getDefaultInstance(props, null);
 
             // add thunderbird provider
-            session.addProvider(new Provider(Provider.Type.STORE, "thunderbird",
+            session.addProvider(
+                new Provider(
+                    Provider.Type.STORE,
+                    "thunderbird",
                     ThunderbirdStore.class.getName(),
-                    "fr.gouv.vitam", getClass().getPackage().getImplementationVersion()));
+                    "fr.gouv.vitam",
+                    getClass().getPackage().getImplementationVersion()
+                )
+            );
             // add eml provider
-            session.addProvider(new Provider(Provider.Type.STORE, "eml",
-                    EmlStore.class.getName(), "fr.gouv.vitam",
-                    getClass().getPackage().getImplementationVersion()));
+            session.addProvider(
+                new Provider(
+                    Provider.Type.STORE,
+                    "eml",
+                    EmlStore.class.getName(),
+                    "fr.gouv.vitam",
+                    getClass().getPackage().getImplementationVersion()
+                )
+            );
             // add mbox provider
-            session.addProvider(new Provider(Provider.Type.STORE, "mbox",
-                    MboxStore.class.getName(), "fr.gouv.vitam",
-                    getClass().getPackage().getImplementationVersion()));
+            session.addProvider(
+                new Provider(
+                    Provider.Type.STORE,
+                    "mbox",
+                    MboxStore.class.getName(),
+                    "fr.gouv.vitam",
+                    getClass().getPackage().getImplementationVersion()
+                )
+            );
 
             URLName urlName = new URLName(url);
             store = session.getStore(urlName);
@@ -135,18 +168,25 @@ public class JMStoreExtractor extends StoreExtractor {
         JMStoreFolder jMRootMailBoxFolder;
 
         try {
-            if ((folder == null) || folder.isEmpty())
-
-                jMRootMailBoxFolder = JMStoreFolder.createRootFolder(this, store.getDefaultFolder(), rootNode);
-            else
-                jMRootMailBoxFolder = JMStoreFolder.createRootFolder(this, store.getFolder(folder), rootNode);
+            if ((folder == null) || folder.isEmpty()) jMRootMailBoxFolder = JMStoreFolder.createRootFolder(
+                this,
+                store.getDefaultFolder(),
+                rootNode
+            );
+            else jMRootMailBoxFolder = JMStoreFolder.createRootFolder(this, store.getFolder(folder), rootNode);
 
             if (!jMRootMailBoxFolder.folder.exists()) {
-                throw new MailExtractLibException("mailextractlib.javamail: can't find extraction root folder " + folder, null);
+                throw new MailExtractLibException(
+                    "mailextractlib.javamail: can't find extraction root folder " + folder,
+                    null
+                );
             }
             setRootFolder(jMRootMailBoxFolder);
         } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't find extraction root folder " + folder, e);
+            throw new MailExtractLibException(
+                "mailextractlib.javamail: can't find extraction root folder " + folder,
+                e
+            );
         }
     }
 
@@ -161,9 +201,23 @@ public class JMStoreExtractor extends StoreExtractor {
      * @param logger             logger used
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      */
-    public JMStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                            StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
-        super(attachment.getScheme() + "://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
+    public JMStoreExtractor(
+        StoreAttachment attachment,
+        ArchiveUnit rootNode,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        StoreElement fatherElement,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException {
+        super(
+            attachment.getScheme() + "://localhost/",
+            "",
+            rootNode.getFullName(),
+            options,
+            rootStoreExtractor,
+            fatherElement,
+            logger
+        );
         String url;
 
         url = attachment.getScheme() + ":";
@@ -177,26 +231,39 @@ public class JMStoreExtractor extends StoreExtractor {
             Session session = Session.getDefaultInstance(props, null);
 
             // add eml provider
-            session.addProvider(new Provider(Provider.Type.STORE, "eml",
-                    EmlStore.class.getName(), "fr.gouv.vitam",
-                    getClass().getPackage().getImplementationVersion()));
+            session.addProvider(
+                new Provider(
+                    Provider.Type.STORE,
+                    "eml",
+                    EmlStore.class.getName(),
+                    "fr.gouv.vitam",
+                    getClass().getPackage().getImplementationVersion()
+                )
+            );
             // add mbox provider
-            session.addProvider(new Provider(Provider.Type.STORE, "mbox",
-                    MboxStore.class.getName(), "fr.gouv.vitam",
-                    getClass().getPackage().getImplementationVersion()));
+            session.addProvider(
+                new Provider(
+                    Provider.Type.STORE,
+                    "mbox",
+                    MboxStore.class.getName(),
+                    "fr.gouv.vitam",
+                    getClass().getPackage().getImplementationVersion()
+                )
+            );
 
             URLName urlName = new URLName(url);
             store = session.getStore(urlName);
             if (!(store instanceof JMEmbeddedStore)) {
                 throw new MailExtractLibException(
-                        "mailextractlib.javamail: can't extract embedded store for scheme [" + scheme + "]", null);
+                    "mailextractlib.javamail: can't extract embedded store for scheme [" + scheme + "]",
+                    null
+                );
             }
             JMEmbeddedStore ejs = (JMEmbeddedStore) store;
             ejs.setObjectContent(attachment.getStoreContent());
             store.connect();
         } catch (MessagingException e) {
-            throw new MailExtractLibException(
-                    "mailextractlib.javamail: can't get store for " + url, e);
+            throw new MailExtractLibException("mailextractlib.javamail: can't get store for " + url, e);
         }
 
         JMStoreFolder jMRootMailBoxFolder;
@@ -242,12 +309,11 @@ public class JMStoreExtractor extends StoreExtractor {
         return attachment;
     }
 
-
     /* (non-Javadoc)
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#canExtractObjectsLists()
      */
     @Override
     public boolean canExtractObjectsLists() {
-        return ! scheme.equals("eml");
+        return !scheme.equals("eml");
     }
 }

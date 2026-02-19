@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
@@ -159,10 +169,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
             // for xml raw writing
             rawWriter = new OutputStreamWriter(os, StandardCharsets.UTF_8);
             // for xml indentend structured writing
-            if (isForElements)
-                xmlWriter = xmlofFragments.createXMLStreamWriter(rawWriter);
-            else
-                xmlWriter = xmlof.createXMLStreamWriter(rawWriter);
+            if (isForElements) xmlWriter = xmlofFragments.createXMLStreamWriter(rawWriter);
+            else xmlWriter = xmlof.createXMLStreamWriter(rawWriter);
         } catch (Exception e) {
             throw new SEDALibException("Impossible d'ouvrir un flux d'écriture XML", e);
         }
@@ -193,11 +201,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      */
 
     public void setXmlId(boolean prefix) throws XMLStreamException {
-        if (prefix)
-            xmlWriter.writeAttribute("xml", "xml", "id", "ID" + Integer.toString(idCounter++));
-        else
-            xmlWriter.writeAttribute("id", "ID" + Integer.toString(idCounter++));
-
+        if (prefix) xmlWriter.writeAttribute("xml", "xml", "id", "ID" + Integer.toString(idCounter++));
+        else xmlWriter.writeAttribute("id", "ID" + Integer.toString(idCounter++));
     }
 
     /**
@@ -234,10 +239,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
         } else {
             writeStartIndent();
             xmlWriter.writeStartElement(element);
-            if (value)
-                xmlWriter.writeCharacters("true");
-            else
-                xmlWriter.writeCharacters("false");
+            if (value) xmlWriter.writeCharacters("true");
+            else xmlWriter.writeCharacters("false");
             writeEndIndent();
             xmlWriter.writeEndElement();
         }
@@ -254,9 +257,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     public void writeElementValueWithDefault(String element, String value, String def) throws XMLStreamException {
         if ((value == null) || value.isEmpty()) {
             writeElementValue(element, def);
-        } else
-            writeElementValue(element, value);
-
+        } else writeElementValue(element, value);
     }
 
     /**
@@ -267,8 +268,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeElementValueIfNotEmpty(String element, String value) throws XMLStreamException {
-        if ((value != null) && !value.isEmpty())
-            writeElementValue(element, value);
+        if ((value != null) && !value.isEmpty()) writeElementValue(element, value);
     }
 
     /**
@@ -279,8 +279,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeElementValueIfNotEmpty(String element, Boolean value) throws XMLStreamException {
-        if (value != null)
-            writeBooleanElementValue(element, value);
+        if (value != null) writeBooleanElementValue(element, value);
     }
 
     /**
@@ -326,7 +325,6 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
             xmlWriter.flush();
 
             try {
-
                 String identXml;
                 if (indentFlag) {
                     // indent line by line the raw block
@@ -337,24 +335,20 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
                         String line;
                         while (s.hasNextLine()) {
                             line = s.nextLine();
-                            if (line.trim().startsWith("<"))
-                                sb.append(StringUtils.repeat(indentElement, depth));
+                            if (line.trim().startsWith("<")) sb.append(StringUtils.repeat(indentElement, depth));
                             sb.append(line).append('\n');
                         }
                         s.close();
-                        if (sb.length() > 1)
-                            sb.setLength(sb.length() - 1);
+                        if (sb.length() > 1) sb.setLength(sb.length() - 1);
                         identXml = "\n" + sb.toString();
                     } catch (Exception e) {
                         identXml = "\n" + rawXml;
                     }
-                } else
-                    identXml = rawXml;
+                } else identXml = rawXml;
 
                 rawWriter.write(identXml);
                 rawWriter.flush();
-                if ((indentFlag) && (depth > 0))
-                    hasChildElement.put(depth - 1, true);
+                if ((indentFlag) && (depth > 0)) hasChildElement.put(depth - 1, true);
             } catch (IOException e) {
                 throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML", e);
             }
@@ -408,8 +402,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttributeIfNotEmpty(String localName, String value) throws XMLStreamException {
-        if ((value != null) && !value.isEmpty())
-            writeAttribute(localName, value);
+        if ((value != null) && !value.isEmpty()) writeAttribute(localName, value);
     }
 
     /**
@@ -422,7 +415,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttribute(String prefix, String namespaceURI, String localName, String value)
-            throws XMLStreamException {
+        throws XMLStreamException {
         xmlWriter.writeAttribute(prefix, namespaceURI, localName, value);
     }
 
@@ -443,8 +436,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeCharactersIfNotEmpty(String text) throws XMLStreamException {
-        if ((text != null) && !text.isEmpty())
-            xmlWriter.writeCharacters(text);
+        if ((text != null) && !text.isEmpty()) xmlWriter.writeCharacters(text);
     }
 
     /**
@@ -530,10 +522,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
             // reset state of current node
             hasChildElement.put(depth, false);
             // indent for current depth
-            if (firstLineFlag)
-                firstLineFlag = false;
-            else
-                xmlWriter.writeCharacters(LINEFEED_CHAR);
+            if (firstLineFlag) firstLineFlag = false;
+            else xmlWriter.writeCharacters(LINEFEED_CHAR);
             xmlWriter.writeCharacters(StringUtils.repeat(indentElement, depth));
             depth++;
         }
@@ -550,10 +540,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
                 hasChildElement.put(depth - 1, true);
             }
             // indent for current depth
-            if (firstLineFlag)
-                firstLineFlag = false;
-            else
-                xmlWriter.writeCharacters(LINEFEED_CHAR);
+            if (firstLineFlag) firstLineFlag = false;
+            else xmlWriter.writeCharacters(LINEFEED_CHAR);
             xmlWriter.writeCharacters(StringUtils.repeat(indentElement, depth));
         }
     }
@@ -572,5 +560,4 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
             }
         }
     }
-
 }

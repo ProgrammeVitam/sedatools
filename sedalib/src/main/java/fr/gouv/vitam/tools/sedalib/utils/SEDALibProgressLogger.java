@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.utils;
 
@@ -75,7 +85,6 @@ public class SEDALibProgressLogger {
      */
     @FunctionalInterface
     public interface ProgressLogFunc {
-
         /**
          * Do progress log.
          *
@@ -177,7 +186,13 @@ public class SEDALibProgressLogger {
      * @param step             the step value
      * @param stepDuration     the step duration in seconds
      */
-    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step, int stepDuration) {
+    public SEDALibProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -199,8 +214,15 @@ public class SEDALibProgressLogger {
      * @param stepDuration         the duration threshold in seconds for triggering progress logs
      * @param progressFuncLogLevel the log level for the progress consumer function
      */
-    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer,
-                                 int step, int stepDuration, int progressFuncLogLevel, int progressFuncStep) {
+    public SEDALibProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration,
+        int progressFuncLogLevel,
+        int progressFuncStep
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -239,8 +261,7 @@ public class SEDALibProgressLogger {
     public static String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
-        if (e.getCause() instanceof Exception)
-            result += "\n" + getMessagesStackString(e.getCause());
+        if (e.getCause() instanceof Exception) result += "\n" + getMessagesStackString(e.getCause());
         return result;
     }
 
@@ -260,8 +281,8 @@ public class SEDALibProgressLogger {
     public static String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
-        if (e.getCause() instanceof Exception)
-            result += "\n------------------------------------\n" + getJavaStackString(e.getCause());
+        if (e.getCause() instanceof Exception) result +=
+        "\n------------------------------------\n" + getJavaStackString(e.getCause());
         return result;
     }
 
@@ -276,13 +297,11 @@ public class SEDALibProgressLogger {
     public static void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
         if (spl != null) {
             if (level <= spl.progressLogLevel) {
-                if (e != null)
-                    log += "\n" + getMessagesStackString(e);
+                if (e != null) log += "\n" + getMessagesStackString(e);
                 if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)) {
                     spl.progressLogFunc.doProgressLog(-1, log);
                 }
-                if ((e != null) && spl.debugFlag)
-                    log += "\n" + getAllJavaStackString(e);
+                if ((e != null) && spl.debugFlag) log += "\n" + getAllJavaStackString(e);
                 spl.log(level, log);
             }
         }
@@ -310,7 +329,8 @@ public class SEDALibProgressLogger {
      * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    public static void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e) throws InterruptedException {
+    public static void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e)
+        throws InterruptedException {
         if (spl != null) {
             doProgressLogWithoutInterruption(spl, level, log, e);
             Thread.sleep(1);
@@ -326,13 +346,15 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
+    public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log)
+        throws InterruptedException {
         if (spl != null) {
             if (level <= spl.progressLogLevel) {
                 long nowEpochSeconds = Instant.now().getEpochSecond();
                 if (spl.stepDuration < nowEpochSeconds - spl.previousStepEpochSeconds) {
-                    if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel))
-                        spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
+                    if (
+                        (spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)
+                    ) spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
                     spl.log(level, log);
                     Thread.sleep(1);
                     spl.previousStepEpochSeconds = nowEpochSeconds;
@@ -341,7 +363,7 @@ public class SEDALibProgressLogger {
                 if ((count % spl.step) == 0) {
                     spl.log(level, log);
                 }
-                if ((spl.progressLogFunc!=null) && (count % spl.progressFuncStep) == 0) {
+                if ((spl.progressLogFunc != null) && (count % spl.progressFuncStep) == 0) {
                     spl.progressLogFunc.doProgressLog(count, log);
                     Thread.sleep(1);
                 }
@@ -356,9 +378,8 @@ public class SEDALibProgressLogger {
      * @return the string
      */
     public static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -381,8 +402,7 @@ public class SEDALibProgressLogger {
 
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
-            if (logger != null)
-                logger.info(getMarker(level), message);
+            if (logger != null) logger.info(getMarker(level), message);
         }
     }
 }

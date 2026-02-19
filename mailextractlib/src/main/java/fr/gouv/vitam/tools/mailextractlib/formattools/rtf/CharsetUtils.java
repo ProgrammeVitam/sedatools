@@ -1,36 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
- * <p>
- * This is copied from Tika 1.17
- * under http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Conform with MSDN directives to de-encapsulate HTML from RTF
- * https://msdn.microsoft.com/en-us/library/ee159984(v=exchg.80).aspx
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 /**
  * This is copied from Tika 1.17
  * under http://www.apache.org/licenses/LICENSE-2.0
@@ -57,20 +61,15 @@ import static java.util.Locale.ENGLISH;
  */
 public class CharsetUtils {
 
-    private static final Pattern CHARSET_NAME_PATTERN =
-            Pattern.compile("[ \\\"]*([^ >,;\\\"]+).*");
+    private static final Pattern CHARSET_NAME_PATTERN = Pattern.compile("[ \\\"]*([^ >,;\\\"]+).*");
 
-    private static final Pattern ISO_NAME_PATTERN =
-            Pattern.compile(".*8859-(\\d+)");
+    private static final Pattern ISO_NAME_PATTERN = Pattern.compile(".*8859-(\\d+)");
 
-    private static final Pattern CP_NAME_PATTERN =
-            Pattern.compile("cp-(\\d+)");
+    private static final Pattern CP_NAME_PATTERN = Pattern.compile("cp-(\\d+)");
 
-    private static final Pattern WIN_NAME_PATTERN =
-            Pattern.compile("win-?(\\d+)");
+    private static final Pattern WIN_NAME_PATTERN = Pattern.compile("win-?(\\d+)");
 
-    private static final Map<String, Charset> COMMON_CHARSETS =
-            new HashMap<String, Charset>();
+    private static final Map<String, Charset> COMMON_CHARSETS = new HashMap<String, Charset>();
 
     private static Method getCharsetICU = null;
     private static Method isSupportedICU = null;
@@ -93,19 +92,39 @@ public class CharsetUtils {
 
     static {
         initCommonCharsets(
-                "Big5",
-                "EUC-JP", "EUC-KR", "x-EUC-TW",
-                "GB18030",
-                "IBM855", "IBM866",
-                "ISO-2022-CN", "ISO-2022-JP", "ISO-2022-KR",
-                "ISO-8859-1", "ISO-8859-2", "ISO-8859-3", "ISO-8859-4",
-                "ISO-8859-5", "ISO-8859-6", "ISO-8859-7", "ISO-8859-8",
-                "ISO-8859-9", "ISO-8859-11", "ISO-8859-13", "ISO-8859-15",
-                "KOI8-R",
-                "x-MacCyrillic",
-                "SHIFT_JIS",
-                "UTF-8", "UTF-16BE", "UTF-16LE",
-                "windows-1251", "windows-1252", "windows-1253", "windows-1255");
+            "Big5",
+            "EUC-JP",
+            "EUC-KR",
+            "x-EUC-TW",
+            "GB18030",
+            "IBM855",
+            "IBM866",
+            "ISO-2022-CN",
+            "ISO-2022-JP",
+            "ISO-2022-KR",
+            "ISO-8859-1",
+            "ISO-8859-2",
+            "ISO-8859-3",
+            "ISO-8859-4",
+            "ISO-8859-5",
+            "ISO-8859-6",
+            "ISO-8859-7",
+            "ISO-8859-8",
+            "ISO-8859-9",
+            "ISO-8859-11",
+            "ISO-8859-13",
+            "ISO-8859-15",
+            "KOI8-R",
+            "x-MacCyrillic",
+            "SHIFT_JIS",
+            "UTF-8",
+            "UTF-16BE",
+            "UTF-16LE",
+            "windows-1251",
+            "windows-1252",
+            "windows-1253",
+            "windows-1255"
+        );
 
         // Common aliases/typos not included in standard charset definitions
         COMMON_CHARSETS.put("iso-8851-1", COMMON_CHARSETS.get("iso-8859-1"));
@@ -115,10 +134,8 @@ public class CharsetUtils {
         // See if we can load the icu4j CharsetICU class
         Class<?> icuCharset = null;
         try {
-            icuCharset = CharsetUtils.class.getClassLoader().loadClass(
-                    "com.ibm.icu.charset.CharsetICU");
-        } catch (ClassNotFoundException ignored) {
-        }
+            icuCharset = CharsetUtils.class.getClassLoader().loadClass("com.ibm.icu.charset.CharsetICU");
+        } catch (ClassNotFoundException ignored) {}
         if (icuCharset != null) {
             try {
                 getCharsetICU = icuCharset.getMethod("forNameICU", String.class);
@@ -127,8 +144,7 @@ public class CharsetUtils {
             }
             try {
                 isSupportedICU = icuCharset.getMethod("isSupported", String.class);
-            } catch (Throwable ignored) {
-            }
+            } catch (Throwable ignored) {}
         }
     }
 

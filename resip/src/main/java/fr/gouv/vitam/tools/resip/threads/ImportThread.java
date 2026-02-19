@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.threads;
 
@@ -57,6 +67,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * The type Import thread.
  */
 public class ImportThread extends SwingWorker<String, String> {
+
     //input
     private Work work;
     private InOutDialog inOutDialog;
@@ -85,34 +96,44 @@ public class ImportThread extends SwingWorker<String, String> {
     private void setWorkFromArchiveTransfer(ArchiveTransfer archiveTransfer) {
         work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
         ExportContext newExportContext = new ExportContext(Preferences.getInstance());
-        if (archiveTransfer.getGlobalMetadata() != null)
-            newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
-        if (archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData() != null)
-            newExportContext.setManagementMetadataXmlData(
-                    archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData());
+        if (archiveTransfer.getGlobalMetadata() != null) newExportContext.setArchiveTransferGlobalMetadata(
+            archiveTransfer.getGlobalMetadata()
+        );
+        if (
+            archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData() != null
+        ) newExportContext.setManagementMetadataXmlData(
+            archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData()
+        );
         work.setExportContext(newExportContext);
     }
 
     private void setWorkFromArchiveDeliveryRequestReply(ArchiveDeliveryRequestReply archiveDeliveryRequestReply) {
         work.setDataObjectPackage(archiveDeliveryRequestReply.getDataObjectPackage());
         ExportContext newExportContext = new ExportContext(Preferences.getInstance());
-        if (archiveDeliveryRequestReply.getGlobalMetadata() != null)
-            newExportContext.setArchiveTransferGlobalMetadata(archiveDeliveryRequestReply.getGlobalMetadata());
-        if (archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData() != null)
-            newExportContext.setManagementMetadataXmlData(
-                    archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData());
+        if (archiveDeliveryRequestReply.getGlobalMetadata() != null) newExportContext.setArchiveTransferGlobalMetadata(
+            archiveDeliveryRequestReply.getGlobalMetadata()
+        );
+        if (
+            archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData() != null
+        ) newExportContext.setManagementMetadataXmlData(
+            archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData()
+        );
         work.setExportContext(newExportContext);
     }
 
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles())
-                recursiveDelete(f);
+            for (File f : inFile.listFiles()) recursiveDelete(f);
             inFile.delete(); //NOSONAR use the quickest method
         } else {
             inFile.delete(); //NOSONAR use the quickest method
             fileCounter++;
-            doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
+            doProgressLogIfStep(
+                spl,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                fileCounter,
+                fileCounter + " fichiers effacés"
+            );
         }
     }
 
@@ -129,7 +150,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
                 target = utdd.getResult();
-            } else {// STATUS_CANCEL
+            } else { // STATUS_CANCEL
                 this.cancel(false);
                 throw new ResipException("Opération annulée");
             }
@@ -138,33 +159,41 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doZipImport() throws ResipException, InterruptedException, SEDALibException {
-        inOutDialog.extProgressTextArea.setText("Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         ZipImportContext zic = (ZipImportContext) work.getCreationContext();
         String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
 
         //TODO add preferences for compressed filename import
         String encoding;
-        if (work.getCreationContext().getOnDiskInput().endsWith("zip"))
-            encoding = "CP850";
-        else
-            encoding = "UTF8";
-        CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target, encoding, null,
-                spl);
-        for (String ip : zic.getIgnorePatternList())
-            zi.addIgnorePattern(ip);
+        if (work.getCreationContext().getOnDiskInput().endsWith("zip")) encoding = "CP850";
+        else encoding = "UTF8";
+        CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
+            work.getCreationContext().getOnDiskInput(),
+            target,
+            encoding,
+            null,
+            spl
+        );
+        for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
         zi.doImport();
         setWorkFromArchiveTransfer(zi.getArchiveTransfer());
         summary = zi.getSummary();
     }
 
     private void doDiskImport() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
-        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
-                diskImportContext.isNoLinkFlag(), null,
-                spl);
-        for (String ip : diskImportContext.getIgnorePatternList())
-            di.addIgnorePattern(ip);
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            work.getCreationContext().getOnDiskInput(),
+            diskImportContext.isNoLinkFlag(),
+            null,
+            spl
+        );
+        for (String ip : diskImportContext.getIgnorePatternList()) di.addIgnorePattern(ip);
         di.doImport();
         diskImportContext.setModelVersion(di.getModelVersion());
         setWorkFromArchiveTransfer(di.getArchiveTransfer());
@@ -172,32 +201,44 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doSIPImport() throws SEDALibException, InterruptedException, ResipException {
-        inOutDialog.extProgressTextArea.setText("Import depuis un fichier SIP en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un fichier SIP en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         SIPImportContext sic = (SIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(sic.getWorkDir(), sic.getOnDiskInput());
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(),
-                target, spl);
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(), target, spl);
         si.doImport();
         setWorkFromArchiveTransfer(si.getArchiveTransfer());
         summary = si.getSummary();
     }
 
     private void doDIPImport() throws ResipException, InterruptedException, SEDALibException {
-        inOutDialog.extProgressTextArea.setText("Import depuis un fichier DIP en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un fichier DIP en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         DIPImportContext dic = (DIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(dic.getWorkDir(), dic.getOnDiskInput());
         DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
-                dic.getOnDiskInput(), target, spl);
+            dic.getOnDiskInput(),
+            target,
+            spl
+        );
         si.doImport();
         setWorkFromArchiveDeliveryRequestReply(si.getArchiveDeliveryRequestReply());
         summary = si.getSummary();
     }
 
     private void doCSVTreeImport() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText("Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
         CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
-                ctic.getOnDiskInput(), ctic.getCsvCharsetName(), ctic.getDelimiter(), spl);
+            ctic.getOnDiskInput(),
+            ctic.getCsvCharsetName(),
+            ctic.getDelimiter(),
+            spl
+        );
         cti.doImport();
         work.setDataObjectPackage(cti.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -205,10 +246,16 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doCSVMetadataImportContext() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText("Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
-                cmic.getOnDiskInput(), cmic.getCsvCharsetName(), cmic.getDelimiter(), spl);
+            cmic.getOnDiskInput(),
+            cmic.getCsvCharsetName(),
+            cmic.getDelimiter(),
+            spl
+        );
         cmi.doImport();
         work.setDataObjectPackage(cmi.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -218,7 +265,9 @@ public class ImportThread extends SwingWorker<String, String> {
     private void doMailImportContext() throws ResipException, InterruptedException, SEDALibException {
         int localLogLevel;
         int localLogStep;
-        inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n");
+        inOutDialog.extProgressTextArea.setText(
+            "Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n"
+        );
         if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
             localLogLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
             localLogStep = 1;
@@ -226,27 +275,43 @@ public class ImportThread extends SwingWorker<String, String> {
             localLogLevel = MailExtractProgressLogger.MESSAGE_GROUP;
             localLogStep = 1000;
         }
-        MailExtractProgressLogger mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel, (count, log) -> {
-            String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-            inOutDialog.extProgressTextArea.setText(newLog);
-            inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-        }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
+        MailExtractProgressLogger mepl = new MailExtractProgressLogger(
+            ResipLogger.getGlobalLogger().getLogger(),
+            localLogLevel,
+            (count, log) -> {
+                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                inOutDialog.extProgressTextArea.setText(newLog);
+                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+            },
+            localLogStep,
+            2,
+            MailExtractProgressLogger.MESSAGE_GROUP,
+            1000
+        );
         mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
         MailImportContext mic = (MailImportContext) work.getCreationContext();
         String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
-        MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
-                mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),
-                mic.getDefaultCharsetName(), mic.getOnDiskInput(), mic.getMailFolder(), target, mepl);
+        MailImporter mi = new MailImporter(
+            mic.isExtractMessageTextFile(),
+            mic.isExtractMessageTextMetadata(),
+            mic.isExtractAttachmentTextFile(),
+            mic.isExtractAttachmentTextMetadata(),
+            mic.getProtocol(),
+            mic.getDefaultCharsetName(),
+            mic.getOnDiskInput(),
+            mic.getMailFolder(),
+            target,
+            mepl
+        );
         mi.doExtract();
         doProgressLog(spl, GLOBAL, "resip: extraction terminée\n" + mi.getSummary(), null);
 
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
-        for (String ip : new DiskImportContext(Preferences.getInstance())
-                .getIgnorePatternList())
-            di.addIgnorePattern(ip);
+        for (String ip : new DiskImportContext(Preferences.getInstance()).getIgnorePatternList()) di.addIgnorePattern(
+            ip
+        );
         di.doImport();
         setWorkFromArchiveTransfer(di.getArchiveTransfer());
         summary = mi.getSummary() + "\n" + di.getSummary();
@@ -265,28 +330,28 @@ public class ImportThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-            if (work.getCreationContext() instanceof ZipImportContext)
-                doZipImport();
-            else if (work.getCreationContext() instanceof DiskImportContext)
-                doDiskImport();
-            else if (work.getCreationContext() instanceof SIPImportContext)
-                doSIPImport();
-            else if (work.getCreationContext() instanceof DIPImportContext)
-                doDIPImport();
-            else if (work.getCreationContext() instanceof CSVTreeImportContext)
-                doCSVTreeImport();
-            else if (work.getCreationContext() instanceof CSVMetadataImportContext)
-                doCSVMetadataImportContext();
-            else if (work.getCreationContext() instanceof MailImportContext)
-                doMailImportContext();
-            if (work.getDataObjectPackage() != null)
-                summary += "\n" + work.doVitamNormalize(spl);
+            if (work.getCreationContext() instanceof ZipImportContext) doZipImport();
+            else if (work.getCreationContext() instanceof DiskImportContext) doDiskImport();
+            else if (work.getCreationContext() instanceof SIPImportContext) doSIPImport();
+            else if (work.getCreationContext() instanceof DIPImportContext) doDIPImport();
+            else if (work.getCreationContext() instanceof CSVTreeImportContext) doCSVTreeImport();
+            else if (work.getCreationContext() instanceof CSVMetadataImportContext) doCSVMetadataImportContext();
+            else if (work.getCreationContext() instanceof MailImportContext) doMailImportContext();
+            if (work.getDataObjectPackage() != null) summary += "\n" + work.doVitamNormalize(spl);
         } catch (Throwable e) {
             exitThrowable = e;
             work = null;
@@ -301,10 +366,19 @@ public class ImportThread extends SwingWorker<String, String> {
 
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "resip: import annulé, les données n'ont pas été modifiées",
+            null
+        );
         else if (exitThrowable != null) {
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitThrowable);
+            doProgressLogWithoutInterruption(
+                spl,
+                GLOBAL,
+                "resip: erreur durant l'import, les données n'ont pas été modifiées",
+                exitThrowable
+            );
         } else {
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;
@@ -317,7 +391,12 @@ public class ImportThread extends SwingWorker<String, String> {
             try {
                 Preferences.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
             } catch (ResipException e) {
-                doProgressLogWithoutInterruption(spl, GLOBAL, "resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences", e);
+                doProgressLogWithoutInterruption(
+                    spl,
+                    GLOBAL,
+                    "resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences",
+                    e
+                );
             }
         }
         theApp.importThreadRunning = false;

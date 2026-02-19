@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
@@ -100,6 +110,7 @@ public class CSVTreeToDataObjectPackageImporter {
      * Utility class for csv line encoding.
      */
     private class Line {
+
         String uniqId;
         String title;
         String description;
@@ -134,12 +145,18 @@ public class CSVTreeToDataObjectPackageImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file doesn't exist
      */
-    public CSVTreeToDataObjectPackageImporter(String csvFileName, String encoding, char separator, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+    public CSVTreeToDataObjectPackageImporter(
+        String csvFileName,
+        String encoding,
+        char separator,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
         Path pathFile;
 
         pathFile = Paths.get(csvFileName);
-        if (!Files.isRegularFile(pathFile, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + csvFileName + "] pointant vers le fichier csv ne désigne pas un fichier");
+        if (!Files.isRegularFile(pathFile, java.nio.file.LinkOption.NOFOLLOW_LINKS)) throw new SEDALibException(
+            "Le chemin [" + csvFileName + "] pointant vers le fichier csv ne désigne pas un fichier"
+        );
 
         this.csvFileName = csvFileName;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
@@ -162,27 +179,35 @@ public class CSVTreeToDataObjectPackageImporter {
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(String[].class).withColumnSeparator(separator);
         mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
-        try (InputStreamReader isr = new InputStreamReader(new FileInputStream(csvFileName), encoding);
-             MappingIterator<String[]> it = mapper.readerFor(String[].class).with(schema).readValues(isr)) {
+        try (
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(csvFileName), encoding);
+            MappingIterator<String[]> it = mapper.readerFor(String[].class).with(schema).readValues(isr)
+        ) {
             while (it.hasNext()) {
                 String[] row = it.next();
                 lineCount++;
                 // jump header line
-                if (lineCount == 1)
-                    continue;
-                if (row.length < 5)
-                    throw new SEDALibException("La ligne " + lineCount + " ne contient pas le nombre minimum de champs attendus (5)");
+                if (lineCount == 1) continue;
+                if (row.length < 5) throw new SEDALibException(
+                    "La ligne " + lineCount + " ne contient pas le nombre minimum de champs attendus (5)"
+                );
                 line = new Line(row[0], row[1], row[2], row[3], row[4]);
-                if (line.title.isEmpty())
-                    throw new SEDALibException("Le titre de la ligne " + lineCount + " ne doit pas être vide");
-                if (line.suffix.isEmpty())
-                    throw new SEDALibException("Le suffixe de la ligne " + lineCount + " ne doit pas être vide");
+                if (line.title.isEmpty()) throw new SEDALibException(
+                    "Le titre de la ligne " + lineCount + " ne doit pas être vide"
+                );
+                if (line.suffix.isEmpty()) throw new SEDALibException(
+                    "Le suffixe de la ligne " + lineCount + " ne doit pas être vide"
+                );
                 List<Line> value = linesMap.get(line.motherId);
-                if (value == null)
-                    value = new ArrayList<>();
+                if (value == null) value = new ArrayList<>();
                 value.add(line);
                 linesMap.put(line.motherId, value);
-                doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount + " lignes interprétées");
+                doProgressLogIfStep(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    lineCount,
+                    "sedalib: " + lineCount + " lignes interprétées"
+                );
             }
         } catch (IOException e) {
             throw new SEDALibException("Le fichier csv [" + csvFileName + "] n'est pas accessible");
@@ -197,28 +222,28 @@ public class CSVTreeToDataObjectPackageImporter {
         content = new Content();
         try {
             content.addNewMetadata("Title", line.title);
-            if (!line.description.isEmpty())
-                content.addNewMetadata("Description", line.description);
-            if (line.motherId.isEmpty())
-                content.addNewMetadata("DescriptionLevel", "Series");
-            else
-                content.addNewMetadata("DescriptionLevel", "Subseries");
+            if (!line.description.isEmpty()) content.addNewMetadata("Description", line.description);
+            if (line.motherId.isEmpty()) content.addNewMetadata("DescriptionLevel", "Series");
+            else content.addNewMetadata("DescriptionLevel", "Subseries");
             content.addNewMetadata("OriginatingAgencyArchiveUnitIdentifier", line.motherId + line.suffix);
         } catch (Exception ignored) {
             //ignored
         }
         au.setContent(content);
         List<Line> childLines = linesMap.get(line.motherId + line.suffix);
-        if (childLines != null)
-            for (Line childLine : linesMap.get(line.motherId + line.suffix)) {
-                ArchiveUnit childAu = addLineAndChildren(childLine);
-                au.addChildArchiveUnit(childAu);
-            }
+        if (childLines != null) for (Line childLine : linesMap.get(line.motherId + line.suffix)) {
+            ArchiveUnit childAu = addLineAndChildren(childLine);
+            au.addChildArchiveUnit(childAu);
+        }
         linesMap.remove(line.motherId + line.suffix);
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                "sedalib: " + counter + " ArchiveUnit exportées");
+        doProgressLogIfStep(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            counter,
+            "sedalib: " + counter + " ArchiveUnit exportées"
+        );
         return au;
     }
 
@@ -234,15 +259,16 @@ public class CSVTreeToDataObjectPackageImporter {
         String log = "sedalib: début de l'import du fichier csv d'arbre de plan de classement\n";
         log += "en [" + csvFileName + "]\n";
         log += "date=" + DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         readCSVFile();
         dataObjectPackage = new DataObjectPackage();
 
         dataObjectPackage.resetInOutCounter();
         List<Line> rootLines = linesMap.get("");
-        if (rootLines == null)
-            throw new SEDALibException("Le fichier csv ne contient pas de ligne décrivant de série (champ série vide)");
+        if (rootLines == null) throw new SEDALibException(
+            "Le fichier csv ne contient pas de ligne décrivant de série (champ série vide)"
+        );
 
         for (Line rootLine : rootLines) {
             ArchiveUnit rootAu = addLineAndChildren(rootLine);
@@ -253,15 +279,19 @@ public class CSVTreeToDataObjectPackageImporter {
             String error = "Les lignes ayant les identifiants suivant n'appartiennent pas à une série  [";
             Iterator<String> it = linesMap.keySet().iterator();
             while (it.hasNext()) {
-                for (Line line : linesMap.get(it.next()))
-                    error += line.uniqId + ", ";
+                for (Line line : linesMap.get(it.next())) error += line.uniqId + ", ";
             }
             error = error.substring(0, error.length() - 2) + "]";
             throw new SEDALibException(error);
         }
 
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import du fichier csv d'arbre de plan de classement terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: import du fichier csv d'arbre de plan de classement terminé",
+            null
+        );
     }
 
     /**
@@ -282,10 +312,7 @@ public class CSVTreeToDataObjectPackageImporter {
         String result;
 
         result = dataObjectPackage.getDescription() + "\n";
-        if (start != null)
-            result += "chargé en "
-                    + Duration.between(start, end).toString().substring(2) + "\n";
+        if (start != null) result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
-
 }

@@ -1,43 +1,43 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
 import java.io.IOException;
-/*
- * import java.io.UnsupportedEncodingException;
- * /
- **/
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ import static fr.gouv.vitam.tools.javalibpst.PSTFile.PST_TYPE_ANSI;
 /**
  * Specific functions for the 7c table type ("Table Context").
  * This is used for attachments.
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTable7C extends PSTTable {
@@ -67,10 +67,12 @@ class PSTTable7C extends PSTTable {
         this(in, subNodeDescriptorItems, -1);
     }
 
-    protected PSTTable7C(final PSTNodeInputStream in, final HashMap<Integer, PSTDescriptorItem> subNodeDescriptorItems,
-        final int entityToExtract) throws PSTException, IOException {
+    protected PSTTable7C(
+        final PSTNodeInputStream in,
+        final HashMap<Integer, PSTDescriptorItem> subNodeDescriptorItems,
+        final int entityToExtract
+    ) throws PSTException, IOException {
         super(in, subNodeDescriptorItems);
-
         if (this.tableTypeByte != 0x7c) {
             // System.out.println(Long.toHexString(this.tableTypeByte));
             throw new PSTException("unable to create PSTTable7C, table does not appear to be a 7c!");
@@ -87,17 +89,11 @@ class PSTTable7C extends PSTTable {
         // offset+2);
         this.cCols = (int) tcHeaderNode.seekAndReadLong(offset + 1, 1);
         @SuppressWarnings("unused")
-        final
-        // int TCI_4b =
-        // (int)PSTObject.convertLittleEndianBytesToLong(tcHeaderNode, offset+2,
-        // offset+4);
-        int TCI_4b = (int) tcHeaderNode.seekAndReadLong(offset + 2, 2);
+        final int TCI_4b = // offset+4); // (int)PSTObject.convertLittleEndianBytesToLong(tcHeaderNode, offset+2, // int TCI_4b =
+            (int) tcHeaderNode.seekAndReadLong(offset + 2, 2);
         @SuppressWarnings("unused")
-        final
-        // int TCI_2b =
-        // (int)PSTObject.convertLittleEndianBytesToLong(tcHeaderNode, offset+4,
-        // offset+6);
-        int TCI_2b = (int) tcHeaderNode.seekAndReadLong(offset + 4, 2);
+        final int TCI_2b = // offset+6); // (int)PSTObject.convertLittleEndianBytesToLong(tcHeaderNode, offset+4, // int TCI_2b =
+            (int) tcHeaderNode.seekAndReadLong(offset + 4, 2);
         // int TCI_1b =
         // (int)PSTObject.convertLittleEndianBytesToLong(tcHeaderNode, offset+6,
         // offset+8);
@@ -154,25 +150,37 @@ class PSTTable7C extends PSTTable {
             this.keyMap.put(Context, RowIndex);
         }
 
-        if (in.getPSTFile().getPSTFileType()==PST_TYPE_ANSI)
-            BLOCK_SIZE=8180;
-        else
-            BLOCK_SIZE=8176;
+        if (in.getPSTFile().getPSTFileType() == PST_TYPE_ANSI) BLOCK_SIZE = 8180;
+        else BLOCK_SIZE = 8176;
 
         // Read the Row Matrix
         this.rowNodeInfo = this.getNodeInfo(hnidRows);
         // numberOfDataSets = (rowNodeInfo.endOffset - rowNodeInfo.startOffset)
         // / TCI_bm;
 
-        this.description += "Number of keys: " + this.numberOfKeys + "\n" + "Number of columns: " + this.cCols + "\n"
-            + "Row Size: " + this.TCI_bm + "\n" + "hidRowIndex: " + hidRowIndex + "\n" + "hnidRows: " + hnidRows + "\n";
+        this.description +=
+        "Number of keys: " +
+        this.numberOfKeys +
+        "\n" +
+        "Number of columns: " +
+        this.cCols +
+        "\n" +
+        "Row Size: " +
+        this.TCI_bm +
+        "\n" +
+        "hidRowIndex: " +
+        hidRowIndex +
+        "\n" +
+        "hnidRows: " +
+        hnidRows +
+        "\n";
 
         final int numberOfBlocks = this.rowNodeInfo.length() / this.BLOCK_SIZE;
         final int numberOfRowsPerBlock = this.BLOCK_SIZE / this.TCI_bm;
         @SuppressWarnings("unused")
         final int blockPadding = this.BLOCK_SIZE - (numberOfRowsPerBlock * this.TCI_bm);
-        this.numberOfDataSets = (numberOfBlocks * numberOfRowsPerBlock)
-            + ((this.rowNodeInfo.length() % this.BLOCK_SIZE) / this.TCI_bm);
+        this.numberOfDataSets = (numberOfBlocks * numberOfRowsPerBlock) +
+        ((this.rowNodeInfo.length() % this.BLOCK_SIZE) / this.TCI_bm);
     }
 
     /**
@@ -197,8 +205,8 @@ class PSTTable7C extends PSTTable {
         final int numberOfBlocks = this.rowNodeInfo.length() / this.BLOCK_SIZE;
         final int numberOfRowsPerBlock = this.BLOCK_SIZE / this.TCI_bm;
         final int blockPadding = this.BLOCK_SIZE - (numberOfRowsPerBlock * this.TCI_bm);
-        this.numberOfDataSets = (numberOfBlocks * numberOfRowsPerBlock)
-            + ((this.rowNodeInfo.length() % this.BLOCK_SIZE) / this.TCI_bm);
+        this.numberOfDataSets = (numberOfBlocks * numberOfRowsPerBlock) +
+        ((this.rowNodeInfo.length() % this.BLOCK_SIZE) / this.TCI_bm);
 
         if (startAtRecord == -1) {
             numberOfRecordsToReturn = this.numberOfDataSets;
@@ -206,8 +214,9 @@ class PSTTable7C extends PSTTable {
         }
 
         // repeat the reading process for every dataset
-        int currentValueArrayStart = ((startAtRecord / numberOfRowsPerBlock) * this.BLOCK_SIZE)
-            + ((startAtRecord % numberOfRowsPerBlock) * this.TCI_bm);
+        int currentValueArrayStart =
+            ((startAtRecord / numberOfRowsPerBlock) * this.BLOCK_SIZE) +
+            ((startAtRecord % numberOfRowsPerBlock) * this.TCI_bm);
 
         if (numberOfRecordsToReturn > this.getRowCount() - startAtRecord) {
             numberOfRecordsToReturn = this.getRowCount() - startAtRecord;
@@ -219,8 +228,8 @@ class PSTTable7C extends PSTTable {
         for (int rowCounter = 0; rowCounter < numberOfRecordsToReturn; rowCounter++) {
             final HashMap<Integer, PSTTable7CItem> currentItem = new HashMap<>();
             // to respect block boundaries
-            currentValueArrayStart = (((startAtRecord+rowCounter) / numberOfRowsPerBlock) * this.BLOCK_SIZE)
-                    + (((startAtRecord+rowCounter) % numberOfRowsPerBlock) * this.TCI_bm);
+            currentValueArrayStart = (((startAtRecord + rowCounter) / numberOfRowsPerBlock) * this.BLOCK_SIZE) +
+            (((startAtRecord + rowCounter) % numberOfRowsPerBlock) * this.TCI_bm);
 
             final byte[] bitmap = new byte[(this.cCols + 7) / 8];
 
@@ -229,7 +238,7 @@ class PSTTable7C extends PSTTable {
 
             final int id = (int) this.rowNodeInfo.seekAndReadLong(currentValueArrayStart, 4);
 
-           // Put into the item map as PidTagLtpRowId (0x67F2)
+            // Put into the item map as PidTagLtpRowId (0x67F2)
             PSTTable7CItem item = new PSTTable7CItem();
             item.itemIndex = -1;
             item.entryValueType = 3;
@@ -262,140 +271,149 @@ class PSTTable7C extends PSTTable {
                 item.entryValueReference = 0;
 
                 switch (this.columnDescriptors[col].cbData) {
-                case 1: // Single byte data
-                    // item.entryValueReference =
-                    // rowNodeInfo[currentValueArrayStart+columnDescriptors[col].ibData]
-                    // & 0xFF;
-                    item.entryValueReference = (int) this.rowNodeInfo
-                        .seekAndReadLong(currentValueArrayStart + this.columnDescriptors[col].ibData, 1) & 0xFF;
-                    item.isExternalValueReference = true;
-                    /*
-                     * System.out.printf("\tboolean: %s %s\n",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType),
-                     * item.entryValueReference == 0 ? "false" : "true");
-                     * /
-                     **/
-                    break;
-
-                case 2: // Two byte data
-                    /*
-                     * item.entryValueReference =
-                     * (rowNodeInfo[currentValueArrayStart+columnDescriptors[col
-                     * ].ibData] & 0xFF) |
-                     * ((rowNodeInfo[currentValueArrayStart+columnDescriptors[
-                     * col].ibData+1] & 0xFF) << 8);
-                     */
-                    item.entryValueReference = (int) this.rowNodeInfo
-                        .seekAndReadLong(currentValueArrayStart + this.columnDescriptors[col].ibData, 2) & 0xFFFF;
-                    item.isExternalValueReference = true;
-                    /*
-                     * short i16 = (short)item.entryValueReference;
-                     * System.out.printf("\tInteger16: %s %d\n",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType),
-                     * i16);
-                     * /
-                     **/
-                    break;
-
-                case 8: // 8 byte data
-                    item.data = new byte[8];
-                    // System.arraycopy(rowNodeInfo,
-                    // currentValueArrayStart+columnDescriptors[col].ibData,
-                    // item.data, 0, 8);
-                    this.rowNodeInfo.in.seek(
-                        this.rowNodeInfo.startOffset + currentValueArrayStart + this.columnDescriptors[col].ibData);
-                    this.rowNodeInfo.in.readCompletely(item.data);
-                    /*
-                     * System.out.printf("\tInteger64: %s\n",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType)); /
-                     **/
-                    break;
-
-                default:// Four byte data
-
-                    /*
-                     * if (numberOfIndexLevels > 0 ) {
-                     * System.out.println("here");
-                     * System.out.println(rowNodeInfo.length());
-                     * PSTObject.printHexFormatted(rowNodeInfo, true);
-                     * System.exit(0);
-                     * }
-                     */
-
-                    // item.entryValueReference =
-                    // (int)PSTObject.convertLittleEndianBytesToLong(rowNodeInfo,
-                    // currentValueArrayStart+columnDescriptors[col].ibData,
-                    // currentValueArrayStart+columnDescriptors[col].ibData+4);
-                    item.entryValueReference = (int) this.rowNodeInfo
-                        .seekAndReadLong(currentValueArrayStart + this.columnDescriptors[col].ibData, 4);
-                    if (this.columnDescriptors[col].type == 0x0003 || this.columnDescriptors[col].type == 0x0004
-                        || this.columnDescriptors[col].type == 0x000A) {
-                        // True 32bit data
+                    case 1: // Single byte data
+                        // item.entryValueReference =
+                        // rowNodeInfo[currentValueArrayStart+columnDescriptors[col].ibData]
+                        // & 0xFF;
+                        item.entryValueReference = (int) this.rowNodeInfo.seekAndReadLong(
+                                currentValueArrayStart + this.columnDescriptors[col].ibData,
+                                1
+                            ) &
+                        0xFF;
                         item.isExternalValueReference = true;
                         /*
-                         * System.out.printf("\tInteger32: %s %d\n",
+                         * System.out.printf("\tboolean: %s %s\n",
                          * PSTFile.getPropertyDescription(item.entryType,
                          * item.entryValueType),
-                         * item.entryValueReference); /
+                         * item.entryValueReference == 0 ? "false" : "true");
+                         * /
                          **/
                         break;
-                    }
-
-                    // Variable length data so it's an hnid
-                    if ((item.entryValueReference & 0x1F) != 0) {
-                        // Some kind of external reference...
+                    case 2: // Two byte data
+                        /*
+                         * item.entryValueReference =
+                         * (rowNodeInfo[currentValueArrayStart+columnDescriptors[col
+                         * ].ibData] & 0xFF) |
+                         * ((rowNodeInfo[currentValueArrayStart+columnDescriptors[
+                         * col].ibData+1] & 0xFF) << 8);
+                         */
+                        item.entryValueReference = (int) this.rowNodeInfo.seekAndReadLong(
+                                currentValueArrayStart + this.columnDescriptors[col].ibData,
+                                2
+                            ) &
+                        0xFFFF;
                         item.isExternalValueReference = true;
                         /*
-                         * System.out.printf("\tOther: %s 0x%08X\n",
+                         * short i16 = (short)item.entryValueReference;
+                         * System.out.printf("\tInteger16: %s %d\n",
                          * PSTFile.getPropertyDescription(item.entryType,
-                         * item.entryValueType), item.entryValueReference); /
+                         * item.entryValueType),
+                         * i16);
+                         * /
                          **/
                         break;
-                    }
-
-                    if (item.entryValueReference == 0) {
+                    case 8: // 8 byte data
+                        item.data = new byte[8];
+                        // System.arraycopy(rowNodeInfo,
+                        // currentValueArrayStart+columnDescriptors[col].ibData,
+                        // item.data, 0, 8);
+                        this.rowNodeInfo.in.seek(
+                                this.rowNodeInfo.startOffset +
+                                currentValueArrayStart +
+                                this.columnDescriptors[col].ibData
+                            );
+                        this.rowNodeInfo.in.readCompletely(item.data);
                         /*
-                         * System.out.printf("\tOther: %s 0 bytes\n",
+                         * System.out.printf("\tInteger64: %s\n",
                          * PSTFile.getPropertyDescription(item.entryType,
                          * item.entryValueType)); /
                          **/
-                        item.data = new byte[0];
                         break;
-                    } else {
-                        final NodeInfo entryInfo = this.getNodeInfo(item.entryValueReference);
-                        item.data = new byte[entryInfo.length()];
-                        // System.arraycopy(entryInfo, 0, item.data, 0,
-                        // item.data.length);
-                        entryInfo.in.seek(entryInfo.startOffset);
-                        entryInfo.in.readCompletely(item.data);
-                    }
-                    /*
-                     * if ( item.entryValueType != 0x001F ) {
-                     * System.out.printf("\tOther: %s %d bytes\n",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType),
-                     * item.data.length);
-                     * } else {
-                     * try {
-                     * String s = new String(item.data, "UTF-16LE");
-                     * System.out.printf("\tString: %s \"%s\"\n",
-                     * PSTFile.getPropertyDescription(item.entryType,
-                     * item.entryValueType),
-                     * s);
-                     * } catch (UnsupportedEncodingException e) {
-                     * e.printStackTrace();
-                     * }
-                     * }
-                     * /
-                     **/
-                    break;
+                    default: // Four byte data
+                        /*
+                         * if (numberOfIndexLevels > 0 ) {
+                         * System.out.println("here");
+                         * System.out.println(rowNodeInfo.length());
+                         * PSTObject.printHexFormatted(rowNodeInfo, true);
+                         * System.exit(0);
+                         * }
+                         */
+
+                        // item.entryValueReference =
+                        // (int)PSTObject.convertLittleEndianBytesToLong(rowNodeInfo,
+                        // currentValueArrayStart+columnDescriptors[col].ibData,
+                        // currentValueArrayStart+columnDescriptors[col].ibData+4);
+                        item.entryValueReference = (int) this.rowNodeInfo.seekAndReadLong(
+                                currentValueArrayStart + this.columnDescriptors[col].ibData,
+                                4
+                            );
+                        if (
+                            this.columnDescriptors[col].type == 0x0003 ||
+                            this.columnDescriptors[col].type == 0x0004 ||
+                            this.columnDescriptors[col].type == 0x000A
+                        ) {
+                            // True 32bit data
+                            item.isExternalValueReference = true;
+                            /*
+                             * System.out.printf("\tInteger32: %s %d\n",
+                             * PSTFile.getPropertyDescription(item.entryType,
+                             * item.entryValueType),
+                             * item.entryValueReference); /
+                             **/
+                            break;
+                        }
+
+                        // Variable length data so it's an hnid
+                        if ((item.entryValueReference & 0x1F) != 0) {
+                            // Some kind of external reference...
+                            item.isExternalValueReference = true;
+                            /*
+                             * System.out.printf("\tOther: %s 0x%08X\n",
+                             * PSTFile.getPropertyDescription(item.entryType,
+                             * item.entryValueType), item.entryValueReference); /
+                             **/
+                            break;
+                        }
+
+                        if (item.entryValueReference == 0) {
+                            /*
+                             * System.out.printf("\tOther: %s 0 bytes\n",
+                             * PSTFile.getPropertyDescription(item.entryType,
+                             * item.entryValueType)); /
+                             **/
+                            item.data = new byte[0];
+                            break;
+                        } else {
+                            final NodeInfo entryInfo = this.getNodeInfo(item.entryValueReference);
+                            item.data = new byte[entryInfo.length()];
+                            // System.arraycopy(entryInfo, 0, item.data, 0,
+                            // item.data.length);
+                            entryInfo.in.seek(entryInfo.startOffset);
+                            entryInfo.in.readCompletely(item.data);
+                        }
+                        /*
+                         * if ( item.entryValueType != 0x001F ) {
+                         * System.out.printf("\tOther: %s %d bytes\n",
+                         * PSTFile.getPropertyDescription(item.entryType,
+                         * item.entryValueType),
+                         * item.data.length);
+                         * } else {
+                         * try {
+                         * String s = new String(item.data, "UTF-16LE");
+                         * System.out.printf("\tString: %s \"%s\"\n",
+                         * PSTFile.getPropertyDescription(item.entryType,
+                         * item.entryValueType),
+                         * s);
+                         * } catch (UnsupportedEncodingException e) {
+                         * e.printStackTrace();
+                         * }
+                         * }
+                         * /
+                         **/
+                        break;
                 }
 
                 currentItem.put(item.entryType, item);
-
                 // description += item.toString()+"\n\n";
             }
             itemList.add(dataSetNumber, currentItem);
@@ -408,6 +426,7 @@ class PSTTable7C extends PSTTable {
     }
 
     class ColumnDescriptor {
+
         ColumnDescriptor(final NodeInfo nodeInfo, final int offset) throws PSTException, IOException {
             // type = (int)(PSTObject.convertLittleEndianBytesToLong(data,
             // offset, offset+2) & 0xFFFF);
@@ -442,7 +461,7 @@ class PSTTable7C extends PSTTable {
      * if ( items == null || itemNumber >= items.size() ) {
      * return null;
      * }
-     * 
+     *
      * return items.get(itemNumber);
      * }
      * /

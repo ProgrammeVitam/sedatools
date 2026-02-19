@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 
 package fr.gouv.vitam.tools.mailextractlib.formattools.rtf;
 
@@ -386,13 +396,11 @@ public class HTMLFromRTFExtractor {
     // Pop current GroupState
     private void processGroupEnd() {
         // delete any output till in header
-        if (globalInHeader)
-            resultBuilder.setLength(0);
+        if (globalInHeader) resultBuilder.setLength(0);
 
         globalAnsiSkip = 0;
         // Restore group state:
         globalGroupState = globalGroupState.getPreviousGroupState();
-
     }
 
     // Parse a rtf control token (\...)
@@ -436,40 +444,36 @@ public class HTMLFromRTFExtractor {
             // escape:
             globalAnsiSkip--;
         } else {
-            if (!globalGroupState.ignore)
-                // Unescape:
-                addOutputByte(16 * hexValue(hex1) + hexValue(hex2));
+            if (!globalGroupState.ignore) addOutputByte(16 * hexValue(hex1) + hexValue(hex2)); // Unescape:
         }
     }
 
     // Parse a rtf control word (\... not escaped character)
     private void parseControlWord(int firstChar) throws IOException {
         StringBuilder controlWord = new StringBuilder();
-        ;
-
         controlWord.append((char) firstChar);
+
         int b = pbis.read();
         while (isAlpha(b)) {
             controlWord.append((char) b);
             b = pbis.read();
         }
-
         boolean hasParam = false;
+
         boolean negParam = false;
         if (b == '-') {
             negParam = true;
             hasParam = true;
             b = pbis.read();
         }
-
         int param = 0;
+
         while (isDigit(b)) {
             param *= 10;
             param += (b - '0');
             hasParam = true;
             b = pbis.read();
         }
-
         // space is consumed as part of the
         // control word, but is not added to the control word
         if (b != ' ') {
@@ -481,9 +485,7 @@ public class HTMLFromRTFExtractor {
                 param = -param;
             }
             processControlWord(controlWord.toString(), param);
-        } else
-            processNoParamControlWord(controlWord.toString());
-
+        } else processNoParamControlWord(controlWord.toString());
     }
 
     // Handle non-parameter control word
@@ -507,8 +509,8 @@ public class HTMLFromRTFExtractor {
                 case "sect":
                 case "sectd":
                 case "plain":
-                //case "ltrch":
-                //case "rtlch":
+                    //case "ltrch":
+                    //case "rtlch":
                     globalInHeader = false;
                 default:
                     // ignore others colortbl stylesheet fonttbl listtable
@@ -579,10 +581,8 @@ public class HTMLFromRTFExtractor {
                     break;
                 case "htmlrtf":
                     pushText();
-                    if (param == 0)
-                        globalGroupState.setInHtmlrtf(false);
-                    else
-                        globalGroupState.setInHtmlrtf(true);
+                    if (param == 0) globalGroupState.setInHtmlrtf(false);
+                    else globalGroupState.setInHtmlrtf(true);
                     break;
                 case "f":
                     // Change current font
@@ -720,7 +720,6 @@ public class HTMLFromRTFExtractor {
     // else appends the characters to the pendingBuffer
     private void pushPendingBytes() {
         if (pendingByteCount > 0 && !globalGroupState.ignore) {
-
             final CharsetDecoder decoder = getDecoder();
             pendingByteBuffer.limit(pendingByteCount);
             assert pendingByteBuffer.position() == 0;
@@ -824,8 +823,7 @@ public class HTMLFromRTFExtractor {
         try {
             while (len < 100) {
                 inc = pbis.read(buf, len, 100 - len);
-                if (inc == -1)
-                    return false;
+                if (inc == -1) return false;
                 len += inc;
             }
             test = new String(buf);
@@ -841,8 +839,7 @@ public class HTMLFromRTFExtractor {
         if (test.indexOf("\\fromtext") >= 0) {
             isText = true;
             return true;
-        } else
-            return false;
+        } else return false;
     }
 
     // public functions
@@ -886,15 +883,14 @@ public class HTMLFromRTFExtractor {
                 if (m.find()) {
                     // add a meta tag to say it's UTF-8 just after <head> tag
                     resultString = resultBuilder
-                            .insert(m.end(),
-                                    "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")
-                            .toString();
+                        .insert(m.end(), "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")
+                        .toString();
                 } else {
                     // add a meta tag to say it's UTF-8 at the beginning (a bit
                     // trash)
                     resultString = resultBuilder
-                            .insert(0, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n")
-                            .toString();
+                        .insert(0, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n")
+                        .toString();
                 }
             }
 
@@ -903,5 +899,4 @@ public class HTMLFromRTFExtractor {
 
         return resultString;
     }
-
 }

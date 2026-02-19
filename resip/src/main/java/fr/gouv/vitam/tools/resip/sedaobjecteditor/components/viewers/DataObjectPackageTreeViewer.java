@@ -1,36 +1,45 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.CompactThread;
@@ -84,12 +93,18 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         DataObject dataObject = treeNode.getDataObject();
         if (dataObject instanceof DataObjectGroup) {
             DataObjectGroup dog = (DataObjectGroup) dataObject;
-            if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
-                    (dog.getBinaryDataObjectList() != null)) {
+            if (
+                (dog.getPhysicalDataObjectList() == null) ||
+                ((dog.getPhysicalDataObjectList().isEmpty()) && (dog.getBinaryDataObjectList() != null))
+            ) {
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
-                    FormatIdentification fi=bdo.getMetadataFormatIdentification();
-                    if ((fi != null) &&
-                            (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(fi.getSimpleMetadata("FormatId")))) {
+                    FormatIdentification fi = bdo.getMetadataFormatIdentification();
+                    if (
+                        (fi != null) &&
+                        (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(
+                                fi.getSimpleMetadata("FormatId")
+                            ))
+                    ) {
                         return bdo;
                     }
                 }
@@ -105,12 +120,18 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         DataObject dataObject = treeNode.getDataObject();
         if (dataObject instanceof DataObjectGroup) {
             DataObjectGroup dog = (DataObjectGroup) dataObject;
-            if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
-                    (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
+            if (
+                (dog.getPhysicalDataObjectList() == null) ||
+                ((dog.getPhysicalDataObjectList().isEmpty()) &&
+                    (dog.getBinaryDataObjectList() != null) &&
+                    (dog.getBinaryDataObjectList().size() == 1))
+            ) {
                 BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
-                FormatIdentification fi=bdo.getMetadataFormatIdentification();
-                if ((fi!=null) &&
-                        (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId"))!=null)) {
+                FormatIdentification fi = bdo.getMetadataFormatIdentification();
+                if (
+                    (fi != null) &&
+                    (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId")) != null)
+                ) {
                     return bdo;
                 }
             }
@@ -124,7 +145,10 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @param container the container
      * @param treeModel the tree model
      */
-    public DataObjectPackageTreeViewer(TreeDataObjectPackageEditorPanel container, DataObjectPackageTreeModel treeModel) {
+    public DataObjectPackageTreeViewer(
+        TreeDataObjectPackageEditorPanel container,
+        DataObjectPackageTreeModel treeModel
+    ) {
         super(treeModel);
         this.container = container;
         final DataObjectPackageTreeViewer tree = this;
@@ -139,7 +163,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         tree.container.selectTreePathItem(selPath);
                     } else if (SwingUtilities.isRightMouseButton(e) && (stn.getParents() != null)) {
-
                         JPopupMenu popup = new JPopupMenu();
                         popupSTN = new ArrayList<>(5);
                         popupSTN.add(stn);
@@ -149,7 +172,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             int i = 0;
                             for (DataObjectPackageTreeNode pstn : stn.getParents()) {
                                 popupSTN.add(pstn);
-                                mi = new JMenuItem("Voir " + pstn.getArchiveUnit().getInDataObjectPackageId() + "-" + pstn.getTitle());
+                                mi = new JMenuItem(
+                                    "Voir " + pstn.getArchiveUnit().getInDataObjectPackageId() + "-" + pstn.getTitle()
+                                );
                                 mi.addActionListener(thisSTV);
                                 mi.setActionCommand("Link-" + (i++));
                                 popup.add(mi);
@@ -157,18 +182,18 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             asParents = true;
                         }
                         if (stn.getArchiveUnit() != null) {
-                            if (asParents)
-                                popup.addSeparator();
+                            if (asParents) popup.addSeparator();
                             mi = new JMenuItem("Ajouter une sous-ArchiveUnit");
                             mi.addActionListener(thisSTV);
                             mi.setActionCommand("NewSubArchiveUnit");
                             popup.add(mi);
                             if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
-                                boolean isDocumentContainer=false;
+                                boolean isDocumentContainer = false;
                                 try {
-                                    isDocumentContainer=(stn.getArchiveUnit() != null)
-                                            && (stn.getArchiveUnit().getContent() != null)
-                                            && (stn.getArchiveUnit().getContent().getFirstNamedMetadata("DocumentContainer") != null);
+                                    isDocumentContainer = (stn.getArchiveUnit() != null) &&
+                                    (stn.getArchiveUnit().getContent() != null) &&
+                                    (stn.getArchiveUnit().getContent().getFirstNamedMetadata("DocumentContainer") !=
+                                        null);
                                 } catch (SEDALibException ignored) {
                                     // no real case
                                 }
@@ -225,18 +250,23 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         KeyListener kl = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) &&
-                        (tree.getSelectionPaths() != null)) {
-                    if ((tree.getSelectionPaths().length > 1)
-                            && (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Vous allez effacer " +
-                                    tree.getSelectionPaths().length + " ArchiveUnit(s) ",
-                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                            null) != ResipGraphicApp.OK_DIALOG))
-                        return;
+                if (
+                    ((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) &&
+                    (tree.getSelectionPaths() != null)
+                ) {
+                    if (
+                        (tree.getSelectionPaths().length > 1) &&
+                        (UserInteractionDialog.getUserAnswer(
+                                ResipGraphicApp.getTheWindow(),
+                                "Vous allez effacer " + tree.getSelectionPaths().length + " ArchiveUnit(s) ",
+                                "Confirmation",
+                                UserInteractionDialog.WARNING_DIALOG,
+                                null
+                            ) !=
+                            ResipGraphicApp.OK_DIALOG)
+                    ) return;
                     boolean confirmFlag = (tree.getSelectionPaths().length == 1);
-                    for (TreePath path : tree.getSelectionPaths())
-                        removeSubTree(path, confirmFlag);
+                    for (TreePath path : tree.getSelectionPaths()) removeSubTree(path, confirmFlag);
                 }
             }
         };
@@ -267,14 +297,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         if (ae.getActionCommand().startsWith("Link-")) {
             String rank = ae.getActionCommand().substring(5);
             TreePath path = new TreePath(
-                    ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(Integer.parseInt(rank) + 1)));
+                ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(Integer.parseInt(rank) + 1))
+            );
             setExpandsSelectedPaths(true);
             setSelectionPath(path);
             expandPath(path);
             scrollPathToVisible(path);
         } else if (ae.getActionCommand().equals("NewSubArchiveUnit")) {
-            addArchiveUnit(new TreePath(
-                    ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
+            addArchiveUnit(new TreePath(((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
         } else if (ae.getActionCommand().equals("CompactArchiveUnit")) {
             CompactThread.launchCompactThread(popupSTN.get(0));
         } else if (ae.getActionCommand().equals("DeCompactArchiveUnit")) {
@@ -282,11 +312,15 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         } else if (ae.getActionCommand().equals("NewRootArchiveUnit")) {
             addArchiveUnit(null);
         } else if (ae.getActionCommand().equals("Expand")) {
-            ExpandThread.launchExpandThread((DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
-                    getCompressedBinaryDataObject(uncompressedDogTreeNode));
+            ExpandThread.launchExpandThread(
+                (DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
+                getCompressedBinaryDataObject(uncompressedDogTreeNode)
+            );
         } else if (ae.getActionCommand().equals("MailExtract")) {
-            MailExtractThread.launchMailExtractThread((DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
-                    getMailBinaryDataObject(uncompressedDogTreeNode));
+            MailExtractThread.launchMailExtractThread(
+                (DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
+                getMailBinaryDataObject(uncompressedDogTreeNode)
+            );
         }
     }
 
@@ -307,8 +341,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     private void nodeLabelStructureChanged(DataObjectPackageTreeModel stm, TreeNode root) {
         if (root != null) {
             stm.nodeChanged(root);
-            for (int i = 0; i < root.getChildCount(); i++)
-                nodeLabelStructureChanged(stm, root.getChildAt(i));
+            for (int i = 0; i < root.getChildCount(); i++) nodeLabelStructureChanged(stm, root.getChildAt(i));
         }
     }
 
@@ -332,8 +365,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     }
 
     @Override
-    public String convertValueToText(final Object value, final boolean selected, final boolean expanded,
-                                     final boolean leaf, final int row, final boolean hasFocus) {
+    public String convertValueToText(
+        final Object value,
+        final boolean selected,
+        final boolean expanded,
+        final boolean leaf,
+        final int row,
+        final boolean hasFocus
+    ) {
         final DataObjectPackageTreeNode stn = (DataObjectPackageTreeNode) value;
         String result;
 
@@ -341,13 +380,13 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             final ArchiveUnit archiveUnit = stn.getArchiveUnit();
             result = stn.getTitle();
             if (longDataObjectPackageTreeItemName) {
-                if (!leaf)
-                    result += " (" + stn.getAuChildCount() + "/" + stn.getAuRecursivCount() + ")";
+                if (!leaf) result += " (" + stn.getAuChildCount() + "/" + stn.getAuRecursivCount() + ")";
                 result += " - " + archiveUnit.getInDataObjectPackageId();
             }
         } else {
-            result = stn.getDataObject().getClass().getSimpleName() + " "
-                    + stn.getDataObject().getInDataObjectPackageId();
+            result = stn.getDataObject().getClass().getSimpleName() +
+            " " +
+            stn.getDataObject().getInDataObjectPackageId();
         }
         return result;
     }
@@ -361,15 +400,12 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @return the path string
      */
     static String getPathString(TreePath path) {
-        if (path == null)
-            return "";
+        if (path == null) return "";
         DataObjectPackageTreeNode attn = (DataObjectPackageTreeNode) path.getLastPathComponent();
-        if (attn.getArchiveUnit() != null)
-            return getPathString(path.getParentPath()) + "->" + attn.getTitle();
-        else
-            return getPathString(path.getParentPath()) + "->DataObject "
-                    + attn.getDataObject().getInDataObjectPackageId();
-
+        if (attn.getArchiveUnit() != null) return getPathString(path.getParentPath()) + "->" + attn.getTitle();
+        else return (
+            getPathString(path.getParentPath()) + "->DataObject " + attn.getDataObject().getInDataObjectPackageId()
+        );
     }
 
     /**
@@ -412,26 +448,29 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
     private void resetTouchedFromNode(DataObjectPackageTreeNode node) {
         node.setTouchedCounter(0);
-        for (int i = 0; i < node.getChildCount(); i++)
-            resetTouchedFromNode((DataObjectPackageTreeNode) node.getChildAt(i));
+        for (int i = 0; i < node.getChildCount(); i++) resetTouchedFromNode(
+            (DataObjectPackageTreeNode) node.getChildAt(i)
+        );
     }
 
     private void countTouchedFromNode(DataObjectPackageTreeNode node) {
         node.incTouchedCounter();
-        for (int i = 0; i < node.getChildCount(); i++)
-            countTouchedFromNode((DataObjectPackageTreeNode) node.getChildAt(i));
+        for (int i = 0; i < node.getChildCount(); i++) countTouchedFromNode(
+            (DataObjectPackageTreeNode) node.getChildAt(i)
+        );
     }
 
     private void removeNode(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node, DustbinItem de) {
         node.removeParent(parentNode);
         node.decTouchedCounter();
-        if (node.getParents().size() > node.getTouchedCounter())
-            return;
+        if (node.getParents().size() > node.getTouchedCounter()) return;
         de.addTreeNode(node);
-        for (int i = 0; i < node.getChildCount(); i++)
-            removeNode(node, (DataObjectPackageTreeNode) node.getChildAt(i), de);
+        for (int i = 0; i < node.getChildCount(); i++) removeNode(
+            node,
+            (DataObjectPackageTreeNode) node.getChildAt(i),
+            de
+        );
     }
-
 
     /**
      * Gets expansion state of the displayed tree.
@@ -459,8 +498,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      */
     public void setExpansionState(Map<TreePath, Boolean> expansionState) {
         for (Map.Entry<TreePath, Boolean> e : expansionState.entrySet()) {
-            if (Boolean.TRUE.equals(e.getValue()))
-                expandPath(e.getKey());
+            if (Boolean.TRUE.equals(e.getValue())) expandPath(e.getKey());
         }
     }
 
@@ -481,8 +519,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     public void setPathExpansionState(TreePath treePath, boolean state) {
         // Temporarily remove all listeners that would otherwise
         // be flooded with TreeExpansionEvents
-        TreeExpansionListener[] expansionListeners =
-                getTreeExpansionListeners();
+        TreeExpansionListener[] expansionListeners = getTreeExpansionListeners();
         if (state) {
             for (TreeExpansionListener expansionListener : expansionListeners) {
                 removeTreeExpansionListener(expansionListener);
@@ -554,18 +591,22 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         int auCount = childNode.getAuRecursivCount();
         int ogCount = childNode.getOgRecursivCount();
-        if (childNode.getArchiveUnit() != null)
-            auCount++;
-        if (childNode.getDataObject() != null)
-            ogCount++;
-        if (confirmFlag && (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                "Vous allez effacer " +
-                        (auCount == 0 ? "" : auCount + " ArchiveUnits ") +
-                        (auCount != 0 && ogCount != 0 ? "et " : "") +
-                        (ogCount == 0 ? "" : ogCount + " DataObjectGroups "),
-                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                null) != ResipGraphicApp.OK_DIALOG))
-            return;
+        if (childNode.getArchiveUnit() != null) auCount++;
+        if (childNode.getDataObject() != null) ogCount++;
+        if (
+            confirmFlag &&
+            (UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "Vous allez effacer " +
+                    (auCount == 0 ? "" : auCount + " ArchiveUnits ") +
+                    (auCount != 0 && ogCount != 0 ? "et " : "") +
+                    (ogCount == 0 ? "" : ogCount + " DataObjectGroups "),
+                    "Confirmation",
+                    UserInteractionDialog.WARNING_DIALOG,
+                    null
+                ) !=
+                ResipGraphicApp.OK_DIALOG)
+        ) return;
 
         fatherNode.removeChildrenNode(childNode);
 
@@ -597,10 +638,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      */
     public void addArchiveUnit(TreePath targetPath) {
         DataObjectPackageTreeNode targetNode;
-        if (targetPath == null)
-            targetNode = (DataObjectPackageTreeNode) getModel().getRoot();
-        else
-            targetNode = (DataObjectPackageTreeNode) targetPath.getLastPathComponent();
+        if (targetPath == null) targetNode = (DataObjectPackageTreeNode) getModel().getRoot();
+        else targetNode = (DataObjectPackageTreeNode) targetPath.getLastPathComponent();
         DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) getModel();
 
         ArchiveUnit au = new ArchiveUnit(targetNode.getArchiveUnit().getDataObjectPackage());

@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
 import fr.gouv.vitam.tools.javalibpst.*;
@@ -69,12 +79,9 @@ public class PstStoreFolder extends StoreFolder {
         super(storeExtractor);
         this.pstFolder = pstFolder;
         this.name = pstFolder.getDisplayName();
-        if (this.name == null)
-            this.name = "";
-        if (father.getFullName().isEmpty())
-            this.fullName = this.name;
-        else
-            this.fullName = father.fullName + File.separator + this.name;
+        if (this.name == null) this.name = "";
+        if (father.getFullName().isEmpty()) this.fullName = this.name;
+        else this.fullName = father.fullName + File.separator + this.name;
         finalizeStoreFolder(father);
     }
 
@@ -86,8 +93,11 @@ public class PstStoreFolder extends StoreFolder {
      * @param rootArchiveUnit Root ArchiveUnit
      * @return the LP store folder
      */
-    public static PstStoreFolder createRootFolder(PstStoreExtractor storeExtractor, PSTFolder pstFolder,
-                                                  ArchiveUnit rootArchiveUnit) {
+    public static PstStoreFolder createRootFolder(
+        PstStoreExtractor storeExtractor,
+        PSTFolder pstFolder,
+        ArchiveUnit rootArchiveUnit
+    ) {
         PstStoreFolder result = new PstStoreFolder(storeExtractor, pstFolder);
         result.folderArchiveUnit = rootArchiveUnit;
 
@@ -95,10 +105,13 @@ public class PstStoreFolder extends StoreFolder {
     }
 
     private void logMessageWarning(String msg, Exception e) throws InterruptedException {
-        if (getStoreExtractor().getOptions().warningMsgProblem)
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, e);
-        else
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, e);
+        if (getStoreExtractor().getOptions().warningMsgProblem) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.WARNING,
+            msg,
+            e
+        );
+        else doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, e);
     }
 
     private PSTMessage getNextPSTObject(int count) throws MailExtractLibException, InterruptedException {
@@ -111,14 +124,23 @@ public class PstStoreFolder extends StoreFolder {
             } catch (IOException e) {
                 throw new MailExtractLibException("mailextractlib.pst: can't use pst file", e);
             } catch (PSTException e) {
-                throw new MailExtractLibException("mailextractlib.pst: can't get elements from folder " + getFullName(), e);
+                throw new MailExtractLibException(
+                    "mailextractlib.pst: can't get elements from folder " + getFullName(),
+                    e
+                );
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: end folder operation at message " + count
-                        + "/" + pstFolder.getContentCount() + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: end folder operation at message " +
+                    count +
+                    "/" +
+                    pstFolder.getContentCount() +
+                    " in folder " +
+                    this.getName(),
+                    e
+                );
                 error = true;
             }
-        }
-        while (error);
+        } while (error);
         return (PSTMessage) po;
     }
 
@@ -131,8 +153,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't extract contact " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't extract contact " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         } else if (message instanceof PSTAppointment) {
             try {
@@ -141,8 +165,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't extract appointment " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't extract appointment " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         } else {
             try {
@@ -151,8 +177,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't extract message " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't extract message " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         }
     }
@@ -177,28 +205,33 @@ public class PstStoreFolder extends StoreFolder {
                 while (true) {
                     final int messageRank = submittedTasks + 1; // Task index
                     message = getNextPSTObject(messageRank);
-                    if (message == null)
-                        break;
+                    if (message == null) break;
                     final PSTMessage msg = message;
                     completionService.submit(() -> {
                         extractPSTObject(msg, messageRank, writeFlag);
                         return null;
                     });
-                    submittedTasks=messageRank;
+                    submittedTasks = messageRank;
                 }
 
                 // Retrieve the results with a maximum wait of 60 seconds per task
                 for (int i = 0; i < submittedTasks; i++) {
                     Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
                     if (future == null) {
-                        throw new MailExtractLibException("mailextractlib.pst: Timeout: no message extracted within 60 seconds, folder extraction aborted.", null);
+                        throw new MailExtractLibException(
+                            "mailextractlib.pst: Timeout: no message extracted within 60 seconds, folder extraction aborted.",
+                            null
+                        );
                     }
                     try {
-                        future.get();  // Retrieve the task result or propagate any exception
+                        future.get(); // Retrieve the task result or propagate any exception
                     } catch (ExecutionException e) {
-                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
-                                MailExtractProgressLogger.MESSAGE,
-                                "mailextractlib.pst: Error during a message processing, it's dropped.", e);
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(
+                            getStoreExtractor().getProgressLogger(),
+                            MailExtractProgressLogger.MESSAGE,
+                            "mailextractlib.pst: Error during a message processing, it's dropped.",
+                            e
+                        );
                     }
                 }
             } finally {
@@ -208,8 +241,7 @@ public class PstStoreFolder extends StoreFolder {
             int messageCount = 1;
             while (true) {
                 message = getNextPSTObject(messageCount);
-                if (message == null)
-                    break;
+                if (message == null) break;
                 extractPSTObject(message, messageCount, writeFlag);
                 messageCount++;
             }
@@ -224,16 +256,15 @@ public class PstStoreFolder extends StoreFolder {
      * int)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws
-            MailExtractLibException, InterruptedException {
+    protected void doExtractSubFolders(int level, boolean writeFlag)
+        throws MailExtractLibException, InterruptedException {
         PstStoreFolder lPMailBoxSubFolder;
 
         try {
             final Vector<PSTFolder> subfolders = pstFolder.getSubFolders();
             for (final PSTFolder subfolder : subfolders) {
                 lPMailBoxSubFolder = new PstStoreFolder(storeExtractor, subfolder, this);
-                if (lPMailBoxSubFolder.extractFolder(level + 1, writeFlag))
-                    incFolderSubFoldersCount();
+                if (lPMailBoxSubFolder.extractFolder(level + 1, writeFlag)) incFolderSubFoldersCount();
                 extendDateRange(lPMailBoxSubFolder.getDateRange());
             }
         } catch (IOException e) {
@@ -298,8 +329,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't list contact " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't list contact " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         } else if (message instanceof PSTAppointment) {
             try {
@@ -308,8 +341,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't list appointment " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't list appointment " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         } else {
             try {
@@ -318,8 +353,10 @@ public class PstStoreFolder extends StoreFolder {
             } catch (InterruptedException e) {
                 throw e;
             } catch (Exception e) {
-                logMessageWarning("mailextractlib.pst: can't list message " + count
-                        + " in folder " + this.getName(), e);
+                logMessageWarning(
+                    "mailextractlib.pst: can't list message " + count + " in folder " + this.getName(),
+                    e
+                );
             }
         }
     }
@@ -344,28 +381,33 @@ public class PstStoreFolder extends StoreFolder {
                 while (true) {
                     final int messageRank = submittedTasks + 1; // Task index
                     message = getNextPSTObject(messageRank);
-                    if (message == null)
-                        break;
+                    if (message == null) break;
                     final PSTMessage msg = message;
                     completionService.submit(() -> {
                         listPSTObject(msg, messageRank, stats);
                         return null;
                     });
-                    submittedTasks=messageRank;
+                    submittedTasks = messageRank;
                 }
 
                 // Retrieve the results with a maximum wait of 60 seconds per task
                 for (int i = 0; i < submittedTasks; i++) {
                     Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
                     if (future == null) {
-                        throw new MailExtractLibException("mailextractlib.pst: Timeout: no message listed within 60 seconds, folder extraction aborted.", null);
+                        throw new MailExtractLibException(
+                            "mailextractlib.pst: Timeout: no message listed within 60 seconds, folder extraction aborted.",
+                            null
+                        );
                     }
                     try {
-                        future.get();  // Retrieve the task result or propagate any exception
+                        future.get(); // Retrieve the task result or propagate any exception
                     } catch (ExecutionException e) {
-                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
-                                MailExtractProgressLogger.MESSAGE,
-                                "mailextractlib.pst: Error during a message processing, it's dropped.", e);
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(
+                            getStoreExtractor().getProgressLogger(),
+                            MailExtractProgressLogger.MESSAGE,
+                            "mailextractlib.pst: Error during a message processing, it's dropped.",
+                            e
+                        );
                     }
                 }
             } finally {
@@ -375,8 +417,7 @@ public class PstStoreFolder extends StoreFolder {
             int messageCount = 1;
             while (true) {
                 message = getNextPSTObject(messageCount);
-                if (message == null)
-                    break;
+                if (message == null) break;
                 listPSTObject(message, messageCount, stats);
                 messageCount++;
             }

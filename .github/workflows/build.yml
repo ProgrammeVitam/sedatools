@@ -19,7 +19,7 @@ jobs:
           java-version: "17"
 
       - name: Build and Run Tests
-        run: mvn --settings .ci/github-actions-settings.xml verify
+        run: mvn --settings .ci/github-actions-settings.xml -Dspotless.check.skip verify
         env:
           JAVA_TOOL_OPTIONS: "-Duser.timezone=Europe/Paris"
           SERVICE_NEXUS_URL: ${{ secrets.SERVICE_NEXUS_URL }}

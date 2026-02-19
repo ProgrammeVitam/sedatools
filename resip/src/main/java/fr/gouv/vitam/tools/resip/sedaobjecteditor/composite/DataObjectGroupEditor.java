@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
@@ -70,10 +80,15 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        return translateTag("DataObjectGroup") + " - " +
-                (editedObject == null ? translateTag("Unknown") :
-                        (getDataObjectGroupMetadata().getInDataObjectPackageId() == null ? "Tbd" :
-                                getDataObjectGroupMetadata().getInDataObjectPackageId()));
+        return (
+            translateTag("DataObjectGroup") +
+            " - " +
+            (editedObject == null
+                    ? translateTag("Unknown")
+                    : (getDataObjectGroupMetadata().getInDataObjectPackageId() == null
+                            ? "Tbd"
+                            : getDataObjectGroupMetadata().getInDataObjectPackageId()))
+        );
     }
 
     private void removeDataObject(DataObject dataObject) {
@@ -83,10 +98,14 @@ public class DataObjectGroupEditor extends CompositeEditor {
     private void addDataObject(DataObject dataObject) throws SEDALibException {
         DataObjectGroup og;
         if (dataObject instanceof BinaryDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().addDataObjectPackageIdElement((BinaryDataObject) dataObject);
+            getDataObjectGroupMetadata()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((BinaryDataObject) dataObject);
             getDataObjectGroupMetadata().addDataObject((BinaryDataObject) dataObject);
         } else if (dataObject instanceof PhysicalDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
+            getDataObjectGroupMetadata()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
             getDataObjectGroupMetadata().addDataObject((PhysicalDataObject) dataObject);
         }
     }
@@ -98,33 +117,30 @@ public class DataObjectGroupEditor extends CompositeEditor {
         LogBook logBook = null;
         for (SEDAObjectEditor me : objectEditorList) {
             Object subObject = me.extractEditedObject();
-            if (subObject instanceof BinaryDataObject)
-                bdoList.add((BinaryDataObject) subObject);
-            else if (subObject instanceof PhysicalDataObject)
-                pdoList.add((PhysicalDataObject) subObject);
-            else if (subObject instanceof LogBook)
-                logBook = (LogBook) subObject;
+            if (subObject instanceof BinaryDataObject) bdoList.add((BinaryDataObject) subObject);
+            else if (subObject instanceof PhysicalDataObject) pdoList.add((PhysicalDataObject) subObject);
+            else if (subObject instanceof LogBook) logBook = (LogBook) subObject;
         }
 
         getDataObjectGroupMetadata().setLogBook(logBook);
-        List<BinaryDataObject> previousBdoList = new ArrayList<BinaryDataObject>(getDataObjectGroupMetadata().getBinaryDataObjectList());
-       for (BinaryDataObject bdo : previousBdoList) {
-            if (!bdoList.contains(bdo))
-                removeDataObject(bdo);
+        List<BinaryDataObject> previousBdoList = new ArrayList<BinaryDataObject>(
+            getDataObjectGroupMetadata().getBinaryDataObjectList()
+        );
+        for (BinaryDataObject bdo : previousBdoList) {
+            if (!bdoList.contains(bdo)) removeDataObject(bdo);
         }
         for (BinaryDataObject bdo : bdoList) {
-            if (!previousBdoList.contains(bdo))
-                addDataObject(bdo);
+            if (!previousBdoList.contains(bdo)) addDataObject(bdo);
         }
 
-        List<PhysicalDataObject> previousPdoList = new ArrayList<PhysicalDataObject>(getDataObjectGroupMetadata().getPhysicalDataObjectList());
+        List<PhysicalDataObject> previousPdoList = new ArrayList<PhysicalDataObject>(
+            getDataObjectGroupMetadata().getPhysicalDataObjectList()
+        );
         for (PhysicalDataObject pdo : previousPdoList) {
-            if (!pdoList.contains(pdo))
-                removeDataObject(pdo);
+            if (!pdoList.contains(pdo)) removeDataObject(pdo);
         }
         for (PhysicalDataObject pdo : pdoList) {
-            if (!previousPdoList.contains(pdo))
-                addDataObject(pdo);
+            if (!previousPdoList.contains(pdo)) addDataObject(pdo);
         }
 
         return getDataObjectGroupMetadata();
@@ -151,7 +167,10 @@ public class DataObjectGroupEditor extends CompositeEditor {
                 ((CompositeEditor) objectEditor).doExpand(false, false);
             }
             if (getDataObjectGroupMetadata().logBook != null) {
-                SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(getDataObjectGroupMetadata().logBook, this);
+                SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(
+                    getDataObjectGroupMetadata().logBook,
+                    this
+                );
                 objectEditorList.add(objectEditor);
                 ((CompositeEditor) objectEditor).doExpand(false, false);
             }
@@ -167,16 +186,19 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() {
-        if (getDataObjectGroupMetadata() == null)
-            return new ArrayList<Pair<String, String>>();
+        if (getDataObjectGroupMetadata() == null) return new ArrayList<Pair<String, String>>();
 
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
+        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(
+            Arrays.asList(
                 Pair.of("BinaryDataObject", translateTag("BinaryDataObject")),
-                Pair.of("PhysicalDataObject", translateTag("PhysicalDataObject"))));
+                Pair.of("PhysicalDataObject", translateTag("PhysicalDataObject"))
+            )
+        );
 
-        if ((objectEditorList.size()==0) ||
-                (!objectEditorList.get(objectEditorList.size() - 1).getTag().equals("LogBook")))
-            extensionList.add(Pair.of("LogBook", translateTag("LogBook")));
+        if (
+            (objectEditorList.size() == 0) ||
+            (!objectEditorList.get(objectEditorList.size() - 1).getTag().equals("LogBook"))
+        ) extensionList.add(Pair.of("LogBook", translateTag("LogBook")));
         return extensionList;
     }
 
@@ -196,8 +218,7 @@ public class DataObjectGroupEditor extends CompositeEditor {
         int addOrder = getOrder(metadataName);
 
         for (SEDAObjectEditor me : objectEditorList) {
-            if (getOrder(me.getTag()) > addOrder)
-                break;
+            if (getOrder(me.getTag()) > addOrder) break;
             index++;
         }
         return index;
@@ -221,8 +242,9 @@ public class DataObjectGroupEditor extends CompositeEditor {
                 addedObjectEditor = createSEDAObjectEditor((SEDAMetadata) metadata, this);
                 break;
         }
-        if (metadata == null)
-            throw new SEDALibException("L'objet [" + editedObjectName + "] n'existe pas dans un DataObjectGroup");
+        if (metadata == null) throw new SEDALibException(
+            "L'objet [" + editedObjectName + "] n'existe pas dans un DataObjectGroup"
+        );
         objectEditorList.add(getInsertionIndex(editedObjectName), addedObjectEditor);
         ((CompositeEditor) addedObjectEditor).doExpand(true, false);
         ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();

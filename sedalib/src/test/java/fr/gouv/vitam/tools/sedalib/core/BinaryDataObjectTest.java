@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +64,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ExtendWith(SedaContextExtension.class)
-@Execution(value = ExecutionMode.SAME_THREAD,reason= "Can't execute different SedaVersion treatment in parallel")
+@Execution(value = ExecutionMode.SAME_THREAD, reason = "Can't execute different SedaVersion treatment in parallel")
 class BinaryDataObjectTest {
 
     @Test
@@ -41,11 +78,17 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+            "src/test/resources/PacketSamples/TestSip.zip",
+            "target/tmpJunit/TestSIP.zip-tmpdir",
+            null
+        );
         si.doImport();
-        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
-                .get("ID7");
-        bdo.addNewMetadata("Relationship", "tar","typ");
+        BinaryDataObject bdo = si
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .get("ID7");
+        bdo.addNewMetadata("Relationship", "tar", "typ");
 
         String bdoOut = mapper.writeValueAsString(bdo);
         //System.out.println("Value to verify=" + bdoOut);
@@ -55,97 +98,97 @@ class BinaryDataObjectTest {
         String bdoNextOut = mapper.writeValueAsString(bdoNext);
 
         // Then
-        String testOut = "{\n" +
-                "  \"metadataList\" : [ {\n" +
-                "    \"type\" : \"Relationship\",\n" +
-                "    \"elementName\" : \"Relationship\",\n" +
-                "    \"target\" : \"tar\",\n" +
-                "    \"type\" : \"typ\"\n" +
-                "  }, {\n" +
-                "    \"type\" : \"StringType\",\n" +
-                "    \"elementName\" : \"DataObjectVersion\",\n" +
-                "    \"value\" : \"BinaryMaster_1\"\n" +
-                "  }, {\n" +
-                "    \"type\" : \"StringType\",\n" +
-                "    \"elementName\" : \"Uri\",\n" +
-                "    \"value\" : \"content/ID7.jpg\"\n" +
-                "  }, {\n" +
-                "    \"type\" : \"DigestType\",\n" +
-                "    \"elementName\" : \"MessageDigest\",\n" +
-                "    \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
-                "    \"algorithm\" : \"SHA-512\"\n" +
-                "  }, {\n" +
-                "    \"type\" : \"IntegerType\",\n" +
-                "    \"elementName\" : \"Size\",\n" +
-                "    \"value\" : 21232\n" +
-                "  }, {\n" +
-                "    \"type\" : \"FormatIdentification\",\n" +
-                "    \"elementName\" : \"FormatIdentification\",\n" +
-                "    \"metadataList\" : [ {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"FormatLitteral\",\n" +
-                "      \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
-                "    }, {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"MimeType\",\n" +
-                "      \"value\" : \"image/jpeg\"\n" +
-                "    }, {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"FormatId\",\n" +
-                "      \"value\" : \"fmt/645\"\n" +
-                "    } ]\n" +
-                "  }, {\n" +
-                "    \"type\" : \"FileInfo\",\n" +
-                "    \"elementName\" : \"FileInfo\",\n" +
-                "    \"metadataList\" : [ {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"Filename\",\n" +
-                "      \"value\" : \"image001.jpg\"\n" +
-                "    }, {\n" +
-                "      \"type\" : \"DateTimeType\",\n" +
-                "      \"elementName\" : \"LastModified\",\n" +
-                "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
-                "    } ]\n" +
-                "  }, {\n" +
-                "    \"type\" : \"Metadata\",\n" +
-                "    \"elementName\" : \"Metadata\",\n" +
-                "    \"metadataList\" : [ {\n" +
-                "      \"type\" : \"AnyXMLListType\",\n" +
-                "      \"elementName\" : \"Image\",\n" +
-                "      \"metadataList\" : [ {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"Dimensions\",\n" +
-                "        \"rawXml\" : \"<Dimensions>117x76</Dimensions>\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"Width\",\n" +
-                "        \"rawXml\" : \"<Width>117px</Width>\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"Height\",\n" +
-                "        \"rawXml\" : \"<Height>76px</Height>\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"VerticalResolution\",\n" +
-                "        \"rawXml\" : \"<VerticalResolution>96ppp</VerticalResolution>\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"HorizontalResolution\",\n" +
-                "        \"rawXml\" : \"<HorizontalResolution>96ppp</HorizontalResolution>\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"AnyXMLType\",\n" +
-                "        \"elementName\" : \"ColorDepth\",\n" +
-                "        \"rawXml\" : \"<ColorDepth>24</ColorDepth>\"\n" +
-                "      } ]\n" +
-                "    } ]\n" +
-                "  } ],\n" +
-                "  \"inDataObjectPackageId\" : \"ID7\",\n" +
-                "  \n" +
-                "}";
+        String testOut =
+            "{\n" +
+            "  \"metadataList\" : [ {\n" +
+            "    \"type\" : \"Relationship\",\n" +
+            "    \"elementName\" : \"Relationship\",\n" +
+            "    \"target\" : \"tar\",\n" +
+            "    \"type\" : \"typ\"\n" +
+            "  }, {\n" +
+            "    \"type\" : \"StringType\",\n" +
+            "    \"elementName\" : \"DataObjectVersion\",\n" +
+            "    \"value\" : \"BinaryMaster_1\"\n" +
+            "  }, {\n" +
+            "    \"type\" : \"StringType\",\n" +
+            "    \"elementName\" : \"Uri\",\n" +
+            "    \"value\" : \"content/ID7.jpg\"\n" +
+            "  }, {\n" +
+            "    \"type\" : \"DigestType\",\n" +
+            "    \"elementName\" : \"MessageDigest\",\n" +
+            "    \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
+            "    \"algorithm\" : \"SHA-512\"\n" +
+            "  }, {\n" +
+            "    \"type\" : \"IntegerType\",\n" +
+            "    \"elementName\" : \"Size\",\n" +
+            "    \"value\" : 21232\n" +
+            "  }, {\n" +
+            "    \"type\" : \"FormatIdentification\",\n" +
+            "    \"elementName\" : \"FormatIdentification\",\n" +
+            "    \"metadataList\" : [ {\n" +
+            "      \"type\" : \"StringType\",\n" +
+            "      \"elementName\" : \"FormatLitteral\",\n" +
+            "      \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
+            "    }, {\n" +
+            "      \"type\" : \"StringType\",\n" +
+            "      \"elementName\" : \"MimeType\",\n" +
+            "      \"value\" : \"image/jpeg\"\n" +
+            "    }, {\n" +
+            "      \"type\" : \"StringType\",\n" +
+            "      \"elementName\" : \"FormatId\",\n" +
+            "      \"value\" : \"fmt/645\"\n" +
+            "    } ]\n" +
+            "  }, {\n" +
+            "    \"type\" : \"FileInfo\",\n" +
+            "    \"elementName\" : \"FileInfo\",\n" +
+            "    \"metadataList\" : [ {\n" +
+            "      \"type\" : \"StringType\",\n" +
+            "      \"elementName\" : \"Filename\",\n" +
+            "      \"value\" : \"image001.jpg\"\n" +
+            "    }, {\n" +
+            "      \"type\" : \"DateTimeType\",\n" +
+            "      \"elementName\" : \"LastModified\",\n" +
+            "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
+            "    } ]\n" +
+            "  }, {\n" +
+            "    \"type\" : \"Metadata\",\n" +
+            "    \"elementName\" : \"Metadata\",\n" +
+            "    \"metadataList\" : [ {\n" +
+            "      \"type\" : \"AnyXMLListType\",\n" +
+            "      \"elementName\" : \"Image\",\n" +
+            "      \"metadataList\" : [ {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"Dimensions\",\n" +
+            "        \"rawXml\" : \"<Dimensions>117x76</Dimensions>\"\n" +
+            "      }, {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"Width\",\n" +
+            "        \"rawXml\" : \"<Width>117px</Width>\"\n" +
+            "      }, {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"Height\",\n" +
+            "        \"rawXml\" : \"<Height>76px</Height>\"\n" +
+            "      }, {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"VerticalResolution\",\n" +
+            "        \"rawXml\" : \"<VerticalResolution>96ppp</VerticalResolution>\"\n" +
+            "      }, {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"HorizontalResolution\",\n" +
+            "        \"rawXml\" : \"<HorizontalResolution>96ppp</HorizontalResolution>\"\n" +
+            "      }, {\n" +
+            "        \"type\" : \"AnyXMLType\",\n" +
+            "        \"elementName\" : \"ColorDepth\",\n" +
+            "        \"rawXml\" : \"<ColorDepth>24</ColorDepth>\"\n" +
+            "      } ]\n" +
+            "    } ]\n" +
+            "  } ],\n" +
+            "  \"inDataObjectPackageId\" : \"ID7\",\n" +
+            "  \n" +
+            "}";
         testOut = TestUtilities.SlackNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
         bdoNextOut = TestUtilities.SlackNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
         assertThat(bdoNextOut).isEqualToNormalizingNewlines(testOut);
-
     }
 
     @Test
@@ -159,17 +202,23 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+            "src/test/resources/PacketSamples/TestSip.zip",
+            "target/tmpJunit/TestSIP.zip-tmpdir",
+            null
+        );
 
         SedaContext.setVersion(SedaVersion.V2_1);
         si.doImport();
-        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
-                .get("ID7");
+        BinaryDataObject bdo = si
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .get("ID7");
 
         // When dataObjectProfile is defined in SEDA 2.1 can't add
-        assertThatThrownBy(() ->
-                bdo.addMetadata(new StringType("DataObjectProfile", "Test"))).isInstanceOf(SEDALibException.class)
-                .hasMessageContaining("Impossible d'étendre le schéma");
+        assertThatThrownBy(() -> bdo.addMetadata(new StringType("DataObjectProfile", "Test")))
+            .isInstanceOf(SEDALibException.class)
+            .hasMessageContaining("Impossible d'étendre le schéma");
         bdo.removeFirstNamedMetadata("DataObjectProfile");
 
         // When test read write fragments in XML string format
@@ -179,12 +228,13 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7.xml"));
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(
+            ResourceUtils.getResourceAsString("import/binary_data_object_ID7.xml")
+        );
     }
 
     @Test
     void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException, FileNotFoundException {
-
         // Given
         SedaContext.setVersion(SedaVersion.V2_2);
         ObjectMapper mapper = new ObjectMapper();
@@ -195,10 +245,16 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+            "src/test/resources/PacketSamples/TestSip.zip",
+            "target/tmpJunit/TestSIP.zip-tmpdir",
+            null
+        );
         si.doImport();
-        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
-                .get("ID7");
+        BinaryDataObject bdo = si
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .get("ID7");
         bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
 
         // When test read write fragments in XML string format
@@ -208,13 +264,14 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.2.xml"));
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(
+            ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.2.xml")
+        );
         SedaContext.setVersion(SedaVersion.V2_1);
     }
 
     @Test
     void testXMLFragmentForSedaVersion3() throws SEDALibException, InterruptedException, FileNotFoundException {
-
         // Given
         SedaContext.setVersion(SedaVersion.V2_3);
         ObjectMapper mapper = new ObjectMapper();
@@ -225,14 +282,20 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+            "src/test/resources/PacketSamples/TestSip.zip",
+            "target/tmpJunit/TestSIP.zip-tmpdir",
+            null
+        );
         si.doImport();
-        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
-                .get("ID7");
+        BinaryDataObject bdo = si
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .get("ID7");
         bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
-        bdo.addMetadata(new PersistentIdentifier("PType","POrigin", "PReference", "PContent"));
-        bdo.addMetadata(new StringType("DataObjectUse","BinaryMaster"));
-        bdo.addMetadata(new IntegerType("DataObjectNumber",1));
+        bdo.addMetadata(new PersistentIdentifier("PType", "POrigin", "PReference", "PContent"));
+        bdo.addMetadata(new StringType("DataObjectUse", "BinaryMaster"));
+        bdo.addMetadata(new IntegerType("DataObjectNumber", 1));
 
         // When test read write fragments in XML string format
         String bdoOut = bdo.toSedaXmlFragments();
@@ -241,7 +304,9 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.3.xml"));
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(
+            ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.3.xml")
+        );
         SedaContext.setVersion(SedaVersion.V2_1);
     }
 }

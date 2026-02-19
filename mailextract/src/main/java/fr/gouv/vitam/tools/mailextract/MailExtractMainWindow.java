@@ -1,28 +1,39 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.mailextract;
 
@@ -239,7 +250,6 @@ public class MailExtractMainWindow extends JFrame {
      */
     JCheckBox debugCheckBox;
 
-
     /**
      * The english check box.
      */
@@ -248,9 +258,7 @@ public class MailExtractMainWindow extends JFrame {
     /**
      * Other labels
      */
-    JLabel lblExtractElementsLabel,
-            lblExtractTextLabel, lblExtractTextToFileLabel, lblExtractTextToMetadataLabel, loglevelLabel,
-            namesLengthLabel, savedirLabel, folderLabel, charsetLabel;
+    JLabel lblExtractElementsLabel, lblExtractTextLabel, lblExtractTextToFileLabel, lblExtractTextToMetadataLabel, loglevelLabel, namesLengthLabel, savedirLabel, folderLabel, charsetLabel;
 
     /**
      * Other buttons
@@ -265,11 +273,44 @@ public class MailExtractMainWindow extends JFrame {
     /**
      * The proposed charsets.
      */
-    String[] charsetGraphicStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
-            "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
-            "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
-            "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
-            "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+    String[] charsetGraphicStrings = {
+        "windows-1252",
+        "ISO-8859-1",
+        "UTF-8",
+        "CESU-8",
+        "IBM00858",
+        "IBM437",
+        "IBM775",
+        "IBM850",
+        "IBM852",
+        "IBM855",
+        "IBM857",
+        "IBM862",
+        "IBM866",
+        "ISO-8859-2",
+        "ISO-8859-4",
+        "ISO-8859-5",
+        "ISO-8859-7",
+        "ISO-8859-9",
+        "ISO-8859-13",
+        "ISO-8859-15",
+        "KOI8-R",
+        "KOI8-U",
+        "US-ASCII",
+        "UTF-16",
+        "UTF-16BE",
+        "UTF-16LE",
+        "UTF-32",
+        "UTF-32BE",
+        "UTF-32LE",
+        "x-UTF-32BE-BOM",
+        "x-UTF-32LE-BOM",
+        "windows-1250",
+        "windows-1251",
+        "windows-1253",
+        "windows-1254",
+        "windows-1257",
+    };
 
     private JPanel panel;
 
@@ -300,7 +341,7 @@ public class MailExtractMainWindow extends JFrame {
     }
 
     // Initialize the contents of the frame.
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void initialize() {
         URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
         if (imageURL != null) {
@@ -314,8 +355,8 @@ public class MailExtractMainWindow extends JFrame {
         setBounds(0, 0, 800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0, 1, 1, 1};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[] { 1.0, 1, 1, 1 };
+        gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         getContentPane().setLayout(gridBagLayout);
 
         // Panel de condition d'extraction
@@ -331,8 +372,8 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractChoicePanel.gridy = 9;
         getContentPane().add(extractChoicePanel, gbc_extractChoicePanel);
         GridBagLayout gbl_extractChoicePanel = new GridBagLayout();
-        gbl_extractChoicePanel.rowWeights = new double[]{1.0, 1.0};
-        gbl_extractChoicePanel.columnWeights = new double[]{1.0, 1, 1};
+        gbl_extractChoicePanel.rowWeights = new double[] { 1.0, 1.0 };
+        gbl_extractChoicePanel.columnWeights = new double[] { 1.0, 1, 1 };
         extractChoicePanel.setLayout(gbl_extractChoicePanel);
 
         lblExtractElementsLabel = new JLabel(MESSAGES.getString("label.extractElements"));
@@ -379,7 +420,6 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractListsCheckBox.gridy = 1;
         extractChoicePanel.add(extractListCheckBox, gbc_extractListsCheckBox);
 
-
         // Panel d'extraction du texte
         JPanel extractTextPanel = new JPanel();
         extractTextPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -393,8 +433,8 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractTextPanel.gridy = 10;
         getContentPane().add(extractTextPanel, gbc_extractTextPanel);
         GridBagLayout gbl_extractTextPanel = new GridBagLayout();
-        gbl_extractTextPanel.rowWeights = new double[]{1.0, 1.0};
-        gbl_extractTextPanel.columnWeights = new double[]{1.0, 1, 1};
+        gbl_extractTextPanel.rowWeights = new double[] { 1.0, 1.0 };
+        gbl_extractTextPanel.columnWeights = new double[] { 1.0, 1, 1 };
         extractTextPanel.setLayout(gbl_extractTextPanel);
 
         lblExtractTextLabel = new JLabel(MESSAGES.getString("label.extractText"));
@@ -916,11 +956,10 @@ public class MailExtractMainWindow extends JFrame {
     private void SetLabels(ResourceBundle messages) {
         setTitle(messages.getString("mainWindow.title"));
 
-        int index=loglevelComboBox.getSelectedIndex();
+        int index = loglevelComboBox.getSelectedIndex();
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) loglevelComboBox.getModel();
         model.removeAllElements();
-        for (int i = 0; i < 7; i++)
-            model.addElement(messages.getString("log." + i));
+        for (int i = 0; i < 7; i++) model.addElement(messages.getString("log." + i));
         loglevelComboBox.setSelectedIndex(index);
 
         lblExtractElementsLabel.setText(messages.getString("label.extractElements"));

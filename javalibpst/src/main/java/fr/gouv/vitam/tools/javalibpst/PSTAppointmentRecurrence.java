@@ -1,41 +1,41 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * <p>
- * ---
- * <p>
- * This file is part of javalibpst.
- * <p>
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- * <p>
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
-
-/*
- * import java.text.SimpleDateFormat;
- * /
- **/
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -169,27 +169,33 @@ public class PSTAppointmentRecurrence {
     public PSTAppointmentRecurrence(final byte[] recurrencePattern, final PSTAppointment appt, final PSTTimeZone tz) {
         this.RecurrenceTimeZone = tz;
         final SimpleTimeZone stz;
-        if (tz==null)
-            stz=PSTTimeZone.utcTimeZone;
-        else
-            stz=this.RecurrenceTimeZone.getSimpleTimeZone();
+        if (tz == null) stz = PSTTimeZone.utcTimeZone;
+        else stz = this.RecurrenceTimeZone.getSimpleTimeZone();
 
         // Read the structure
         this.RecurFrequency = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 4, 6);
         this.PatternType = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 6, 8);
         this.CalendarType = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 8, 10);
-        this.FirstDateTime = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 10, 14),
-                this.RecurrenceTimeZone);
+        this.FirstDateTime = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 10, 14),
+            this.RecurrenceTimeZone
+        );
         this.Period = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 14, 18);
         this.SlidingFlag = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 18, 22);
         int offset = 22;
         if (this.PatternType != 0) {
-            this.PatternSpecific = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                    offset + 4);
+            this.PatternSpecific = (int) PSTObject.convertLittleEndianBytesToLong(
+                recurrencePattern,
+                offset,
+                offset + 4
+            );
             offset += 4;
             if (this.PatternType == 0x0003 || this.PatternType == 0x000B) {
-                this.PatternSpecificNth = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                        offset + 4);
+                this.PatternSpecificNth = (int) PSTObject.convertLittleEndianBytesToLong(
+                    recurrencePattern,
+                    offset,
+                    offset + 4
+                );
                 offset += 4;
             }
         }
@@ -200,33 +206,45 @@ public class PSTAppointmentRecurrence {
         this.FirstDOW = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
         offset += 4;
 
-        this.DeletedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                offset + 4);
+        this.DeletedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(
+            recurrencePattern,
+            offset,
+            offset + 4
+        );
         offset += 4;
         this.DeletedInstanceDates = new Date[this.DeletedInstanceCount];
         for (int i = 0; i < this.DeletedInstanceCount; ++i) {
             this.DeletedInstanceDates[i] = apptTimeToUTCDate(
-                    (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                    this.RecurrenceTimeZone);
+                (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+                this.RecurrenceTimeZone
+            );
             offset += 4;
         }
 
-        this.ModifiedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                offset + 4);
+        this.ModifiedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(
+            recurrencePattern,
+            offset,
+            offset + 4
+        );
         offset += 4;
         this.ModifiedInstanceDates = new Date[this.ModifiedInstanceCount];
         for (int i = 0; i < this.ModifiedInstanceCount; ++i) {
             this.ModifiedInstanceDates[i] = apptTimeToUTCDate(
-                    (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                    this.RecurrenceTimeZone);
+                (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+                this.RecurrenceTimeZone
+            );
             offset += 4;
         }
 
-        this.StartDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                this.RecurrenceTimeZone);
+        this.StartDate = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+            this.RecurrenceTimeZone
+        );
         offset += 4;
-        this.EndDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                this.RecurrenceTimeZone);
+        this.EndDate = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+            this.RecurrenceTimeZone
+        );
         offset += 4 + 4; // Skip ReaderVersion2
 
         this.writerVersion2 = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
@@ -247,8 +265,11 @@ public class PSTAppointmentRecurrence {
         }
 
         if ((offset + 4) <= recurrencePattern.length) {
-            final int ReservedBlock1Size = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                    offset + 4);
+            final int ReservedBlock1Size = (int) PSTObject.convertLittleEndianBytesToLong(
+                recurrencePattern,
+                offset,
+                offset + 4
+            );
             offset += 4 + (ReservedBlock1Size * 4);
         }
 
@@ -267,8 +288,10 @@ public class PSTAppointmentRecurrence {
         f.setTimeZone(stz);
         final Calendar c = Calendar.getInstance(stz);
 
-        for (int i = 0; i < this.ExceptionCount; ++i)
-            modifiedDateMap.put(f.format(ModifiedInstanceDates[i].getTime()), Exceptions[i]);
+        for (int i = 0; i < this.ExceptionCount; ++i) modifiedDateMap.put(
+            f.format(ModifiedInstanceDates[i].getTime()),
+            Exceptions[i]
+        );
 
         for (int i = 0; i < appt.getNumberOfAttachments(); i++) {
             try {
@@ -279,15 +302,11 @@ public class PSTAppointmentRecurrence {
                 embeddedMessage = (PSTAppointment) message;
                 c.setTime(embeddedMessage.getRecurrenceBase());
                 PSTAppointmentException modifiedException = modifiedDateMap.get(f.format(c.getTime()));
-                if (modifiedException == null)
-                    continue;
+                if (modifiedException == null) continue;
                 modifiedException.setEmbeddedMessage(embeddedMessage);
-
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
     }
-
 
     @Override
     public String toString() {
@@ -295,17 +314,16 @@ public class PSTAppointmentRecurrence {
         result = "  Start date:" + getStartDate();
         result += "\n  End date:" + getEndDate();
         result += "\n  Changes:";
-        result += "\n    " + getExceptionCount() + " exceptions" ;
+        result += "\n    " + getExceptionCount() + " exceptions";
         result += "\n    " + getDeletedInstanceDates().length + " delete";
-        for (Date d : getDeletedInstanceDates())
-            result += "\n      " + d.toString();
+        for (Date d : getDeletedInstanceDates()) result += "\n      " + d.toString();
         result += "\n    " + getModifiedInstanceDates().length + " modified";
         int excount = 0;
         for (Date d : getModifiedInstanceDates()) {
             result += "\n      " + d.toString();
-            result += "\n"+ getException(excount++);
+            result += "\n" + getException(excount++);
         }
-        result+="\n";
+        result += "\n";
         return result;
     }
 }

@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents;
 
@@ -54,6 +64,7 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 public class TreeDataObjectPackageEditorPanel extends JPanel {
+
     /**
      * The editedObject.
      */
@@ -76,10 +87,10 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         GridBagConstraints gbc;
 
         gbl = new GridBagLayout();
-        gbl.rowHeights = new int[]{0, 200, 0};
-        gbl.rowWeights = new double[]{0.0, 1.0, 0.0};
-        gbl.columnWidths = new int[]{75,75};
-        gbl.columnWeights = new double[]{1.0,1.0};
+        gbl.rowHeights = new int[] { 0, 200, 0 };
+        gbl.rowWeights = new double[] { 0.0, 1.0, 0.0 };
+        gbl.columnWidths = new int[] { 75, 75 };
+        gbl.columnWeights = new double[] { 1.0, 1.0 };
         setLayout(gbl);
 
         dataObjectPackageTreeLabel = new JLabel("Arbre du SIP");
@@ -114,7 +125,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.gridx = 0;
         gbc.gridy = 2;
-        add(longDataObjectPackageTreeItemNameCheckBox,gbc);
+        add(longDataObjectPackageTreeItemNameCheckBox, gbc);
 
         JPanel expandReducePanel = new JPanel();
         expandReducePanel.setLayout(new GridBagLayout());
@@ -174,35 +185,42 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
     private void buttonExpandReduceTree(boolean state) {
         TreePath[] selection;
         if (editedDataObjectPackage != null) {
-            if (dataObjectPackageTreeViewer.getSelectionPaths() != null)
-                selection = dataObjectPackageTreeViewer.getSelectionPaths();
+            if (dataObjectPackageTreeViewer.getSelectionPaths() != null) selection =
+                dataObjectPackageTreeViewer.getSelectionPaths();
             else {
-                DataObjectPackageTreeNode ghostRootNode = (DataObjectPackageTreeNode) (dataObjectPackageTreeViewer.getModel().getRoot());
+                DataObjectPackageTreeNode ghostRootNode = (DataObjectPackageTreeNode) (dataObjectPackageTreeViewer
+                        .getModel()
+                        .getRoot());
                 if (ghostRootNode != null) {
                     selection = new TreePath[1];
                     selection[0] = new TreePath(ghostRootNode);
-                } else
-                    return;
+                } else return;
             }
 
             int nb = 0;
-            for (TreePath path : selection)
-                nb += ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getAuRecursivCount()
-                        + ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getOgRecursivCount();
+            for (TreePath path : selection) nb +=
+            ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getAuRecursivCount() +
+            ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getOgRecursivCount();
 
-            if ((nb > 10000) &&
-                    (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Attention, quand il y a plus de 10000 ArchiveUnit et DataObjectGroup sélectionnés (en l'occurrence " + nb + "), " +
-                                    "l'ouverture ou la fermeture de tous ces noeuds de l'arbre peut prendre beaucoup de temps.\n"
-                                    + "Voulez-vous continuer? ",
-                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                            "Si vous préférez éviter, utilisez l'expansion/réduction sur chaque noeud dans l'arbre en " +
-                                    "cliquant sur le petit signe + ou - au début des lignes, ou en double cliquant sur l'ArchiveUnit.") != OK_DIALOG))
-                return;
+            if (
+                (nb > 10000) &&
+                (UserInteractionDialog.getUserAnswer(
+                        ResipGraphicApp.getTheWindow(),
+                        "Attention, quand il y a plus de 10000 ArchiveUnit et DataObjectGroup sélectionnés (en l'occurrence " +
+                        nb +
+                        "), " +
+                        "l'ouverture ou la fermeture de tous ces noeuds de l'arbre peut prendre beaucoup de temps.\n" +
+                        "Voulez-vous continuer? ",
+                        "Confirmation",
+                        UserInteractionDialog.WARNING_DIALOG,
+                        "Si vous préférez éviter, utilisez l'expansion/réduction sur chaque noeud dans l'arbre en " +
+                        "cliquant sur le petit signe + ou - au début des lignes, ou en double cliquant sur l'ArchiveUnit."
+                    ) !=
+                    OK_DIALOG)
+            ) return;
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            for (TreePath path : selection)
-                dataObjectPackageTreeViewer.setPathExpansionState(path, state);
+            for (TreePath path : selection) dataObjectPackageTreeViewer.setPathExpansionState(path, state);
             setCursor(Cursor.getDefaultCursor());
         }
     }
@@ -220,8 +238,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
                     path = ((DataObjectPackageIdElement) stn.getDataObject()).getOnDiskPath();
                 }
             }
-            if (path != null)
-                Desktop.getDesktop().open(path.toFile());
+            if (path != null) Desktop.getDesktop().open(path.toFile());
         } catch (IOException e) {
             // too bad
         }
@@ -229,23 +246,22 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
 
     // tree methods
 
-
-   private void allChildNodesChanged(DataObjectPackageTreeNode attn) {
+    private void allChildNodesChanged(DataObjectPackageTreeNode attn) {
         int[] allChilds = new int[attn.getChildCount()];
         for (int i = 0; i < attn.getChildCount(); i++) {
             allChilds[i] = i;
             allChildNodesChanged((DataObjectPackageTreeNode) attn.getChildAt(i));
         }
-       ((DataObjectPackageTreeModel)dataObjectPackageTreeViewer.getModel()).nodesChanged(attn, allChilds);
+        ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).nodesChanged(attn, allChilds);
     }
 
     /**
      * All tree changed.
      */
     public void allTreeChanged() {
-        DataObjectPackageTreeNode root = (DataObjectPackageTreeNode) ((DataObjectPackageTreeModel)dataObjectPackageTreeViewer.getModel()).getRoot();
-        if (root != null)
-            allChildNodesChanged(root);
+        DataObjectPackageTreeNode root =
+            (DataObjectPackageTreeNode) ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).getRoot();
+        if (root != null) allChildNodesChanged(root);
     }
 
     /**
@@ -259,7 +275,10 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * Add DataObjectGroup to displayed tree node.
      */
     public void addDataObjectGroupToDisplayedTreeNode(DataObjectGroup dataObjectGroup) {
-        ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).generateDataObjectNode(dataObjectGroup, ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+        ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).generateDataObjectNode(
+                dataObjectGroup,
+                ResipGraphicApp.getTheWindow().treePane.displayedTreeNode
+            );
         displayedTreeNodeChanged();
     }
 
@@ -270,12 +289,12 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         String title = null;
         try {
             title = displayedTreeNode.getArchiveUnit().getContent().getSimpleMetadata("Title");
-        } catch (SEDALibException ignored) {
-        }
-        if (title == null)
-            title = SEDAXMLEventReader.extractNamedElement("Title", displayedTreeNode.getArchiveUnit().getContentXmlData());
-        if (title == null)
-            title = translateTag("Unknown");
+        } catch (SEDALibException ignored) {}
+        if (title == null) title = SEDAXMLEventReader.extractNamedElement(
+            "Title",
+            displayedTreeNode.getArchiveUnit().getContentXmlData()
+        );
+        if (title == null) title = translateTag("Unknown");
         displayedTreeNode.setTitle(title);
         displayedTreeNodeChanged();
     }
@@ -285,7 +304,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      *
      * @return the data object package tree node
      */
-    public DataObjectPackageTreeNode getDisplayedTreeNode(){
+    public DataObjectPackageTreeNode getDisplayedTreeNode() {
         return displayedTreeNode;
     }
 
@@ -296,7 +315,9 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * @return the data object package tree node
      */
     public String getTreeTitle(ArchiveUnit archiveUnit) {
-        return ((DataObjectPackageTreeModel)dataObjectPackageTreeViewer.getModel()).findTreeNode(archiveUnit).getTitle();
+        return ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).findTreeNode(
+                archiveUnit
+            ).getTitle();
     }
 
     /**
@@ -320,7 +341,10 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
 
         return String.format(
             "Arbre du SIP (%d archiveUnit / %d dog / %d bdo / %d pdo)",
-            archiveUnitCount, dogCount, bdoCount, pdoCount
+            archiveUnitCount,
+            dogCount,
+            bdoCount,
+            pdoCount
         );
     }
 
@@ -332,8 +356,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         displayedTreeNode = null;
         try {
             ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(null);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 
     /**
@@ -343,20 +366,25 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      */
     public void selectTreePathItem(TreePath path) {
         DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) path.getLastPathComponent();
-        if (node.getArchiveUnit() == null)
-            node = (DataObjectPackageTreeNode) path.getParentPath().getLastPathComponent();
+        if (node.getArchiveUnit() == null) node = (DataObjectPackageTreeNode) path
+            .getParentPath()
+            .getLastPathComponent();
         try {
             ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (SEDALibException e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit ["
-                    + node.getArchiveUnit().getInDataObjectPackageId() + "]",e);
+            ResipLogger.getGlobalLogger()
+                .log(
+                    ResipLogger.STEP,
+                    "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit [" +
+                    node.getArchiveUnit().getInDataObjectPackageId() +
+                    "]",
+                    e
+                );
         }
 
         displayedTreeNode = node;
-        if (node.getArchiveUnit().getOnDiskPath() != null)
-            openSipItemButton.setEnabled(true);
-        else
-            openSipItemButton.setEnabled(false);
+        if (node.getArchiveUnit().getOnDiskPath() != null) openSipItemButton.setEnabled(true);
+        else openSipItemButton.setEnabled(false);
     }
 
     /**
@@ -366,8 +394,8 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * @return the data object package tree node of the selected ArchiveUnit
      */
     public DataObjectPackageTreeNode focusArchiveUnit(ArchiveUnit archiveUnit) {
-        DataObjectPackageTreeModel model=(DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
-        DataObjectPackageTreeNode focusNode= model.findTreeNode(archiveUnit);
+        DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+        DataObjectPackageTreeNode focusNode = model.findTreeNode(archiveUnit);
         TreePath path = new TreePath(model.getPathToRoot(focusNode));
 
         dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
@@ -384,8 +412,8 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * @return the data object package tree node of the selected ArchiveUnit
      */
     public DataObjectPackageTreeNode focusDataObjectGroup(DataObjectGroup dataObjectGroup) {
-        DataObjectPackageTreeModel model=(DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
-        DataObjectPackageTreeNode focusNode= model.findTreeNode(dataObjectGroup);
+        DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+        DataObjectPackageTreeNode focusNode = model.findTreeNode(dataObjectGroup);
         TreePath path = new TreePath(model.getPathToRoot(focusNode));
 
         dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
@@ -403,8 +431,8 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * @return the data object package tree node of the selected ArchiveUnit
      */
     public DataObjectPackageTreeNode focusDataObject(ArchiveUnit archiveUnit, DataObject dataObject) {
-        DataObjectPackageTreeModel model=(DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
-        DataObjectPackageTreeNode focusNode= model.findTreeNode(archiveUnit);
+        DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+        DataObjectPackageTreeNode focusNode = model.findTreeNode(archiveUnit);
         TreePath path = new TreePath(model.getPathToRoot(focusNode));
 
         dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
@@ -413,8 +441,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         selectTreePathItem(path);
         try {
             ResipGraphicApp.getTheWindow().dogMetadataPane.selectDataObject(dataObject);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
         return focusNode;
     }
 
@@ -425,12 +452,12 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      *
      * @param dataObjectPackage the data object package
      */
-    public void editDataObjectPackage(DataObjectPackage dataObjectPackage){
+    public void editDataObjectPackage(DataObjectPackage dataObjectPackage) {
         DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
         DataObjectPackageTreeNode top;
 
-        this.editedDataObjectPackage=dataObjectPackage;
-        if (dataObjectPackage!=null) {
+        this.editedDataObjectPackage = dataObjectPackage;
+        if (dataObjectPackage != null) {
             top = model.generateDataObjectPackageNodes(dataObjectPackage);
             refreshTreeLabel();
         } else {
@@ -446,6 +473,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * The Sort by title tool.
      */
     class SortByTitle implements Comparator<ArchiveUnit> {
+
         DataObjectPackageTreeModel treeModel;
 
         public int compare(ArchiveUnit a, ArchiveUnit b) {
@@ -464,18 +492,23 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * <p>
      * Except order, change as little as possible graphic form, including expansion and selection.
      */
-    public void doSortTree(){
-        if (editedDataObjectPackage!=null) {
+    public void doSortTree() {
+        if (editedDataObjectPackage != null) {
             DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
             Map<TreePath, Boolean> expansionState = dataObjectPackageTreeViewer.getExpansionState();
             TreePath selectedPath = dataObjectPackageTreeViewer.getSelectionPath();
-            TreeDataObjectPackageEditorPanel.SortByTitle sortByTitle = new TreeDataObjectPackageEditorPanel.SortByTitle(model);
-            for (Map.Entry<String, ArchiveUnit> pair :
-                    editedDataObjectPackage.getAuInDataObjectPackageIdMap().entrySet()) {
+            TreeDataObjectPackageEditorPanel.SortByTitle sortByTitle = new TreeDataObjectPackageEditorPanel.SortByTitle(
+                model
+            );
+            for (Map.Entry<String, ArchiveUnit> pair : editedDataObjectPackage
+                .getAuInDataObjectPackageIdMap()
+                .entrySet()) {
                 Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(), sortByTitle);
             }
-            Collections.sort(editedDataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
-                    sortByTitle);
+            Collections.sort(
+                editedDataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
+                sortByTitle
+            );
             model.reload();
             dataObjectPackageTreeViewer.setExpansionState(expansionState);
             if (selectedPath != null) {
@@ -493,8 +526,8 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
      * and drop nodes no more linked to DataObjectPackage structure.
      * Change as little as possible graphic form, including expansion and selection.
      */
-    public void doRefreshTree(){
-        if (editedDataObjectPackage!=null) {
+    public void doRefreshTree() {
+        if (editedDataObjectPackage != null) {
             DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
             Map<TreePath, Boolean> expansionState = dataObjectPackageTreeViewer.getExpansionState();
             TreePath selectedPath = dataObjectPackageTreeViewer.getSelectionPath();

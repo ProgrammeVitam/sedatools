@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 /*
  *
  */
@@ -68,31 +105,26 @@ public class CompactContext extends CreationContext {
      * @param subDocumentKeptDataObjectVersionList the sub document kept data object version list
      * @param deflatedFlag                         the deflated flag
      */
-    public CompactContext(String workDir,
-                          int maxMetadataSize,
-                          int maxDocumentNumber,
-                          boolean metadataFilterFlag,
-                          List<String> keptMetadataList,
-                          List<String> documentKeptDataObjectVersionList,
-                          List<String> subDocumentKeptDataObjectVersionList,
-                          boolean deflatedFlag
+    public CompactContext(
+        String workDir,
+        int maxMetadataSize,
+        int maxDocumentNumber,
+        boolean metadataFilterFlag,
+        List<String> keptMetadataList,
+        List<String> documentKeptDataObjectVersionList,
+        List<String> subDocumentKeptDataObjectVersionList,
+        boolean deflatedFlag
     ) {
         super(null, workDir);
         this.maxMetadataSize = maxMetadataSize;
         this.maxDocumentNumber = maxDocumentNumber;
         this.metadataFilterFlag = metadataFilterFlag;
-        if (keptMetadataList == null)
-            this.keptMetadataList = new ArrayList<>();
-        else
-            this.keptMetadataList = keptMetadataList;
-        if (documentKeptDataObjectVersionList == null)
-            this.documentKeptDataObjectVersionList = new ArrayList<>();
-        else
-            this.documentKeptDataObjectVersionList = documentKeptDataObjectVersionList;
-        if (subDocumentKeptDataObjectVersionList == null)
-            this.subDocumentKeptDataObjectVersionList = new ArrayList<>();
-        else
-            this.subDocumentKeptDataObjectVersionList = subDocumentKeptDataObjectVersionList;
+        if (keptMetadataList == null) this.keptMetadataList = new ArrayList<>();
+        else this.keptMetadataList = keptMetadataList;
+        if (documentKeptDataObjectVersionList == null) this.documentKeptDataObjectVersionList = new ArrayList<>();
+        else this.documentKeptDataObjectVersionList = documentKeptDataObjectVersionList;
+        if (subDocumentKeptDataObjectVersionList == null) this.subDocumentKeptDataObjectVersionList = new ArrayList<>();
+        else this.subDocumentKeptDataObjectVersionList = subDocumentKeptDataObjectVersionList;
         this.deflatedFlag = deflatedFlag;
     }
 
@@ -105,38 +137,50 @@ public class CompactContext extends CreationContext {
         super(preferences);
         try {
             maxMetadataSize = Integer.parseInt(
-                preferences.getPrefProperties().getProperty("compactContext.general.maxMetadataSize", "0"));
+                preferences.getPrefProperties().getProperty("compactContext.general.maxMetadataSize", "0")
+            );
         } catch (NumberFormatException e) {
             maxMetadataSize = 1000000;
         }
         try {
             maxDocumentNumber = Integer.parseInt(
-                preferences.getPrefProperties().getProperty("compactContext.general.maxDocumentNumber", "0"));
+                preferences.getPrefProperties().getProperty("compactContext.general.maxDocumentNumber", "0")
+            );
         } catch (NumberFormatException e) {
             maxDocumentNumber = 1000;
         }
         metadataFilterFlag = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("compactContext.general.metadataFilterFlag", "false"));
-        String keptMetadataString = preferences.getPrefProperties().getProperty("compactContext.general.keptMetadataList", "");
-        if (keptMetadataString.isEmpty())
-            setDefaultPrefs();
-        else
-            keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList());
-        String documentKeptDataObjectVersionString = preferences.getPrefProperties().getProperty("compactContext.general.documentKeptDataObjectVersionList", "");
-        if (documentKeptDataObjectVersionString.isEmpty())
-            setDefaultPrefs();
-        else
-            documentKeptDataObjectVersionList = Arrays.asList(documentKeptDataObjectVersionString.split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList());
-        String subDocumentKeptDataObjectVersionString = preferences.getPrefProperties().getProperty("compactContext.general.subDocumentKeptDataObjectVersionList", "");
-        if (subDocumentKeptDataObjectVersionString.isEmpty())
-            setDefaultPrefs();
-        else
-            subDocumentKeptDataObjectVersionList = Arrays.asList(subDocumentKeptDataObjectVersionString.split("\\s*\n\\s*"))
-                    .stream().map(String::trim).collect(Collectors.toList());
+            preferences.getPrefProperties().getProperty("compactContext.general.metadataFilterFlag", "false")
+        );
+        String keptMetadataString = preferences
+            .getPrefProperties()
+            .getProperty("compactContext.general.keptMetadataList", "");
+        if (keptMetadataString.isEmpty()) setDefaultPrefs();
+        else keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
+        String documentKeptDataObjectVersionString = preferences
+            .getPrefProperties()
+            .getProperty("compactContext.general.documentKeptDataObjectVersionList", "");
+        if (documentKeptDataObjectVersionString.isEmpty()) setDefaultPrefs();
+        else documentKeptDataObjectVersionList = Arrays.asList(documentKeptDataObjectVersionString.split("\\s*\n\\s*"))
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
+        String subDocumentKeptDataObjectVersionString = preferences
+            .getPrefProperties()
+            .getProperty("compactContext.general.subDocumentKeptDataObjectVersionList", "");
+        if (subDocumentKeptDataObjectVersionString.isEmpty()) setDefaultPrefs();
+        else subDocumentKeptDataObjectVersionList = Arrays.asList(
+            subDocumentKeptDataObjectVersionString.split("\\s*\n\\s*")
+        )
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
         deflatedFlag = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("compactContext.general.deflatedFlag", "false"));
+            preferences.getPrefProperties().getProperty("compactContext.general.deflatedFlag", "false")
+        );
     }
 
     /**
@@ -146,13 +190,33 @@ public class CompactContext extends CreationContext {
      */
     @Override
     public void toPrefs(Preferences preferences) {
-        preferences.getPrefProperties().setProperty("compactContext.general.maxMetadataSize", Integer.toString(maxMetadataSize));
-        preferences.getPrefProperties().setProperty("compactContext.general.maxDocumentNumber", Integer.toString(maxDocumentNumber));
-        preferences.getPrefProperties().setProperty("compactContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
-        preferences.getPrefProperties().setProperty("compactContext.general.keptMetadataList", String.join("\n", keptMetadataList));
-        preferences.getPrefProperties().setProperty("compactContext.general.documentKeptDataObjectVersionList", String.join("\n", documentKeptDataObjectVersionList));
-        preferences.getPrefProperties().setProperty("compactContext.general.subDocumentKeptDataObjectVersionList", String.join("\n", subDocumentKeptDataObjectVersionList));
-        preferences.getPrefProperties().setProperty("compactContext.general.deflatedFlag", Boolean.toString(deflatedFlag));
+        preferences
+            .getPrefProperties()
+            .setProperty("compactContext.general.maxMetadataSize", Integer.toString(maxMetadataSize));
+        preferences
+            .getPrefProperties()
+            .setProperty("compactContext.general.maxDocumentNumber", Integer.toString(maxDocumentNumber));
+        preferences
+            .getPrefProperties()
+            .setProperty("compactContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
+        preferences
+            .getPrefProperties()
+            .setProperty("compactContext.general.keptMetadataList", String.join("\n", keptMetadataList));
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "compactContext.general.documentKeptDataObjectVersionList",
+                String.join("\n", documentKeptDataObjectVersionList)
+            );
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "compactContext.general.subDocumentKeptDataObjectVersionList",
+                String.join("\n", subDocumentKeptDataObjectVersionList)
+            );
+        preferences
+            .getPrefProperties()
+            .setProperty("compactContext.general.deflatedFlag", Boolean.toString(deflatedFlag));
     }
 
     /**
@@ -164,23 +228,32 @@ public class CompactContext extends CreationContext {
         this.maxMetadataSize = 1000000;
         this.maxDocumentNumber = 1000;
         this.metadataFilterFlag = false;
-        String keptMetadataString = "DescriptionLevel\nTitle\n" +
-                "FilePlanPosition\nSystemId\nOriginatingSystemId\nOriginatingSystemIdReplyTo\n" +
-                "ArchivalAgencyArchiveUnitIdentifier\nOriginatingAgencyArchiveUnitIdentifier\n" +
-                "TransferringAgencyArchiveUnitIdentifier\n" +
-                "Description\nCustodialHistory\nType\nDocumentType\nLanguage\nDescriptionLanguage\n" +
-                "Status\nVersion\nTag\nKeyword\nCoverage\nOriginatingAgency\nSubmissionAgency\n" +
-                "AuthorizedAgent\nWriter\nAddressee\nRecipient\nTransmitter\nSender\nSource\nRelatedObjectReference\n" +
-                "CreatedDate\nTransactedDate\nAcquiredDate\nSentDate\nReceivedDate\nRegisteredDate\nStartDate\n" +
-                "EndDate\nEvent\nSignature\nGps\nTextContent:1000";
+        String keptMetadataString =
+            "DescriptionLevel\nTitle\n" +
+            "FilePlanPosition\nSystemId\nOriginatingSystemId\nOriginatingSystemIdReplyTo\n" +
+            "ArchivalAgencyArchiveUnitIdentifier\nOriginatingAgencyArchiveUnitIdentifier\n" +
+            "TransferringAgencyArchiveUnitIdentifier\n" +
+            "Description\nCustodialHistory\nType\nDocumentType\nLanguage\nDescriptionLanguage\n" +
+            "Status\nVersion\nTag\nKeyword\nCoverage\nOriginatingAgency\nSubmissionAgency\n" +
+            "AuthorizedAgent\nWriter\nAddressee\nRecipient\nTransmitter\nSender\nSource\nRelatedObjectReference\n" +
+            "CreatedDate\nTransactedDate\nAcquiredDate\nSentDate\nReceivedDate\nRegisteredDate\nStartDate\n" +
+            "EndDate\nEvent\nSignature\nGps\nTextContent:1000";
         this.keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
-                .stream().map(String::trim).collect(Collectors.toList());
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
         String documentKeptDataObjectVersionString = "BinaryMaster\nTextContent";
         this.documentKeptDataObjectVersionList = Arrays.asList(documentKeptDataObjectVersionString.split("\\s*\n\\s*"))
-                .stream().map(String::trim).collect(Collectors.toList());
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
         String subDocumentKeptDataObjectVersionString = "BinaryMaster";
-        this.subDocumentKeptDataObjectVersionList = Arrays.asList(subDocumentKeptDataObjectVersionString.split("\\s*\n\\s*"))
-                .stream().map(String::trim).collect(Collectors.toList());
+        this.subDocumentKeptDataObjectVersionList = Arrays.asList(
+            subDocumentKeptDataObjectVersionString.split("\\s*\n\\s*")
+        )
+            .stream()
+            .map(String::trim)
+            .collect(Collectors.toList());
         this.deflatedFlag = false;
     }
 

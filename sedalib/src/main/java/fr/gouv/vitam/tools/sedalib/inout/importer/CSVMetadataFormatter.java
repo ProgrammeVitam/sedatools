@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -16,6 +53,7 @@ import java.util.List;
  * It's a utility class for {@link CSVMetadataToDataObjectPackageImporter} to analyse header line, and then interpret other lines through the formatter.
  */
 public class CSVMetadataFormatter {
+
     /**
      * Utility class for metadata formatter.
      */
@@ -54,8 +92,8 @@ public class CSVMetadataFormatter {
         }
     }
 
-
     private class ValueAttrMetadataTag {
+
         boolean isValue;
         MetadataTag tag;
 
@@ -80,7 +118,11 @@ public class CSVMetadataFormatter {
      * The first columns header names.
      */
     private static final List<String> MANDATORY_TRAILING_HEADERS = Arrays.asList(
-            ID, FILE, PARENTID, PARENTFILE, OBJECTFILES
+        ID,
+        FILE,
+        PARENTID,
+        PARENTFILE,
+        OBJECTFILES
     );
     private MetadataTag rootTag, contentTag, managementTag;
     private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
@@ -94,7 +136,6 @@ public class CSVMetadataFormatter {
     private int objectfilesColumn;
     private int parentGUIDColumn;
     private boolean isOnlyFile;
-
 
     private void analyseFirstColumns(String[] headerRow) throws SEDALibException {
         List<String> firstsMandatoryHeadersFound = new ArrayList<>();
@@ -112,41 +153,57 @@ public class CSVMetadataFormatter {
             fileColumn = 0;
             objectfilesColumn = -1;
             parentGUIDColumn = -1;
-        } else if (numberOfMandatoryHeaderFound == 2 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE))) {
+        } else if (
+            numberOfMandatoryHeaderFound == 2 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE))
+        ) {
             isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             fileColumn = guidColumn;
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
-        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE, ID))) {
+        } else if (
+            numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE, ID))
+        ) {
             isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
-        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTID, ID))) {
+        } else if (
+            numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTID, ID))
+        ) {
             isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
-        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(OBJECTFILES, PARENTID, ID))) {
+        } else if (
+            numberOfMandatoryHeaderFound == 3 &&
+            firstsMandatoryHeadersFound.containsAll(List.of(OBJECTFILES, PARENTID, ID))
+        ) {
             isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = -1;
             objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
-        } else if (numberOfMandatoryHeaderFound == 4 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, OBJECTFILES, PARENTID, ID))) {
+        } else if (
+            numberOfMandatoryHeaderFound == 4 &&
+            firstsMandatoryHeadersFound.containsAll(List.of(FILE, OBJECTFILES, PARENTID, ID))
+        ) {
             isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
         } else {
-            throw new SEDALibException("Le header [" + String.join("|", headerRow) + "] est mal formatté. Il doit contenir au début soit une colonne File, " +
-                    "soit deux colonnes File et ParentFile, soit trois colonnes ID, File et ParentFile ou ID, File " +
-                    ", soit quatre colonnes ID, ParentID, File, ObjectFiles " +
-                    "et ParentID.");
+            throw new SEDALibException(
+                "Le header [" +
+                String.join("|", headerRow) +
+                "] est mal formatté. Il doit contenir au début soit une colonne File, " +
+                "soit deux colonnes File et ParentFile, soit trois colonnes ID, File et ParentFile ou ID, File " +
+                ", soit quatre colonnes ID, ParentID, File, ObjectFiles " +
+                "et ParentID."
+            );
         }
     }
 
@@ -213,7 +270,10 @@ public class CSVMetadataFormatter {
         if (headerRow.length <= numberOfMandatoryHeaderFound) {
             throw new SEDALibException("Pas de colonne de métadonnées.");
         }
-        if (headerRow[numberOfMandatoryHeaderFound].startsWith("Content.") || headerRow[numberOfMandatoryHeaderFound].startsWith("Management.")) {
+        if (
+            headerRow[numberOfMandatoryHeaderFound].startsWith("Content.") ||
+            headerRow[numberOfMandatoryHeaderFound].startsWith("Management.")
+        ) {
             rootTag = new MetadataTag(null, null);
             contentTag = null;
         } else {
@@ -257,10 +317,13 @@ public class CSVMetadataFormatter {
     }
 
     private void resetValues() {
-        tagHeaderColumnMapping.values().stream().forEach(valueAttr -> {
-            valueAttr.tag.value = null;
-            valueAttr.tag.attr = null;
-        });
+        tagHeaderColumnMapping
+            .values()
+            .stream()
+            .forEach(valueAttr -> {
+                valueAttr.tag.value = null;
+                valueAttr.tag.attr = null;
+            });
     }
 
     private void defineColumnValue(int headerColumn, String cell) {
@@ -338,28 +401,40 @@ public class CSVMetadataFormatter {
                             result.append("<Rule>").append(HtmlAndXmlEscape.escapeXml(mt.value)).append("</Rule>");
                             break;
                         case "StartDate":
-                            result.append("<StartDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</StartDate>");
+                            result
+                                .append("<StartDate>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</StartDate>");
                             break;
                         case "HoldEndDate":
-                            result.append("<HoldEndDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</HoldEndDate>");
+                            result
+                                .append("<HoldEndDate>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</HoldEndDate>");
                             break;
                         case "HoldOwner":
-                            result.append("<HoldOwner>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</HoldOwner>");
+                            result
+                                .append("<HoldOwner>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</HoldOwner>");
                             break;
                         case "HoldReassessingDate":
-                            result.append("<HoldReassessingDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</HoldReassessingDate>");
+                            result
+                                .append("<HoldReassessingDate>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</HoldReassessingDate>");
                             break;
                         case "HoldReason":
-                            result.append("<HoldReason>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</HoldReason>");
+                            result
+                                .append("<HoldReason>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</HoldReason>");
                             break;
                         case "PreventRearrangement":
-                            result.append("<PreventRearrangement>").append(HtmlAndXmlEscape.escapeXml(mt.value))
-                                    .append("</PreventRearrangement>");
+                            result
+                                .append("<PreventRearrangement>")
+                                .append(HtmlAndXmlEscape.escapeXml(mt.value))
+                                .append("</PreventRearrangement>");
                             break;
                         default:
                             continue;
@@ -442,13 +517,17 @@ public class CSVMetadataFormatter {
             }
         }
 
-        if (value.isEmpty()
-                && ((tag.value == null) || tag.value.isEmpty())
-                && ((tag.attr == null) || tag.attr.isEmpty())) {
+        if (
+            value.isEmpty() &&
+            ((tag.value == null) || tag.value.isEmpty()) &&
+            ((tag.attr == null) || tag.attr.isEmpty())
+        ) {
             return "";
         }
         if (!value.isEmpty() && (tag.value != null) && !tag.value.isEmpty()) {
-            throw new SEDALibException("Il ne peut y avoir une valeur et des sous-éléments dans un élément SEDA [" + tag + "].");
+            throw new SEDALibException(
+                "Il ne peut y avoir une valeur et des sous-éléments dans un élément SEDA [" + tag + "]."
+            );
         }
         if (tag.name != null) {
             result = "<" + tag.name;
@@ -498,7 +577,6 @@ public class CSVMetadataFormatter {
         }
         return generateTagXML(managementTag);
     }
-
 
     /**
      * Gets guid.

@@ -1,35 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -38,7 +42,7 @@ import java.util.SimpleTimeZone;
 
 /**
  * Class containing time zone information
- * 
+ *
  * @author Orin Eman
  *
  *
@@ -64,8 +68,11 @@ public class PSTTimeZone {
             ruleOffset = 4 + headerLen;
             for (int rule = 0; rule < nRules; ++rule) {
                 // Is this rule the effective rule?
-                final int flags = (int) PSTObject.convertLittleEndianBytesToLong(timeZoneData, ruleOffset + 4,
-                    ruleOffset + 6);
+                final int flags = (int) PSTObject.convertLittleEndianBytesToLong(
+                    timeZoneData,
+                    ruleOffset + 4,
+                    ruleOffset + 6
+                );
                 if ((flags & 0x0002) != 0) {
                     this.rule = new TZRule(timeZoneData, ruleOffset + 6);
                     break;
@@ -73,8 +80,7 @@ public class PSTTimeZone {
                 ruleOffset += 66;
             }
         } catch (final Exception e) {
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors()) System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             this.name = "";
@@ -88,8 +94,7 @@ public class PSTTimeZone {
         try {
             this.rule = new TZRule(new SYSTEMTIME(), timeZoneData, 0);
         } catch (final Exception e) {
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors()) System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             name = "";
@@ -99,7 +104,7 @@ public class PSTTimeZone {
     public PSTTimeZone(String name, SimpleTimeZone simpleTimeZone) {
         this.name = name;
         this.rule = null;
-        this.simpleTimeZone=simpleTimeZone;
+        this.simpleTimeZone = simpleTimeZone;
     }
 
     public String getName() {
@@ -113,30 +118,45 @@ public class PSTTimeZone {
 
         if (this.rule.startStandard.wMonth == 0) {
             // A time zone with no daylight savings time
-            this.simpleTimeZone = new SimpleTimeZone((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000,
-                this.name);
+            this.simpleTimeZone = new SimpleTimeZone(
+                (this.rule.lBias + this.rule.lStandardBias) * 60 * 1000,
+                this.name
+            );
 
             return this.simpleTimeZone;
         }
 
         final int startMonth = (this.rule.startDaylight.wMonth - 1) + Calendar.JANUARY;
-        final int startDayOfMonth = (this.rule.startDaylight.wDay == 5) ? -1
+        final int startDayOfMonth = (this.rule.startDaylight.wDay == 5)
+            ? -1
             : ((this.rule.startDaylight.wDay - 1) * 7) + 1;
         final int startDayOfWeek = this.rule.startDaylight.wDayOfWeek + Calendar.SUNDAY;
         final int endMonth = (this.rule.startStandard.wMonth - 1) + Calendar.JANUARY;
-        final int endDayOfMonth = (this.rule.startStandard.wDay == 5) ? -1
+        final int endDayOfMonth = (this.rule.startStandard.wDay == 5)
+            ? -1
             : ((this.rule.startStandard.wDay - 1) * 7) + 1;
         final int endDayOfWeek = this.rule.startStandard.wDayOfWeek + Calendar.SUNDAY;
         final int savings = (this.rule.lStandardBias - this.rule.lDaylightBias) * 60 * 1000;
 
-        this.simpleTimeZone = new SimpleTimeZone(-((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000), this.name,
-            startMonth, startDayOfMonth, -startDayOfWeek,
-            (((((this.rule.startDaylight.wHour * 60) + this.rule.startDaylight.wMinute) * 60)
-                + this.rule.startDaylight.wSecond) * 1000) + this.rule.startDaylight.wMilliseconds,
-            endMonth, endDayOfMonth, -endDayOfWeek,
-            (((((this.rule.startStandard.wHour * 60) + this.rule.startStandard.wMinute) * 60)
-                + this.rule.startStandard.wSecond) * 1000) + this.rule.startStandard.wMilliseconds,
-            savings);
+        this.simpleTimeZone = new SimpleTimeZone(
+            -((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000),
+            this.name,
+            startMonth,
+            startDayOfMonth,
+            -startDayOfWeek,
+            (((((this.rule.startDaylight.wHour * 60) + this.rule.startDaylight.wMinute) * 60) +
+                    this.rule.startDaylight.wSecond) *
+                1000) +
+            this.rule.startDaylight.wMilliseconds,
+            endMonth,
+            endDayOfMonth,
+            -endDayOfWeek,
+            (((((this.rule.startStandard.wHour * 60) + this.rule.startStandard.wMinute) * 60) +
+                    this.rule.startStandard.wSecond) *
+                1000) +
+            this.rule.startStandard.wMilliseconds,
+            savings
+        );
 
         return this.simpleTimeZone;
     }
@@ -147,8 +167,10 @@ public class PSTTimeZone {
                 return true;
             }
 
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Warning: different timezones with the same name: %s\n", this.name);
+            if (PSTFile.isPrintErrors()) System.err.printf(
+                "Warning: different timezones with the same name: %s\n",
+                this.name
+            );
         }
         return false;
     }
@@ -192,26 +214,37 @@ public class PSTTimeZone {
 
         SYSTEMTIME(final byte[] timeZoneData, final int offset) {
             this.wYear = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset, offset + 2) & 0x7FFF);
-            this.wMonth = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 2, offset + 4)
-                & 0x7FFF);
-            this.wDayOfWeek = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 4, offset + 6)
-                & 0x7FFF);
-            this.wDay = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 6, offset + 8)
-                & 0x7FFF);
-            this.wHour = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 8, offset + 10)
-                & 0x7FFF);
-            this.wMinute = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 10, offset + 12)
-                & 0x7FFF);
-            this.wSecond = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12, offset + 14)
-                & 0x7FFF);
-            this.wMilliseconds = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 14,
-                offset + 16) & 0x7FFF);
+            this.wMonth = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 2, offset + 4) &
+                0x7FFF);
+            this.wDayOfWeek = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 4, offset + 6) &
+                0x7FFF);
+            this.wDay = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 6, offset + 8) &
+                0x7FFF);
+            this.wHour = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 8, offset + 10) &
+                0x7FFF);
+            this.wMinute = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 10, offset + 12) &
+                0x7FFF);
+            this.wSecond = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12, offset + 14) &
+                0x7FFF);
+            this.wMilliseconds = (short) (PSTObject.convertLittleEndianBytesToLong(
+                    timeZoneData,
+                    offset + 14,
+                    offset + 16
+                ) &
+                0x7FFF);
         }
 
         boolean isEqual(final SYSTEMTIME rhs) {
-            return this.wYear == rhs.wYear && this.wMonth == rhs.wMonth && this.wDayOfWeek == rhs.wDayOfWeek
-                && this.wDay == rhs.wDay && this.wHour == rhs.wHour && this.wMinute == rhs.wMinute
-                && this.wSecond == rhs.wSecond && this.wMilliseconds == rhs.wMilliseconds;
+            return (
+                this.wYear == rhs.wYear &&
+                this.wMonth == rhs.wMonth &&
+                this.wDayOfWeek == rhs.wDayOfWeek &&
+                this.wDay == rhs.wDay &&
+                this.wHour == rhs.wHour &&
+                this.wMinute == rhs.wMinute &&
+                this.wSecond == rhs.wSecond &&
+                this.wMilliseconds == rhs.wMilliseconds
+            );
         }
 
         public short wYear;
@@ -235,12 +268,18 @@ public class PSTTimeZone {
             this.dtStart = dtStart;
             this.InitBiases(timeZoneData, offset);
             @SuppressWarnings("unused")
-            final short wStandardYear = (short) PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12,
-                offset + 14);
+            final short wStandardYear = (short) PSTObject.convertLittleEndianBytesToLong(
+                timeZoneData,
+                offset + 12,
+                offset + 14
+            );
             this.startStandard = new SYSTEMTIME(timeZoneData, offset + 14);
             @SuppressWarnings("unused")
-            final short wDaylightYear = (short) PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 30,
-                offset + 32);
+            final short wDaylightYear = (short) PSTObject.convertLittleEndianBytesToLong(
+                timeZoneData,
+                offset + 30,
+                offset + 32
+            );
             this.startDaylight = new SYSTEMTIME(timeZoneData, offset + 32);
         }
 
@@ -258,9 +297,14 @@ public class PSTTimeZone {
         }
 
         boolean isEqual(final TZRule rhs) {
-            return this.dtStart.isEqual(rhs.dtStart) && this.lBias == rhs.lBias
-                && this.lStandardBias == rhs.lStandardBias && this.lDaylightBias == rhs.lDaylightBias
-                && this.startStandard.isEqual(rhs.startStandard) && this.startDaylight.isEqual(rhs.startDaylight);
+            return (
+                this.dtStart.isEqual(rhs.dtStart) &&
+                this.lBias == rhs.lBias &&
+                this.lStandardBias == rhs.lStandardBias &&
+                this.lDaylightBias == rhs.lDaylightBias &&
+                this.startStandard.isEqual(rhs.startStandard) &&
+                this.startDaylight.isEqual(rhs.startDaylight)
+            );
         }
 
         SYSTEMTIME dtStart;

@@ -1,30 +1,40 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.formattools;
 
 import org.jsoup.Jsoup;
@@ -52,12 +62,12 @@ import org.jsoup.select.NodeVisitor;
  * @author Jonathan Hedley, jonathan@hedley.net
  */
 public class HTMLTextExtractor {
+
     /** Singleton instance **/
     private static HTMLTextExtractor INSTANCE = new HTMLTextExtractor();
 
     /** Private constructor */
-    private HTMLTextExtractor() {
-    }
+    private HTMLTextExtractor() {}
 
     /**
      * Get the HTMLTextExtractor singleton.
@@ -79,8 +89,7 @@ public class HTMLTextExtractor {
         String result;
         Element element;
 
-        if (html == null)
-            return "";
+        if (html == null) return "";
 
         element = Jsoup.parse(html);
 
@@ -102,8 +111,7 @@ public class HTMLTextExtractor {
     public String htmlStringtoString(String in) {
         String result;
 
-        if (in == null)
-            result = "";
+        if (in == null) result = "";
         else {
             // unescape all HTML entities, multiple times if needed
             result = in;
@@ -111,59 +119,52 @@ public class HTMLTextExtractor {
                 in = result;
                 result = Parser.unescapeEntities(in, true);
             } while (!result.equals(in));
-
         }
         return result;
     }
-
 }
 
 // the formatting rules, implemented in a breadth-first DOM traverse
 final class FormattingVisitor implements NodeVisitor {
+
     private static final int maxWidth = 80;
     private int width = 0;
     private StringBuilder accum = new StringBuilder(); // holds the
+
     // accumulated text
 
     // hit when the node is first seen
     public void head(Node node, int depth) {
         String name = node.nodeName();
-        if (node instanceof TextNode)
-            append(((TextNode) node).text()); // TextNodes carry all
-            // user-readable text in the
-            // DOM.
-        else if (name.equals("li"))
-            append("\n * ");
-        else if (name.equals("dt"))
-            append("  ");
-        else if (StringUtil.in(name, "p", "h1", "h2", "h3", "h4", "h5", "tr"))
-            append("\n");
+        if (node instanceof TextNode) append(((TextNode) node).text()); // TextNodes carry all
+        // user-readable text in the
+        // DOM.
+        else if (name.equals("li")) append("\n * ");
+        else if (name.equals("dt")) append("  ");
+        else if (StringUtil.in(name, "p", "h1", "h2", "h3", "h4", "h5", "tr")) append("\n");
     }
 
     // hit when all of the node's children (if any) have been visited
     public void tail(Node node, int depth) {
         String name = node.nodeName();
-        if (StringUtil.in(name, "br", "dd", "dt", "p", "h1", "h2", "h3", "h4", "h5"))
-            append("\n");
-        else if (name.equals("a"))
-            append(String.format("<%s>", node.absUrl("href")));
+        if (StringUtil.in(name, "br", "dd", "dt", "p", "h1", "h2", "h3", "h4", "h5")) append("\n");
+        else if (name.equals("a")) append(String.format("<%s>", node.absUrl("href")));
     }
 
     // appends text to the string builder with a simple word wrap method
     private void append(String text) {
-        if (text.startsWith("\n"))
-            width = 0; // reset counter if starts with a newline. only from
+        if (text.startsWith("\n")) width = 0; // reset counter if starts with a newline. only from
         // formats above, not in natural text
-        if (text.equals(" ") && (accum.length() == 0 || StringUtil.in(accum.substring(accum.length() - 1), " ", "\n")))
-            return; // don't accumulate long runs of empty spaces
+        if (
+            text.equals(" ") && (accum.length() == 0 || StringUtil.in(accum.substring(accum.length() - 1), " ", "\n"))
+        ) return; // don't accumulate long runs of empty spaces
 
         if (text.length() + width > maxWidth) { // won't fit, needs to wrap
             String words[] = text.split("\\s+");
             for (int i = 0; i < words.length; i++) {
                 String word = words[i];
                 boolean last = i == words.length - 1;
-                if (!last) // insert a space if not the last word
-                    word = word + " ";
+                if (!last) word = word + " "; // insert a space if not the last word
                 if (word.length() + width > maxWidth) { // wrap and reset
                     // counter
                     accum.append("\n").append(word);

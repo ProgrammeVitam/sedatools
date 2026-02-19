@@ -1,3 +1,40 @@
+/**
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
@@ -25,7 +62,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class ContentTest {
 
     @Test
-        // Test Content and ComplexListType subclass
+    // Test Content and ComplexListType subclass
     void testConstructors() throws SEDALibException, FileNotFoundException {
         // Given
         Content content = new Content();
@@ -75,7 +112,13 @@ class ContentTest {
         Signature signature = new Signature();
         signature.addNewMetadata("Signer", "Paul", "Dupont", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata("Signer", "Martin Durant", LocalDateTime.of(1970, 1, 2, 1, 0));
-        signature.addNewMetadata("Signer", "Emilie", "Martin", LocalDateTime.of(1970, 1, 2, 1, 0), "emilie.martin@corp.fr");
+        signature.addNewMetadata(
+            "Signer",
+            "Emilie",
+            "Martin",
+            LocalDateTime.of(1970, 1, 2, 1, 0),
+            "emilie.martin@corp.fr"
+        );
         signature.addNewMetadata("Validator", "The corporation", LocalDateTime.of(1970, 1, 3, 1, 0));
         signature.addNewMetadata("ReferencedObject", "TestID1", "TestDigest1", "TestSHA");
         signature.addMetadata(signer);
@@ -104,7 +147,7 @@ class ContentTest {
 
         // Test Keyword and KeywordType metadata
         Keyword keyword = new Keyword();
-        EnumType keywordType = new EnumType("KeywordType","subject");
+        EnumType keywordType = new EnumType("KeywordType", "subject");
         keyword.addMetadata(keywordType);
         content.addMetadata(keyword);
 
@@ -135,27 +178,29 @@ class ContentTest {
         content.addNewMetadata("XMLTest", "<XMLTest><TestTag>TestValue</TestTag></XMLTest>");
 
         // Test free content import and automatic sorting in ComplexListType
-        content.addSedaXmlFragments("  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
-                "  <Event>\n" +
-                "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
-                "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
-                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
-                "    <Outcome>OK</Outcome>\n" +
-                "  </Event>\n" +
-                "  <Frog>\n" +
-                "    <CommonName>Rouge à laser</CommonName>\n" +
-                "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
-                "  </Frog>\n" +
-                "  <Requirer>\n" +
-                "    <Identifier>REF-16F14A19BF22</Identifier>\n" +
-                "    <FirstName>Edouard</FirstName>\n" +
-                "    <BirthName>AFINA</BirthName>\n" +
-                "  </Requirer>\n" +
-                "  <Frog>\n" +
-                "    <CommonName>Verte à détente</CommonName>\n" +
-                "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
-                "  </Frog>");
+        content.addSedaXmlFragments(
+            "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
+            "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
+            "  <Event>\n" +
+            "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
+            "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
+            "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
+            "    <Outcome>OK</Outcome>\n" +
+            "  </Event>\n" +
+            "  <Frog>\n" +
+            "    <CommonName>Rouge à laser</CommonName>\n" +
+            "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
+            "  </Frog>\n" +
+            "  <Requirer>\n" +
+            "    <Identifier>REF-16F14A19BF22</Identifier>\n" +
+            "    <FirstName>Edouard</FirstName>\n" +
+            "    <BirthName>AFINA</BirthName>\n" +
+            "  </Requirer>\n" +
+            "  <Frog>\n" +
+            "    <CommonName>Verte à détente</CommonName>\n" +
+            "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
+            "  </Frog>"
+        );
 
         String cOut = content.toString();
 
@@ -164,8 +209,9 @@ class ContentTest {
         String cNextOut = cNext.toString();
 
         // Then
-        assertThat(cNextOut).isNotEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("metadata/content_01.xml"));
-
+        assertThat(cNextOut).isNotEqualToIgnoringWhitespace(
+            ResourceUtils.getResourceAsString("metadata/content_01.xml")
+        );
     }
 
     @Test
@@ -191,8 +237,10 @@ class ContentTest {
         // Given
         List<String> filter = Arrays.asList("Description", "Title", "Event", "Frog");
 
-        Content content = (Content) Content.fromString(ResourceUtils.getResourceAsString("metadata/content_01.xml"),
-                Content.class);
+        Content content = (Content) Content.fromString(
+            ResourceUtils.getResourceAsString("metadata/content_01.xml"),
+            Content.class
+        );
 
         // When the csv list is generated
         LinkedHashMap<String, String> csvList = content.externToCsvList(filter);
@@ -211,8 +259,10 @@ class ContentTest {
         // Given
         List<String> filter = Arrays.asList("Description", "Title", "Event", "Frog");
 
-        Content content = (Content) Content.fromString(ResourceUtils.getResourceAsString("metadata/content_01.xml"),
-                Content.class);
+        Content content = (Content) Content.fromString(
+            ResourceUtils.getResourceAsString("metadata/content_01.xml"),
+            Content.class
+        );
 
         // When the csv list is generated
         String tmp = content.filteredToString(filter);
@@ -220,7 +270,6 @@ class ContentTest {
         // Then
         assertThat(tmp).isEqualTo(ResourceUtils.getResourceAsString("metadata/content_02.xml"));
     }
-
 
     @Test
     void testSpecificMetadata() throws SEDALibException {
@@ -234,17 +283,18 @@ class ContentTest {
         String cOut = c.toString();
 
         // Then
-        String testOut = "<Content>\n" +
-                "  <Keyword>\n" +
-                "    <KeywordContent>TestKeywordContent</KeywordContent>\n" +
-                "  </Keyword>\n" +
-                "  <Gps>\n" +
-                "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
-                "    <GpsLatitudeRef>N</GpsLatitudeRef>\n" +
-                "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
-                "    <GpsLongitudeRef>E</GpsLongitudeRef>\n" +
-                "  </Gps>\n" +
-                "</Content>";
+        String testOut =
+            "<Content>\n" +
+            "  <Keyword>\n" +
+            "    <KeywordContent>TestKeywordContent</KeywordContent>\n" +
+            "  </Keyword>\n" +
+            "  <Gps>\n" +
+            "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
+            "    <GpsLatitudeRef>N</GpsLatitudeRef>\n" +
+            "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
+            "    <GpsLongitudeRef>E</GpsLongitudeRef>\n" +
+            "  </Gps>\n" +
+            "</Content>";
         assertThat(cOut).isEqualTo(testOut);
     }
 
@@ -259,32 +309,33 @@ class ContentTest {
 
         // and add Agent in SEDA 2.1 version then
         assertThatThrownBy(() -> c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
-                .isInstanceOf(SEDALibException.class).hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
+            .isInstanceOf(SEDALibException.class)
+            .hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
 
         // and add Agent in SEDA 2.1 version then
         SedaContext.setVersion(SedaVersion.V2_2);
         c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
         String cOut = c.toString();
-        String testOut = "<Content>\n" +
-                "  <Keyword>\n" +
-                "    <KeywordContent>TestKeywordContent</KeywordContent>\n" +
-                "  </Keyword>\n" +
-                "  <Agent>\n" +
-                "    <FirstName>TestFirstName</FirstName>\n" +
-                "    <BirthName>TestBirthName</BirthName>\n" +
-                "    <Identifier>TestIdentifier</Identifier>\n" +
-                "  </Agent>\n" +
-                "  <Gps>\n" +
-                "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
-                "    <GpsLatitudeRef>N</GpsLatitudeRef>\n" +
-                "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
-                "    <GpsLongitudeRef>E</GpsLongitudeRef>\n" +
-                "  </Gps>\n" +
-                "</Content>";
+        String testOut =
+            "<Content>\n" +
+            "  <Keyword>\n" +
+            "    <KeywordContent>TestKeywordContent</KeywordContent>\n" +
+            "  </Keyword>\n" +
+            "  <Agent>\n" +
+            "    <FirstName>TestFirstName</FirstName>\n" +
+            "    <BirthName>TestBirthName</BirthName>\n" +
+            "    <Identifier>TestIdentifier</Identifier>\n" +
+            "  </Agent>\n" +
+            "  <Gps>\n" +
+            "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
+            "    <GpsLatitudeRef>N</GpsLatitudeRef>\n" +
+            "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
+            "    <GpsLongitudeRef>E</GpsLongitudeRef>\n" +
+            "  </Gps>\n" +
+            "</Content>";
         assertThat(cOut).isEqualTo(testOut);
         SedaContext.setVersion(SedaVersion.V2_1);
     }
-
 
     @Test
     void testSomeExceptions() {
@@ -294,21 +345,26 @@ class ContentTest {
         // When loaded with all different kind of metadata
 
         //Test wrong args in addNewMetadata
-        assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1", "Test2"))
-                .hasStackTraceContaining("Pas de constructeur"); // for StringType
-        assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1", "Test2", "Test3"))
-                .hasStackTraceContaining("Pas de constructeur"); // for TextType
-        assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test", 1))
-                .hasStackTraceContaining("Pas de constructeur"); // for AgentType
-        assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
-                .hasStackTraceContaining("Pas de constructeur"); // for GenericXMLBlock
+        assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1", "Test2")).hasStackTraceContaining(
+            "Pas de constructeur"
+        ); // for StringType
+        assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1", "Test2", "Test3")).hasStackTraceContaining(
+            "Pas de constructeur"
+        ); // for TextType
+        assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test", 1)).hasStackTraceContaining(
+            "Pas de constructeur"
+        ); // for AgentType
+        assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0))).hasStackTraceContaining(
+            "Pas de constructeur"
+        ); // for GenericXMLBlock
         Event event = new Event();
-        assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
-                .hasStackTraceContaining("Impossible de construire"); // for DateTimeType
+        assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date")).hasStackTraceContaining(
+            "Impossible de construire"
+        ); // for DateTimeType
         // Test Keyword metadata with wrong KeywordType
-        assertThatThrownBy(() -> c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
-                .hasStackTraceContaining("Impossible de construire l'élément [Keyword]");
-
+        assertThatThrownBy(
+            () -> c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient")
+        ).hasStackTraceContaining("Impossible de construire l'élément [Keyword]");
     }
 
     @Test
@@ -326,7 +382,13 @@ class ContentTest {
         Signature signature = new Signature();
         signature.addNewMetadata("Signer", "TestFullName", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata("Signer", "TestFirstName", "TestBirthName", LocalDateTime.of(1970, 1, 1, 1, 0));
-        signature.addNewMetadata("Signer", "TestFirstName", "TestBirthName", LocalDateTime.of(1970, 1, 1, 1, 0), "TestIdentifier");
+        signature.addNewMetadata(
+            "Signer",
+            "TestFirstName",
+            "TestBirthName",
+            LocalDateTime.of(1970, 1, 1, 1, 0),
+            "TestIdentifier"
+        );
         signature.addNewMetadata("Validator", "TestFullName", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata("ReferencedObject", "TestSystemID", "TestDigest");
         content.addMetadata(signature);
@@ -342,8 +404,13 @@ class ContentTest {
 
         // Test Event metadata
         content.addNewMetadata("Event", "TestEventIdentifier2", null, null, null);
-        content.addNewMetadata("Event", "TestEventIdentifier", "TestEventType",
-                LocalDateTime.of(1970, 1, 1, 1, 0), "TestOutcome");
+        content.addNewMetadata(
+            "Event",
+            "TestEventIdentifier",
+            "TestEventType",
+            LocalDateTime.of(1970, 1, 1, 1, 0),
+            "TestOutcome"
+        );
 
         // Test CustodialHistory metadata
         content.addNewMetadata("CustodialHistory", "TestItem1", "TestItem2", "TestItem3", "TestItem4");
@@ -382,27 +449,29 @@ class ContentTest {
         content.addNewMetadata("DescriptionLevel", "RecordGrp"); // verify that uniq metadata is overwritten
 
         // Test AnyXML and expandability
-        content.addSedaXmlFragments("  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
-                "  <Event>\n" +
-                "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
-                "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
-                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
-                "    <Outcome>OK</Outcome>\n" +
-                "  </Event>\n" +
-                "  <Frog>\n" +
-                "    <CommonName>Rouge à laser</CommonName>\n" +
-                "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
-                "  </Frog>\n" +
-                "  <Requirer>\n" +
-                "    <Identifier>REF-16F14A19BF22</Identifier>\n" +
-                "    <FirstName>Edouard</FirstName>\n" +
-                "    <BirthName>AFINA</BirthName>\n" +
-                "  </Requirer>\n" +
-                "  <Frog>\n" +
-                "    <CommonName>Verte à détente</CommonName>\n" +
-                "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
-                "  </Frog>");
+        content.addSedaXmlFragments(
+            "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
+            "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
+            "  <Event>\n" +
+            "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
+            "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
+            "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
+            "    <Outcome>OK</Outcome>\n" +
+            "  </Event>\n" +
+            "  <Frog>\n" +
+            "    <CommonName>Rouge à laser</CommonName>\n" +
+            "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
+            "  </Frog>\n" +
+            "  <Requirer>\n" +
+            "    <Identifier>REF-16F14A19BF22</Identifier>\n" +
+            "    <FirstName>Edouard</FirstName>\n" +
+            "    <BirthName>AFINA</BirthName>\n" +
+            "  </Requirer>\n" +
+            "  <Frog>\n" +
+            "    <CommonName>Verte à détente</CommonName>\n" +
+            "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
+            "  </Frog>"
+        );
 
         String cOut = content.toString();
 

@@ -1,35 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -74,8 +78,12 @@ public class PSTFolder extends PSTObject {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    PSTFolder(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTFolder(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -94,24 +102,35 @@ public class PSTFolder extends PSTObject {
             final List<HashMap<Integer, PSTTable7CItem>> itemMapSet = this.subfoldersTable.getItems();
             for (final HashMap<Integer, PSTTable7CItem> itemMap : itemMapSet) {
                 final PSTTable7CItem item = itemMap.get(26610);
-                final PSTFolder folder = (PSTFolder) PSTObject.detectAndLoadPSTObject(this.pstFile,
-                    item.entryValueReference);
+                final PSTFolder folder = (PSTFolder) PSTObject.detectAndLoadPSTObject(
+                    this.pstFile,
+                    item.entryValueReference
+                );
                 output.add(folder);
             }
         } catch (final PSTException err) {
             // hierarchy node doesn't exist: This is OK if child count is 0.
-        	// Seen with special search folders at the top of the hierarchy:
-        	// "8739 - SPAM Search Folder 2", "8739 - Content.Filter".
-        	// this.subfoldersTable may remain uninitialized (null) in that case.
-        	if (this.getContentCount() != 0) {
-        		if (err.getMessage().startsWith("Can't get child folders")) {
-        			throw err;
-        		} else {
-                	//err.printStackTrace();
-                    throw new PSTException("Can't get child folders for folder " + this.getDisplayName() + "("
-                            + this.getDescriptorNodeId() + ") child count: " + this.getContentCount() + " - " + err.toString(), err);
-        		}
-        	}
+            // Seen with special search folders at the top of the hierarchy:
+            // "8739 - SPAM Search Folder 2", "8739 - Content.Filter".
+            // this.subfoldersTable may remain uninitialized (null) in that case.
+            if (this.getContentCount() != 0) {
+                if (err.getMessage().startsWith("Can't get child folders")) {
+                    throw err;
+                } else {
+                    //err.printStackTrace();
+                    throw new PSTException(
+                        "Can't get child folders for folder " +
+                        this.getDisplayName() +
+                        "(" +
+                        this.getDescriptorNodeId() +
+                        ") child count: " +
+                        this.getContentCount() +
+                        " - " +
+                        err.toString(),
+                        err
+                    );
+                }
+            }
         }
         return output;
     }
@@ -130,12 +149,26 @@ public class PSTFolder extends PSTObject {
                 // folderDescriptor.localDescriptorsOffsetIndexIdentifier).getChildren();
                 tmp = this.pstFile.getPSTDescriptorItems(folderDescriptor.localDescriptorsOffsetIndexIdentifier);
             }
-            this.subfoldersTable = new PSTTable7C(new PSTNodeInputStream(this.pstFile,
-                this.pstFile.getOffsetIndexNode(folderDescriptor.dataOffsetIndexIdentifier)), tmp);
+            this.subfoldersTable = new PSTTable7C(
+                new PSTNodeInputStream(
+                    this.pstFile,
+                    this.pstFile.getOffsetIndexNode(folderDescriptor.dataOffsetIndexIdentifier)
+                ),
+                tmp
+            );
         } catch (final PSTException err) {
             // hierarchy node doesn't exist
-            throw new PSTException("Can't get child folders for folder " + this.getDisplayName() + "("
-                + this.getDescriptorNodeId() + ") child count: " + this.getContentCount() + " - " + err.toString(), err);
+            throw new PSTException(
+                "Can't get child folders for folder " +
+                this.getDisplayName() +
+                "(" +
+                this.getDescriptorNodeId() +
+                ") child count: " +
+                this.getContentCount() +
+                " - " +
+                err.toString(),
+                err
+            );
         }
     }
 
@@ -152,7 +185,7 @@ public class PSTFolder extends PSTObject {
     /**
      * this method goes through all of the children and sorts them into one of
      * the three hash sets.
-     * 
+     *
      * @throws PSTException the pst exception
      * @throws IOException the io exception
      */
@@ -168,9 +201,9 @@ public class PSTFolder extends PSTObject {
 
         try {
             final long folderDescriptorIndex = this.descriptorIndexNode.descriptorIdentifier + 12; // +12
-                                                                                                   // lists
-                                                                                                   // emails!
-                                                                                                   // :D
+            // lists
+            // emails!
+            // :D
             final DescriptorIndexNode folderDescriptor = this.pstFile.getDescriptorIndexNode(folderDescriptorIndex);
             HashMap<Integer, PSTDescriptorItem> tmp = null;
             if (folderDescriptor.localDescriptorsOffsetIndexIdentifier > 0) {
@@ -181,10 +214,15 @@ public class PSTFolder extends PSTObject {
             // PSTTable7CForFolder folderDescriptorTable = new
             // PSTTable7CForFolder(folderDescriptor.dataBlock.data,
             // folderDescriptor.dataBlock.blockOffsets,tmp, 0x67F2);
-            this.emailsTable = new PSTTable7C(new PSTNodeInputStream(this.pstFile,
-                this.pstFile.getOffsetIndexNode(folderDescriptor.dataOffsetIndexIdentifier)), tmp, 0x67F2);
+            this.emailsTable = new PSTTable7C(
+                new PSTNodeInputStream(
+                    this.pstFile,
+                    this.pstFile.getOffsetIndexNode(folderDescriptor.dataOffsetIndexIdentifier)
+                ),
+                tmp,
+                0x67F2
+            );
         } catch (final Exception err) {
-
             // here we have to attempt to fallback onto the children as listed
             // by the descriptor b-tree
             final LinkedHashMap<Integer, LinkedList<DescriptorIndexNode>> tree = this.pstFile.getChildDescriptorTree();
@@ -196,17 +234,28 @@ public class PSTFolder extends PSTObject {
                 // quickly go through and remove those entries that are not
                 // messages!
                 for (final DescriptorIndexNode node : allChildren) {
-                    if (node != null
-                        && PSTObject.getNodeType(node.descriptorIdentifier) == PSTObject.NID_TYPE_NORMAL_MESSAGE) {
+                    if (
+                        node != null &&
+                        PSTObject.getNodeType(node.descriptorIdentifier) == PSTObject.NID_TYPE_NORMAL_MESSAGE
+                    ) {
                         this.fallbackEmailsTable.add(node);
                     }
                 }
             }
 
-            if (PSTFile.isPrintErrors())
-                System.err.println("Can't get children for folder " + this.getDisplayName() + "("
-                + this.getDescriptorNodeId() + ") child count: " + this.getContentCount() + " - " + err.toString()
-                + ", using alternate child tree with " + this.fallbackEmailsTable.size() + " items");
+            if (PSTFile.isPrintErrors()) System.err.println(
+                "Can't get children for folder " +
+                this.getDisplayName() +
+                "(" +
+                this.getDescriptorNodeId() +
+                ") child count: " +
+                this.getContentCount() +
+                " - " +
+                err.toString() +
+                ", using alternate child tree with " +
+                this.fallbackEmailsTable.size() +
+                " items"
+            );
         }
     }
 
@@ -225,8 +274,8 @@ public class PSTFolder extends PSTObject {
 
         final Vector<PSTObject> output = new Vector<>();
         if (this.emailsTable != null) {
-            final List<HashMap<Integer, PSTTable7CItem>> rows = this.emailsTable.getItems(this.currentEmailIndex,
-                numberToReturn);
+            final List<HashMap<Integer, PSTTable7CItem>> rows =
+                this.emailsTable.getItems(this.currentEmailIndex, numberToReturn);
 
             for (int x = 0; x < rows.size(); x++) {
                 if (this.currentEmailIndex >= this.getContentCount()) {
@@ -235,16 +284,16 @@ public class PSTFolder extends PSTObject {
                 }
                 // get the emails from the rows
                 final PSTTable7CItem emailRow = rows.get(x).get(0x67F2);
-                final DescriptorIndexNode childDescriptor = this.pstFile
-                    .getDescriptorIndexNode(emailRow.entryValueReference);
+                final DescriptorIndexNode childDescriptor =
+                    this.pstFile.getDescriptorIndexNode(emailRow.entryValueReference);
                 final PSTObject child = PSTObject.detectAndLoadPSTObject(this.pstFile, childDescriptor);
                 output.add(child);
                 this.currentEmailIndex++;
             }
         } else if (this.fallbackEmailsTable != null) {
             // we use the fallback
-            final ListIterator<DescriptorIndexNode> iterator = this.fallbackEmailsTable
-                .listIterator(this.currentEmailIndex);
+            final ListIterator<DescriptorIndexNode> iterator =
+                this.fallbackEmailsTable.listIterator(this.currentEmailIndex);
             for (int x = 0; x < numberToReturn; x++) {
                 if (this.currentEmailIndex >= this.getContentCount()) {
                     // no more!
@@ -311,14 +360,16 @@ public class PSTFolder extends PSTObject {
             this.currentEmailIndex++;
             // get the emails from the rows
             final PSTTable7CItem emailRow = rows.get(0).get(0x67F2);
-            final DescriptorIndexNode childDescriptor = this.pstFile
-                .getDescriptorIndexNode(emailRow.entryValueReference);
+            final DescriptorIndexNode childDescriptor =
+                this.pstFile.getDescriptorIndexNode(emailRow.entryValueReference);
             final PSTObject child = PSTObject.detectAndLoadPSTObject(this.pstFile, childDescriptor);
 
             return child;
         } else if (this.fallbackEmailsTable != null) {
-            if (this.currentEmailIndex >= this.getContentCount()
-                || this.currentEmailIndex >= this.fallbackEmailsTable.size()) {
+            if (
+                this.currentEmailIndex >= this.getContentCount() ||
+                this.currentEmailIndex >= this.fallbackEmailsTable.size()
+            ) {
                 // no more!
                 return null;
             }
@@ -451,6 +502,5 @@ public class PSTFolder extends PSTObject {
     public int getContainerFlags() {
         return this.getIntItem(0x3600);
     }
-
 }
 // vim: set noexpandtab:

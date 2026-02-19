@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA dataObjectPackage the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.data;
 
@@ -119,10 +129,7 @@ public class Work {
         this.creationContext = creationContext;
         this.exportContext = exportContext;
 
-        EventBus.subscribe(
-            SedaVersionChangedEvent.class,
-            event -> this.version = event.getNewVersion()
-        );
+        EventBus.subscribe(SedaVersionChangedEvent.class, event -> this.version = event.getNewVersion());
     }
 
     /**
@@ -133,18 +140,27 @@ public class Work {
      * @throws SEDALibException     the SEDA lib exception
      * @throws InterruptedException the interrupted exception
      */
-    public String doVitamNormalize(SEDALibProgressLogger spl)
-            throws SEDALibException, InterruptedException {
+    public String doVitamNormalize(SEDALibProgressLogger spl) throws SEDALibException, InterruptedException {
         Instant start = Instant.now();
-        String log = "resip: début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure";
+        String log =
+            "resip: début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure";
         doProgressLog(spl, SEDALibProgressLogger.GLOBAL, log, null);
 
         dataObjectPackage.vitamNormalize(spl);
 
-        doProgressLog(spl, SEDALibProgressLogger.STEP, "resip: " +
-                dataObjectPackage.getArchiveUnitCount() + " ArchiveUnits normalisées", null);
+        doProgressLog(
+            spl,
+            SEDALibProgressLogger.STEP,
+            "resip: " + dataObjectPackage.getArchiveUnitCount() + " ArchiveUnits normalisées",
+            null
+        );
         Instant end = Instant.now();
-        doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "resip: opération terminée en " + Duration.between(start, end).toString().substring(2), null);
+        doProgressLog(
+            spl,
+            SEDALibProgressLogger.GLOBAL,
+            "resip: opération terminée en " + Duration.between(start, end).toString().substring(2),
+            null
+        );
         return "Vérification de l'absence de cycle et normalisation Vitam effectuées";
     }
 
@@ -165,13 +181,15 @@ public class Work {
             module.addDeserializer(CreationContext.class, new NullDeserializer<CreationContext>());
             mapper.registerModule(module);
             ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME))
-                throw new ResipException(
-                        "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
+            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
+                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
+            );
             ow = mapper.readValue(zis, Work.class);
         } catch (IOException e) {
-            throw new ResipException("Resip: La lecture du fichier [" + file
-                    + "] ne permet pas de retrouver une session Resip", e);
+            throw new ResipException(
+                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
+                e
+            );
         }
         return ow.version;
     }
@@ -192,19 +210,23 @@ public class Work {
             module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
             mapper.registerModule(module);
             ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME))
-                throw new ResipException(
-                        "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
+            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
+                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
+            );
             ow = mapper.readValue(zis, Work.class);
 
             // some fields need to be computed or defined after the load phase from Json
             ow.getDataObjectPackage().getGhostRootAu().setDataObjectPackage(ow.getDataObjectPackage());
-            for (Map.Entry<String, ArchiveUnit> pair : ow.getDataObjectPackage().getAuInDataObjectPackageIdMap()
-                    .entrySet()) {
+            for (Map.Entry<String, ArchiveUnit> pair : ow
+                .getDataObjectPackage()
+                .getAuInDataObjectPackageIdMap()
+                .entrySet()) {
                 pair.getValue().setDataObjectPackage(ow.getDataObjectPackage());
             }
-            for (Map.Entry<String, DataObjectGroup> pair : ow.getDataObjectPackage().getDogInDataObjectPackageIdMap()
-                    .entrySet()) {
+            for (Map.Entry<String, DataObjectGroup> pair : ow
+                .getDataObjectPackage()
+                .getDogInDataObjectPackageIdMap()
+                .entrySet()) {
                 DataObjectGroup dog = pair.getValue();
                 dog.setDataObjectPackage(ow.getDataObjectPackage());
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
@@ -217,8 +239,10 @@ public class Work {
                 }
             }
         } catch (IOException e) {
-            throw new ResipException("Resip: La lecture du fichier [" + file
-                    + "] ne permet pas de retrouver une session Resip", e);
+            throw new ResipException(
+                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
+                e
+            );
         }
         return ow;
     }
@@ -236,7 +260,7 @@ public class Work {
             module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
             mapper.registerModule(module);
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            try(ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
                 ZipEntry e = new ZipEntry(JSON_FILENAME);
                 zos.putNextEntry(e);
                 mapper.writeValue(zos, this);
@@ -245,7 +269,6 @@ public class Work {
         } catch (IOException e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de sauvegarder la session", e);
         }
-
     }
 
     /**

@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
@@ -102,8 +112,10 @@ public class ArchiveTransferToSIPExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void exportManifestOutputStream(OutputStream os, boolean hierarchicalFlag, boolean indentedFlag)
-            throws SEDALibException, InterruptedException {
-        try (SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(os, (indentedFlag ? IndentXMLTool.STANDARD_INDENT : 0))) {
+        throws SEDALibException, InterruptedException {
+        try (
+            SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(os, (indentedFlag ? IndentXMLTool.STANDARD_INDENT : 0))
+        ) {
             xmlWriter = ixsw;
             archiveTransfer.toSedaXml(xmlWriter, hierarchicalFlag, sedaLibProgressLogger);
         } catch (XMLStreamException e) {
@@ -121,13 +133,13 @@ public class ArchiveTransferToSIPExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doExportToSEDAXMLManifest(String fileName, boolean hierarchicalFlag, boolean indentedFlag)
-            throws SEDALibException, InterruptedException {
+        throws SEDALibException, InterruptedException {
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
         log += "en [" + fileName + "] date=";
         log += DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
         this.hierarchicalFlag = hierarchicalFlag;
@@ -140,7 +152,7 @@ public class ArchiveTransferToSIPExporter {
             throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]", e);
         }
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
         end = Instant.now();
     }
 
@@ -154,14 +166,14 @@ public class ArchiveTransferToSIPExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public String getSEDAXMLManifest(boolean hierarchicalFlag, boolean indentedFlag)
-            throws SEDALibException, InterruptedException {
+        throws SEDALibException, InterruptedException {
         String result;
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
         log += "en chaîne de caractères interne date=";
         log += DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         this.hierarchicalFlag = hierarchicalFlag;
         this.indentedFlag = indentedFlag;
@@ -169,12 +181,12 @@ public class ArchiveTransferToSIPExporter {
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             exportManifestOutputStream(baos, hierarchicalFlag, indentedFlag);
-            result=baos.toString("UTF8");
+            result = baos.toString("UTF8");
         } catch (SEDALibException | IOException e) {
             throw new SEDALibException("Echec de l'export du manifest", e);
         }
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
         end = Instant.now();
         return result;
     }
@@ -189,14 +201,14 @@ public class ArchiveTransferToSIPExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doExportToSEDASIP(String fileName, boolean hierarchicalFlag, boolean indentedFlag)
-            throws SEDALibException, InterruptedException {
+        throws SEDALibException, InterruptedException {
         int counter = 0;
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un SIP\n";
         log += "en [" + fileName + "] date=";
         log += DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
         this.hierarchicalFlag = hierarchicalFlag;
@@ -206,7 +218,12 @@ public class ArchiveTransferToSIPExporter {
         try {
             Files.createDirectories(Paths.get(fileName).toAbsolutePath().getParent());
         } catch (IOException e1) {
-            throw new SEDALibException("Impossible de créer le répertoire [" + Paths.get(fileName).toAbsolutePath().getParent().toString() + "]", e1);
+            throw new SEDALibException(
+                "Impossible de créer le répertoire [" +
+                Paths.get(fileName).toAbsolutePath().getParent().toString() +
+                "]",
+                e1
+            );
         }
         try (ZipOutputStream zipout = new ZipOutputStream(new FileOutputStream(fileName))) {
             ZipEntry e = new ZipEntry("manifest.xml");
@@ -214,11 +231,13 @@ public class ArchiveTransferToSIPExporter {
             zipout.putNextEntry(e);
             exportManifestOutputStream(zipout, hierarchicalFlag, indentedFlag);
             zipout.closeEntry();
-            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: manifest exporté", null);
+            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: manifest exporté", null);
             // all binary objects
             if (archiveTransfer.getDataObjectPackage().getDataObjectGroupCount() > 0) {
-                for (Map.Entry<String, DataObjectGroup> pair : archiveTransfer.getDataObjectPackage()
-                        .getDogInDataObjectPackageIdMap().entrySet()) {
+                for (Map.Entry<String, DataObjectGroup> pair : archiveTransfer
+                    .getDataObjectPackage()
+                    .getDogInDataObjectPackageIdMap()
+                    .entrySet()) {
                     DataObjectGroup og = pair.getValue();
                     if (og.getBinaryDataObjectList() != null) {
                         for (BinaryDataObject bo : og.getBinaryDataObjectList()) {
@@ -229,8 +248,12 @@ public class ArchiveTransferToSIPExporter {
                             }
                             zipout.closeEntry();
                             counter++;
-                            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                                    "sedalib: " + counter + " fichiers BinaryDataObject exportés");
+                            doProgressLogIfStep(
+                                sedaLibProgressLogger,
+                                SEDALibProgressLogger.OBJECTS_GROUP,
+                                counter,
+                                "sedalib: " + counter + " fichiers BinaryDataObject exportés"
+                            );
                         }
                     }
                 }
@@ -239,7 +262,12 @@ public class ArchiveTransferToSIPExporter {
             throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]", e);
         }
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export d'un ArchiveTransfer dans un SIP terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: export d'un ArchiveTransfer dans un SIP terminé",
+            null
+        );
         end = Instant.now();
     }
 
@@ -250,22 +278,16 @@ public class ArchiveTransferToSIPExporter {
      */
     public String getSummary() {
         String result = "Export d'un ArchiveTransfer dans un ";
-        if (manifestOnly)
-            result += "manifest SEDA\n";
-        else
-            result += "SIP\n";
+        if (manifestOnly) result += "manifest SEDA\n";
+        else result += "SIP\n";
         result += "en [" + exportPath + "]\n";
-        if (hierarchicalFlag)
-            result += "avec une structure imbriquée ";
-        else
-            result += "avec une structure à plat ";
-        if (indentedFlag)
-            result += "en XML identé\n";
-        else
-            result += "en XML continu\n";
+        if (hierarchicalFlag) result += "avec une structure imbriquée ";
+        else result += "avec une structure à plat ";
+        if (indentedFlag) result += "en XML identé\n";
+        else result += "en XML continu\n";
 
-        if ((start != null) && (end != null))
-            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if ((start != null) && (end != null)) result +=
+        "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

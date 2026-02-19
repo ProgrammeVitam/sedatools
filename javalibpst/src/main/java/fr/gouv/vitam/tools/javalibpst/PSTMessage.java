@@ -1,35 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -84,8 +88,12 @@ public class PSTMessage extends PSTObject {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    PSTMessage(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTMessage(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -141,9 +149,10 @@ public class PSTMessage extends PSTObject {
     public int getIntBasedOnHexValue(int hexValue) {
         return this.getIntItem(hexValue);
     }
+
     /**
      * get the message class for the email
-     * 
+     *
      * @return empty string if unknown
      */
     @Override
@@ -162,12 +171,15 @@ public class PSTMessage extends PSTObject {
         // byte[] controlCodesA = {0x01, 0x01};
         // byte[] controlCodesB = {0x01, 0x05};
         // byte[] controlCodesC = {0x01, 0x10};
-        if (subject != null && (subject.length() >= 2) &&
-
-        // (subject.startsWith(new String(controlCodesA)) ||
-        // subject.startsWith(new String(controlCodesB)) ||
-        // subject.startsWith(new String(controlCodesC)))
-            subject.charAt(0) == 0x01) {
+        if (
+            subject != null &&
+            (subject.length() >= 2) &&
+            // (subject.startsWith(new String(controlCodesA)) ||
+                // subject.startsWith(new String(controlCodesB)) ||
+                // subject.startsWith(new String(controlCodesC)))
+                subject.charAt(0) ==
+                0x01
+        ) {
             if (subject.length() == 2) {
                 subject = "";
             } else {
@@ -429,6 +441,7 @@ public class PSTMessage extends PSTObject {
     public int getSensitivity() {
         return this.getIntItem(0x0036);
     }
+
     // 0x003f 0x0102 PR_RECEIVED_BY_ENTRYID (PidTagReceivedByEntr yId) Received
     // by entry identifier Binary data Contains recipient/sender structure
     // 0x0041 0x0102 PR_SENT_REPRESENTING_ENTRYID Sent representing entry
@@ -1097,8 +1110,11 @@ public class PSTMessage extends PSTObject {
     private void processRecipients() {
         try {
             final int recipientTableKey = 0x0692;
-            if (this.recipientTable == null && this.localDescriptorItems != null
-                && this.localDescriptorItems.containsKey(recipientTableKey)) {
+            if (
+                this.recipientTable == null &&
+                this.localDescriptorItems != null &&
+                this.localDescriptorItems.containsKey(recipientTableKey)
+            ) {
                 final PSTDescriptorItem item = this.localDescriptorItems.get(recipientTableKey);
                 HashMap<Integer, PSTDescriptorItem> descriptorItems = null;
                 if (item.subNodeOffsetIndexIdentifier > 0) {
@@ -1141,14 +1157,17 @@ public class PSTMessage extends PSTObject {
     /**
      * find, extract and load up all of the attachments in this email
      * necessary for the other operations.
-     * 
+     *
      * @throws PSTException the pst exception
      * @throws IOException the io exception
      */
     private void processAttachments() throws PSTException, IOException {
         final int attachmentTableKey = 0x0671;
-        if (this.attachmentTable == null && this.localDescriptorItems != null
-            && this.localDescriptorItems.containsKey(attachmentTableKey)) {
+        if (
+            this.attachmentTable == null &&
+            this.localDescriptorItems != null &&
+            this.localDescriptorItems.containsKey(attachmentTableKey)
+        ) {
             final PSTDescriptorItem item = this.localDescriptorItems.get(attachmentTableKey);
             HashMap<Integer, PSTDescriptorItem> descriptorItems = null;
             if (item.subNodeOffsetIndexIdentifier > 0) {
@@ -1225,8 +1244,11 @@ public class PSTMessage extends PSTObject {
                     categories = new String[categoryCount];
                     final int[] offsets = new int[categoryCount];
                     for (int x = 0; x < categoryCount; x++) {
-                        offsets[x] = (int) PSTObject.convertBigEndianBytesToLong(item.data, (x * 4) + 1,
-                            (x + 1) * 4 + 1);
+                        offsets[x] = (int) PSTObject.convertBigEndianBytesToLong(
+                            item.data,
+                            (x * 4) + 1,
+                            (x + 1) * 4 + 1
+                        );
                     }
                     for (int x = 0; x < offsets.length - 1; x++) {
                         final int start = offsets[x];
@@ -1289,14 +1311,15 @@ public class PSTMessage extends PSTObject {
         }
 
         if (attachmentNumber >= attachmentCount) {
-            throw new PSTException("unable to fetch attachment number " + attachmentNumber + ", only " + attachmentCount
-                + " in this email");
+            throw new PSTException(
+                "unable to fetch attachment number " + attachmentNumber + ", only " + attachmentCount + " in this email"
+            );
         }
 
         // we process the C7 table here, basically we just want the attachment
         // local descriptor...
-        final HashMap<Integer, PSTTable7CItem> attachmentDetails = this.attachmentTable.getItems()
-            .get(attachmentNumber);
+        final HashMap<Integer, PSTTable7CItem> attachmentDetails =
+            this.attachmentTable.getItems().get(attachmentNumber);
         final PSTTable7CItem attachmentTableItem = attachmentDetails.get(0x67f2);
         final int descriptorItemId = attachmentTableItem.entryValueReference;
 
@@ -1310,7 +1333,8 @@ public class PSTMessage extends PSTObject {
             // PSTTableBC(descriptorItem.getData(),
             // descriptorItem.getBlockOffsets());
             final PSTTableBC attachmentDetailsTable = new PSTTableBC(
-                new PSTNodeInputStream(this.pstFile, descriptorItem));
+                new PSTNodeInputStream(this.pstFile, descriptorItem)
+            );
 
             // create our all-precious attachment object.
             // note that all the information that was in the c7 table is
@@ -1318,14 +1342,16 @@ public class PSTMessage extends PSTObject {
             // so no need to pass it...
             HashMap<Integer, PSTDescriptorItem> attachmentDescriptorItems = new HashMap<>();
             if (descriptorItem.subNodeOffsetIndexIdentifier > 0) {
-                attachmentDescriptorItems = this.pstFile
-                    .getPSTDescriptorItems(descriptorItem.subNodeOffsetIndexIdentifier);
+                attachmentDescriptorItems = this.pstFile.getPSTDescriptorItems(
+                        descriptorItem.subNodeOffsetIndexIdentifier
+                    );
             }
             return new PSTAttachment(this.pstFile, attachmentDetailsTable, attachmentDescriptorItems);
         }
 
         throw new PSTException(
-            "unable to fetch attachment number " + attachmentNumber + ", unable to read attachment details table");
+            "unable to fetch attachment number " + attachmentNumber + ", unable to read attachment details table"
+        );
     }
 
     /**
@@ -1337,15 +1363,16 @@ public class PSTMessage extends PSTObject {
      * @throws IOException  the io exception
      */
     public PSTRecipient getRecipient(final int recipientNumber) throws PSTException, IOException {
-        if (recipientNumber >= this.getNumberOfRecipients()
-            || recipientNumber >= this.recipientTable.getItems().size()) {
+        if (
+            recipientNumber >= this.getNumberOfRecipients() || recipientNumber >= this.recipientTable.getItems().size()
+        ) {
             throw new PSTException("unable to fetch recipient number " + recipientNumber);
         }
 
         final HashMap<Integer, PSTTable7CItem> recipientDetails = this.recipientTable.getItems().get(recipientNumber);
 
         if (recipientDetails != null) {
-            return new PSTRecipient(this,recipientDetails);
+            return new PSTRecipient(this, recipientDetails);
         }
 
         return null;
@@ -1396,9 +1423,20 @@ public class PSTMessage extends PSTObject {
      */
     @Override
     public String toString() {
-        return "PSTEmail: " + this.getSubject() + "\n" + "Importance: " + this.getImportance() + "\n"
-            + "Message Class: " + this.getMessageClass() + "\n\n" + this.getTransportMessageHeaders() + "\n\n\n"
-            + this.items + this.localDescriptorItems;
+        return (
+            "PSTEmail: " +
+            this.getSubject() +
+            "\n" +
+            "Importance: " +
+            this.getImportance() +
+            "\n" +
+            "Message Class: " +
+            this.getMessageClass() +
+            "\n\n" +
+            this.getTransportMessageHeaders() +
+            "\n\n\n" +
+            this.items +
+            this.localDescriptorItems
+        );
     }
-
 }

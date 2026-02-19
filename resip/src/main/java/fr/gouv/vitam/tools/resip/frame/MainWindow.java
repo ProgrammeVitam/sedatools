@@ -1,53 +1,52 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA dataObjectPackage the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.*;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageIdElement;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Path;
-
-import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 
 /**
  * The Class MainWindow.
@@ -115,7 +114,8 @@ public class MainWindow extends JFrame {
      * @throws ResipException                  the resip exception
      * @throws InterruptedException            the interrupted exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
     }
@@ -164,7 +164,7 @@ public class MainWindow extends JFrame {
         generalSplitPaneHoriz.setResizeWeight(0.3);
         getContentPane().add(generalSplitPaneHoriz);
 
-        treePane= new TreeDataObjectPackageEditorPanel();
+        treePane = new TreeDataObjectPackageEditorPanel();
         generalSplitPaneHoriz.setLeftComponent(treePane);
 
         itemPane = new JSplitPane();
@@ -185,24 +185,25 @@ public class MainWindow extends JFrame {
         }
 
         if (ResipGraphicApp.getTheApp().interfaceParameters.isStructuredMetadataEditionFlag()) {
-            StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel = new StructuredDataObjectGroupEditorPanel();
+            StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel =
+                new StructuredDataObjectGroupEditorPanel();
             itemPane.setBottomComponent(structuredDataObjectGroupEditorPanel);
             dogMetadataPane = structuredDataObjectGroupEditorPanel;
-        }
-        else
-        {
+        } else {
             XMLDataObjectGroupEditorPanel xmlDataObjectGroupEditorPanel = new XMLDataObjectGroupEditorPanel();
             itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
             dogMetadataPane = xmlDataObjectGroupEditorPanel;
         }
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                ResipGraphicApp.getTheApp().exit();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    ResipGraphicApp.getTheApp().exit();
+                }
             }
-        });
+        );
 
         pack();
     }
@@ -214,7 +215,6 @@ public class MainWindow extends JFrame {
         try {
             treePane.editDataObjectPackage(app.currentWork == null ? null : app.currentWork.getDataObjectPackage());
             auMetadataPane.editArchiveUnit(null);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 }

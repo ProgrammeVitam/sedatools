@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
@@ -109,7 +119,7 @@ public class DiskToArchiveTransferImporter {
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException {
+        throws SEDALibException {
         this(directory, false, simpleCopy, sedaLibProgressLogger);
     }
 
@@ -131,10 +141,12 @@ public class DiskToArchiveTransferImporter {
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
-    public DiskToArchiveTransferImporter(String directory, boolean noLinkFlag,
-                                         Function<String, String> extractTitleFromFileNameFunction,
-                                         SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException {
+    public DiskToArchiveTransferImporter(
+        String directory,
+        boolean noLinkFlag,
+        Function<String, String> extractTitleFromFileNameFunction,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
         Path path;
         Iterator<Path> pi;
 
@@ -144,25 +156,26 @@ public class DiskToArchiveTransferImporter {
         this.onDiskRootPaths = new ArrayList<>();
 
         path = Paths.get(directory);
-        if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("[" + directory + "] n'est pas un répertoire");
+        if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS)) throw new SEDALibException(
+            "[" + directory + "] n'est pas un répertoire"
+        );
         try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             pi = sp.iterator();
             while (pi.hasNext()) {
                 path = pi.next();
-                if (path.getFileName().toString().equals("__GlobalMetadata.xml"))
-                    this.onDiskGlobalMetadataPath = path;
-                else
-                    this.onDiskRootPaths.add(path);
+                if (path.getFileName().toString().equals("__GlobalMetadata.xml")) this.onDiskGlobalMetadataPath = path;
+                else this.onDiskRootPaths.add(path);
             }
         } catch (IOException e) {
-            throw new SEDALibException(
-                    "Impossible de lister les fichiers du répertoire [" + directory + "]", e);
+            throw new SEDALibException("Impossible de lister les fichiers du répertoire [" + directory + "]", e);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
-                extractTitleFromFileNameFunction,
-                sedaLibProgressLogger);
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            this.onDiskRootPaths,
+            noLinkFlag,
+            extractTitleFromFileNameFunction,
+            sedaLibProgressLogger
+        );
     }
 
     /**
@@ -195,25 +208,28 @@ public class DiskToArchiveTransferImporter {
      * @param extractTitleFromFileNameFunction the extract title from file name function
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      */
-    public DiskToArchiveTransferImporter(List<Path> paths, boolean noLinkFlag,
-                                         Function<String, String> extractTitleFromFileNameFunction,
-                                         SEDALibProgressLogger sedaLibProgressLogger) {
-
+    public DiskToArchiveTransferImporter(
+        List<Path> paths,
+        boolean noLinkFlag,
+        Function<String, String> extractTitleFromFileNameFunction,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
         this.onDiskGlobalMetadataPath = null;
         this.archiveTransfer = new ArchiveTransfer();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.onDiskRootPaths = new ArrayList<>();
 
         for (Path path : paths) {
-            if (path.getFileName().toString().equals("__GlobalMetadata"))
-                this.onDiskGlobalMetadataPath = path;
-            else
-                this.onDiskRootPaths.add(path);
+            if (path.getFileName().toString().equals("__GlobalMetadata")) this.onDiskGlobalMetadataPath = path;
+            else this.onDiskRootPaths.add(path);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
-                extractTitleFromFileNameFunction,
-                sedaLibProgressLogger);
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            this.onDiskRootPaths,
+            noLinkFlag,
+            extractTitleFromFileNameFunction,
+            sedaLibProgressLogger
+        );
     }
 
     /**
@@ -237,8 +253,9 @@ public class DiskToArchiveTransferImporter {
         try {
             atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
         } catch (SEDALibException | IOException e) {
-            throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
-                    + "] impossible\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Lecture des métadonnées globales à partir du fichier [" + path + "] impossible\n->" + e.getMessage()
+            );
         }
         return atgm;
     }
@@ -259,7 +276,6 @@ public class DiskToArchiveTransferImporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
-
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'import d'un ArchiveTransfer depuis une hiérarchie sur disque\n";
@@ -267,10 +283,8 @@ public class DiskToArchiveTransferImporter {
         boolean first = true;
         for (Path path : onDiskRootPaths) {
             if (!path.getFileName().toString().equals("__ManagementMetadata.xml")) {
-                if (first)
-                    first = false;
-                else
-                    log += ",\n";
+                if (first) first = false;
+                else log += ",\n";
                 log += path.toString();
             }
         }
@@ -278,13 +292,19 @@ public class DiskToArchiveTransferImporter {
         log += "date=" + DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
-        if (onDiskGlobalMetadataPath != null)
-            archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
+        if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(
+            processGlobalMetadata(onDiskGlobalMetadataPath)
+        );
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé",
+            null
+        );
     }
 
     /**
@@ -326,8 +346,8 @@ public class DiskToArchiveTransferImporter {
                 result += "encodé selon un modèle hybride V1/V2 de la structure\n";
                 break;
         }
-        if ((start != null) && (end != null))
-            result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if ((start != null) && (end != null)) result +=
+        "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

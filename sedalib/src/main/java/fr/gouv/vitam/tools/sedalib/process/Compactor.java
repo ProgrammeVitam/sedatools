@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.process;
 
@@ -104,6 +114,7 @@ public class Compactor {
      * The compacted files management class and list var.
      */
     static class CompactedFile {
+
         String compactedFilename;
         Path onDiskPath;
 
@@ -236,8 +247,10 @@ public class Compactor {
      * @param documentObjectVersionFilter    the document object version filter
      * @param subDocumentObjectVersionFilter the sub document object version filter
      */
-    public void setObjectVersionFilters(List<String> documentObjectVersionFilter,
-                                        List<String> subDocumentObjectVersionFilter) {
+    public void setObjectVersionFilters(
+        List<String> documentObjectVersionFilter,
+        List<String> subDocumentObjectVersionFilter
+    ) {
         this.documentObjectVersionFilter = documentObjectVersionFilter;
         this.subDocumentObjectVersionFilter = subDocumentObjectVersionFilter;
     }
@@ -248,8 +261,10 @@ public class Compactor {
      * @param documentContentMetadataFilter    the document content metadata filter
      * @param subDocumentContentMetadataFilter the sub document content metadata filter
      */
-    public void setMetadataFilters(Map<String, Integer> documentContentMetadataFilter,
-                                   Map<String, Integer> subDocumentContentMetadataFilter) {
+    public void setMetadataFilters(
+        Map<String, Integer> documentContentMetadataFilter,
+        Map<String, Integer> subDocumentContentMetadataFilter
+    ) {
         this.documentContentMetadataFilter = documentContentMetadataFilter;
         this.subDocumentContentMetadataFilter = subDocumentContentMetadataFilter;
     }
@@ -272,10 +287,8 @@ public class Compactor {
         this.deflatedFlag = deflatedFlag;
     }
 
-
     private static String getExtension(String fileName) {
-        if (fileName == null)
-            return "";
+        if (fileName == null) return "";
         int i = fileName.lastIndexOf('.');
         return i < 0 ? "" : fileName.substring(i + 1);
     }
@@ -283,27 +296,30 @@ public class Compactor {
     private static String getExtendedCompactedFileName(String radical, Path onDiskPath) {
         String extension;
         extension = getExtension(onDiskPath.getFileName().toString());
-        if (!extension.isEmpty())
-            return radical + "." + extension;
+        if (!extension.isEmpty()) return radical + "." + extension;
         else return radical;
     }
 
     private SEDAMetadata truncateTextType(SEDAMetadata sm, int limit) throws SEDALibException {
-        if ((sm instanceof TextType) &&
-                (((TextType) sm).getValue().length() > limit)) {
-            sm = new TextType(sm.getXmlElementName(),
-                    ((TextType) sm).getValue().substring(0, limit), ((TextType) sm).getLang());
+        if ((sm instanceof TextType) && (((TextType) sm).getValue().length() > limit)) {
+            sm = new TextType(
+                sm.getXmlElementName(),
+                ((TextType) sm).getValue().substring(0, limit),
+                ((TextType) sm).getLang()
+            );
             truncatedMetadataCounted++;
         }
         if (sm instanceof StringType) {
             if (((StringType) sm).getValue().length() > limit) {
-                sm = new TextType(sm.getXmlElementName(),
-                        ((StringType) sm).getValue().substring(0, limit));
+                sm = new TextType(sm.getXmlElementName(), ((StringType) sm).getValue().substring(0, limit));
                 truncatedMetadataCounted++;
             }
-        } else
-            throw new SEDALibException("Tentative pendant le compactage de troncature " +
-                    "d'une métadonnée [" + sm.getXmlElementName() + "] qui n'est pas de type TextType ou StringType");
+        } else throw new SEDALibException(
+            "Tentative pendant le compactage de troncature " +
+            "d'une métadonnée [" +
+            sm.getXmlElementName() +
+            "] qui n'est pas de type TextType ou StringType"
+        );
         return sm;
     }
 
@@ -323,18 +339,18 @@ public class Compactor {
         } else for (SEDAMetadata sm : originContent.getMetadataList()) {
             Integer limit = contentMetadataFilter.get(sm.getXmlElementName());
             if (limit != null) {
-                if (limit == 0)
-                    resultContent.getMetadataList().add(sm);
-                else
-                    resultContent.getMetadataList().add(truncateTextType(sm, limit));
-            } else
-                droppedMetadataCounted++;
+                if (limit == 0) resultContent.getMetadataList().add(sm);
+                else resultContent.getMetadataList().add(truncateTextType(sm, limit));
+            } else droppedMetadataCounted++;
         }
         return resultContent;
     }
 
-    private SubDocument getCompactedSubDocumentArchiveUnit(ArchiveUnit au, String parentAuURI,
-                                                           List<CompactedFile> compactedFilesList) throws SEDALibException {
+    private SubDocument getCompactedSubDocumentArchiveUnit(
+        ArchiveUnit au,
+        String parentAuURI,
+        List<CompactedFile> compactedFilesList
+    ) throws SEDALibException {
         SubDocument subDocument;
         String auURI;
         String compactedFileURI;
@@ -344,16 +360,16 @@ public class Compactor {
         localSubDocumentCounter++;
         if (au.getTheDataObjectGroup() != null) {
             for (BinaryDataObject bdo : au.getTheDataObjectGroup().getBinaryDataObjectList()) {
-                StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+                StringType dataObjectVersion = bdo.getMetadataDataObjectVersion();
                 String radical = dataObjectVersion.getValue().split("_")[0];
                 if (subDocumentObjectVersionFilter.contains(radical)) {
-                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + dataObjectVersion.getValue(),
-                            bdo.getOnDiskPath());
+                    compactedFileURI = getExtendedCompactedFileName(
+                        auURI + "-" + dataObjectVersion.getValue(),
+                        bdo.getOnDiskPath()
+                    );
                     subDocument.addMetadata(new FileObject(bdo, compactedFileURI));
-                    compactedFilesList.add(new CompactedFile(compactedFileURI,
-                            bdo.getOnDiskPath()));
-                } else
-                    leafWithDroppedFile++;
+                    compactedFilesList.add(new CompactedFile(compactedFileURI, bdo.getOnDiskPath()));
+                } else leafWithDroppedFile++;
             }
         }
         for (ArchiveUnit auChild : au.getChildrenAuList().getArchiveUnitList()) {
@@ -363,7 +379,8 @@ public class Compactor {
         return subDocument;
     }
 
-    private Document getCompactedDocumentArchiveUnit(ArchiveUnit au, RecordGrp parentRecordGrp) throws SEDALibException {
+    private Document getCompactedDocumentArchiveUnit(ArchiveUnit au, RecordGrp parentRecordGrp)
+        throws SEDALibException {
         Document document;
         String parentRecordGrpID;
         String auURI;
@@ -375,14 +392,15 @@ public class Compactor {
         auURI = parentRecordGrpID + "-" + "Document" + documentCounter;
         if (au.getTheDataObjectGroup() != null) {
             for (BinaryDataObject bdo : au.getTheDataObjectGroup().getBinaryDataObjectList()) {
-                StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+                StringType dataObjectVersion = bdo.getMetadataDataObjectVersion();
                 String radical = dataObjectVersion.getValue().split("_")[0];
                 if (documentObjectVersionFilter.contains(radical)) {
-                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + dataObjectVersion.getValue(),
-                            bdo.getOnDiskPath());
+                    compactedFileURI = getExtendedCompactedFileName(
+                        auURI + "-" + dataObjectVersion.getValue(),
+                        bdo.getOnDiskPath()
+                    );
                     document.addMetadata(new FileObject(bdo, compactedFileURI));
-                    compactedFileList.add(new CompactedFile(compactedFileURI,
-                            bdo.getOnDiskPath()));
+                    compactedFileList.add(new CompactedFile(compactedFileURI, bdo.getOnDiskPath()));
                 } else leafWithDroppedFile++;
             }
         }
@@ -399,36 +417,43 @@ public class Compactor {
     private RecordGrp addTreeNodeChild(ArchiveUnit au, RecordGrp parentRecordGrp) throws SEDALibException {
         RecordGrp curRecordGrp;
 
-        curRecordGrp = new RecordGrp("Node" + treenodeCounter,au.getContent(),au.getManagement());
-        if (parentRecordGrp == null)
-            rootRecordGrp = curRecordGrp;
+        curRecordGrp = new RecordGrp("Node" + treenodeCounter, au.getContent(), au.getManagement());
+        if (parentRecordGrp == null) rootRecordGrp = curRecordGrp;
         else parentRecordGrp.addMetadata(curRecordGrp);
-        if (!au.getDataObjectRefList().getDataObjectList().isEmpty())
-            treenodeWithDroppedFile++;
+        if (!au.getDataObjectRefList().getDataObjectList().isEmpty()) treenodeWithDroppedFile++;
         return curRecordGrp;
     }
 
-    private void recurseCompactArchiveUnit(ArchiveUnit au, RecordGrp parentRecordGrp) throws SEDALibException, InterruptedException {
-        if (dataObjectPackage.isTouchedInDataObjectPackageId(au.getInDataObjectPackageId()))
-            return;
+    private void recurseCompactArchiveUnit(ArchiveUnit au, RecordGrp parentRecordGrp)
+        throws SEDALibException, InterruptedException {
+        if (dataObjectPackage.isTouchedInDataObjectPackageId(au.getInDataObjectPackageId())) return;
         dataObjectPackage.addTouchedInDataObjectPackageId(au.getInDataObjectPackageId());
         String descriptionLevel = au.getContent().getSimpleMetadata(DESCRIPTION_LEVEL);
         if (!"Item".equals(descriptionLevel)) {
             treenodeCounter++;
             RecordGrp curRecordGrp = addTreeNodeChild(au, parentRecordGrp);
-            if ((au.getManagement() != null) || (au.getArchiveUnitProfile() != null))
-                treenodeWithDroppedNotDesciptiveMetadata++;
-            for (ArchiveUnit auChild : au.getChildrenAuList().getArchiveUnitList())
-                recurseCompactArchiveUnit(auChild, curRecordGrp);
-        } else
-            documentsList.add(getCompactedDocumentArchiveUnit(au, parentRecordGrp));
+            if (
+                (au.getManagement() != null) || (au.getArchiveUnitProfile() != null)
+            ) treenodeWithDroppedNotDesciptiveMetadata++;
+            for (ArchiveUnit auChild : au.getChildrenAuList().getArchiveUnitList()) recurseCompactArchiveUnit(
+                auChild,
+                curRecordGrp
+            );
+        } else documentsList.add(getCompactedDocumentArchiveUnit(au, parentRecordGrp));
         int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                MODULE + counter + " ArchiveUnit compactées");
+        doProgressLogIfStep(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            counter,
+            MODULE + counter + " ArchiveUnit compactées"
+        );
     }
 
-    private Path createDocumentPackArchiveFile(int packCount, List<CompactedFile> compactedFileList) throws SEDALibException {
-        Path archiveFile = Paths.get(workDirectoryName).toAbsolutePath().resolve("Document" + packCount + (deflatedFlag ? ".zip" : ".tar"));
+    private Path createDocumentPackArchiveFile(int packCount, List<CompactedFile> compactedFileList)
+        throws SEDALibException {
+        Path archiveFile = Paths.get(workDirectoryName)
+            .toAbsolutePath()
+            .resolve("Document" + packCount + (deflatedFlag ? ".zip" : ".tar"));
 
         if (deflatedFlag) {
             try (ZipOutputStream zipout = new ZipOutputStream(new FileOutputStream(archiveFile.toString()))) {
@@ -442,13 +467,20 @@ public class Compactor {
                     zipout.closeEntry();
                 }
             } catch (IOException e) {
-                throw new SEDALibException("Echec de l'export du fichier du paquet de documents ["
-                        + archiveFile + "]", e);
+                throw new SEDALibException(
+                    "Echec de l'export du fichier du paquet de documents [" + archiveFile + "]",
+                    e
+                );
             }
         } else {
-            try (TarArchiveOutputStream tarOut = new TarArchiveOutputStream(new FileOutputStream(archiveFile.toString()))) {
+            try (
+                TarArchiveOutputStream tarOut = new TarArchiveOutputStream(new FileOutputStream(archiveFile.toString()))
+            ) {
                 for (CompactedFile compactedFile : compactedFileList) {
-                    TarArchiveEntry e = new TarArchiveEntry(compactedFile.onDiskPath.toFile(), compactedFile.compactedFilename);
+                    TarArchiveEntry e = new TarArchiveEntry(
+                        compactedFile.onDiskPath.toFile(),
+                        compactedFile.compactedFilename
+                    );
                     tarOut.putArchiveEntry(e);
                     try (FileInputStream fis = new FileInputStream(compactedFile.onDiskPath.toFile())) {
                         IOUtils.copy(fis, tarOut);
@@ -456,17 +488,22 @@ public class Compactor {
                     tarOut.closeArchiveEntry();
                 }
             } catch (IOException e) {
-                throw new SEDALibException("Echec de l'export du fichier du paquet de documents ["
-                        + archiveFile + "]", e);
+                throw new SEDALibException(
+                    "Echec de l'export du fichier du paquet de documents [" + archiveFile + "]",
+                    e
+                );
             }
         }
         return archiveFile;
     }
 
-
-    private void addDocumentPackArchiveUnit(ArchiveUnit rootContainerAU, DocumentPack documentPack,
-                                            int documentCount, List<CompactedFile> compactedFileList, int packCount)
-            throws SEDALibException, InterruptedException {
+    private void addDocumentPackArchiveUnit(
+        ArchiveUnit rootContainerAU,
+        DocumentPack documentPack,
+        int documentCount,
+        List<CompactedFile> compactedFileList,
+        int packCount
+    ) throws SEDALibException, InterruptedException {
         documentPack.addNewMetadata("DocumentsCount", documentCount);
         documentPack.addNewMetadata("FileObjectsCount", compactedFileList.size());
         Path documentPackFilePath = createDocumentPackArchiveFile(packCount, compactedFileList);
@@ -477,14 +514,23 @@ public class Compactor {
         curContent.addMetadata(documentPack);
         packAu.setContent(curContent);
         DataObjectGroup dog = new DataObjectGroup(dataObjectPackage, null);
-        BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage, documentPackFilePath,
-                documentPackFilePath.getFileName().toString(), "BinaryMaster_1");
+        BinaryDataObject bdo = new BinaryDataObject(
+            dataObjectPackage,
+            documentPackFilePath,
+            documentPackFilePath.getFileName().toString(),
+            "BinaryMaster_1"
+        );
         bdo.extractTechnicalElements(null);
         dog.addDataObject(bdo);
         packAu.addDataObjectById(dog.getInDataObjectPackageId());
 
         rootContainerAU.addChildArchiveUnit(packAu);
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "  Paquet n°" + packCount + " finalisé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            "  Paquet n°" + packCount + " finalisé",
+            null
+        );
     }
 
     public ArchiveUnit doCompact() throws SEDALibException, InterruptedException {
@@ -493,7 +539,8 @@ public class Compactor {
             Files.createDirectories(exportPath);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Création du répertoire de création des conteneurs [" + exportPath + "] impossible\n->" + e.getMessage());
+                "Création du répertoire de création des conteneurs [" + exportPath + "] impossible\n->" + e.getMessage()
+            );
         }
 
         Date d = new Date();
@@ -508,8 +555,9 @@ public class Compactor {
 
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         dataObjectPackage.resetInOutCounter();
-        if (archiveUnit.getContent().getSimpleMetadata(DESCRIPTION_LEVEL).equals("Item"))
-            throw new SEDALibException("Impossible de compacter l'ArchiveUnit à la racine est un Item");
+        if (archiveUnit.getContent().getSimpleMetadata(DESCRIPTION_LEVEL).equals("Item")) throw new SEDALibException(
+            "Impossible de compacter l'ArchiveUnit à la racine est un Item"
+        );
         recurseCompactArchiveUnit(archiveUnit, null);
 
         // create container root ArchiveUnit
@@ -535,12 +583,23 @@ public class Compactor {
         for (Document doc : documentsList) {
             xmlString = doc.toString();
             metadataSize += xmlString.length() + xmlString.lines().count() * 4;
-            if (((metadataSize > packDocumentsMaxMetadataSize) && (documentCount != 0)) ||
-                    (documentCount >= packMaxDocumentNumber)) {
-                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                        MODULE + totalDocumentCount + EXPORTED_DOCUMENTS, null);
-                addDocumentPackArchiveUnit(rootContainerAU, documentPack,
-                        documentCount, compactedFileList, packCounter);
+            if (
+                ((metadataSize > packDocumentsMaxMetadataSize) && (documentCount != 0)) ||
+                (documentCount >= packMaxDocumentNumber)
+            ) {
+                doProgressLog(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    MODULE + totalDocumentCount + EXPORTED_DOCUMENTS,
+                    null
+                );
+                addDocumentPackArchiveUnit(
+                    rootContainerAU,
+                    documentPack,
+                    documentCount,
+                    compactedFileList,
+                    packCounter
+                );
                 documentPack = new DocumentPack(rootRecordGrp);
                 documentCount = 0;
                 compactedFileList.clear();
@@ -551,17 +610,28 @@ public class Compactor {
             compactedFileList.addAll(compactedFileListMap.get(doc));
             documentCount++;
             totalDocumentCount++;
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, totalDocumentCount,
-                    MODULE + totalDocumentCount + EXPORTED_DOCUMENTS);
+            doProgressLogIfStep(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                totalDocumentCount,
+                MODULE + totalDocumentCount + EXPORTED_DOCUMENTS
+            );
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                MODULE + totalDocumentCount + EXPORTED_DOCUMENTS, null);
-        addDocumentPackArchiveUnit(rootContainerAU, documentPack,
-                documentCount, compactedFileList, packCounter);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            MODULE + totalDocumentCount + EXPORTED_DOCUMENTS,
+            null
+        );
+        addDocumentPackArchiveUnit(rootContainerAU, documentPack, documentCount, compactedFileList, packCounter);
 
-        dataObjectPackage.replaceArchiveUnitBy(archiveUnit,rootContainerAU);
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
-                MODULE + "compactage d'une ArchiveUnit terminée.", null);
+        dataObjectPackage.replaceArchiveUnitBy(archiveUnit, rootContainerAU);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            MODULE + "compactage d'une ArchiveUnit terminée.",
+            null
+        );
         end = Instant.now();
         return rootContainerAU;
     }
@@ -577,20 +647,22 @@ public class Compactor {
         result += documentCounter + " documents et ";
         result += totalSubDocumentCounter + " sous-documents\n";
         result += "  dans " + packCounter + " paquets de documents\n";
-        if (treenodeWithDroppedNotDesciptiveMetadata + treenodeWithDroppedFile + leafWithDroppedFile > 0)
-            result += "  avec\n";
-        if (treenodeWithDroppedNotDesciptiveMetadata != 0)
-            result += "  - " + treenodeWithDroppedNotDesciptiveMetadata + " noeuds dans l'arbre de classement dont des métadonnées non descriptives ont été éliminées\n";
-        if (treenodeWithDroppedFile != 0)
-            result += "  - " + treenodeWithDroppedFile + " noeuds dans l'arbre de classement dont des objets ont été éliminés\n";
-        if (leafWithDroppedFile != 0)
-            result += "  - " + leafWithDroppedFile + " documents ou sous-documents dont des objets ont été éliminés\n";
-        if (droppedMetadataCounted != 0)
-            result += "  - " + droppedMetadataCounted + " metadonnées de premier rang qui ont été éliminés\n";
-        if (truncatedMetadataCounted != 0)
-            result += "  - " + truncatedMetadataCounted + " metadonnées de premier rang qui ont été tronquées\n";
-        if ((start != null) && (end != null))
-            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if (treenodeWithDroppedNotDesciptiveMetadata + treenodeWithDroppedFile + leafWithDroppedFile > 0) result +=
+        "  avec\n";
+        if (treenodeWithDroppedNotDesciptiveMetadata != 0) result +=
+        "  - " +
+        treenodeWithDroppedNotDesciptiveMetadata +
+        " noeuds dans l'arbre de classement dont des métadonnées non descriptives ont été éliminées\n";
+        if (treenodeWithDroppedFile != 0) result +=
+        "  - " + treenodeWithDroppedFile + " noeuds dans l'arbre de classement dont des objets ont été éliminés\n";
+        if (leafWithDroppedFile != 0) result +=
+        "  - " + leafWithDroppedFile + " documents ou sous-documents dont des objets ont été éliminés\n";
+        if (droppedMetadataCounted != 0) result +=
+        "  - " + droppedMetadataCounted + " metadonnées de premier rang qui ont été éliminés\n";
+        if (truncatedMetadataCounted != 0) result +=
+        "  - " + truncatedMetadataCounted + " metadonnées de premier rang qui ont été tronquées\n";
+        if ((start != null) && (end != null)) result +=
+        "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

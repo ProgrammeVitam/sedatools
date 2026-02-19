@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents;
 
@@ -87,7 +97,11 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
      *                          to close ou delete, and change label font
      * @throws SEDALibException the seda lib exception
      */
-    public SEDAObjectEditorCompositePanel(SEDAObjectEditor objectEditor, JComponent moreMenuComponent, boolean topPanelFlag) throws SEDALibException {
+    public SEDAObjectEditorCompositePanel(
+        SEDAObjectEditor objectEditor,
+        JComponent moreMenuComponent,
+        boolean topPanelFlag
+    ) throws SEDALibException {
         super(objectEditor);
         this.objectEditorPanelGridBagConstraintsHashMap = new HashMap<>();
         this.maxIndex = -1;
@@ -95,12 +109,10 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         GridBagConstraints gbc;
 
         gbl = new GridBagLayout();
-        if (topPanelFlag)
-            gbl.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-        else
-            gbl.columnWidths = new int[]{16, SEDAObjectEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0};
-        gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-        gbl.rowHeights = new int[]{20, 3};
+        if (topPanelFlag) gbl.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+        else gbl.columnWidths = new int[] { 16, SEDAObjectEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0 };
+        gbl.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+        gbl.rowHeights = new int[] { 20, 3 };
         setLayout(gbl);
 
         setScrollableWidth(ScrollablePanel.ScrollableSizeHint.FIT);
@@ -134,8 +146,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
 
         editedObjectLabel = new JLabel(objectEditor.getName() + " : ");
         editedObjectLabel.setToolTipText(objectEditor.getTag());
-        if (topPanelFlag)
-            editedObjectLabel.setFont(SEDAObjectEditor.BOLD_LABEL_FONT);
+        if (topPanelFlag) editedObjectLabel.setFont(SEDAObjectEditor.BOLD_LABEL_FONT);
         else {
             editedObjectLabel.setFont(SEDAObjectEditor.ITALIC_LABEL_FONT);
             editedObjectLabel.setForeground(SEDAObjectEditor.COMPOSITE_LABEL_COLOR);
@@ -169,8 +180,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             add(lessButton, gbc);
         }
 
-        if ((objectEditor.getFather() != null) &&
-                objectEditor.getFather().canContainsMultiple(objectEditor.getTag())) {
+        if ((objectEditor.getFather() != null) && objectEditor.getFather().canContainsMultiple(objectEditor.getTag())) {
             JButton addButton = new JButton();
             addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
             addButton.setToolTipText("Ajouter un élément de même type...");
@@ -191,9 +201,12 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             add(addButton, gbc);
         }
 
-        addMenu = new ExtensionButton(() -> {
-            return ((CompositeEditor) objectEditor).getExtensionList();
-        }, (ActionEvent arg) -> doExtend(objectEditor, arg));
+        addMenu = new ExtensionButton(
+            () -> {
+                return ((CompositeEditor) objectEditor).getExtensionList();
+            },
+            (ActionEvent arg) -> doExtend(objectEditor, arg)
+        );
         addMenu.setToolTipText("Ajouter un élément dans la liste du menu déroulant...");
         addMenu.setMargin(new Insets(0, 0, 0, 0));
         addMenu.setBorderPainted(false);
@@ -263,14 +276,16 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
                 gbc.gridx = 1;
                 gbc.gridy = i + 2;
                 gbc.gridwidth = 6;
-                oe.getSEDAObjectEditorPanel().setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-                        SEDAObjectEditor.COMPOSITE_LABEL_SEPARATOR_COLOR));
+                oe
+                    .getSEDAObjectEditorPanel()
+                    .setBorder(
+                        BorderFactory.createMatteBorder(0, 1, 0, 0, SEDAObjectEditor.COMPOSITE_LABEL_SEPARATOR_COLOR)
+                    );
                 add(oe.getSEDAObjectEditorPanel(), gbc);
                 objectEditorPanelGridBagConstraintsHashMap.put(oe.getSEDAObjectEditorPanel(), gbc);
                 continue;
             }
-            if (gbc.gridy == i + 2)
-                continue;
+            if (gbc.gridy == i + 2) continue;
             remove(oe.getSEDAObjectEditorPanel());
             gbc.gridy = i + 2;
             add(oe.getSEDAObjectEditorPanel(), gbc);
@@ -333,18 +348,17 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
                 summary.setText("Extraction de la métadonnée impossible");
             }
             summary.setCaretPosition(0);
-            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet())
-                mep.setVisible(false);
+            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet()) mep.setVisible(false);
             separator.setVisible(false);
             editedObjectLabel.setHorizontalAlignment(SwingConstants.TRAILING);
             this.validate();
         } else if (event.getStateChange() == DESELECTED) {
-            if (((CompositeEditor) objectEditor).hasSubeditorsCreatedWhenExpandedFlag())
-                ((CompositeEditor) objectEditor).createSubEditors();
+            if (
+                ((CompositeEditor) objectEditor).hasSubeditorsCreatedWhenExpandedFlag()
+            ) ((CompositeEditor) objectEditor).createSubEditors();
             summary.setVisible(false);
             addMenu.setVisible(true);
-            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet())
-                mep.setVisible(true);
+            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet()) mep.setVisible(true);
             separator.setVisible(true);
             editedObjectLabel.setHorizontalAlignment(SwingConstants.LEADING);
             this.validate();

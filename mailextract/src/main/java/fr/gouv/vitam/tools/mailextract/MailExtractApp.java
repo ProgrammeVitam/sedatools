@@ -1,28 +1,39 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.mailextract;
 
@@ -104,97 +115,141 @@ public class MailExtractApp {
         Option help = new Option("h", "help", false, "help");
         options.addOption(help);
 
-        Option type = new Option("t", "type", true,
-                "type of local container to extract (thunderbird|pst|eml|mbox|msg) or protocol for server access (imap|imaps|pop3...) [default pst]");
+        Option type = new Option(
+            "t",
+            "type",
+            true,
+            "type of local container to extract (thunderbird|pst|eml|mbox|msg) or protocol for server access (imap|imaps|pop3...) [default pst]"
+        );
         options.addOption(type);
 
-        Option user = new Option("u", "username", true,
-                "user account name (also used for destination extraction naming)");
+        Option user = new Option(
+            "u",
+            "username",
+            true,
+            "user account name (also used for destination extraction naming)"
+        );
         options.addOption(user);
 
-        Option password = new Option("p", "password", true,
-                "password");
+        Option password = new Option("p", "password", true, "password");
         options.addOption(password);
 
-        Option server = new Option("s", "server", true,
-                "mail server [HostName|IP](:port)");
+        Option server = new Option("s", "server", true, "mail server [HostName|IP](:port)");
         options.addOption(server);
 
-        Option container = new Option("c", "container", true,
-                "local container directory or file to extract");
+        Option container = new Option("c", "container", true, "local container directory or file to extract");
         options.addOption(container);
 
         Option folder = new Option("f", "folder", true, "specific mail folder to extract [default root]");
         options.addOption(folder);
 
-        Option rootpath = new Option("r", "rootpath", true,
-                "path for output directory [default current directory]");
+        Option rootpath = new Option("r", "rootpath", true, "path for output directory [default current directory]");
         options.addOption(rootpath);
 
-        Option outputname = new Option("o", "outputname", true,
-                "name for output [default no name, extraction in rootpath directly, and log file is .log]");
+        Option outputname = new Option(
+            "o",
+            "outputname",
+            true,
+            "name for output [default no name, extraction in rootpath directly, and log file is .log]"
+        );
         options.addOption(outputname);
 
-        Option dropemptyfolders = new Option("d", "dropemptyfolders [default false]", false,
-                "drop empty folders");
+        Option dropemptyfolders = new Option("d", "dropemptyfolders [default false]", false, "drop empty folders");
         options.addOption(dropemptyfolders);
 
-        Option keeponlydeep = new Option("k", "keeponlydeep [default false]", false,
-                "keep only empty folders not at root level");
+        Option keeponlydeep = new Option(
+            "k",
+            "keeponlydeep [default false]",
+            false,
+            "keep only empty folders not at root level"
+        );
         options.addOption(keeponlydeep);
 
-        Option nameslength = new Option("n", "nameslength", true,
-                "length limit for directories and files generated names [default 12]");
+        Option nameslength = new Option(
+            "n",
+            "nameslength",
+            true,
+            "length limit for directories and files generated names [default 12]"
+        );
         options.addOption(nameslength);
 
-        Option setchar = new Option("cs", "charset", true,
-                "used charset in extraction [default UTF-8]");
+        Option setchar = new Option("cs", "charset", true, "used charset in extraction [default UTF-8]");
         options.addOption(setchar);
 
-        Option extractchoices = new Option("e", "extractchoices", true,
-                "which elements are extracted with m for mails, c for contacts and a for appointment [default mca]");
+        Option extractchoices = new Option(
+            "e",
+            "extractchoices",
+            true,
+            "which elements are extracted with m for mails, c for contacts and a for appointment [default mca]"
+        );
         options.addOption(extractchoices);
 
-        Option extractmode = new Option("ml", "extractmode", true,
-                "which form of extraction with c for content and l for lists [default cl]");
+        Option extractmode = new Option(
+            "ml",
+            "extractmode",
+            true,
+            "which form of extraction with c for content and l for lists [default cl]"
+        );
         options.addOption(extractmode);
 
-        Option extracttextmetadata = new Option("tm", "extracttextmetadata", true,
-                "extract text and add to metadata with m for message and a for attachments [default nothing]");
+        Option extracttextmetadata = new Option(
+            "tm",
+            "extracttextmetadata",
+            true,
+            "extract text and add to metadata with m for message and a for attachments [default nothing]"
+        );
         options.addOption(extracttextmetadata);
 
-        Option extracttextfile = new Option("tf", "extracttextfile", true,
-                "extract text and add a text file with m for message and a for attachments [default nothing]");
+        Option extracttextfile = new Option(
+            "tf",
+            "extracttextfile",
+            true,
+            "extract text and add a text file with m for message and a for attachments [default nothing]"
+        );
         options.addOption(extracttextfile);
 
-        Option model = new Option("model", "model", true,
-                "model of metadata extraction on disk 1 or 2 (default 2)");
+        Option model = new Option("model", "model", true, "model of metadata extraction on disk 1 or 2 (default 2)");
         options.addOption(model);
 
-        Option warning = new Option("w", "warning", false,
-                "generate warning when there's a problem on a message whatever log level except OFF (otherwise log only at MESSAGE_DETAILS level) [default false]");
+        Option warning = new Option(
+            "w",
+            "warning",
+            false,
+            "generate warning when there's a problem on a message whatever log level except OFF (otherwise log only at MESSAGE_DETAILS level) [default false]"
+        );
         options.addOption(warning);
 
         Option debug = new Option("b", "debug", false, "activate debug log [default false]");
         options.addOption(debug);
 
-        Option verbatim = new Option("v", "verbatim", true,
-                "event level to log (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS) [default OFF]");
+        Option verbatim = new Option(
+            "v",
+            "verbatim",
+            true,
+            "event level to log (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS) [default OFF]"
+        );
         options.addOption(verbatim);
 
-        Option english = new Option("u", "english", true,
-                "english version GUI");
+        Option english = new Option("u", "english", true, "english version GUI");
         options.addOption(english);
 
         Option extract = new Option("x", "doextract", false, "extract all informations action");
         options.addOption(extract);
 
-        Option list = new Option("l", "dolist", false,
-                "process all informations and list folders action (no drop options)");
+        Option list = new Option(
+            "l",
+            "dolist",
+            false,
+            "process all informations and list folders action (no drop options)"
+        );
         options.addOption(list);
 
-        Option stats = new Option("z", "dostats", false,
-                "process all informations and list folders and there statistics action  (no drop options)");
+        Option stats = new Option(
+            "z",
+            "dostats",
+            false,
+            "process all informations and list folders and there statistics action  (no drop options)"
+        );
         options.addOption(stats);
 
         return options;
@@ -210,8 +265,8 @@ public class MailExtractApp {
      * @throws UnsupportedLookAndFeelException the unsupported look and feel
      *                                         exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException, UnsupportedLookAndFeelException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         // params
@@ -225,7 +280,7 @@ public class MailExtractApp {
         String charset;
         String extractChoices, extractMode, extractTextMetadata, extractTextFile;
         int model;
-        boolean warning , debug ;
+        boolean warning, debug;
         String verbatim;
         boolean english;
 
@@ -240,7 +295,8 @@ public class MailExtractApp {
                 HelpFormatter formatter = new HelpFormatter();
 
                 // Texte personnalisé pour l'introduction
-                String header = "Mail extraction application (pst|thundebird|mbox|eml|msg files and distant mail servers)\n\nOptions :";
+                String header =
+                    "Mail extraction application (pst|thundebird|mbox|eml|msg files and distant mail servers)\n\nOptions :";
 
                 // Texte personnalisé pour la conclusion
                 String footer = "\nwhen no x, l or z action is given the GUI is launched";
@@ -249,17 +305,14 @@ public class MailExtractApp {
                 formatter.printHelp("MailExtract", header, options, footer);
                 System.exit(0);
             }
-
         } catch (ParseException e) {
             System.out.println("Can't analyze options : " + e.getMessage());
             System.exit(1);
         }
 
         // get all options and arguments verifying them when possible
-        if (cmd.hasOption("type"))
-            type = noNullString(cmd.getOptionValue("type"));
-        else
-            type = "pst";
+        if (cmd.hasOption("type")) type = noNullString(cmd.getOptionValue("type"));
+        else type = "pst";
 
         user = noNullString(cmd.getOptionValue("user"));
 
@@ -268,26 +321,22 @@ public class MailExtractApp {
         String server = cmd.getOptionValue("server");
         hostname = "";
         port = -1;
-        if (server != null)
-            try {
-                if (server.indexOf(':') >= 0) {
-                    hostname = server.substring(0, server.indexOf(':'));
-                    port = Integer.parseInt(server.substring(server.indexOf(':') + 1));
-                } else
-                    hostname = server;
-            } catch (NumberFormatException e) {
-                System.out.println("Wrong server format must be <hostname[:port]>");
-                System.exit(1);
-            }
+        if (server != null) try {
+            if (server.indexOf(':') >= 0) {
+                hostname = server.substring(0, server.indexOf(':'));
+                port = Integer.parseInt(server.substring(server.indexOf(':') + 1));
+            } else hostname = server;
+        } catch (NumberFormatException e) {
+            System.out.println("Wrong server format must be <hostname[:port]>");
+            System.exit(1);
+        }
 
         container = noNullString(cmd.getOptionValue("container"));
 
         folder = noNullString(cmd.getOptionValue("folder"));
 
-        if (cmd.hasOption("rootpath"))
-            rootPath = noNullString(cmd.getOptionValue("rootpath"));
-        else
-            rootPath = System.getProperty("user.dir");
+        if (cmd.hasOption("rootpath")) rootPath = noNullString(cmd.getOptionValue("rootpath"));
+        else rootPath = System.getProperty("user.dir");
 
         outputName = noNullString(cmd.getOptionValue("outputname"));
 
@@ -308,56 +357,57 @@ public class MailExtractApp {
         if (cmd.hasOption("charset")) {
             charset = noNullString(cmd.getOptionValue("charset"));
             try {
-                if (!Charset.isSupported(charset))
-                    throw new IllegalCharsetNameException(charset);
+                if (!Charset.isSupported(charset)) throw new IllegalCharsetNameException(charset);
             } catch (IllegalCharsetNameException e) {
                 System.err.println("The specified charset '" + charset + "' is not supported.");
                 System.exit(1);
             }
-        } else
-            charset = "UTF-8";
+        } else charset = "UTF-8";
 
         if (cmd.hasOption("extractchoices")) {
             extractChoices = noNullString(cmd.getOptionValue("extractchoices"));
             if (!extractChoices.matches("^[mca]{0,3}$")) {
-                System.err.println("The 'extractchoices' argument must only contain the letters 'm', 'c', and 'a', each at most once and in any order.");
+                System.err.println(
+                    "The 'extractchoices' argument must only contain the letters 'm', 'c', and 'a', each at most once and in any order."
+                );
                 System.exit(1);
             }
-        } else
-            extractChoices = "mca";
+        } else extractChoices = "mca";
 
         if (cmd.hasOption("extractmode")) {
             extractMode = noNullString(cmd.getOptionValue("extractmode"));
             if (!extractMode.matches("^[cl]{0,2}$")) {
-                System.err.println("The 'extractmode' argument must only contain the letters 'c' and 'l', each at most once and in any order.");
+                System.err.println(
+                    "The 'extractmode' argument must only contain the letters 'c' and 'l', each at most once and in any order."
+                );
                 System.exit(1);
             }
-        } else
-            extractMode = "cl";
+        } else extractMode = "cl";
 
         if (cmd.hasOption("extracttextmetadata")) {
             extractTextMetadata = noNullString(cmd.getOptionValue("extracttextmetadata"));
             if (!extractTextMetadata.matches("^[ma]{0,2}$")) {
-                System.err.println("The 'extracttextmetadata' argument must only contain the letters 'm' and 'a', each at most once and in any order.");
+                System.err.println(
+                    "The 'extracttextmetadata' argument must only contain the letters 'm' and 'a', each at most once and in any order."
+                );
                 System.exit(1);
             }
-        } else
-            extractTextMetadata = "";
+        } else extractTextMetadata = "";
 
         if (cmd.hasOption("extracttextfile")) {
             extractTextFile = noNullString(cmd.getOptionValue("extracttextfile"));
             if (!extractTextFile.matches("^[ma]{0,2}$")) {
-                System.err.println("The 'extracttextfile' argument must only contain the letters 'm' and 'a', each at most once and in any order.");
+                System.err.println(
+                    "The 'extracttextfile' argument must only contain the letters 'm' and 'a', each at most once and in any order."
+                );
                 System.exit(1);
             }
-        } else
-            extractTextFile = "";
+        } else extractTextFile = "";
 
         model = 2;
         if (cmd.hasOption("model")) {
             try {
                 model = Integer.parseInt((String) cmd.getOptionValue("model"));
-
             } catch (NumberFormatException e) {
                 System.err.println("The model argument must be numeric");
                 System.exit(1);
@@ -378,7 +428,9 @@ public class MailExtractApp {
             try {
                 MailExtractLogger.getLevel(verbatim);
             } catch (MailExtractException iae) {
-                System.err.println("Unknown log level must be in the list (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS)");
+                System.err.println(
+                    "Unknown log level must be in the list (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS)"
+                );
                 System.exit(1);
             }
         }
@@ -387,22 +439,22 @@ public class MailExtractApp {
 
         // get store extractor options
         StoreExtractorOptions storeExtractorOptions = new StoreExtractorOptions(
-                keepFirstLevelEmptyFolders,
-                dropEmptyFolders,
-                warning,
-                namesLength,
-                charset,
-                extractChoices.contains("m"), // extract messages
-                extractChoices.contains("c"), // extract contacts
-                extractChoices.contains("a"), // extract appointments
-                extractMode.contains("c"),   // extract elements content
-                extractMode.contains("l"),   // extract elements list
-                extractTextFile.contains("m"), // extract message text file
-                extractTextMetadata.contains("m"), // extract message text metadata
-                extractTextFile.contains("a"), // extract file text file
-                extractTextMetadata.contains("a"), // extract file text metadata
-                model);
-
+            keepFirstLevelEmptyFolders,
+            dropEmptyFolders,
+            warning,
+            namesLength,
+            charset,
+            extractChoices.contains("m"), // extract messages
+            extractChoices.contains("c"), // extract contacts
+            extractChoices.contains("a"), // extract appointments
+            extractMode.contains("c"), // extract elements content
+            extractMode.contains("l"), // extract elements list
+            extractTextFile.contains("m"), // extract message text file
+            extractTextMetadata.contains("m"), // extract message text metadata
+            extractTextFile.contains("a"), // extract file text file
+            extractTextMetadata.contains("a"), // extract file text metadata
+            model
+        );
 
         // init default store extractors
         // Prevent running external tools during apache-tika text extraction (tesseract, ffmpeg...).
@@ -410,9 +462,21 @@ public class MailExtractApp {
 
         // if no do option graphic version
         if (!cmd.hasOption("l") && !cmd.hasOption("z") && !cmd.hasOption("x")) {
-            new MailExtractGraphicApp(type, user, password, hostname, port, container, folder,
-                    rootPath, outputName,
-                    storeExtractorOptions, debug, verbatim, english);
+            new MailExtractGraphicApp(
+                type,
+                user,
+                password,
+                hostname,
+                port,
+                container,
+                folder,
+                rootPath,
+                outputName,
+                storeExtractorOptions,
+                debug,
+                verbatim,
+                english
+            );
         } else {
             // specific option parsing for local type extraction
             switch (type) {
@@ -452,13 +516,21 @@ public class MailExtractApp {
             MailExtractLogger mel = null;
             MailExtractProgressLogger mepl = null;
             try {
-                mel = new MailExtractLogger(rootPath + File.separator + outputName + ".log", MailExtractLogger.getLevel(verbatim));
+                mel = new MailExtractLogger(
+                    rootPath + File.separator + outputName + ".log",
+                    MailExtractLogger.getLevel(verbatim)
+                );
                 mepl = new MailExtractProgressLogger(mel.getProgressLogger(), MailExtractLogger.getLevel(verbatim));
                 mepl.setDebugFlag(debug);
 
                 String urlString = StoreExtractor.composeStoreURL(type, server, user, password, container);
-                storeExtractor = StoreExtractor.createStoreExtractor(urlString, folder,
-                        Paths.get(rootPath, outputName).toString(), storeExtractorOptions, mepl);
+                storeExtractor = StoreExtractor.createStoreExtractor(
+                    urlString,
+                    folder,
+                    Paths.get(rootPath, outputName).toString(),
+                    storeExtractorOptions,
+                    mepl
+                );
                 if (cmd.hasOption("l") || cmd.hasOption("z")) {
                     storeExtractor.listAllFolders(cmd.hasOption("z"));
                 } else {
@@ -477,23 +549,22 @@ public class MailExtractApp {
 
     // try if possible to log in the store extractor logger all the information
     // about the fatal error
-    private final static void logFatalError(Exception e, StoreExtractor storeExtractor, MailExtractLogger logger) {
-        if (logger == null)
-            logger = MailExtractLogger.getGlobalLogger();
+    private static final void logFatalError(Exception e, StoreExtractor storeExtractor, MailExtractLogger logger) {
+        if (logger == null) logger = MailExtractLogger.getGlobalLogger();
         logger.log(GLOBAL, "Terminated with unrecoverable error");
-        if (!e.getMessage().isEmpty())
-            logger.log(GLOBAL, e.getMessage());
+        if (!e.getMessage().isEmpty()) logger.log(GLOBAL, e.getMessage());
         logger.log(GLOBAL, getPrintStackTrace(e));
-        if (storeExtractor == null
-                || storeExtractor.getElementCounter(StoreFolder.class, false) + storeExtractor.getElementCounter(StoreMessage.class, false) == 0)
-            logger.log(GLOBAL, "No writing done");
-        else
-            logger.log(GLOBAL, "Partial extraction done in " + storeExtractor.getSummary());
-
+        if (
+            storeExtractor == null ||
+            storeExtractor.getElementCounter(StoreFolder.class, false) +
+                    storeExtractor.getElementCounter(StoreMessage.class, false) ==
+                0
+        ) logger.log(GLOBAL, "No writing done");
+        else logger.log(GLOBAL, "Partial extraction done in " + storeExtractor.getSummary());
     }
 
     // make a String from the stack trace
-    private final static String getPrintStackTrace(Exception e) {
+    private static final String getPrintStackTrace(Exception e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintWriter p = new PrintWriter(baos);
 
@@ -501,5 +572,4 @@ public class MailExtractApp {
         p.close();
         return baos.toString();
     }
-
 }

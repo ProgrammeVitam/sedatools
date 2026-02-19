@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.utils;
 
@@ -49,7 +59,7 @@ public class ResipLogger {
     /**
      * The constant ERROR.
      */
-//** ProgressLog level. */
+    //** ProgressLog level. */
     public static final int ERROR = 0;
     /**
      * The constant ERROR_MARKER.
@@ -122,11 +132,12 @@ public class ResipLogger {
      * @return the app logger
      */
     public static ResipLogger getGlobalLogger() {
-        if (globalLogger == null)
-            globalLogger = new ResipLogger(LoggerFactory.getLogger(ResipApp.class.getSimpleName()), GLOBAL);
+        if (globalLogger == null) globalLogger = new ResipLogger(
+            LoggerFactory.getLogger(ResipApp.class.getSimpleName()),
+            GLOBAL
+        );
         return globalLogger;
     }
-
 
     /**
      * Instantiates a new Resip logger.
@@ -169,11 +180,13 @@ public class ResipLogger {
 
         PatternLayoutEncoder consoleEncoder = new PatternLayoutEncoder();
         consoleEncoder.setContext(logCtx);
-        consoleEncoder.setPattern("%d{HH:mm:ss.SSS} [" + ResipApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            consoleEncoder.setCharset(Charset.forName("cp850"));
-        else
-            consoleEncoder.setCharset(Charset.forName("UTF-8"));
+        consoleEncoder.setPattern(
+            "%d{HH:mm:ss.SSS} [" + ResipApp.class.getSimpleName() + "] %-5level %marker - %msg%n"
+        );
+        if (System.getProperty("os.name").toLowerCase().contains("win")) consoleEncoder.setCharset(
+            Charset.forName("cp850")
+        );
+        else consoleEncoder.setCharset(Charset.forName("UTF-8"));
         consoleEncoder.start();
 
         ConsoleAppender<ch.qos.logback.classic.spi.ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
@@ -188,7 +201,9 @@ public class ResipLogger {
         fileEncoder.setCharset(Charset.forName("UTF-8"));
         fileEncoder.start();
 
-        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<ch.qos.logback.classic.spi.ILoggingEvent>();
+        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<
+            ch.qos.logback.classic.spi.ILoggingEvent
+        >();
         logFileAppender.setContext(logCtx);
         logFileAppender.setName("logFile");
         logFileAppender.setEncoder(fileEncoder);
@@ -201,8 +216,7 @@ public class ResipLogger {
         log.addAppender(logConsoleAppender);
         log.addAppender(logFileAppender);
 
-        if (globalLogger != null)
-            globalLogger.close();
+        if (globalLogger != null) globalLogger.close();
         globalLogger = new ResipLogger(log, progressLogLevel);
     }
 
@@ -214,20 +228,13 @@ public class ResipLogger {
      * @throws ResipException the resip exception
      */
     public static int getLevel(String levelName) throws ResipException {
-        if (levelName.equals("OFF"))
-            return -1;
-        else if (levelName.equals(ERROR_MARKER.getName()))
-            return ERROR;
-        else if (levelName.equals(GLOBAL_MARKER.getName()))
-            return GLOBAL;
-        else if (levelName.equals(STEP_MARKER.getName()))
-            return STEP;
-        else if (levelName.equals(OBJECTS_GROUP_MARKER.getName()))
-            return OBJECTS_GROUP;
-        else if (levelName.equals(OBJECTS_MARKER.getName()))
-            return OBJECTS;
-        else if (levelName.equals(OBJECTS_WARNINGS_MARKER.getName()))
-            return OBJECTS_WARNINGS;
+        if (levelName.equals("OFF")) return -1;
+        else if (levelName.equals(ERROR_MARKER.getName())) return ERROR;
+        else if (levelName.equals(GLOBAL_MARKER.getName())) return GLOBAL;
+        else if (levelName.equals(STEP_MARKER.getName())) return STEP;
+        else if (levelName.equals(OBJECTS_GROUP_MARKER.getName())) return OBJECTS_GROUP;
+        else if (levelName.equals(OBJECTS_MARKER.getName())) return OBJECTS;
+        else if (levelName.equals(OBJECTS_WARNINGS_MARKER.getName())) return OBJECTS_WARNINGS;
         throw new ResipException("Niveau de log inconnu");
     }
 
@@ -261,15 +268,14 @@ public class ResipLogger {
      * @param e the exception
      * @return the messages stack string
      */
-    static public String getMessagesStackString(Throwable e) {
+    public static String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
-        if (e.getCause() instanceof Exception)
-            result += "\n" + getMessagesStackString((Exception) e.getCause());
+        if (e.getCause() instanceof Exception) result += "\n" + getMessagesStackString((Exception) e.getCause());
         return result;
     }
 
-    static private String getJavaStackString(Throwable e) {
+    private static String getJavaStackString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
@@ -282,11 +288,11 @@ public class ResipLogger {
      * @param e the exception
      * @return the all java stack string
      */
-    static public String getAllJavaStackString(Throwable e) {
+    public static String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
-        if (e.getCause() instanceof Exception)
-            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+        if (e.getCause() instanceof Exception) result +=
+        "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
         return result;
     }
 
@@ -300,8 +306,7 @@ public class ResipLogger {
     public void log(int level, String message, Throwable e) {
         if (level <= progressLogLevel) {
             if (logger != null) {
-                if (level >= GLOBAL)
-                    logger.info(getMarker(level), message);
+                if (level >= GLOBAL) logger.info(getMarker(level), message);
                 else {
                     if (e != null) {
                         message += "\n" + getMessagesStackString(e);
@@ -325,8 +330,7 @@ public class ResipLogger {
                 message += "\n" + getMessagesStackString(e);
                 message += "\n" + getAllJavaStackString(e);
                 logger.error(ERROR_MARKER, message);
-            } else
-                logger.info(message);
+            } else logger.info(message);
         }
     }
 
@@ -352,7 +356,8 @@ public class ResipLogger {
      * Close.
      */
     public void close() {
-        if (logger instanceof ch.qos.logback.classic.Logger)
-            ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
+        if (
+            logger instanceof ch.qos.logback.classic.Logger
+        ) ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
     }
 }

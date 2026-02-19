@@ -1,35 +1,45 @@
 /**
- * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@culture.gouv.fr
- * <p>
- * This software is a computer program whose purpose is to implement a digital archiving back-office system managing
- * high volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
-
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.eml;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMEmbeddedStore;
-
 import jakarta.mail.*;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -93,12 +103,11 @@ public class EmlStore extends Store implements JMEmbeddedStore {
         // verify only if not embedded
         if (objectContent == null) {
             // verify params significance in ThunderMBox context
-            if (!host.equals("localhost"))
-                throw new MessagingException("eml: only support localhost");
-            if (!((passwd == null) || (passwd.isEmpty())))
-                throw new MessagingException("eml: does not allow passwords");
-            if (port != -1)
-                throw new MessagingException("eml: does not allow port selection");
+            if (!host.equals("localhost")) throw new MessagingException("eml: only support localhost");
+            if (!((passwd == null) || (passwd.isEmpty()))) throw new MessagingException(
+                "eml: does not allow passwords"
+            );
+            if (port != -1) throw new MessagingException("eml: does not allow port selection");
 
             // verify declared file for eml availability
             try {
@@ -131,10 +140,8 @@ public class EmlStore extends Store implements JMEmbeddedStore {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if ((name == null) || (name.isEmpty()))
-            return new EmlFolder(this);
-        else
-            throw new MessagingException("eml: only one root simulated folder, no " + name + " folder");
+        if ((name == null) || (name.isEmpty())) return new EmlFolder(this);
+        else throw new MessagingException("eml: only one root simulated folder, no " + name + " folder");
     }
 
     /*
@@ -145,19 +152,15 @@ public class EmlStore extends Store implements JMEmbeddedStore {
     @Override
     public Folder getFolder(URLName url) throws MessagingException {
         // verify that the root directory in store is respected
-        if ((url.getFile() == null) || (url.getFile().isEmpty()))
-            return new EmlFolder(this);
-        else
-            throw new MessagingException("eml: only one root simulated folder, no " + url.getFile() + " folder");
+        if ((url.getFile() == null) || (url.getFile().isEmpty())) return new EmlFolder(this);
+        else throw new MessagingException("eml: only one root simulated folder, no " + url.getFile() + " folder");
     }
 
     public void setObjectContent(Object objectContent) {
-        if (objectContent instanceof byte[])
-            this.objectContent = (byte[]) objectContent;
+        if (objectContent instanceof byte[]) this.objectContent = (byte[]) objectContent;
     }
 
     public Object getObjectContent() {
         return objectContent;
     }
-
 }

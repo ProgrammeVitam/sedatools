@@ -1,29 +1,39 @@
 /**
- * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- * <p>
- * contact.vitam@programmevitam.fr
- * <p>
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
- * volumetry securely and efficiently.
- * <p>
- * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
- * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- * <p>
- * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
- * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
- * successive licensors have only limited liability.
- * <p>
- * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
- * developing or reproducing the software by the user in light of its specific status of free software, that may mean
- * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
- * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
- * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
- * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- * <p>
- * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
- * accept its terms.
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
+ *
+ * contact@programmevitam.fr
+ *
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
+ *
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
@@ -143,8 +153,10 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @param parent      the parent
      * @return the archive transfer tree node
      */
-    public DataObjectPackageTreeNode generateArchiveUnitNode(ArchiveUnit archiveUnit,
-                                                             DataObjectPackageTreeNode parent) {
+    public DataObjectPackageTreeNode generateArchiveUnitNode(
+        ArchiveUnit archiveUnit,
+        DataObjectPackageTreeNode parent
+    ) {
         DataObjectPackageTreeNode node;
         DataObjectPackageTreeNode childNode;
         int auRecursivCount = 0;
@@ -153,8 +165,10 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         node = findTreeNode(archiveUnit);
         if (node != null) {
             node.addParent(parent);
-            parent.actualiseRecursivCounts(node.getAuRecursivCount() + 1,
-                    node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
+            parent.actualiseRecursivCounts(
+                node.getAuRecursivCount() + 1,
+                node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1)
+            );
         } else {
             node = new DataObjectPackageTreeNode(this, archiveUnit, parent);
             idElementTreeNodeMap.put(archiveUnit, node);
@@ -162,17 +176,20 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
                 for (ArchiveUnit au : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
                     childNode = generateArchiveUnitNode(au, node);
                     auRecursivCount += childNode.getAuRecursivCount() + 1;
-                    ogRecursivCount += childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
+                    ogRecursivCount +=
+                    childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
                 }
             }
             node.setAuRecursivCount(auRecursivCount);
             node.setOgRecursivCount(ogRecursivCount + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
-            for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
-                generateDataObjectNode(dataObject, node);
-            if (archiveUnit.getContentXmlData() != null)
-                node.setTitle(SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData()));
-            if (node.getTitle() == null)
-                node.setTitle("Can't find Title");
+            for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList()) generateDataObjectNode(
+                dataObject,
+                node
+            );
+            if (archiveUnit.getContentXmlData() != null) node.setTitle(
+                SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData())
+            );
+            if (node.getTitle() == null) node.setTitle("Can't find Title");
         }
         return node;
     }
@@ -192,8 +209,10 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
             node.addParent(parent);
         } else {
             node = new DataObjectPackageTreeNode(this, dataObject, parent);
-            if (dataObject instanceof DataObjectPackageIdElement)
-                idElementTreeNodeMap.put((DataObjectPackageIdElement) dataObject, node);
+            if (dataObject instanceof DataObjectPackageIdElement) idElementTreeNodeMap.put(
+                (DataObjectPackageIdElement) dataObject,
+                node
+            );
         }
     }
 
@@ -213,7 +232,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         newIdElementTreeNodeMap.put(top.getArchiveUnit(), top);
 
         //remove all parents and counts
-        for (DataObjectPackageTreeNode cleanNode:idElementTreeNodeMap.values()){
+        for (DataObjectPackageTreeNode cleanNode : idElementTreeNodeMap.values()) {
             cleanNode.setParents(new ArrayList<>());
             cleanNode.setAuRecursivCount(0);
             cleanNode.setOgRecursivCount(0);
@@ -227,7 +246,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         top.setAuRecursivCount(auRecursivCount);
         top.setOgRecursivCount(ogRecursivCount);
 
-        idElementTreeNodeMap=newIdElementTreeNodeMap;
+        idElementTreeNodeMap = newIdElementTreeNodeMap;
     }
 
     /**
@@ -239,9 +258,11 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @param newIdElementTreeNodeMap the new id element tree node map
      * @return the archive transfer tree node
      */
-    public DataObjectPackageTreeNode actualiseArchiveUnitNode(ArchiveUnit archiveUnit,
-                                                              DataObjectPackageTreeNode parent,
-                                                              HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap) {
+    public DataObjectPackageTreeNode actualiseArchiveUnitNode(
+        ArchiveUnit archiveUnit,
+        DataObjectPackageTreeNode parent,
+        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap
+    ) {
         DataObjectPackageTreeNode node;
         DataObjectPackageTreeNode childNode;
         int auRecursivCount = 0;
@@ -250,8 +271,10 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         node = findTreeNode(archiveUnit);
         if (!node.getParents().isEmpty()) {
             node.addParent(parent);
-            parent.actualiseRecursivCounts(node.getAuRecursivCount() + 1,
-                    node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
+            parent.actualiseRecursivCounts(
+                node.getAuRecursivCount() + 1,
+                node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1)
+            );
         } else {
             node.addParent(parent);
             newIdElementTreeNodeMap.put(archiveUnit, node);
@@ -259,13 +282,15 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
                 for (ArchiveUnit au : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
                     childNode = actualiseArchiveUnitNode(au, node, newIdElementTreeNodeMap);
                     auRecursivCount += childNode.getAuRecursivCount() + 1;
-                    ogRecursivCount += childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
+                    ogRecursivCount +=
+                    childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
                 }
             }
             node.setAuRecursivCount(auRecursivCount);
             node.setOgRecursivCount(ogRecursivCount + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
-            for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
-                actualiseDataObjectNode(dataObject, node,newIdElementTreeNodeMap);
+            for (DataObject dataObject : archiveUnit
+                .getDataObjectRefList()
+                .getDataObjectList()) actualiseDataObjectNode(dataObject, node, newIdElementTreeNodeMap);
         }
         return node;
     }
@@ -278,8 +303,11 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @param parent                  the parent
      * @param newIdElementTreeNodeMap the new id element tree node map
      */
-    public void actualiseDataObjectNode(DataObject dataObject, DataObjectPackageTreeNode parent,
-                                        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap) {
+    public void actualiseDataObjectNode(
+        DataObject dataObject,
+        DataObjectPackageTreeNode parent,
+        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap
+    ) {
         DataObjectPackageTreeNode node;
 
         //noinspection SuspiciousMethodCalls
@@ -288,23 +316,25 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
             node.addParent(parent);
         } else {
             node.addParent(parent);
-            if (dataObject instanceof DataObjectPackageIdElement)
-                newIdElementTreeNodeMap.put((DataObjectPackageIdElement) dataObject, node);
+            if (dataObject instanceof DataObjectPackageIdElement) newIdElementTreeNodeMap.put(
+                (DataObjectPackageIdElement) dataObject,
+                node
+            );
         }
     }
 
-
-
-    private void oneStepBeyond(DataObjectPackageTreeNode node, List<DataObjectPackageTreeNode> subPath,
-                               List<DataObjectPackageTreeNode[]> allPathsList) {
+    private void oneStepBeyond(
+        DataObjectPackageTreeNode node,
+        List<DataObjectPackageTreeNode> subPath,
+        List<DataObjectPackageTreeNode[]> allPathsList
+    ) {
         subPath.add(node);
         if (node == getRoot()) {
             Collections.reverse(subPath);
             allPathsList.add(subPath.toArray(new DataObjectPackageTreeNode[0]));
             Collections.reverse(subPath);
         } else {
-            for (DataObjectPackageTreeNode parent : node.getParents())
-                oneStepBeyond(parent, subPath, allPathsList);
+            for (DataObjectPackageTreeNode parent : node.getParents()) oneStepBeyond(parent, subPath, allPathsList);
         }
         subPath.remove(node);
     }
@@ -356,8 +386,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @return the archive transfer tree node
      */
     public DataObjectPackageTreeNode findTreeNode(DataObject dataObject) {
-        if (dataObject instanceof DataObjectPackageIdElement)
-            return idElementTreeNodeMap.get(dataObject);
+        if (dataObject instanceof DataObjectPackageIdElement) return idElementTreeNodeMap.get(dataObject);
         return null;
     }
 
@@ -378,8 +407,10 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @param treeNode   the tree node
      */
     public void addIdElementTreeNode(DataObject dataObject, DataObjectPackageTreeNode treeNode) {
-        if (dataObject instanceof DataObjectPackageIdElement)
-            idElementTreeNodeMap.put((DataObjectPackageIdElement) dataObject, treeNode);
+        if (dataObject instanceof DataObjectPackageIdElement) idElementTreeNodeMap.put(
+            (DataObjectPackageIdElement) dataObject,
+            treeNode
+        );
     }
 
     /**
@@ -397,7 +428,6 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @param dataObject the data object
      */
     public void removeIdElementTreeNode(DataObject dataObject) {
-        if (dataObject instanceof DataObjectPackageIdElement)
-            idElementTreeNodeMap.remove(dataObject);
+        if (dataObject instanceof DataObjectPackageIdElement) idElementTreeNodeMap.remove(dataObject);
     }
 }

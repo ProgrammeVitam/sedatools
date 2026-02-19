@@ -1,35 +1,39 @@
 /**
- * Copyright 2010 Richard Johnson & Orin Eman
+ * Copyright French Prime minister Office/SGMAP/DINSIC/Vitam Program (2019-2022)
+ * and the signatories of the "VITAM - Accord du Contributeur" agreement.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contact@programmevitam.fr
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This software is a computer program whose purpose is to provide
+ * tools for construction and manipulation of SIP (Submission
+ * Information Package) conform to the SEDA (Standard d’Échange
+ * de données pour l’Archivage) standard.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This software is governed by the CeCILL-C license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-C
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
  *
- * ---
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
  *
- * This file is part of javalibpst.
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
- * javalibpst is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * javalibpst is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with javalibpst. If not, see <http://www.gnu.org/licenses/>.
- *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.javalibpst;
 
@@ -41,7 +45,7 @@ import java.util.HashMap;
  * It allows for an item to be read and broken down into the individual
  * properties that it consists of.
  * For most PST Objects, it appears that only 7c and bc table types are used.
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTable {
@@ -88,31 +92,32 @@ class PSTTable {
 
         this.tableTypeByte = headdata[3];
         switch (this.tableTypeByte) { // bClientSig
-        case 0x7c: // Table Context (TC/HN)
-            this.tableType = "7c";
-            break;
-        // case 0x9c:
-        // tableType = "9c";
-        // valid = true;
-        // break;
-        // case 0xa5:
-        // tableType = "a5";
-        // valid = true;
-        // break;
-        // case 0xac:
-        // tableType = "ac";
-        // valid = true;
-        // break;
-        // case 0xFFFFFFb5: // BTree-on-Heap (BTH)
-        // tableType = "b5";
-        // valid = true;
-        // break;
-        case 0xffffffbc:
-            this.tableType = "bc"; // Property Context (PC/BTH)
-            break;
-        default:
-            throw new PSTException(
-                "Unable to parse table, bad table type.  Unknown identifier: 0x" + Long.toHexString(headdata[3]));
+            case 0x7c: // Table Context (TC/HN)
+                this.tableType = "7c";
+                break;
+            // case 0x9c:
+            // tableType = "9c";
+            // valid = true;
+            // break;
+            // case 0xa5:
+            // tableType = "a5";
+            // valid = true;
+            // break;
+            // case 0xac:
+            // tableType = "ac";
+            // valid = true;
+            // break;
+            // case 0xFFFFFFb5: // BTree-on-Heap (BTH)
+            // tableType = "b5";
+            // valid = true;
+            // break;
+            case 0xffffffbc:
+                this.tableType = "bc"; // Property Context (PC/BTH)
+                break;
+            default:
+                throw new PSTException(
+                    "Unable to parse table, bad table type.  Unknown identifier: 0x" + Long.toHexString(headdata[3])
+                );
         }
 
         this.hidUserRoot = (int) in.seekAndReadLong(4, 4); // hidUserRoot
@@ -138,9 +143,9 @@ class PSTTable {
         }
 
         this.sizeOfItemKey = headerNodeInfo.in.read() & 0xFF; // Size of key in
-                                                              // key table
+        // key table
         this.sizeOfItemValue = headerNodeInfo.in.read() & 0xFF; // Size of value
-                                                                // in key table
+        // in key table
 
         this.numberOfIndexLevels = headerNodeInfo.in.read() & 0xFF;
         if (this.numberOfIndexLevels != 0) {
@@ -157,11 +162,30 @@ class PSTTable {
          * System.out.printf("Table %s: hidRoot 0x%08X\n", tableType, hidRoot);
          * /
          **/
-        this.description += "Table (" + this.tableType + ")\n" + "hidUserRoot: " + this.hidUserRoot + " - 0x"
-            + Long.toHexString(this.hidUserRoot) + "\n" + "Size Of Keys: " + this.sizeOfItemKey + " - 0x"
-            + Long.toHexString(this.sizeOfItemKey) + "\n" + "Size Of Values: " + this.sizeOfItemValue + " - 0x"
-            + Long.toHexString(this.sizeOfItemValue) + "\n" + "hidRoot: " + this.hidRoot + " - 0x"
-            + Long.toHexString(this.hidRoot) + "\n";
+        this.description +=
+        "Table (" +
+        this.tableType +
+        ")\n" +
+        "hidUserRoot: " +
+        this.hidUserRoot +
+        " - 0x" +
+        Long.toHexString(this.hidUserRoot) +
+        "\n" +
+        "Size Of Keys: " +
+        this.sizeOfItemKey +
+        " - 0x" +
+        Long.toHexString(this.sizeOfItemKey) +
+        "\n" +
+        "Size Of Values: " +
+        this.sizeOfItemValue +
+        " - 0x" +
+        Long.toHexString(this.sizeOfItemValue) +
+        "\n" +
+        "hidRoot: " +
+        this.hidRoot +
+        " - 0x" +
+        Long.toHexString(this.hidRoot) +
+        "\n";
     }
 
     protected void releaseRawData() {
@@ -178,6 +202,7 @@ class PSTTable {
     }
 
     class NodeInfo {
+
         int startOffset;
         int endOffset;
         // byte[] data;
@@ -186,7 +211,8 @@ class PSTTable {
         NodeInfo(final int start, final int end, final PSTNodeInputStream in) throws PSTException {
             if (start > end) {
                 throw new PSTException(
-                    String.format("Invalid NodeInfo parameters: start %1$d is greater than end %2$d", start, end));
+                    String.format("Invalid NodeInfo parameters: start %1$d is greater than end %2$d", start, end)
+                );
             }
             this.startOffset = start;
             this.endOffset = end;
@@ -204,7 +230,6 @@ class PSTTable {
     }
 
     protected NodeInfo getNodeInfo(final int hnid) throws PSTException, IOException {
-
         // Zero-length node?
         if (hnid == 0) {
             return new NodeInfo(0, 0, this.in);
@@ -263,5 +288,4 @@ class PSTTable {
         final NodeInfo out = new NodeInfo(start, end, this.in);
         return out;
     }
-
 }
