@@ -39,8 +39,8 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -53,12 +53,12 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 public class RecalculateDigestsThread extends SwingWorker<String, String> {
 
     // input
-    private InOutDialog inOutDialog;
+    private final InOutDialog inOutDialog;
     // run output
     private int counter;
     private Throwable exitThrowable;
     // logger
-    private SEDALibProgressLogger spl;
+    private final SEDALibProgressLogger spl;
 
     /**
      * Instantiates a new Recalculate digests thread.
@@ -68,35 +68,16 @@ public class RecalculateDigestsThread extends SwingWorker<String, String> {
     public RecalculateDigestsThread(InOutDialog dialog) {
         dialog.setThread(this);
         this.inOutDialog = dialog;
+        this.spl = new ThreadLoggerFactory(
+            inOutDialog.extProgressTextArea,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        ).getLogger();
     }
 
     @Override
     public String doInBackground() {
-        spl = null;
         counter = 0;
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
-
             String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
             doProgressLog(spl, GLOBAL, "Recalcul des empreintes avec l'algorithme: " + algorithm, null);
 
@@ -109,7 +90,7 @@ public class RecalculateDigestsThread extends SwingWorker<String, String> {
                 counter++;
                 doProgressLogIfStep(spl, OBJECTS_GROUP, counter, counter + " empreintes recalculées");
             }
-        } catch (Throwable e) {
+        } catch (InterruptedException | SEDALibException e) {
             exitThrowable = e;
             return "KO";
         }
