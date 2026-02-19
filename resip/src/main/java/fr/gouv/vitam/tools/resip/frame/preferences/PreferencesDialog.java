@@ -51,6 +51,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -130,6 +131,7 @@ public class PreferencesDialog extends JDialog {
     private final JRadioButton structuredInterfaceRadioButton;
     private final JCheckBox debugModeCheckBox;
     private final JCheckBox experimentalModeCheckBox;
+    private final JComboBox<String> digestAlgorithmComboBox;
 
     private final JFrame owner;
 
@@ -222,7 +224,8 @@ public class PreferencesDialog extends JDialog {
      *
      * @param args the input arguments
      * @throws ClassNotFoundException          the class not found exception
-     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel
+     *                                         exception
      * @throws InstantiationException          the instantiation exception
      * @throws IllegalAccessException          the illegal access exception
      * @throws NoSuchMethodException           the no such method exception
@@ -232,9 +235,9 @@ public class PreferencesDialog extends JDialog {
      */
     public static void main(String[] args)
         throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
-        ResipGraphicApp rga = new ResipGraphicApp(null); //NOSONAR used for debug run
+        ResipGraphicApp rga = new ResipGraphicApp(null); // NOSONAR used for debug run
         Thread.sleep(1000);
-        TestDialogWindow window = new TestDialogWindow(PreferencesDialog.class); //NOSONAR used for debug run
+        TestDialogWindow window = new TestDialogWindow(PreferencesDialog.class); // NOSONAR used for debug run
     }
 
     /**
@@ -1411,6 +1414,26 @@ public class PreferencesDialog extends JDialog {
         gbc.gridy = 5;
         treatmentParametersPanel.add(sedaVersionSelector, gbc);
 
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(sedaVersionSelector, gbc);
+
+        JLabel digestAlgorithmLabel = new JLabel("Algorithme de hachage par défaut:");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        treatmentParametersPanel.add(digestAlgorithmLabel, gbc);
+
+        digestAlgorithmComboBox = new JComboBox<>(DigestComputer.ALGORITHMS.toArray(new String[0]));
+        digestAlgorithmComboBox.setSelectedItem(tp.getDigestAlgorithm());
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        treatmentParametersPanel.add(digestAlgorithmComboBox, gbc);
+
         JLabel interfaceLabel = new JLabel("Interface");
         interfaceLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -1420,7 +1443,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         treatmentParametersPanel.add(interfaceLabel, gbc);
 
         JLabel interfaceTypeLabel = new JLabel("Interface par défaut:");
@@ -1428,7 +1451,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         treatmentParametersPanel.add(interfaceTypeLabel, gbc);
 
         structuredInterfaceRadioButton = new JRadioButton("Structurée");
@@ -1436,7 +1459,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         treatmentParametersPanel.add(structuredInterfaceRadioButton, gbc);
 
         JRadioButton classicInterfaceRadioButton = new JRadioButton("XML-expert");
@@ -1444,7 +1467,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         treatmentParametersPanel.add(classicInterfaceRadioButton, gbc);
 
         ButtonGroup interfaceTypeButtonGroup = new ButtonGroup();
@@ -1459,7 +1482,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         treatmentParametersPanel.add(debugModeLabel, gbc);
 
         debugModeCheckBox = new JCheckBox("debug");
@@ -1468,7 +1491,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         treatmentParametersPanel.add(debugModeCheckBox, gbc);
 
         experimentalModeCheckBox = new JCheckBox("experimental");
@@ -1477,7 +1500,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         treatmentParametersPanel.add(experimentalModeCheckBox, gbc);
 
         // Buttons
@@ -1741,6 +1764,7 @@ public class PreferencesDialog extends JDialog {
             return false;
         }
         tp.setDupMax(tmp);
+        tp.setDigestAlgorithm((String) digestAlgorithmComboBox.getSelectedItem());
 
         SedaVersion selectedVersion = sedaVersionSelector.getSelectedVersion();
 

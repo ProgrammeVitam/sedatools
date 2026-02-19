@@ -101,33 +101,16 @@ public class SeeManifestThread extends SwingWorker<String, String> {
         this.manifestWindow = manifestWindow;
         this.work = work;
         this.inOutDialog = inOutDialog;
+        this.spl = new ThreadLoggerFactory(
+            inOutDialog.extProgressTextArea,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        ).getLogger();
     }
 
     @Override
     public String doInBackground() {
         ArchiveTransfer archiveTransfer = new ArchiveTransfer();
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             work

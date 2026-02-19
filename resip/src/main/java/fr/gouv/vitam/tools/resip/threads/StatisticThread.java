@@ -40,7 +40,6 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
@@ -76,6 +75,10 @@ public class StatisticThread extends SwingWorker<String, String> {
      */
     public StatisticThread(StatisticWindow statisticWindow) {
         this.statisticWindow = statisticWindow;
+        this.spl = new ThreadLoggerFactory(
+            null,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        ).getLogger();
     }
 
     private String findCategory(String formatId, LinkedHashMap<String, List<String>> formatByCatgeoryMap) {
@@ -88,23 +91,6 @@ public class StatisticThread extends SwingWorker<String, String> {
     @Override
     public String doInBackground() {
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                null,
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
