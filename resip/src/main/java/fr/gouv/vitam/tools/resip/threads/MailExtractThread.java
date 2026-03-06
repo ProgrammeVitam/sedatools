@@ -89,6 +89,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
     private int fileCounter;
     // logger
     private SEDALibProgressLogger spl;
+    private final ThreadLoggerFactory threadLoggerFactory;
 
     /**
      * MailExtract a binary data object replacing it by the archive unit hierarchy, in a dedicated thread.
@@ -142,6 +143,11 @@ public class MailExtractThread extends SwingWorker<String, String> {
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
+        this.threadLoggerFactory = new ThreadLoggerFactory(
+            inOutDialog.extProgressTextArea,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        );
+        this.spl = threadLoggerFactory.getLogger();
         dialog.setThread(this);
     }
 
@@ -194,32 +200,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
             }
         }
         ResipGraphicApp.getTheApp().addThreadRunning = true;
-        spl = null;
         try {
-            int localLogLevel;
-            int localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
-            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-
             doProgressLog(
                 spl,
                 GLOBAL,
@@ -233,13 +214,13 @@ public class MailExtractThread extends SwingWorker<String, String> {
 
             MailExtractProgressLogger mepl = new MailExtractProgressLogger(
                 ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
+                threadLoggerFactory.getLogLevel(),
                 (count, log) -> {
                     String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
                 },
-                localLogStep,
+                threadLoggerFactory.localLogStep(),
                 2,
                 MailExtractProgressLogger.MESSAGE_GROUP,
                 1000

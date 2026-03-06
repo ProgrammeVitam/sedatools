@@ -74,14 +74,16 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 /**
  * The Class CompressedFileToArchiveTransferImporter.
  * <p>
- * Class for compressed file (zip, tar...) import in ArchiveTransfer object, similar to disk hierarchy import.
+ * Class for compressed file (zip, tar...) import in ArchiveTransfer object,
+ * similar to disk hierarchy import.
  * <p>
  * Known compression format are zip, tar, tar.gz, bzip
  */
 public class CompressedFileToArchiveTransferImporter {
 
     /**
-     * Wrap org.apache.commons.compress SevenZFile to have same ArchiveInputStream behavior
+     * Wrap org.apache.commons.compress SevenZFile to have same ArchiveInputStream
+     * behavior
      */
     private static class SevenZWrapper extends ArchiveInputStream {
 
@@ -183,6 +185,11 @@ public class CompressedFileToArchiveTransferImporter {
     private final SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
+     * The digest algorithm.
+     */
+    private String digestAlgorithm;
+
+    /**
      * The constant ZIP.
      */
     public static final String ZIP = "x-fmt/263";
@@ -260,7 +267,7 @@ public class CompressedFileToArchiveTransferImporter {
                 try {
                     fis.close();
                 } catch (IOException ex) {
-                    //ignore
+                    // ignore
                 }
             }
             throw new SEDALibException("Impossible d'ouvrir le fichier compressé [" + onDiskPath.toString() + "]", e);
@@ -323,11 +330,15 @@ public class CompressedFileToArchiveTransferImporter {
      * Instantiates a new compressed file importer.
      *
      * @param compressedFile                   the compressed file
-     * @param unCompressDirectory              the directory where the compressedfile is uncompressed
-     * @param encoding                         the filename encoding charset, if null will be determine considering
+     * @param unCompressDirectory              the directory where the
+     *                                         compressedfile is uncompressed
+     * @param encoding                         the filename encoding charset, if
+     *                                         null will be determine considering
      *                                         the compressed file format
-     * @param extractTitleFromFileNameFunction the extract title from file name function
-     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @param extractTitleFromFileNameFunction the extract title from file name
+     *                                         function
+     * @param sedaLibProgressLogger            the progress logger or null if no
+     *                                         progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
     public CompressedFileToArchiveTransferImporter(
@@ -369,6 +380,7 @@ public class CompressedFileToArchiveTransferImporter {
         ) throw new SEDALibException(
             "Le chemin [" + unCompressDirectory + "] pointant le répertoire d'extraction ne désigne pas un répertoire"
         );
+        this.digestAlgorithm = "SHA-512";
     }
 
     /**
@@ -403,8 +415,9 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * Do import the compressed file to ArchiveTransfer.
      *
-     * @throws SEDALibException     if the XML manifest can't be read or is not in expected
-     * form, or compressed file can't be uncompressed
+     * @throws SEDALibException     if the XML manifest can't be read or is not in
+     *                              expected
+     *                              form, or compressed file can't be uncompressed
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
@@ -458,6 +471,7 @@ public class CompressedFileToArchiveTransferImporter {
         for (String patternString : ignorePatternStrings) diskToDataObjectPackageImporter.addIgnorePattern(
             patternString
         );
+        diskToDataObjectPackageImporter.setDigestAlgorithm(digestAlgorithm);
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
@@ -468,6 +482,15 @@ public class CompressedFileToArchiveTransferImporter {
             "sedalib: import d'un ArchiveTransfer depuis un fichier compressé sur disque terminé",
             null
         );
+    }
+
+    /**
+     * Sets the digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
     }
 
     /**

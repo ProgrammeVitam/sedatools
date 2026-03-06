@@ -43,46 +43,64 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Utility class for computing file digests using optimized methods.
  */
-public class DigestSha512 {
-
-    private static final String SHA512_ALGORITHM = "SHA-512";
-
-    // Private constructor to hide the implicit public one
-    private DigestSha512() {}
+public class DigestComputer {
 
     /**
-     * compute SHA-512 digest for a file.
+     * The constant ALGORITHMS.
+     */
+    public static final List<String> ALGORITHMS = Arrays.asList(
+        "SHA-512",
+        "SHA-384",
+        "SHA-256",
+        "SHA-1",
+        "SHA3-512",
+        "SHA3-384",
+        "SHA3-256",
+        "SHA3-224",
+        "MD5",
+        "MD2"
+    );
+
+    // Private constructor to hide the implicit public one
+    private DigestComputer() {}
+
+    /**
+     * Compute digest for a file with a specific algorithm.
      * Automatically switches between standard IO and parallel prefetching based on
      * file size.
      *
-     * @param path   the file path
-     * @param logger the logger (can be null)
+     * @param path      the file path
+     * @param algorithm the hash algorithm (e.g., "SHA-512", "SHA-256")
+     * @param logger    the logger (can be null)
      * @return the hex string of the digest
      * @throws SEDALibException if an error occurs
      */
-    public static String compute(Path path, SEDALibProgressLogger logger) throws SEDALibException {
+    public static String compute(Path path, String algorithm, SEDALibProgressLogger logger) throws SEDALibException {
         try {
-            MessageDigest digest = MessageDigest.getInstance(SHA512_ALGORITHM);
+            MessageDigest digest = MessageDigest.getInstance(algorithm);
             byte[] hash = new NioDigestComputer().compute(digest, path, logger);
             return bytesToHex(hash);
         } catch (NoSuchAlgorithmException e) {
-            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage " + SHA512_ALGORITHM, e);
+            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage " + algorithm, e);
         }
     }
 
     /**
-     * compute SHA-512 digest for a file (no logger).
+     * Compute digest for a file with a specific algorithm (no logger).
      *
-     * @param path the file path
+     * @param path      the file path
+     * @param algorithm the hash algorithm
      * @return the hex string of the digest
      * @throws SEDALibException if an error occurs
      */
-    public static String compute(Path path) throws SEDALibException {
-        return compute(path, null);
+    public static String compute(Path path, String algorithm) throws SEDALibException {
+        return compute(path, algorithm, null);
     }
 
     private static String bytesToHex(byte[] bytes) {

@@ -63,7 +63,7 @@ public class DataObjectGroupEditor extends CompositeEditor {
      * Instantiates a new DataObjectGroup editor.
      *
      * @param editedObject the DataObjectGroup editedObject
-     * @param father   the father
+     * @param father       the father
      */
     public DataObjectGroupEditor(DataObjectGroup editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
@@ -80,15 +80,25 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        return (
+        String name =
             translateTag("DataObjectGroup") +
             " - " +
             (editedObject == null
                     ? translateTag("Unknown")
                     : (getDataObjectGroupMetadata().getInDataObjectPackageId() == null
                             ? "Tbd"
-                            : getDataObjectGroupMetadata().getInDataObjectPackageId()))
-        );
+                            : getDataObjectGroupMetadata().getInDataObjectPackageId()));
+        if (editedObject != null) {
+            String algorithm = null;
+            for (BinaryDataObject bdo : getDataObjectGroupMetadata().getBinaryDataObjectList()) {
+                if (bdo.getMetadataMessageDigest() != null && bdo.getMetadataMessageDigest().getAlgorithm() != null) {
+                    algorithm = bdo.getMetadataMessageDigest().getAlgorithm();
+                    break;
+                }
+            }
+            if (algorithm != null) name += " (" + algorithm + ")";
+        }
+        return name;
     }
 
     private void removeDataObject(DataObject dataObject) {

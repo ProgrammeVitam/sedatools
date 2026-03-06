@@ -38,75 +38,61 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
 /**
- * The type Check profile thread.
+ * The type Recalculate digests thread.
  */
-public class CheckProfileThread extends SwingWorker<String, String> {
+public class RecalculateDigestsThread extends SwingWorker<String, String> {
 
-    //input
-    private String profileFileName;
-    private InOutDialog inOutDialog;
-    //run output
+    // input
+    private final InOutDialog inOutDialog;
+    // run output
+    private int counter;
     private Throwable exitThrowable;
     // logger
-    private SEDALibProgressLogger spl;
+    private final SEDALibProgressLogger spl;
 
     /**
-     * Instantiates a new Check profile thread.
+     * Instantiates a new Recalculate digests thread.
      *
-     * @param profileFileName the profile file name
-     * @param dialog          the dialog
+     * @param dialog the dialog
      */
-    public CheckProfileThread(String profileFileName, InOutDialog dialog) {
-        this.profileFileName = profileFileName;
+    public RecalculateDigestsThread(InOutDialog dialog) {
+        dialog.setThread(this);
         this.inOutDialog = dialog;
-        this.exitThrowable = null;
         this.spl = new ThreadLoggerFactory(
             inOutDialog.extProgressTextArea,
             ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
         ).getLogger();
-        dialog.setThread(this);
     }
 
     @Override
     public String doInBackground() {
-        Work work = ResipGraphicApp.getTheApp().currentWork;
+        counter = 0;
         try {
-            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
+            String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
+            doProgressLog(spl, GLOBAL, "Recalcul des empreintes avec l'algorithme: " + algorithm, null);
 
-            if (work == null) throw new ResipException("Pas de contenu à valider");
-
-            // first verify and reindex if neccesary
-            if (work.getExportContext().isReindex()) {
-                work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
+            for (BinaryDataObject bdo : ResipGraphicApp.getTheApp()
+                .currentWork.getDataObjectPackage()
+                .getBdoInDataObjectPackageIdMap()
+                .values()) {
+                if (isCancelled()) break;
+                bdo.extractTechnicalElements(algorithm, spl);
+                counter++;
+                doProgressLogIfStep(spl, OBJECTS_GROUP, counter, counter + " empreintes recalculées");
             }
-
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
-            work
-                .getDataObjectPackage()
-                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-
-            if (profileFileName == null) {
-                archiveTransfer.sedaSchemaValidate(spl);
-            } else {
-                archiveTransfer.sedaProfileValidate(profileFileName, spl);
-            }
-        } catch (Throwable e) { //NOSONAR
+        } catch (InterruptedException | SEDALibException e) {
             exitThrowable = e;
+            return "KO";
         }
         return "OK";
     }
@@ -115,13 +101,21 @@ public class CheckProfileThread extends SwingWorker<String, String> {
     protected void done() {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "Recalcul des empreintes annulé", null);
         else if (exitThrowable != null) doProgressLogWithoutInterruption(
             spl,
             GLOBAL,
-            "resip: erreur durant la validation",
+            "Erreur durant le recalcul des empreintes",
             exitThrowable
         );
-        else doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
+        else {
+            doProgressLogWithoutInterruption(
+                spl,
+                GLOBAL,
+                "Recalcul des empreintes terminé: " + counter + " empreintes traitées",
+                null
+            );
+            ResipGraphicApp.mainWindow.treePane.allTreeChanged();
+        }
     }
 }

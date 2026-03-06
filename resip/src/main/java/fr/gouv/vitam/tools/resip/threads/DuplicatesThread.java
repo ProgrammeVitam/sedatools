@@ -39,7 +39,6 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
@@ -102,6 +101,10 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         this.binaryHash = binaryHash;
         this.binaryFilename = binaryFilename;
         this.physicalAllMD = physicalAllMD;
+        this.spl = new ThreadLoggerFactory(
+            null,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        ).getLogger();
     }
 
     /**
@@ -152,23 +155,6 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         String tmp;
         int counter = 0;
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                null,
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 

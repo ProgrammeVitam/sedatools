@@ -42,7 +42,6 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.VerifyDateDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.joda.time.format.ISODateTimeFormat;
@@ -74,7 +73,10 @@ public class CheckEndDateThread extends SwingWorker<String, InOutDialog> {
         //input
         this.verifyDateDialog = dialog;
         this.exitThrowable = null;
-        this.spl = null;
+        this.spl = new ThreadLoggerFactory(
+            dialog.getExtProgressTextArea(),
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()
+        ).getLogger();
     }
 
     @Override
@@ -83,27 +85,6 @@ public class CheckEndDateThread extends SwingWorker<String, InOutDialog> {
         verifyDateDialog.getExtProgressTextArea().setText("");
         Work work = ResipGraphicApp.getTheApp().currentWork;
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = verifyDateDialog.getExtProgressTextArea().getText() + "\n" + log;
-                    verifyDateDialog.getExtProgressTextArea().setText(newLog);
-                    verifyDateDialog.getExtProgressTextArea().setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             if (work == null) throw new ResipException("Pas de contenu à valider");
