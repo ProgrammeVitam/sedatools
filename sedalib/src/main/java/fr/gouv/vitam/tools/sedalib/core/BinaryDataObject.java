@@ -370,6 +370,29 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
 
     // SEDA XML exporter
 
+    /**
+     * The length of the "content" package directory name.
+     */
+    private static final int CONTENT_PREFIX_LENGTH = 7;
+
+    /**
+     * Normalizes the package directory of an Uri declared in a manifest.
+     * <p>
+     * A manifest may name the binary directory in any case, "Content/ID13.txt" as well as
+     * "content/ID13.txt", and the SIP and DIP importers extract all of them into a lowercase
+     * "content" directory. The on disk path built from the Uri has to be normalized the same way,
+     * otherwise it points at a directory that doesn't exist on a case sensitive file system and the
+     * binary is unreachable while its metadata is there.
+     *
+     * @param uri the uri as declared in the manifest
+     * @return the uri with a lowercase content package directory
+     */
+    public static String normalizePackageUri(String uri) {
+        if (uri == null) return null;
+        if (uri.toLowerCase().startsWith("content")) return "content" + uri.substring(CONTENT_PREFIX_LENGTH);
+        return uri;
+    }
+
     private void finalizeUri() throws SEDALibException {
         FileInfo fileInfo = getMetadataFileInfo();
         String tmpUri = "content/" + inDataPackageObjectId;

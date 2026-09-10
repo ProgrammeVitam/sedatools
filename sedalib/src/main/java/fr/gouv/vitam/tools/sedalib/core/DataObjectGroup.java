@@ -291,7 +291,9 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                                 SedaContext.getVersion()
                             );
                             StringType bdoUri = (StringType) bdo.getFirstNamedMetadata("Uri");
-                            bdo.setOnDiskPathFromString(rootDir + File.separator + bdoUri.getValue());
+                            bdo.setOnDiskPathFromString(
+                                rootDir + File.separator + BinaryDataObject.normalizePackageUri(bdoUri.getValue())
+                            );
                             dog.addDataObject(bdo);
                             break;
                         case "PhysicalDataObject":
