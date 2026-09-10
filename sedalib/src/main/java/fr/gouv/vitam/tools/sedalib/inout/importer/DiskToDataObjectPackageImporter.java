@@ -203,6 +203,20 @@ public class DiskToDataObjectPackageImporter {
     private int inCounter;
 
     /**
+     * The number of files skipped because they match one of the ignore patterns.
+     */
+    private int ignoredFileCount;
+
+    /**
+     * Gets the number of files skipped because they match one of the ignore patterns.
+     *
+     * @return the ignored file count
+     */
+    public int getIgnoredFileCount() {
+        return ignoredFileCount;
+    }
+
+    /**
      * The start and end instants, for duration computation.
      */
     private Instant start, end;
@@ -245,6 +259,7 @@ public class DiskToDataObjectPackageImporter {
         else this.extractTitleFromFileNameFunction = simpleCopy;
 
         this.inCounter = 0;
+        this.ignoredFileCount = 0;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
@@ -698,6 +713,15 @@ public class DiskToDataObjectPackageImporter {
                 fileName = curPath.getFileName().toString();
 
                 if (!Files.isDirectory(curPath) && mustBeIgnored(fileName)) {
+                    // an ignored file used to disappear without a word, so a package silently missing
+                    // binaries gave the user nothing to go on
+                    ignoredFileCount++;
+                    doProgressLog(
+                        sedaLibProgressLogger,
+                        SEDALibProgressLogger.OBJECTS,
+                        "sedalib: fichier [" + curPathString + "] ignoré, il correspond à un motif d'exclusion",
+                        null
+                    );
                     continue;
                 } else if (analyzeLink(curPath)) {
                     if (noLinkFlag) continue;

@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -57,6 +58,7 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
@@ -83,6 +85,11 @@ public class SIPToArchiveTransferImporter {
      * The archive transfer.
      */
     private ArchiveTransfer archiveTransfer;
+
+    /**
+     * The number of BinaryDataObjects of the manifest whose file was not in the package.
+     */
+    private int unreadableBinaryDataObjectCount;
 
     /**
      * The end.
@@ -121,9 +128,9 @@ public class SIPToArchiveTransferImporter {
             ArchiveEntry ze;
             while ((ze = zais.getNextEntry()) != null) {
                 String fileName = ze.getName().trim();
-                // change any case ConTenT to lowercase content on import as in fromSEDA in
-                // BinaryDataObject
-                if (fileName.toLowerCase().startsWith("content")) fileName = "content" + fileName.substring(7);
+                // change any case ConTenT to lowercase content on import, the on disk path built
+                // from the manifest Uri is normalized the same way
+                fileName = BinaryDataObject.normalizePackageUri(fileName);
 
                 Path newPath = Paths.get(outputFolder + File.separator + fileName);
 
@@ -244,8 +251,38 @@ public class SIPToArchiveTransferImporter {
             throw new SEDALibException("Impossible d'importer le fichier [" + manifest + "] comme manifest du SIP", e);
         }
 
+        logUnreadableBinaryDataObjects();
+
         end = Instant.now();
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import du SIP terminé", null);
+    }
+
+    /**
+     * Warns about the BinaryDataObjects of the manifest whose file is not in the package.
+     * <p>
+     * The on disk path of a BinaryDataObject is built from the Uri declared in the manifest, without
+     * checking that the file was really there. An incomplete SIP is thus imported without a word, and
+     * the missing binaries are only discovered much later, when the export fails on them. Saying it at
+     * import time is what lets the discrepancy be traced back to the source package.
+     */
+    private void logUnreadableBinaryDataObjects() throws InterruptedException {
+        List<String> problems = archiveTransfer.getDataObjectPackage().getUnreadableBinaryDataObjectDescriptions();
+        if (problems.isEmpty()) return;
+
+        unreadableBinaryDataObjectCount = problems.size();
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: attention, " +
+            problems.size() +
+            " fichier(s) binaire(s) déclaré(s) dans le manifest sont absents du SIP [" +
+            zipFile +
+            "], les métadonnées sont importées mais l'export échouera tant qu'ils manqueront",
+            null
+        );
+        for (String problem : problems) {
+            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: " + problem, null);
+        }
     }
 
     /**
@@ -266,6 +303,10 @@ public class SIPToArchiveTransferImporter {
         String result;
 
         result = archiveTransfer.getDescription() + "\n";
+        if (unreadableBinaryDataObjectCount > 0) result +=
+        "attention, " +
+        unreadableBinaryDataObjectCount +
+        " fichier(s) binaire(s) déclaré(s) dans le manifest sont absents du SIP, voir le journal\n";
         if (start != null) result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }

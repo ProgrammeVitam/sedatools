@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -122,9 +123,9 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
             ArchiveEntry ze;
             while ((ze = zais.getNextEntry()) != null) {
                 String fileName = ze.getName().trim();
-                // change any case ConTenT to lowercase content on import as in fromSEDA in
-                // BinaryDataObject
-                if (fileName.toLowerCase().startsWith("content")) fileName = "content" + fileName.substring(7);
+                // change any case ConTenT to lowercase content on import, the on disk path built
+                // from the manifest Uri is normalized the same way
+                fileName = BinaryDataObject.normalizePackageUri(fileName);
 
                 Path newPath = Paths.get(outputFolder + File.separator + fileName);
 
