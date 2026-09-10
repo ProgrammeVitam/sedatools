@@ -321,7 +321,7 @@ public class SEDALibProgressLogger {
     }
 
     /**
-     * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
+     * Do progress log, and log with exception detail if any, and check for interruption
      *
      * @param spl   the SEDALib progress logger
      * @param level the level
@@ -333,8 +333,22 @@ public class SEDALibProgressLogger {
         throws InterruptedException {
         if (spl != null) {
             doProgressLogWithoutInterruption(spl, level, log, e);
-            Thread.sleep(1);
+            checkInterruption();
         }
+    }
+
+    /**
+     * Check if the current thread has been interrupted, and if so throw the interruption.
+     * <p>
+     * This is the interruption point offered to the callers of the progress log methods. It has to
+     * stay allocation and syscall free, as it's called once per imported object (per unzipped file,
+     * per DataObjectGroup, per BinaryDataObject, per ArchiveUnit...), even when the message is
+     * filtered out by the log level and displayed nowhere.
+     *
+     * @throws InterruptedException if the current thread has been interrupted
+     */
+    private static void checkInterruption() throws InterruptedException {
+        if (Thread.interrupted()) throw new InterruptedException();
     }
 
     /**
@@ -356,7 +370,7 @@ public class SEDALibProgressLogger {
                         (spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)
                     ) spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
                     spl.log(level, log);
-                    Thread.sleep(1);
+                    checkInterruption();
                     spl.previousStepEpochSeconds = nowEpochSeconds;
                     return;
                 }
@@ -365,7 +379,7 @@ public class SEDALibProgressLogger {
                 }
                 if ((spl.progressLogFunc != null) && (count % spl.progressFuncStep) == 0) {
                     spl.progressLogFunc.doProgressLog(count, log);
-                    Thread.sleep(1);
+                    checkInterruption();
                 }
             }
         }
