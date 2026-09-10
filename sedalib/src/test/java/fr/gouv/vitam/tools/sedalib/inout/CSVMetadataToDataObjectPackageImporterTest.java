@@ -55,15 +55,47 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(SedaContextExtension.class)
 class CSVMetadataToDataObjectPackageImporterTest {
+
+    /**
+     * Non regression on the csv round trip: an UTF-8 csv is now exported with a BOM, so that Excel on
+     * Windows doesn't show the accented characters as mojibake. That BOM has to be dropped on reading,
+     * as it would otherwise stay in the first header cell and make the first column unrecognized.
+     */
+    @Test
+    void importOKCSVStartingWithByteOrderMark() throws SEDALibException, InterruptedException, IOException {
+        // Given a csv identical to the reference one, but UTF-8 encoded and starting with a BOM
+        Path bomCsv = Paths.get("target/tmpJunit/CSVMetadataImporterBOM/MetadataTestOK1col.csv");
+        Files.createDirectories(bomCsv.getParent());
+        String content = new String(
+            Files.readAllBytes(Paths.get("src/test/resources/PacketSamples/MetadataTestOK1col.csv")),
+            Charset.forName("windows-1252")
+        );
+        Files.write(bomCsv, ("\uFEFF" + content).getBytes(StandardCharsets.UTF_8));
+
+        // When loaded
+        CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            bomCsv.toString(),
+            "UTF-8",
+            ';',
+            null
+        );
+        cmi.doImport();
+
+        // Then the header line has been understood and the archive units are there
+        assertThat(cmi.getDataObjectPackage().getArchiveUnitById("ID10")).isNotNull();
+        assertThat(cmi.getDataObjectPackage().getArchiveUnitById("ID17")).isNotNull();
+    }
 
     @Test
     void importOKCSV1column() throws SEDALibException, InterruptedException, JsonProcessingException {

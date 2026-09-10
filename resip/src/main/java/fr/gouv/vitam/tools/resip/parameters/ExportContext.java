@@ -81,6 +81,9 @@ public class ExportContext {
     /** The csv extended format flag. */
     private boolean csvExtendedFormat;
 
+    /** The csv export charset name. */
+    private String csvCharsetName;
+
     /** The ManagementMetadata. */
     private String managementMetadataXmlData;
 
@@ -106,6 +109,7 @@ public class ExportContext {
         this.usageVersionSelectionMode = LAST_DATAOBJECT;
         this.maxNameSize = 32;
         this.csvExtendedFormat = true;
+        this.csvCharsetName = getDefaultCsvCharsetName();
         this.globalMetadata = new GlobalMetadata();
         this.managementMetadataXmlData = null;
         this.onDiskOutput = null;
@@ -146,6 +150,7 @@ public class ExportContext {
         this.usageVersionSelectionMode = usageVersionSelectionMode;
         this.maxNameSize = maxNameSize;
         this.csvExtendedFormat = csvExtendedFormat;
+        this.csvCharsetName = getDefaultCsvCharsetName();
         this.globalMetadata = globalMetadata;
         this.managementMetadataXmlData = managementMetadataXmlData;
         this.setOnDiskOutput(onDiskOutput);
@@ -173,6 +178,7 @@ public class ExportContext {
             this.usageVersionSelectionMode = sec.usageVersionSelectionMode;
             this.maxNameSize = sec.maxNameSize;
             this.csvExtendedFormat = sec.csvExtendedFormat;
+            this.csvCharsetName = (sec.csvCharsetName == null ? getDefaultCsvCharsetName() : sec.csvCharsetName);
             this.globalMetadata = sec.globalMetadata;
             this.managementMetadataXmlData = sec.managementMetadataXmlData;
             this.metadataFilterFlag = sec.metadataFilterFlag;
@@ -235,6 +241,8 @@ public class ExportContext {
         csvExtendedFormat = Boolean.parseBoolean(
             preferences.getPrefProperties().getProperty("exportContext.csvExport.csvExtendedFormat", "true")
         );
+        csvCharsetName = preferences.getPrefProperties().getProperty("exportContext.csvExport.charsetName", "");
+        if (csvCharsetName.isEmpty()) csvCharsetName = getDefaultCsvCharsetName();
         managementMetadataXmlData = nullIfEmpty(
             preferences.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", "")
         );
@@ -320,6 +328,12 @@ public class ExportContext {
         preferences
             .getPrefProperties()
             .setProperty("exportContext.csvExport.csvExtendedFormat", Boolean.toString(csvExtendedFormat));
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "exportContext.csvExport.charsetName",
+                (csvCharsetName == null ? getDefaultCsvCharsetName() : csvCharsetName)
+            );
         preferences
             .getPrefProperties()
             .setProperty(
@@ -418,6 +432,36 @@ public class ExportContext {
     }
 
     /**
+     * Gets the csv export charset name.
+     *
+     * @return the csv export charset name
+     */
+    public String getCsvCharsetName() {
+        return csvCharsetName;
+    }
+
+    /**
+     * Sets the csv export charset name.
+     *
+     * @param csvCharsetName the csv export charset name
+     */
+    public void setCsvCharsetName(String csvCharsetName) {
+        this.csvCharsetName = csvCharsetName;
+    }
+
+    /**
+     * Gets the platform default charset name for csv export, windows-1252 on Windows where Excel
+     * expects it, UTF-8 elsewhere. Same default as the csv import one, so that the export keeps the
+     * behaviour it had when it was wrongly driven by the import preference.
+     *
+     * @return the default csv export charset name
+     */
+    public static String getDefaultCsvCharsetName() {
+        if (System.getProperty("os.name").toLowerCase().contains("win")) return "windows-1252";
+        return "UTF-8";
+    }
+
+    /**
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
@@ -427,6 +471,7 @@ public class ExportContext {
         this.usageVersionSelectionMode = LAST_DATAOBJECT;
         this.maxNameSize = 32;
         this.csvExtendedFormat = true;
+        this.csvCharsetName = getDefaultCsvCharsetName();
         this.managementMetadataXmlData = "    <ManagementMetadata>\n" +
         "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
         "      <LegalStatus>Public Archive</LegalStatus>\n" +
