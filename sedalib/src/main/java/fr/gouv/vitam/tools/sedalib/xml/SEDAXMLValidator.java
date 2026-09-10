@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.sedalib.xml;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.xerces.util.XMLCatalogResolver;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -57,6 +58,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SEDAXMLValidator {
@@ -172,6 +175,68 @@ public class SEDAXMLValidator {
     }
 
     /**
+     * The maximum number of anomalies detailed in the validation message.
+     */
+    private static final int MAX_LISTED_ANOMALIES = 50;
+
+    /**
+     * Collects every recoverable validation error instead of letting the validator throw on the
+     * first one.
+     * <p>
+     * Without an error handler the validator stops on the first anomaly, so a non conformant
+     * manifest gives one anomaly at a time and has to be checked as many times as it has problems.
+     * Worse, the check has to be replayed to see the next one, and the picture it gives changes from
+     * one run to the next, which is what the "anomalies remontées puis disparues" report describes.
+     */
+    private static class CollectingErrorHandler implements ErrorHandler {
+
+        private final List<SAXParseException> errors = new ArrayList<>();
+
+        @Override
+        public void warning(SAXParseException e) {
+            // a warning is not a conformity anomaly, the manifest stays valid
+        }
+
+        @Override
+        public void error(SAXParseException e) {
+            errors.add(e);
+        }
+
+        @Override
+        public void fatalError(SAXParseException e) throws SAXException {
+            errors.add(e);
+            // the document can't be parsed further, no point in going on
+            throw e;
+        }
+
+        private List<SAXParseException> getErrors() {
+            return errors;
+        }
+    }
+
+    private void throwIfAnomalies(String manifest, CollectingErrorHandler errorHandler) throws SEDALibException {
+        List<SAXParseException> errors = errorHandler.getErrors();
+        if (errors.isEmpty()) return;
+
+        StringBuilder message = new StringBuilder(
+            "Le flux XML n'est pas conforme, " + errors.size() + " anomalie(s) détectée(s)"
+        );
+        int count = 0;
+        for (SAXParseException error : errors) {
+            if (count == MAX_LISTED_ANOMALIES) {
+                message
+                    .append("\n\n-> ... et ")
+                    .append(errors.size() - MAX_LISTED_ANOMALIES)
+                    .append(" autre(s) anomalie(s)");
+                break;
+            }
+            message.append("\n\n-> ").append(getContextualErrorMessage(manifest, error));
+            count++;
+        }
+        throw new SEDALibException(message.toString());
+    }
+
+    /**
      * Check with xsd schema.
      *
      * @param manifest  the XML manifest
@@ -188,14 +253,19 @@ public class SEDAXMLValidator {
             xmlStreamReader = xmlInputFactory.createXMLStreamReader(bais, "UTF-8");
 
             final Validator validator = xmlSchema.newValidator();
-            validator.validate(new StAXSource(xmlStreamReader));
+            CollectingErrorHandler errorHandler = new CollectingErrorHandler();
+            validator.setErrorHandler(errorHandler);
+            try {
+                validator.validate(new StAXSource(xmlStreamReader));
+            } catch (SAXParseException e) {
+                // a fatal error stops the parsing, it's already collected
+            }
+            throwIfAnomalies(manifest, errorHandler);
             return true;
         } catch (IOException e) {
             throw new SEDALibException("Erreur d'accès au flux XML", e);
         } catch (XMLStreamException e) {
             throw new SEDALibException("Impossible d'ouvrir le flux XML", e);
-        } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } finally {
@@ -220,10 +290,15 @@ public class SEDAXMLValidator {
     public boolean checkWithRNGSchema(String manifest, Schema rngSchema) throws SEDALibException {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             final Validator validator = rngSchema.newValidator();
-            validator.validate(new StreamSource(bais));
+            CollectingErrorHandler errorHandler = new CollectingErrorHandler();
+            validator.setErrorHandler(errorHandler);
+            try {
+                validator.validate(new StreamSource(bais));
+            } catch (SAXParseException e) {
+                // a fatal error stops the parsing, it's already collected
+            }
+            throwIfAnomalies(manifest, errorHandler);
             return true;
-        } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } catch (IOException e) {

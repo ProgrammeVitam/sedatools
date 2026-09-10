@@ -58,8 +58,9 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ExtendWith(SedaContextExtension.class)
@@ -67,50 +68,7 @@ class SEDAValidationTest implements UseTestFiles {
 
     @Test
     void testSedaXmlValidationOK() throws IllegalArgumentException, SEDALibException, InterruptedException {
-        // do import of test directory
-        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-            "src/test/resources/PacketSamples/SampleWithLinksModelV2",
-            null
-        );
-        di.addIgnorePattern("Thumbs.db");
-        di.addIgnorePattern("pagefile.sys");
-
-        di.doImport();
-
-        di.getArchiveTransfer().setGlobalMetadata(new GlobalMetadata());
-        di.getArchiveTransfer().getGlobalMetadata().comment = "2eme SIP";
-        di.getArchiveTransfer().getGlobalMetadata().messageIdentifier = "MessageIdentifier0";
-        di.getArchiveTransfer().getGlobalMetadata().archivalAgreement = "ArchivalAgreement0";
-        di.getArchiveTransfer().getGlobalMetadata().codeListVersionsXmlData = "<CodeListVersions>\n" +
-        "    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n" +
-        "<MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n" +
-        "<MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n" +
-        "<EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n" +
-        "<FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n" +
-        "<CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n" +
-        "<DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n" +
-        "<StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n" +
-        "<AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n" +
-        "<AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n" +
-        "<DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n" +
-        "<ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n" +
-        "<ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n" +
-        "<AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n" +
-        "<RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n" +
-        "  </CodeListVersions>";
-        di
-            .getArchiveTransfer()
-            .getDataObjectPackage()
-            .setManagementMetadataXmlData(
-                "<ManagementMetadata>\n" +
-                "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
-                "<LegalStatus>Public Archive</LegalStatus>\n" +
-                "<OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n" +
-                "<SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n" +
-                "    </ManagementMetadata>"
-            );
-        di.getArchiveTransfer().getGlobalMetadata().archivalAgencyIdentifier = "Identifier4";
-        di.getArchiveTransfer().getGlobalMetadata().transferringAgencyIdentifier = "Identifier5";
+        DiskToArchiveTransferImporter di = importSampleWithCompleteGlobalMetadata();
 
         // validation
         assertAll(() -> di.getArchiveTransfer().sedaSchemaValidate(null));
@@ -184,6 +142,54 @@ class SEDAValidationTest implements UseTestFiles {
             throw new RuntimeException(e);
         }
         SedaContext.setVersion(SedaVersion.V2_1);
+    }
+
+    private static DiskToArchiveTransferImporter importSampleWithCompleteGlobalMetadata()
+        throws SEDALibException, InterruptedException {
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithLinksModelV2",
+            null
+        );
+        di.addIgnorePattern("Thumbs.db");
+        di.addIgnorePattern("pagefile.sys");
+
+        di.doImport();
+
+        di.getArchiveTransfer().setGlobalMetadata(new GlobalMetadata());
+        di.getArchiveTransfer().getGlobalMetadata().comment = "2eme SIP";
+        di.getArchiveTransfer().getGlobalMetadata().messageIdentifier = "MessageIdentifier0";
+        di.getArchiveTransfer().getGlobalMetadata().archivalAgreement = "ArchivalAgreement0";
+        di.getArchiveTransfer().getGlobalMetadata().codeListVersionsXmlData = "<CodeListVersions>\n" +
+        "    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n" +
+        "<MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n" +
+        "<MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n" +
+        "<EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n" +
+        "<FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n" +
+        "<CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n" +
+        "<DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n" +
+        "<StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n" +
+        "<AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n" +
+        "<AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n" +
+        "<DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n" +
+        "<ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n" +
+        "<ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n" +
+        "<AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n" +
+        "<RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n" +
+        "  </CodeListVersions>";
+        di
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .setManagementMetadataXmlData(
+                "<ManagementMetadata>\n" +
+                "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
+                "<LegalStatus>Public Archive</LegalStatus>\n" +
+                "<OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n" +
+                "<SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n" +
+                "    </ManagementMetadata>"
+            );
+        di.getArchiveTransfer().getGlobalMetadata().archivalAgencyIdentifier = "Identifier4";
+        di.getArchiveTransfer().getGlobalMetadata().transferringAgencyIdentifier = "Identifier5";
+        return di;
     }
 
     @Test
@@ -275,5 +281,66 @@ class SEDAValidationTest implements UseTestFiles {
             () -> si.getArchiveTransfer().sedaProfileValidate("src/test/resources/PacketSamples/profile.rng", null)
         ).hasMessageContaining("\"Title\" invalid; must be equal to \"Versement de la matrice cadastrale numérique\"");
     }
-    // TODO testWithXSD
+
+    /**
+     * The validator had no error handler, so it threw on the first anomaly: a non conformant manifest
+     * gave one anomaly at a time and had to be checked as many times as it had problems. Every
+     * anomaly is now collected in one pass.
+     */
+    @Test
+    void shouldReportEveryAnomalyAndNotOnlyTheFirst() throws Exception {
+        DiskToArchiveTransferImporter di = importSampleWithCompleteGlobalMetadata();
+        int emptied = 0;
+        for (ArchiveUnit au : di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().values()) {
+            au.setContentXmlData("");
+            if (++emptied == 2) break;
+        }
+
+        Throwable thrown = catchThrowable(() -> di.getArchiveTransfer().sedaSchemaValidate(null));
+
+        assertThat(thrown).isInstanceOf(SEDALibException.class);
+        assertThat(thrown.getMessage()).contains("2 anomalie(s) détectée(s)");
+    }
+
+    /**
+     * The same check replayed on the same package has to give the same anomalies, which is what the
+     * "résultats non reproductibles du contrôle au profil RNG" report denies.
+     */
+    @Test
+    void shouldGiveTheSameAnomaliesWhenTheProfileCheckIsReplayed() throws Exception {
+        TestUtilities.eraseAll("target/tmpJunit/KO_468_replay.zip-tmpdir");
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/KO_468.zip",
+            "target/tmpJunit/KO_468_replay.zip-tmpdir",
+            null
+        );
+        si.doImport();
+
+        Throwable first = catchThrowable(
+            () -> si.getArchiveTransfer().sedaProfileValidate("src/test/resources/PacketSamples/profile.rng", null)
+        );
+        Throwable second = catchThrowable(
+            () -> si.getArchiveTransfer().sedaProfileValidate("src/test/resources/PacketSamples/profile.rng", null)
+        );
+
+        assertThat(first).isNotNull();
+        assertThat(second).isNotNull();
+        assertThat(second.getMessage()).isEqualTo(first.getMessage());
+    }
+
+    /**
+     * Same requirement for the SEDA schema check.
+     */
+    @Test
+    void shouldGiveTheSameAnomaliesWhenTheSchemaCheckIsReplayed() throws Exception {
+        DiskToArchiveTransferImporter di = importSampleWithCompleteGlobalMetadata();
+        di.getArchiveTransfer().getDataObjectPackage().getArchiveUnitById("ID38").setContentXmlData("");
+
+        Throwable first = catchThrowable(() -> di.getArchiveTransfer().sedaSchemaValidate(null));
+        Throwable second = catchThrowable(() -> di.getArchiveTransfer().sedaSchemaValidate(null));
+
+        assertThat(first).isNotNull();
+        assertThat(second).isNotNull();
+        assertThat(second.getMessage()).isEqualTo(first.getMessage());
+    }
 }
