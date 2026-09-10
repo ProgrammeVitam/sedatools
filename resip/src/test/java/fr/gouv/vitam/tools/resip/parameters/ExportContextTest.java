@@ -71,11 +71,51 @@ class ExportContextTest {
         ExportContext reloadSipContext = mapper.readValue(ssc, ExportContext.class);
         String dssc = mapper.writeValueAsString(reloadSipContext);
 
+        // the csv export charset default depends on the platform, so it's asserted apart and dropped
+        // from the comparison with the reference file
+        assertThat(reloadSipContext.getCsvCharsetName()).isEqualTo(ExportContext.getDefaultCsvCharsetName());
+        dssc = dssc.replaceAll("\\R? *\"csvCharsetName\" : \"[^\"]*\",?", "");
+
         String fromfile = new String(
             Files.readAllBytes(Paths.get("src/test/resources/PacketSamples/ExportContext.config")),
             StandardCharsets.UTF_8
         );
 
         assertThat(TestUtilities.LineEndNormalize(dssc)).isEqualTo(TestUtilities.LineEndNormalize(fromfile));
+    }
+
+    /**
+     * The csv export charset used to be the one of the csv import preference, so setting the import
+     * one to UTF-8 silently turned every csv export into an UTF-8 one, unreadable by Excel on Windows.
+     * It's now a setting of its own, that has to survive the serialization of a saved work.
+     */
+    @Test
+    void csvExportCharsetSurvivesJsonRoundTrip() throws Exception {
+        ExportContext gmc = new ExportContext();
+        gmc.setDefaultPrefs();
+        gmc.setCsvCharsetName("UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+
+        ExportContext reloaded = mapper.readValue(mapper.writeValueAsString(gmc), ExportContext.class);
+
+        assertThat(reloaded.getCsvCharsetName()).isEqualTo("UTF-8");
+    }
+
+    /**
+     * A work saved before the export charset existed carries no value for it, and has to fall back on
+     * the platform default rather than on a null charset name, which would break the export.
+     */
+    @Test
+    void csvExportCharsetFallsBackOnDefaultWhenAbsentFromJson() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        ExportContext reference = new ExportContext();
+        reference.setDefaultPrefs();
+        String withoutCharset = mapper
+            .writeValueAsString(reference)
+            .replaceAll("\\R? *\"csvCharsetName\" : \"[^\"]*\",?", "");
+
+        ExportContext reloaded = mapper.readValue(withoutCharset, ExportContext.class);
+
+        assertThat(reloaded.getCsvCharsetName()).isEqualTo(ExportContext.getDefaultCsvCharsetName());
     }
 }

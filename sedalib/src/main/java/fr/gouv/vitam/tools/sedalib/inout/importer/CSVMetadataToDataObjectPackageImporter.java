@@ -46,12 +46,14 @@ import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.utils.ByteOrderMarkUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -261,7 +263,9 @@ public class CSVMetadataToDataObjectPackageImporter {
         CsvSchema schema = mapper.schemaFor(String[].class).withColumnSeparator(separator);
         mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
         try (
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(csvMetadataFileName), encoding);
+            Reader isr = ByteOrderMarkUtil.skipByteOrderMark(
+                new InputStreamReader(new FileInputStream(csvMetadataFileName), encoding)
+            );
             MappingIterator<String[]> it = mapper.readerFor(String[].class).with(schema).readValues(isr)
         ) {
             while (it.hasNext()) {
