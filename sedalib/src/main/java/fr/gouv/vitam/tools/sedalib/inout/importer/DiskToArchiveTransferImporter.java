@@ -346,6 +346,9 @@ public class DiskToArchiveTransferImporter {
                 result += "encodé selon un modèle hybride V1/V2 de la structure\n";
                 break;
         }
+        if (diskToDataObjectPackageImporter.getIgnoredFileCount() > 0) result +=
+        diskToDataObjectPackageImporter.getIgnoredFileCount() +
+        " fichier(s) ignoré(s) car correspondant à un motif d'exclusion, voir le journal\n";
         if ((start != null) && (end != null)) result +=
         "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;

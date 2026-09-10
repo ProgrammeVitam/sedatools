@@ -192,6 +192,24 @@ public class ArchiveTransferToSIPExporter {
     }
 
     /**
+     * Verifies that every BinaryDataObject file can be read before writing anything.
+     * <p>
+     * Without it the export stops on the first unreadable file, leaving a truncated SIP behind and
+     * naming only that one file, so a package missing many binaries has to be exported as many times
+     * to discover them all. All of them are listed here in one pass, and the SIP is not started at
+     * all when one is missing.
+     *
+     * @throws SEDALibException if at least one BinaryDataObject file is missing or unreadable
+     */
+    private void verifyAllBinaryDataObjectFilesAreReadable() throws SEDALibException {
+        try {
+            archiveTransfer.getDataObjectPackage().verifyBinaryDataObjectFilesAreReadable();
+        } catch (SEDALibException e) {
+            throw new SEDALibException("Export du SIP impossible, " + e.getMessage());
+        }
+    }
+
+    /**
      * Do export the ArchiveTransfer to SEDA Submission Information Packet (SIP).
      *
      * @param fileName         the file name
@@ -214,6 +232,8 @@ public class ArchiveTransferToSIPExporter {
         this.hierarchicalFlag = hierarchicalFlag;
         this.indentedFlag = indentedFlag;
         this.manifestOnly = false;
+
+        verifyAllBinaryDataObjectFilesAreReadable();
 
         try {
             Files.createDirectories(Paths.get(fileName).toAbsolutePath().getParent());
