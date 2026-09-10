@@ -52,9 +52,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -269,9 +271,68 @@ class CSVMetadataExporterTest {
         String generatedFileContent = TestUtilities.SlackNormalize(
             FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8")
         );
+        // an UTF-8 csv is exported with a BOM, so that Excel on Windows doesn't read it as windows-1252
+        assertThat(generatedFileContent).startsWith("\uFEFF");
+        generatedFileContent = generatedFileContent.substring(1);
         String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadata.csv");
 
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
+    }
+
+    private static DataObjectPackage importSampleDirectory() throws SEDALibException, InterruptedException {
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
+            null
+        );
+        di.addIgnorePattern("Thumbs.db");
+        di.addIgnorePattern("pagefile.sys");
+        di.doImport();
+        return di.getArchiveTransfer().getDataObjectPackage();
+    }
+
+    /**
+     * Excel on Windows reads a BOM less UTF-8 csv as windows-1252 and shows every accented character
+     * as mojibake, which is what the users reported on the exported metadata.
+     */
+    @Test
+    void exportCSVInUTF8StartsWithByteOrderMark() throws SEDALibException, InterruptedException, IOException {
+        eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
+        DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
+            importSampleDirectory(),
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
+
+        cme.doExportToCSVMetadataFile(TEMPORARY_FILE);
+
+        byte[] firstBytes = Arrays.copyOf(Files.readAllBytes(Paths.get(TEMPORARY_FILE)), 3);
+        assertThat(firstBytes).isEqualTo(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF });
+    }
+
+    /**
+     * The BOM is an UTF-8 only matter, a windows-1252 csv has to stay byte for byte what it was.
+     */
+    @Test
+    void exportCSVInWindows1252HasNoByteOrderMark() throws SEDALibException, InterruptedException, IOException {
+        eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
+        DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
+            importSampleDirectory(),
+            "windows-1252",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
+
+        cme.doExportToCSVMetadataFile(TEMPORARY_FILE);
+
+        String content = new String(Files.readAllBytes(Paths.get(TEMPORARY_FILE)), Charset.forName("windows-1252"));
+        assertThat(content).doesNotStartWith("\uFEFF").startsWith("File;");
     }
 
     @Test
@@ -306,6 +367,9 @@ class CSVMetadataExporterTest {
         String generatedFileContent = TestUtilities.SlackNormalize(
             FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8")
         );
+        // an UTF-8 csv is exported with a BOM, so that Excel on Windows doesn't read it as windows-1252
+        assertThat(generatedFileContent).startsWith("\uFEFF");
+        generatedFileContent = generatedFileContent.substring(1);
         String expectedFileContent = ResourceUtils.getResourceAsString(
             "ExpectedResults/ExportedMetadataWithExtendedFormat.csv"
         );

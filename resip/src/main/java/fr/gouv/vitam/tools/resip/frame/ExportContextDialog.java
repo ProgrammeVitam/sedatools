@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.preferences.PreferencesDialog;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
@@ -89,6 +90,7 @@ public class ExportContextDialog extends JDialog {
     private JRadioButton allUsageButton;
     private JTextField nameMaxSizeTextField;
     private JCheckBox csvExtendedFormatChexBox;
+    private JComboBox<String> csvExportCharsetCombobox;
     private JTextArea metadataFilterTextArea;
     private JCheckBox metadataFilterCheckBox;
 
@@ -708,6 +710,28 @@ public class ExportContextDialog extends JDialog {
         exportParametersPanel.add(csvExtendedFormatChexBox, gbc);
         csvExtendedFormatChexBox.setSelected(exportContext.isCsvExtendedFormat());
 
+        JLabel csvExportCharsetLabel = new JLabel("Encodage du csv exporté :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        exportParametersPanel.add(csvExportCharsetLabel, gbc);
+
+        csvExportCharsetCombobox = new JComboBox<>(PreferencesDialog.CHARSET_STRINGS);
+        csvExportCharsetCombobox.setFont(MainWindow.LABEL_FONT);
+        csvExportCharsetCombobox.setToolTipText(
+            "Encodage des csv produits à l'export, indépendant de celui attendu à l'import. " +
+            "UTF-8 est écrit avec un BOM, ce qu'Excel sous Windows sait lire."
+        );
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        exportParametersPanel.add(csvExportCharsetCombobox, gbc);
+        csvExportCharsetCombobox.setSelectedItem(exportContext.getCsvCharsetName());
+
         JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
         metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -718,7 +742,7 @@ public class ExportContextDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         exportParametersPanel.add(metadataFilterLabel, gbc);
 
         scrollPane = new JScrollPane();
@@ -729,7 +753,7 @@ public class ExportContextDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         exportParametersPanel.add(scrollPane, gbc);
 
         metadataFilterTextArea = new JTextArea();
@@ -750,7 +774,7 @@ public class ExportContextDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.weighty = 1.0;
         exportParametersPanel.add(metadataFilterCheckBox, gbc);
         metadataFilterCheckBox.addItemListener(this::metadataFilterEvent);
@@ -834,6 +858,7 @@ public class ExportContextDialog extends JDialog {
         }
         gmc.setMaxNameSize(tmp);
         gmc.setCsvExtendedFormat(csvExtendedFormatChexBox.isSelected());
+        gmc.setCsvCharsetName((String) csvExportCharsetCombobox.getSelectedItem());
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
         gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
         gmc.setKeptMetadataList(

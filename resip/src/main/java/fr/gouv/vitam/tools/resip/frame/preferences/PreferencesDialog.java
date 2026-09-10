@@ -113,6 +113,7 @@ public class PreferencesDialog extends JDialog {
     private final JRadioButton allUsageButton;
     private final JTextField nameMaxSizeTextField;
     private final JCheckBox csvExtendedFormatChexBox;
+    private final JComboBox<String> csvExportCharsetCombobox;
     private final JRadioButton reindexYesRadioButton;
     private final JTextArea metadataFilterTextArea;
     private final JCheckBox metadataFilterCheckBox;
@@ -172,9 +173,9 @@ public class PreferencesDialog extends JDialog {
     private int returnValue;
 
     /**
-     * The proposed charsets.
+     * The proposed charsets, shared with the export context dialog.
      */
-    private static final String[] charsetStrings = {
+    public static final String[] CHARSET_STRINGS = {
         "windows-1252",
         "ISO-8859-1",
         "UTF-8",
@@ -825,6 +826,28 @@ public class PreferencesDialog extends JDialog {
         exportParametersPanel.add(csvExtendedFormatChexBox, gbc);
         csvExtendedFormatChexBox.setSelected(gmc.isCsvExtendedFormat());
 
+        JLabel csvExportCharsetLabel = new JLabel("Encodage du csv exporté :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        exportParametersPanel.add(csvExportCharsetLabel, gbc);
+
+        csvExportCharsetCombobox = new JComboBox<>(CHARSET_STRINGS);
+        csvExportCharsetCombobox.setFont(MainWindow.LABEL_FONT);
+        csvExportCharsetCombobox.setToolTipText(
+            "Encodage des csv produits à l'export, indépendant de celui attendu à l'import. " +
+            "UTF-8 est écrit avec un BOM, ce qu'Excel sous Windows sait lire."
+        );
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        exportParametersPanel.add(csvExportCharsetCombobox, gbc);
+        csvExportCharsetCombobox.setSelectedItem(gmc.getCsvCharsetName());
+
         JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
         metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -834,7 +857,7 @@ public class PreferencesDialog extends JDialog {
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         exportParametersPanel.add(metadataFilterLabel, gbc);
 
         scrollPane = new JScrollPane();
@@ -845,7 +868,7 @@ public class PreferencesDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
         exportParametersPanel.add(scrollPane, gbc);
 
         metadataFilterTextArea = new JTextArea();
@@ -866,7 +889,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         exportParametersPanel.add(metadataFilterCheckBox, gbc);
@@ -904,7 +927,7 @@ public class PreferencesDialog extends JDialog {
         gbc.gridy = 1;
         importParametersPanel.add(mailCharsetLabel, gbc);
 
-        defaultMailCharsetCombobox = new JComboBox<>(charsetStrings);
+        defaultMailCharsetCombobox = new JComboBox<>(CHARSET_STRINGS);
         defaultMailCharsetCombobox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -1057,7 +1080,7 @@ public class PreferencesDialog extends JDialog {
         gbc.gridy = 9;
         importParametersPanel.add(csvCharsetLabel, gbc);
 
-        csvCharsetCombobox = new JComboBox<>(charsetStrings);
+        csvCharsetCombobox = new JComboBox<>(CHARSET_STRINGS);
         csvCharsetCombobox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -1646,6 +1669,7 @@ public class PreferencesDialog extends JDialog {
         }
         gmc.setMaxNameSize(tmp);
         gmc.setCsvExtendedFormat(csvExtendedFormatChexBox.isSelected());
+        gmc.setCsvCharsetName((String) csvExportCharsetCombobox.getSelectedItem());
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
         gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
         gmc.setKeptMetadataList(

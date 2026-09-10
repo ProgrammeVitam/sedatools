@@ -226,7 +226,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     CSVImportContext cmic = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
                         archiveTransfer.getDataObjectPackage(),
-                        cmic.getCsvCharsetName(),
+                        work.getExportContext().getCsvCharsetName(),
                         cmic.getDelimiter(),
                         work.getExportContext().getUsageVersionSelectionMode(),
                         work.getExportContext().isCsvExtendedFormat(),
@@ -245,7 +245,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     CSVImportContext cmicz = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
                         archiveTransfer.getDataObjectPackage(),
-                        cmicz.getCsvCharsetName(),
+                        work.getExportContext().getCsvCharsetName(),
                         cmicz.getDelimiter(),
                         work.getExportContext().getUsageVersionSelectionMode(),
                         work.getExportContext().isCsvExtendedFormat(),
@@ -264,7 +264,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     CSVImportContext cmicm = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmem = new DataObjectPackageToCSVMetadataExporter(
                         archiveTransfer.getDataObjectPackage(),
-                        cmicm.getCsvCharsetName(),
+                        work.getExportContext().getCsvCharsetName(),
                         cmicm.getDelimiter(),
                         work.getExportContext().getUsageVersionSelectionMode(),
                         work.getExportContext().isCsvExtendedFormat(),
