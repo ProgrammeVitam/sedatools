@@ -772,12 +772,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
                 final SedaVersion sedaVersionFromWorkspace = Work.getSeda2VersionFromFile(filename);
 
-                if (sedaVersionFromWorkspace != sedaVersion) {
+                if ((sedaVersionFromWorkspace != null) && (sedaVersionFromWorkspace != sedaVersion)) {
                     if (
                         UserInteractionDialog.getUserAnswer(
                             mainWindow,
                             "Pour charger ce fichier il faut faire passer l'interface en " +
-                            sedaVersion +
+                            sedaVersionFromWorkspace +
                             "\n" +
                             "Voulez-vous continuer?",
                             "Confirmation",
