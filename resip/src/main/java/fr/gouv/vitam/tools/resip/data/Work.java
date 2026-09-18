@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -49,6 +50,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -81,6 +83,11 @@ public class Work {
      * The default inner filename in zipped save file.
      */
     static final String JSON_FILENAME = "work.json";
+
+    /**
+     * The SEDA version assumed for save files created before the version was serialized.
+     */
+    static final SedaVersion DEFAULT_SEDA_VERSION = SedaVersion.V2_1;
 
     /**
      * The version of this object used for to distinct serialization in prefs or on
@@ -180,6 +187,7 @@ public class Work {
             module.addDeserializer(ExportContext.class, new NullDeserializer<ExportContext>());
             module.addDeserializer(CreationContext.class, new NullDeserializer<CreationContext>());
             mapper.registerModule(module);
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             ZipEntry ze = zis.getNextEntry();
             if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
                 "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
@@ -191,7 +199,7 @@ public class Work {
                 e
             );
         }
-        return ow.version;
+        return ow.version == null ? DEFAULT_SEDA_VERSION : ow.version;
     }
 
     /**
@@ -209,6 +217,7 @@ public class Work {
             module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
             module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
             mapper.registerModule(module);
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             ZipEntry ze = zis.getNextEntry();
             if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
                 "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
@@ -216,6 +225,9 @@ public class Work {
             ow = mapper.readValue(zis, Work.class);
 
             // some fields need to be computed or defined after the load phase from Json
+            if (ow.version == null) ow.version = SedaContext.getVersion() == null
+                ? DEFAULT_SEDA_VERSION
+                : SedaContext.getVersion();
             ow.getDataObjectPackage().getGhostRootAu().setDataObjectPackage(ow.getDataObjectPackage());
             for (Map.Entry<String, ArchiveUnit> pair : ow
                 .getDataObjectPackage()
@@ -254,6 +266,7 @@ public class Work {
      */
     public void save(String file) {
         try {
+            if (version == null) version = SedaContext.getVersion();
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
             module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
@@ -305,6 +318,24 @@ public class Work {
      */
     public void setCreationContext(CreationContext creationContext) {
         this.creationContext = creationContext;
+    }
+
+    /**
+     * Gets the SEDA version of this work.
+     *
+     * @return the SEDA version
+     */
+    public SedaVersion getVersion() {
+        return version;
+    }
+
+    /**
+     * Sets the SEDA version of this work.
+     *
+     * @param version the new SEDA version
+     */
+    public void setVersion(SedaVersion version) {
+        this.version = version;
     }
 
     /**

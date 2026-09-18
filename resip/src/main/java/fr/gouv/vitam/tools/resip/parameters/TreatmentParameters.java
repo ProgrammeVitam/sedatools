@@ -73,7 +73,7 @@ public class TreatmentParameters {
      */
     public TreatmentParameters() {
         EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
-            this.sedaVersion = event.getNewVersion();
+            if (event.getNewVersion() != null) this.sedaVersion = event.getNewVersion();
         });
     }
 
@@ -88,7 +88,7 @@ public class TreatmentParameters {
      */
     public TreatmentParameters(Preferences preferences) {
         EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
-            this.sedaVersion = event.getNewVersion();
+            if (event.getNewVersion() != null) this.sedaVersion = event.getNewVersion();
         });
 
         final String categoriesString = preferences
@@ -143,7 +143,12 @@ public class TreatmentParameters {
                 );
         }
         preferences.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
-        preferences.getPrefProperties().setProperty("treatmentParameters.seda2Version", sedaVersion.toString());
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "treatmentParameters.seda2Version",
+                (sedaVersion == null ? SedaVersion.V2_1 : sedaVersion).toString()
+            );
     }
 
     /**
