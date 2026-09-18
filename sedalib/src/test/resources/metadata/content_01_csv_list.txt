@@ -42,7 +42,7 @@ Signature.0.Signer.1.FullName: Martin Durant
 Signature.0.Signer.1.SigningTime: 1970-01-02T01:00:00
 Signature.0.Signer.2.FirstName: Emilie
 Signature.0.Signer.2.BirthName: Martin
-Signature.0.Signer.2.Identifier: emilie.martin@corp.fr
+Signature.0.Signer.2.Identifier.0: emilie.martin@corp.fr
 Signature.0.Signer.2.SigningTime: 1970-01-02T01:00:00
 Signature.0.Signer.3.FullName: Laura Tremoulet
 Signature.0.Signer.3.BirthPlace.Geogname: TestLocation1

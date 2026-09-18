@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.BooleanType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -73,6 +74,8 @@ public class UpdateOperation extends ComplexListType {
             ARCHIVEUNITIDENTIFIERKEY_TAG,
             new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false)
         );
+        metadataMap.put("ToDelete", new ComplexListMetadataKind(ToDelete.class, false));
+        metadataMap.put("FullUpdate", new ComplexListMetadataKind(BooleanType.class, false));
     }
 
     /**

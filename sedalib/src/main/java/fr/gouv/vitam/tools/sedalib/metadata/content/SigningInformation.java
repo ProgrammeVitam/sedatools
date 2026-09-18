@@ -69,7 +69,7 @@ public class SigningInformation extends ComplexListType {
         metadataMap.put("SignedDocumentReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, true));
         metadataMap.put("SignatureDescription", new ComplexListMetadataKind(SignatureDescription.class, true));
         metadataMap.put("TimestampingInformation", new ComplexListMetadataKind(TimestampingInformation.class, true));
-        metadataMap.put("AdditionalProof", new ComplexListMetadataKind(AdditionalProof.class, false));
+        metadataMap.put("AdditionalProof", new ComplexListMetadataKind(AdditionalProof.class, true));
         metadataMap.put("Extended", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 

@@ -85,7 +85,7 @@ public class Content extends ComplexListType {
         metadataMap.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Language", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Status", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Version", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Tag", new ComplexListMetadataKind(StringType.class, true));
@@ -113,6 +113,7 @@ public class Content extends ComplexListType {
         metadataMap.put("Event", new ComplexListMetadataKind(Event.class, true));
         metadataMap.put("Signature", new ComplexListMetadataKind(Signature.class, true));
         metadataMap.put("Gps", new ComplexListMetadataKind(Gps.class, false));
+        metadataMap.put("History", new ComplexListMetadataKind(AnyXMLType.class, true));
         // Vitam extensions
         metadataMap.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
@@ -145,7 +146,7 @@ public class Content extends ComplexListType {
         metadataMap_v2.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Language", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v2.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Status", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Version", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Tag", new ComplexListMetadataKind(StringType.class, true));
@@ -175,6 +176,7 @@ public class Content extends ComplexListType {
         metadataMap_v2.put("Event", new ComplexListMetadataKind(Event.class, true));
         metadataMap_v2.put("Signature", new ComplexListMetadataKind(Signature.class, true));
         metadataMap_v2.put("Gps", new ComplexListMetadataKind(Gps.class, false));
+        metadataMap_v2.put("History", new ComplexListMetadataKind(AnyXMLType.class, true));
         // specific in Seda 2.2 (was in Vitam before)
         metadataMap_v2.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
@@ -207,7 +209,7 @@ public class Content extends ComplexListType {
         metadataMap_v3.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("Language", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v3.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("Status", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("Version", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("Tag", new ComplexListMetadataKind(StringType.class, true));

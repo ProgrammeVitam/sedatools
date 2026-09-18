@@ -70,7 +70,7 @@ public class Event extends ComplexListType {
         metadataMap_default.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("EventType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap_default.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_default.put("EventDetail", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));
@@ -86,7 +86,7 @@ public class Event extends ComplexListType {
         metadataMap_v2.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("EventType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap_v2.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("EventDetail", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));

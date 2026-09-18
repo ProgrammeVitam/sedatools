@@ -68,6 +68,7 @@ public class CustodialHistory extends ComplexListType {
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put("CustodialHistoryItem", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("CustodialHistoryFile", new ComplexListMetadataKind(DataObjectReference.class, false));
     }
 
     /**

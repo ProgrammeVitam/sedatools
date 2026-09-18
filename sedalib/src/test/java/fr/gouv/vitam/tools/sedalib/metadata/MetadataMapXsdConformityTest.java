@@ -127,35 +127,25 @@ class MetadataMapXsdConformityTest {
             c,
             Set.of("StartDate")
         );
-        // Vitam compaction extension, not part of the standard
-        DESIGN_CHOICES.put(Content.class, Set.of("DocumentContainer", "DocumentPack"));
+        // Vitam compaction extension, not part of the standard; OriginatingSystemIdReplyTo and
+        // TextContent were Vitam extensions in 2.1 before entering the standard in 2.2
+        DESIGN_CHOICES.put(
+            Content.class,
+            Set.of("DocumentContainer", "DocumentPack", "OriginatingSystemIdReplyTo", "TextContent")
+        );
     }
 
     /**
-     * Elements whose presence or cardinality differs from the XSD, found when this test was
-     * written and to be fixed: left out of the comparison until then.
+     * Elements whose presence or cardinality differs from the XSD, to be fixed: left out of the
+     * comparison until then.
      */
     private static final Map<Class<?>, Set<String>> KNOWN_DRIFT = new LinkedHashMap<>();
 
     static {
-        // History missing (2.1, 2.2); OriginatingSystemIdReplyTo and TextContent not in the 2.1 XSD;
-        // DescriptionLanguage is single in the XSD, many in the class
-        KNOWN_DRIFT.put(
-            Content.class,
-            Set.of("History", "OriginatingSystemIdReplyTo", "TextContent", "DescriptionLanguage")
-        );
-        // UpdateOperation is not in the 2.3 XSD any more
+        // Vitam extension kept in 2.3 although it left the official XSD
         KNOWN_DRIFT.put(Management.class, Set.of("UpdateOperation"));
         // UpdateOperation missing (2.1, 2.2)
         KNOWN_DRIFT.put(ManagementMetadata.class, Set.of("UpdateOperation"));
-        KNOWN_DRIFT.put(ClassificationRule.class, Set.of("ClassificationAudience"));
-        KNOWN_DRIFT.put(UpdateOperation.class, Set.of("ToDelete", "FullUpdate"));
-        // single in the XSD, many in the class
-        KNOWN_DRIFT.put(Event.class, Set.of("EventDetail"));
-        KNOWN_DRIFT.put(CustodialHistory.class, Set.of("CustodialHistoryFile"));
-        // many in the XSD, single in the class
-        KNOWN_DRIFT.put(Signer.class, Set.of("Identifier"));
-        KNOWN_DRIFT.put(SigningInformation.class, Set.of("AdditionalProof"));
     }
 
     @ParameterizedTest
