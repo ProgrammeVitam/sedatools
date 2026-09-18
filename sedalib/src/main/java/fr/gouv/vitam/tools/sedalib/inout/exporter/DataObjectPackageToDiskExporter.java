@@ -596,6 +596,14 @@ public class DataObjectPackageToDiskExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doExport(String directoryName) throws SEDALibException, InterruptedException {
+        // all the unreadable binaries are named at once, and nothing is written when there is one,
+        // rather than stopping on the first one with a half written hierarchy left behind
+        try {
+            dataObjectPackage.verifyBinaryDataObjectFilesAreReadable();
+        } catch (SEDALibException e) {
+            throw new SEDALibException("Export sur disque impossible, " + e.getMessage());
+        }
+
         Path exportPath = Paths.get(directoryName);
         try {
             Files.createDirectories(exportPath);

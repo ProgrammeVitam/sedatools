@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -46,6 +47,8 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -1216,7 +1219,11 @@ public class DataObjectPackage {
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.getMetadataUri().getValue());
+                        bdo.setOnDiskPathFromString(
+                            rootDir +
+                            File.separator +
+                            BinaryDataObject.normalizePackageUri(bdo.getMetadataUri().getValue())
+                        );
                         doProgressLog(
                             sedaLibProgressLogger,
                             SEDALibProgressLogger.OBJECTS,
@@ -1549,6 +1556,75 @@ public class DataObjectPackage {
      */
     public void setManagementMetadataXmlData(String managementMetadataXmlData) {
         this.managementMetadataXmlData = managementMetadataXmlData;
+    }
+
+    /**
+     * Lists the BinaryDataObjects whose binary file can't be read on disk.
+     * <p>
+     * A BinaryDataObject carries its metadata and, apart from them, the path of the file holding its
+     * content. Nothing guarantees that both agree: a SIP import sets that path from the Uri declared
+     * in the manifest without verifying that the file was indeed in the package, and a work can be
+     * saved and reloaded long after the imported files have moved. The descriptive metadata is then
+     * complete while the binary is nowhere to be found, which is only discovered when the export
+     * tries to open it.
+     *
+     * @return one description per unreadable BinaryDataObject, empty if all of them can be read
+     */
+    private static final int MAX_LISTED_UNREADABLE = 20;
+
+    public List<String> getUnreadableBinaryDataObjectDescriptions() {
+        List<String> descriptions = new ArrayList<>();
+        for (DataObjectGroup dog : dogInDataObjectPackageIdMap.values()) {
+            if (dog.getBinaryDataObjectList() == null) continue;
+            for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
+                String problem = getUnreadableDescription(bdo);
+                if (problem != null) descriptions.add(problem);
+            }
+        }
+        return descriptions;
+    }
+
+    /**
+     * Verifies that every BinaryDataObject file can be read, and tells which ones can't if any.
+     *
+     * @throws SEDALibException if at least one BinaryDataObject file is missing or unreadable, with
+     *                          all of them listed in the message
+     */
+    public void verifyBinaryDataObjectFilesAreReadable() throws SEDALibException {
+        List<String> problems = getUnreadableBinaryDataObjectDescriptions();
+        if (problems.isEmpty()) return;
+
+        StringBuilder message = new StringBuilder(
+            problems.size() +
+            " fichier(s) binaire(s) sont introuvables ou illisibles alors que leurs métadonnées sont présentes:"
+        );
+        for (String problem : problems.subList(0, Math.min(problems.size(), MAX_LISTED_UNREADABLE))) {
+            message.append("\n  - ").append(problem);
+        }
+        if (problems.size() > MAX_LISTED_UNREADABLE) {
+            message
+                .append("\n  - ... et ")
+                .append(problems.size() - MAX_LISTED_UNREADABLE)
+                .append(" autre(s), voir le journal pour la liste complète");
+        }
+        throw new SEDALibException(message.toString());
+    }
+
+    private static String getUnreadableDescription(BinaryDataObject bdo) {
+        String filename = null;
+        FileInfo fileInfo = bdo.getMetadataFileInfo();
+        if (fileInfo != null) filename = fileInfo.getSimpleMetadata("Filename");
+        String identification =
+            "BinaryDataObject [" +
+            bdo.getInDataObjectPackageId() +
+            "]" +
+            (filename == null ? "" : " [" + filename + "]");
+
+        Path path = bdo.getOnDiskPath();
+        if (path == null) return identification + " n'a pas de fichier associé";
+        if (!Files.exists(path)) return identification + " a pour fichier [" + path + "] qui n'existe pas";
+        if (!Files.isReadable(path)) return identification + " a pour fichier [" + path + "] qui n'est pas lisible";
+        return null;
     }
 
     /**
