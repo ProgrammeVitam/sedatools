@@ -333,6 +333,7 @@
     <!-- Modules -->
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <modules>
+        <module>seda-schema</module>
         <module>sedalib</module>
         <module>sedalib-samples</module>
         <module>javalibpst</module>
