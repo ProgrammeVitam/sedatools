@@ -64,8 +64,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * The test fails on any unlisted difference, so that the maps can't drift from the standard
  * silently. Abstract elements (extension points) are ignored. Differences that are design choices
  * of sedalib are listed in {@link #DESIGN_CHOICES}, the differences found when the test was
- * written and still to be fixed in {@link #KNOWN_DRIFT} and {@link #KNOWN_ORDER_DRIFT}: remove an
- * entry there once the class is fixed.
+ * written and still to be fixed in {@link #KNOWN_DRIFT}: remove an entry there once the class is
+ * fixed.
  */
 class MetadataMapXsdConformityTest {
 
@@ -156,15 +156,7 @@ class MetadataMapXsdConformityTest {
         // many in the XSD, single in the class
         KNOWN_DRIFT.put(Signer.class, Set.of("Identifier"));
         KNOWN_DRIFT.put(SigningInformation.class, Set.of("AdditionalProof"));
-        // typo: OrganisationDescriptiveMetadata in the class, OrganizationDescriptiveMetadata in the XSD
-        KNOWN_DRIFT.put(AgencyType.class, Set.of("OrganizationDescriptiveMetadata", "OrganisationDescriptiveMetadata"));
     }
-
-    /**
-     * Classes whose metadataMap order differs from the XSD sequence (HoldRule placed before
-     * LogBook), to be fixed.
-     */
-    private static final Set<Class<?>> KNOWN_ORDER_DRIFT = Set.of(Management.class, ManagementMetadata.class);
 
     @ParameterizedTest
     @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2", "V2_3" })
@@ -181,14 +173,7 @@ class MetadataMapXsdConformityTest {
             if (map == null || type == null) continue;
             Set<String> ignored = new LinkedHashSet<>(DESIGN_CHOICES.getOrDefault(e.getKey(), Set.of()));
             ignored.addAll(KNOWN_DRIFT.getOrDefault(e.getKey(), Set.of()));
-            compare(
-                e.getKey().getSimpleName() + " / " + e.getValue(),
-                map,
-                type,
-                ignored,
-                !KNOWN_ORDER_DRIFT.contains(e.getKey()),
-                differences
-            );
+            compare(e.getKey().getSimpleName() + " / " + e.getValue(), map, type, ignored, differences);
         }
 
         assertThat(differences)
@@ -201,7 +186,6 @@ class MetadataMapXsdConformityTest {
         Map<String, ComplexListMetadataKind> map,
         ComplexTypeDef type,
         Set<String> ignored,
-        boolean checkOrder,
         List<String> differences
     ) {
         Map<String, Boolean> xsdMany = new LinkedHashMap<>();
@@ -220,7 +204,7 @@ class MetadataMapXsdConformityTest {
         List<String> commonClassOrder = new ArrayList<>();
         for (String name : xsdMany.keySet()) if (map.containsKey(name)) commonXsdOrder.add(name);
         for (String name : map.keySet()) if (xsdMany.containsKey(name)) commonClassOrder.add(name);
-        if (checkOrder && !commonXsdOrder.equals(commonClassOrder)) differences.add(
+        if (!commonXsdOrder.equals(commonClassOrder)) differences.add(
             label + " : ordre différent\n      XSD    " + commonXsdOrder + "\n      classe " + commonClassOrder
         );
 

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -59,28 +60,45 @@ public class Management extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
         metadataMap = new LinkedHashMap<>();
-        metadataMap.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
-        metadataMap.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
-        metadataMap.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
-        metadataMap.put(
-            DisseminationRule.DISSEMINATIONRULE_TAG,
-            new ComplexListMetadataKind(DisseminationRule.class, false)
-        );
-        metadataMap.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
-        metadataMap.put(
-            ClassificationRule.CLASSIFICATIONRULE_TAG,
-            new ComplexListMetadataKind(ClassificationRule.class, false)
-        );
-        metadataMap.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
+        putRules(metadataMap);
         metadataMap.put("LogBook", new ComplexListMetadataKind(LogBook.class, false));
         metadataMap.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
         // Vitam extension
         metadataMap.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
+        metadataMap.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
+    }
+
+    /**
+     * Init metadata map for SEDA 2.2 and later, where HoldRule comes before UpdateOperation.
+     */
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+
+    static {
+        metadataMap_v2 = new LinkedHashMap<>();
+        putRules(metadataMap_v2);
+        metadataMap_v2.put("LogBook", new ComplexListMetadataKind(LogBook.class, false));
+        metadataMap_v2.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
+        // Vitam extension
+        metadataMap_v2.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
+    }
+
+    private static void putRules(Map<String, ComplexListMetadataKind> map) {
+        map.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
+        map.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
+        map.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
+        map.put(DisseminationRule.DISSEMINATIONRULE_TAG, new ComplexListMetadataKind(DisseminationRule.class, false));
+        map.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
+        map.put(
+            ClassificationRule.CLASSIFICATIONRULE_TAG,
+            new ComplexListMetadataKind(ClassificationRule.class, false)
+        );
     }
 
     /**

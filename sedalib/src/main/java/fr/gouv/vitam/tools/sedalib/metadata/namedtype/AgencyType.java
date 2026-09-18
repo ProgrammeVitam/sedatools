@@ -60,7 +60,7 @@ public class AgencyType extends ComplexListType {
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("OrganisationDescriptiveMetadata", new ComplexListMetadataKind(AnyXMLType.class, false));
+        metadataMap.put("OrganizationDescriptiveMetadata", new ComplexListMetadataKind(AnyXMLType.class, false));
     }
 
     /**

@@ -209,17 +209,17 @@ class ManagementTest {
             "    <ClassificationLevel>TestLevel</ClassificationLevel>\n" +
             "    <ClassificationOwner>TestOwner</ClassificationOwner>\n" +
             "  </ClassificationRule>\n" +
-            "  <HoldRule>\n" +
-            "    <Rule>TestHoldRule</Rule>\n" +
-            "    <StartDate>1970-01-01</StartDate>\n" +
-            "    <HoldEndDate>1970-01-01</HoldEndDate>\n" +
-            "  </HoldRule>\n" +
             "  <UpdateOperation>\n" +
             "    <ArchiveUnitIdentifierKey>\n" +
             "      <MetadataName>TestMetadataName</MetadataName>\n" +
             "      <MetadataValue>TestMetadataValue</MetadataValue>\n" +
             "    </ArchiveUnitIdentifierKey>\n" +
             "  </UpdateOperation>\n" +
+            "  <HoldRule>\n" +
+            "    <Rule>TestHoldRule</Rule>\n" +
+            "    <StartDate>1970-01-01</StartDate>\n" +
+            "    <HoldEndDate>1970-01-01</HoldEndDate>\n" +
+            "  </HoldRule>\n" +
             "</Management>";
         assertThat(mNextOut).isEqualTo(testOut);
     }
