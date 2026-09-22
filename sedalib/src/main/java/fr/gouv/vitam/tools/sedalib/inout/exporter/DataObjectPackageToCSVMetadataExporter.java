@@ -48,6 +48,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -843,7 +844,11 @@ public class DataObjectPackageToCSVMetadataExporter {
         try {
             csvBAOS = new ByteArrayOutputStream();
             csvPrintStream = new PrintStream(csvBAOS, true, encoding);
-        } catch (UnsupportedEncodingException e) {
+            // Excel on Windows reads a BOM less UTF-8 csv as windows-1252 and shows the accented
+            // characters as mojibake, so the byte order mark has to be there. The csv importers
+            // drop it back on reading.
+            if (StandardCharsets.UTF_8.equals(Charset.forName(encoding))) csvPrintStream.print('\uFEFF');
+        } catch (UnsupportedEncodingException | IllegalArgumentException e) {
             throw new SEDALibException("Encodage [" + encoding + "] inconnu", e);
         }
     }
