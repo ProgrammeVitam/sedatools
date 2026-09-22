@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.sedalib.xml;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.xerces.util.XMLCatalogResolver;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -57,6 +58,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SEDAXMLValidator {
@@ -144,31 +147,108 @@ public class SEDAXMLValidator {
         }
     }
 
-    private String getContextualErrorMessage(String manifest, SAXParseException e) {
-        int i = 0;
-        String line = "", inArchiveUnit = "", result;
+    private String getContextualErrorMessage(SAXParseException e, String inArchiveUnit, String line) {
+        return (
+            "Contexte de l'erreur: " +
+            (inArchiveUnit.isEmpty() ? "hors AU" : inArchiveUnit) +
+            "\n" +
+            "position de l'erreur identifiée: ligne " +
+            e.getLineNumber() +
+            ", colonne " +
+            e.getColumnNumber() +
+            "\n" +
+            "ligne: " +
+            line +
+            "\n" +
+            "erreur brute: " +
+            e.getMessage()
+        );
+    }
 
-        Scanner scanner = new Scanner(manifest);
-        while (scanner.hasNextLine() && (i < e.getLineNumber())) {
-            line = scanner.nextLine();
-            if (line.trim().startsWith("<ArchiveUnit ")) inArchiveUnit = line.trim();
-            i++;
+    /**
+     * Builds the contextual message of each error in a single pass over the manifest.
+     * <p>
+     * The validator reports the errors in document order, so the manifest is read once, line by
+     * line, keeping track of the enclosing ArchiveUnit, and the message of an error is built when
+     * its line is reached. Rescanning the manifest from the start for each error would read it up
+     * to {@link #MAX_LISTED_ANOMALIES} times.
+     */
+    private List<String> getContextualErrorMessages(String manifest, List<SAXParseException> errors) {
+        List<String> result = new ArrayList<>(errors.size());
+        int i = 0;
+        String line = "", inArchiveUnit = "";
+
+        try (Scanner scanner = new Scanner(manifest)) {
+            for (SAXParseException error : errors) {
+                while (scanner.hasNextLine() && (i < error.getLineNumber())) {
+                    line = scanner.nextLine();
+                    if (line.trim().startsWith("<ArchiveUnit ")) inArchiveUnit = line.trim();
+                    i++;
+                }
+                result.add(getContextualErrorMessage(error, inArchiveUnit, line));
+            }
         }
-        result = "Contexte de l'erreur: " +
-        (inArchiveUnit.isEmpty() ? "hors AU" : inArchiveUnit) +
-        "\n" +
-        "position de l'erreur identifiée: ligne " +
-        e.getLineNumber() +
-        ", colonne " +
-        e.getColumnNumber() +
-        "\n" +
-        "ligne: " +
-        line +
-        "\n" +
-        "erreur brute: " +
-        e.getMessage();
-        scanner.close();
         return result;
+    }
+
+    /**
+     * The maximum number of anomalies detailed in the validation message.
+     */
+    private static final int MAX_LISTED_ANOMALIES = 50;
+
+    /**
+     * Collects every recoverable validation error instead of letting the validator throw on the
+     * first one.
+     * <p>
+     * Without an error handler the validator stops on the first anomaly, so a non conformant
+     * manifest gives one anomaly at a time and has to be checked as many times as it has problems.
+     * Worse, the check has to be replayed to see the next one, and the picture it gives changes from
+     * one run to the next, which is what the "anomalies remontées puis disparues" report describes.
+     */
+    private static class CollectingErrorHandler implements ErrorHandler {
+
+        private final List<SAXParseException> errors = new ArrayList<>();
+
+        @Override
+        public void warning(SAXParseException e) {
+            // a warning is not a conformity anomaly, the manifest stays valid
+        }
+
+        @Override
+        public void error(SAXParseException e) {
+            errors.add(e);
+        }
+
+        @Override
+        public void fatalError(SAXParseException e) throws SAXException {
+            errors.add(e);
+            // the document can't be parsed further, no point in going on
+            throw e;
+        }
+
+        private List<SAXParseException> getErrors() {
+            return errors;
+        }
+    }
+
+    private void throwIfAnomalies(String manifest, CollectingErrorHandler errorHandler) throws SEDALibException {
+        List<SAXParseException> errors = errorHandler.getErrors();
+        if (errors.isEmpty()) return;
+
+        StringBuilder message = new StringBuilder(
+            "Le flux XML n'est pas conforme, " + errors.size() + " anomalie(s) détectée(s)"
+        );
+        List<SAXParseException> listedErrors = errors.subList(0, Math.min(errors.size(), MAX_LISTED_ANOMALIES));
+        for (String contextualErrorMessage : getContextualErrorMessages(manifest, listedErrors)) {
+            message.append("\n\n-> ").append(contextualErrorMessage);
+        }
+        if (errors.size() > MAX_LISTED_ANOMALIES) {
+            message
+                .append("\n\n-> ... et ")
+                .append(errors.size() - MAX_LISTED_ANOMALIES)
+                .append(" autre(s) anomalie(s)");
+        }
+        throw new SEDALibException(message.toString());
     }
 
     /**
@@ -188,14 +268,19 @@ public class SEDAXMLValidator {
             xmlStreamReader = xmlInputFactory.createXMLStreamReader(bais, "UTF-8");
 
             final Validator validator = xmlSchema.newValidator();
-            validator.validate(new StAXSource(xmlStreamReader));
+            CollectingErrorHandler errorHandler = new CollectingErrorHandler();
+            validator.setErrorHandler(errorHandler);
+            try {
+                validator.validate(new StAXSource(xmlStreamReader));
+            } catch (SAXParseException e) {
+                // a fatal error stops the parsing, it's already collected
+            }
+            throwIfAnomalies(manifest, errorHandler);
             return true;
         } catch (IOException e) {
             throw new SEDALibException("Erreur d'accès au flux XML", e);
         } catch (XMLStreamException e) {
             throw new SEDALibException("Impossible d'ouvrir le flux XML", e);
-        } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } finally {
@@ -220,10 +305,15 @@ public class SEDAXMLValidator {
     public boolean checkWithRNGSchema(String manifest, Schema rngSchema) throws SEDALibException {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             final Validator validator = rngSchema.newValidator();
-            validator.validate(new StreamSource(bais));
+            CollectingErrorHandler errorHandler = new CollectingErrorHandler();
+            validator.setErrorHandler(errorHandler);
+            try {
+                validator.validate(new StreamSource(bais));
+            } catch (SAXParseException e) {
+                // a fatal error stops the parsing, it's already collected
+            }
+            throwIfAnomalies(manifest, errorHandler);
             return true;
-        } catch (SAXParseException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } catch (IOException e) {
