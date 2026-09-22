@@ -87,6 +87,31 @@ public class DroidIdentifier {
 
     private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20240715.xml";
 
+    private static final String DROID_SIGNATURE_FILE_PREFIX = "DROID_SignatureFile_V";
+
+    private static final String CONTAINER_SIGNATURE_FILE_PREFIX = "container-signature-";
+
+    /**
+     * Gets the serial number carried by a signature file name.
+     * <p>
+     * Both the filter that selects candidate files and the loop that keeps the most recent one must
+     * read the serial the same way, otherwise a name accepted by the former can be rejected, or
+     * misread, by the latter.
+     *
+     * @param name   the file name
+     * @param prefix the prefix preceding the serial in the file name
+     * @return the serial number, or -1 when the name carries no parsable one
+     */
+    // package-private for testing
+    static int getSignatureFileSerial(String name, String prefix) {
+        if (!name.startsWith(prefix) || !name.endsWith(".xml")) return -1;
+        try {
+            return Integer.parseInt(name.substring(prefix.length(), name.lastIndexOf(".xml")));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
     /** Singleton. */
     private static DroidIdentifier instance = null;
 
@@ -161,18 +186,7 @@ public class DroidIdentifier {
     private String getBinarySignatureFileName(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         String result = null;
 
-        FilenameFilter droidFilter = (dir, name) -> {
-            if (name.startsWith("DROID_SignatureFile_V") && name.endsWith(".xml")) {
-                String serial = name.substring(21, name.lastIndexOf(".xml"));
-                try {
-                    Integer.parseInt(serial);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        };
+        FilenameFilter droidFilter = (dir, name) -> getSignatureFileSerial(name, DROID_SIGNATURE_FILE_PREFIX) >= 0;
 
         File dir = new File(configDir);
         if (dir.isFile()) throw new SEDALibException("Panic! Can't create config directory");
@@ -199,7 +213,7 @@ public class DroidIdentifier {
         } else {
             int serialNum = -1;
             for (String name : fileList) {
-                int j = Integer.parseInt(name.substring(21, name.lastIndexOf(".xml")));
+                int j = getSignatureFileSerial(name, DROID_SIGNATURE_FILE_PREFIX);
                 if (j > serialNum) {
                     serialNum = j;
                     result = name;
@@ -241,18 +255,7 @@ public class DroidIdentifier {
     private String getContainerSignatureFileName(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         String result = null;
 
-        FilenameFilter droidFilter = (dir, name) -> {
-            if (name.startsWith("container-signature-") && name.endsWith(".xml")) {
-                String serial = name.substring(20, name.lastIndexOf(".xml"));
-                try {
-                    Integer.parseInt(serial);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        };
+        FilenameFilter droidFilter = (dir, name) -> getSignatureFileSerial(name, CONTAINER_SIGNATURE_FILE_PREFIX) >= 0;
 
         File dir = new File(configDir);
         if (dir.isFile()) throw new SEDALibException("Panic! Can't create config directory");
@@ -280,7 +283,7 @@ public class DroidIdentifier {
         } else {
             int serialNum = -1;
             for (String name : fileList) {
-                int j = Integer.parseInt(name.substring(21, name.lastIndexOf(".xml")));
+                int j = getSignatureFileSerial(name, CONTAINER_SIGNATURE_FILE_PREFIX);
                 if (j > serialNum) {
                     serialNum = j;
                     result = name;
