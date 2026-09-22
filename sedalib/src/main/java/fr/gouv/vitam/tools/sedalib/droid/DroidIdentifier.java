@@ -83,9 +83,9 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJava
  */
 public class DroidIdentifier {
 
-    private static final String DROID_SIGNATURE_FILE = "DROID_SignatureFile_V120.xml";
+    private static final String DROID_SIGNATURE_FILE = "DROID_SignatureFile_V125.xml";
 
-    private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20240715.xml";
+    private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20260119.xml";
 
     /** Singleton. */
     private static DroidIdentifier instance = null;
