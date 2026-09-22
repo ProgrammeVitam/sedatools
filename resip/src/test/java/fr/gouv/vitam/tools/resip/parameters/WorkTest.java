@@ -37,9 +37,11 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.gouv.vitam.tools.resip.UseTestFiles;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -48,17 +50,23 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -140,5 +148,70 @@ class WorkTest implements UseTestFiles {
         String sdssip = mapper.writeValueAsString(dssip);
         mapper.writeValue(new FileOutputStream("./target/tmpJunit/junit_resiptWork_after.json"), dssip);
         assertEquals(ssip, sdssip);
+    }
+
+    /**
+     * Test that the SEDA version of a work is saved and read back, so that a save file
+     * created by Resip can be loaded again without any interface version switch.
+     *
+     * @throws ResipException the resip exception
+     * @throws IOException    the io exception
+     */
+    @Test
+    void TestResipWorkSedaVersionSerializationDeserialization() throws ResipException, IOException {
+        SedaVersion previousVersion = SedaContext.getVersion();
+        try {
+            SedaContext.setVersion(SedaVersion.V2_2);
+            String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
+            new File("./target/tmpJunit").mkdirs();
+
+            Work ow = new Work(new DataObjectPackage(), null, new ExportContext());
+            ow.save(file);
+
+            assertEquals(SedaVersion.V2_2, Work.getSeda2VersionFromFile(file));
+            assertEquals(SedaVersion.V2_2, Work.createFromFile(file).getVersion());
+        } finally {
+            SedaContext.setVersion(previousVersion);
+        }
+    }
+
+    /**
+     * Test that a save file created before the SEDA version was serialized is still
+     * readable, and is considered as a SEDA 2.1 one.
+     *
+     * @throws ResipException the resip exception
+     * @throws IOException    the io exception
+     */
+    @Test
+    void TestResipWorkWithoutSedaVersionIsReadAsSeda21() throws ResipException, IOException {
+        SedaVersion previousVersion = SedaContext.getVersion();
+        try {
+            SedaContext.setVersion(SedaVersion.V2_2);
+            String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
+            String legacyFile = "./target/tmpJunit/junit_resipWork_legacy.rsp";
+            new File("./target/tmpJunit").mkdirs();
+
+            new Work(new DataObjectPackage(), null, new ExportContext()).save(file);
+            removeVersionFromSaveFile(file, legacyFile);
+
+            assertEquals(SedaVersion.V2_1, Work.getSeda2VersionFromFile(legacyFile));
+        } finally {
+            SedaContext.setVersion(previousVersion);
+        }
+    }
+
+    private void removeVersionFromSaveFile(String source, String destination) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode workNode;
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(source))) {
+            zis.getNextEntry();
+            workNode = mapper.readTree(zis);
+        }
+        ((ObjectNode) workNode).remove("version");
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destination))) {
+            zos.putNextEntry(new ZipEntry("work.json"));
+            zos.write(mapper.writeValueAsBytes(workNode));
+            zos.closeEntry();
+        }
     }
 }
