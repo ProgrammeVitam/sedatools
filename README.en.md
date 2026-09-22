@@ -21,7 +21,7 @@ et
 Build
 -----
 
-With JDK 11, git and maven installed, the build sequence is:
+With JDK 21, git and maven installed, the build sequence is:
 
     mkdir test-sedatools
     cd test-sedatools

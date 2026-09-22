@@ -45,49 +45,65 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-import org.assertj.core.api.SoftAssertions;
+import jdk.jfr.Recording;
+import jdk.jfr.consumer.RecordedEvent;
+import jdk.jfr.consumer.RecordingFile;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestTextExtraction {
 
-    private static final SoftAssertions assertNoProcessesRun = new SoftAssertions();
-    private static SecurityManager initialSecurityManager;
+    /**
+     * Records every process the JVM starts, so the test can assert that apache-tika did not shell out
+     * to an external tool (tesseract, ffmpeg...) behind our back.
+     * <p>
+     * This used to be done with a SecurityManager, which Java 21 refuses to install and Java 24 removed
+     * altogether. The jdk.ProcessStart flight recorder event is the equivalent that survives: like the
+     * SecurityManager it is JVM-wide, so it also catches a process started from another thread, which a
+     * mock on ProcessBuilder would miss since mockito's construction mocks are thread-local.
+     */
+    private static Recording processRecording;
 
     @BeforeAll
     public static void setup() {
-        initialSecurityManager = System.getSecurityManager();
-
-        // WARNING: Deprecated in Java 17. Not recommended for production, but still good for testing.
-        class NoExecSecurityManager extends SecurityManager {
-
-            @Override
-            public void checkExec(String cmd) {
-                assertNoProcessesRun.fail("Process run: '" + cmd + "'");
-            }
-
-            @Override
-            public void checkPermission(java.security.Permission perm) {
-                // Allow all other permissions
-            }
-        }
-
-        // Set the custom SecurityManager
-        System.setSecurityManager(new NoExecSecurityManager());
+        processRecording = new Recording();
+        processRecording.enable("jdk.ProcessStart");
+        processRecording.start();
     }
 
     @AfterAll
-    public static void tearDown() {
-        // Reset initial security manager
-        System.setSecurityManager(initialSecurityManager);
+    public static void tearDown() throws IOException {
+        processRecording.stop();
+        Path dump = Files.createTempFile("testTextExtraction-processes", ".jfr");
+        try {
+            processRecording.dump(dump);
+            assertThat(startedProcesses(dump)).as("processes started while extracting text").isEmpty();
+        } finally {
+            processRecording.close();
+            Files.deleteIfExists(dump);
+        }
+    }
 
-        // Asser that no external processes run under-the-hood by apache-tika (tesseract, ffmpeg...)
-        assertNoProcessesRun.assertAll();
+    private static List<String> startedProcesses(Path dump) throws IOException {
+        List<String> commands = new ArrayList<>();
+        try (RecordingFile recordingFile = new RecordingFile(dump)) {
+            while (recordingFile.hasMoreEvents()) {
+                RecordedEvent event = recordingFile.readEvent();
+                if ("jdk.ProcessStart".equals(event.getEventType().getName())) {
+                    commands.add(event.getString("command"));
+                }
+            }
+        }
+        return commands;
     }
 
     @Test

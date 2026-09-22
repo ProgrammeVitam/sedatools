@@ -13,7 +13,7 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>Resip.exe</include>
-                <include>jdk-11.0.29+7-jre/**</include>
+                <include>jdk-21.0.12.1+1-jre/**</include>
             </includes>
         </fileSet>
         <fileSet>
