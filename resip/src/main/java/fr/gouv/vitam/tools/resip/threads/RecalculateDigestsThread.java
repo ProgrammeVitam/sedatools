@@ -38,68 +38,62 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersionConverter;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
 /**
- * The change SEDA2 version thread.
+ * The type Recalculate digests thread.
  */
-public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
+public class RecalculateDigestsThread extends SwingWorker<String, String> {
 
-    //input
-    private final SedaVersion currentVersion;
-    private final SedaVersion nextVersion;
-    private final DataObjectPackage dop;
+    // input
     private final InOutDialog inOutDialog;
-
-    //run output
-    private DataObjectPackage convertedDop;
+    // run output
+    private int counter;
     private Throwable exitThrowable;
     // logger
-    private SEDALibProgressLogger spl;
+    private final SEDALibProgressLogger spl;
 
     /**
-     * Instantiates a new Check profile thread.
+     * Instantiates a new Recalculate digests thread.
      *
-     * @param currentVersion current SEDA version
-     * @param nextVersion target SEDA version
-     * @param dop the data object package
      * @param dialog the dialog
      */
-    public ChangeSeda2VersionThread(
-        SedaVersion currentVersion,
-        SedaVersion nextVersion,
-        DataObjectPackage dop,
-        InOutDialog dialog
-    ) {
-        this.currentVersion = currentVersion;
-        this.nextVersion = nextVersion;
-        this.dop = dop;
-        this.inOutDialog = dialog;
-        this.exitThrowable = null;
-        this.spl = ThreadLoggerFactory.createLogger(inOutDialog.extProgressTextArea);
+    public RecalculateDigestsThread(InOutDialog dialog) {
         dialog.setThread(this);
+        this.inOutDialog = dialog;
+        this.spl = ThreadLoggerFactory.createLogger(inOutDialog.extProgressTextArea);
     }
 
     @Override
     public String doInBackground() {
-        Work work = ResipGraphicApp.getTheApp().currentWork;
+        counter = 0;
         try {
-            if (work == null) throw new ResipException("Pas de contenu à transformer");
+            String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
+            doProgressLog(spl, GLOBAL, "Recalcul des empreintes avec l'algorithme: " + algorithm, null);
 
-            convertedDop = new SedaVersionConverter(spl).convert(dop, currentVersion, nextVersion);
-        } catch (Throwable e) { //NOSONAR
+            for (BinaryDataObject bdo : ResipGraphicApp.getTheApp()
+                .currentWork.getDataObjectPackage()
+                .getBdoInDataObjectPackageIdMap()
+                .values()) {
+                if (isCancelled()) break;
+                bdo.extractTechnicalElements(algorithm, spl);
+                counter++;
+                doProgressLogIfStep(spl, OBJECTS_GROUP, counter, counter + " empreintes recalculées");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             exitThrowable = e;
+            return "KO";
+        } catch (SEDALibException e) {
+            exitThrowable = e;
+            return "KO";
         }
         return "OK";
     }
@@ -108,22 +102,21 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
     protected void done() {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-
-        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion annulée", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "Recalcul des empreintes annulé", null);
         else if (exitThrowable != null) doProgressLogWithoutInterruption(
             spl,
             GLOBAL,
-            "resip: erreur durant la conversion",
+            "Erreur durant le recalcul des empreintes",
             exitThrowable
         );
-        else doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion OK", null);
-    }
-
-    public DataObjectPackage getResult() {
-        return convertedDop;
-    }
-
-    public Throwable getError() {
-        return exitThrowable;
+        else {
+            doProgressLogWithoutInterruption(
+                spl,
+                GLOBAL,
+                "Recalcul des empreintes terminé: " + counter + " empreintes traitées",
+                null
+            );
+            ResipGraphicApp.mainWindow.treePane.allTreeChanged();
+        }
     }
 }

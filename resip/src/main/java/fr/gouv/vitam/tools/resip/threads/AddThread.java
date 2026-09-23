@@ -128,6 +128,7 @@ public class AddThread extends SwingWorker<String, String> {
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
+        this.spl = ThreadLoggerFactory.createLogger(inOutDialog.extProgressTextArea);
         dialog.setThread(this);
     }
 
@@ -152,32 +153,7 @@ public class AddThread extends SwingWorker<String, String> {
         }
         inOutDialog.extProgressTextArea.setText("Import par glisser/déposer de fichiers\n");
         ResipGraphicApp.getTheApp().addThreadRunning = true;
-        spl = null;
         try {
-            int localLogLevel;
-            int localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
-            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-
             DiskImportContext dic;
             if (this.work.getCreationContext() instanceof DiskImportContext) dic =
                 (DiskImportContext) this.work.getCreationContext();

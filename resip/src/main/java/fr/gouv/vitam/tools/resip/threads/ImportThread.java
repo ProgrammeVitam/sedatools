@@ -68,10 +68,10 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  */
 public class ImportThread extends SwingWorker<String, String> {
 
-    //input
+    // input
     private Work work;
     private InOutDialog inOutDialog;
-    //run output
+    // run output
     private String summary;
     private int fileCounter;
     private Throwable exitThrowable;
@@ -89,7 +89,7 @@ public class ImportThread extends SwingWorker<String, String> {
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
-        this.spl = null;
+        this.spl = ThreadLoggerFactory.createLogger(inOutDialog.extProgressTextArea);
         dialog.setThread(this);
     }
 
@@ -124,9 +124,9 @@ public class ImportThread extends SwingWorker<String, String> {
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
             for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete(); //NOSONAR use the quickest method
+            inFile.delete(); // NOSONAR use the quickest method
         } else {
-            inFile.delete(); //NOSONAR use the quickest method
+            inFile.delete(); // NOSONAR use the quickest method
             fileCounter++;
             doProgressLogIfStep(
                 spl,
@@ -158,14 +158,26 @@ public class ImportThread extends SwingWorker<String, String> {
         return target;
     }
 
-    private void doZipImport() throws ResipException, InterruptedException, SEDALibException {
+    /**
+     * Log the import start line with the configured digest algorithm.
+     *
+     * @param importLabel the import kind label
+     * @return the digest algorithm to use
+     */
+    private String logImportStart(String importLabel) {
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n"
+            importLabel + work.getCreationContext().getOnDiskInput() + " (algorithme: " + algorithm + ")\n"
         );
+        return algorithm;
+    }
+
+    private void doZipImport() throws ResipException, InterruptedException, SEDALibException {
+        String algorithm = logImportStart("Import depuis un fichier zip en ");
         ZipImportContext zic = (ZipImportContext) work.getCreationContext();
         String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
 
-        //TODO add preferences for compressed filename import
+        // TODO add preferences for compressed filename import
         String encoding;
         if (work.getCreationContext().getOnDiskInput().endsWith("zip")) encoding = "CP850";
         else encoding = "UTF8";
@@ -176,6 +188,7 @@ public class ImportThread extends SwingWorker<String, String> {
             null,
             spl
         );
+        zi.setDigestAlgorithm(algorithm);
         for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
         zi.doImport();
         setWorkFromArchiveTransfer(zi.getArchiveTransfer());
@@ -183,9 +196,7 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doDiskImport() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText(
-            "Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n"
-        );
+        String algorithm = logImportStart("Import depuis une hiérarchie disque en ");
         DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
             work.getCreationContext().getOnDiskInput(),
@@ -193,6 +204,7 @@ public class ImportThread extends SwingWorker<String, String> {
             null,
             spl
         );
+        di.setDigestAlgorithm(algorithm);
         for (String ip : diskImportContext.getIgnorePatternList()) di.addIgnorePattern(ip);
         di.doImport();
         diskImportContext.setModelVersion(di.getModelVersion());
@@ -229,9 +241,7 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doCSVTreeImport() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText(
-            "Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput() + "\n"
-        );
+        String algorithm = logImportStart("Import depuis un csv d'arbre de classement en ");
         CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
         CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
             ctic.getOnDiskInput(),
@@ -239,6 +249,7 @@ public class ImportThread extends SwingWorker<String, String> {
             ctic.getDelimiter(),
             spl
         );
+        cti.setDigestAlgorithm(algorithm);
         cti.doImport();
         work.setDataObjectPackage(cti.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -246,9 +257,7 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doCSVMetadataImportContext() throws SEDALibException, InterruptedException {
-        inOutDialog.extProgressTextArea.setText(
-            "Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n"
-        );
+        String algorithm = logImportStart("Import depuis un csv de métadonnées en ");
         CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
             cmic.getOnDiskInput(),
@@ -256,6 +265,7 @@ public class ImportThread extends SwingWorker<String, String> {
             cmic.getDelimiter(),
             spl
         );
+        cmi.setDigestAlgorithm(algorithm);
         cmi.doImport();
         work.setDataObjectPackage(cmi.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -265,9 +275,7 @@ public class ImportThread extends SwingWorker<String, String> {
     private void doMailImportContext() throws ResipException, InterruptedException, SEDALibException {
         int localLogLevel;
         int localLogStep;
-        inOutDialog.extProgressTextArea.setText(
-            "Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n"
-        );
+        String algorithm = logImportStart("Import depuis un conteneur courriel en ");
         if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
             localLogLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
             localLogStep = 1;
@@ -309,6 +317,7 @@ public class ImportThread extends SwingWorker<String, String> {
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
+        di.setDigestAlgorithm(ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm());
         for (String ip : new DiskImportContext(Preferences.getInstance()).getIgnorePatternList()) di.addIgnorePattern(
             ip
         );
@@ -321,29 +330,6 @@ public class ImportThread extends SwingWorker<String, String> {
     public String doInBackground() {
         ResipGraphicApp.getTheApp().importThreadRunning = true;
         try {
-            int localLogLevel;
-            int localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
-            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             if (work.getCreationContext() instanceof ZipImportContext) doZipImport();
             else if (work.getCreationContext() instanceof DiskImportContext) doDiskImport();
             else if (work.getCreationContext() instanceof SIPImportContext) doSIPImport();

@@ -74,11 +74,13 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * <li>id : uniq number</li>
  * <li>nom : ArchiveUnit "title" metadata</li>
  * <li>observations : ArchiveUnit "description"</li>
- * <li>cote : specific suffix for this ArchiveUnit in the hierarchic cotation id</li>
+ * <li>cote : specific suffix for this ArchiveUnit in the hierarchic cotation
+ * id</li>
  * <li>série : "mother" ArchiveUnit cotation id</li>
  * <li>... : any other not used content</li>
  * </ul>
- * Lines without "série" field are supposed to represent an ArchiveUnit at description level
+ * Lines without "série" field are supposed to represent an ArchiveUnit at
+ * description level
  * "Series" others are at "Subseries" description level.
  */
 public class CSVTreeToDataObjectPackageImporter {
@@ -139,12 +141,20 @@ public class CSVTreeToDataObjectPackageImporter {
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
+     * The digest algorithm.
+     */
+    private String digestAlgorithm;
+
+    /**
      * Instantiates a new csv tree file importer.
      *
      * @param csvFileName           the csv file name
-     * @param encoding              the encoding format string (most of the time UTF8 or Cp1252)
-     * @param separator             the char used as column separator (; or , or \t...)
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param encoding              the encoding format string (most of the time
+     *                              UTF8 or Cp1252)
+     * @param separator             the char used as column separator (; or , or
+     *                              \t...)
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException if file doesn't exist
      */
     public CSVTreeToDataObjectPackageImporter(
@@ -164,13 +174,15 @@ public class CSVTreeToDataObjectPackageImporter {
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.encoding = encoding;
         this.separator = separator;
+        this.digestAlgorithm = "SHA-512";
     }
 
     /**
      * Read csv file and construct the map with all parsed csv lines by cotation
      * and series root lines list
      *
-     * @throws SEDALibException     if csv file can't be accessed or is badly formatted
+     * @throws SEDALibException     if csv file can't be accessed or is badly
+     *                              formatted
      * @throws InterruptedException if import process is interrupted
      */
     private void readCSVFile() throws SEDALibException, InterruptedException {
@@ -231,7 +243,7 @@ public class CSVTreeToDataObjectPackageImporter {
             else content.addNewMetadata("DescriptionLevel", "Subseries");
             content.addNewMetadata("OriginatingAgencyArchiveUnitIdentifier", line.motherId + line.suffix);
         } catch (Exception ignored) {
-            //ignored
+            // ignored
         }
         au.setContent(content);
         List<Line> childLines = linesMap.get(line.motherId + line.suffix);
@@ -254,7 +266,8 @@ public class CSVTreeToDataObjectPackageImporter {
     /**
      * Do import the csv tree to ArchiveTransfer.
      *
-     * @throws SEDALibException     if the csv can't be accessed or is badly formatted
+     * @throws SEDALibException     if the csv can't be accessed or is badly
+     *                              formatted
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
@@ -267,6 +280,7 @@ public class CSVTreeToDataObjectPackageImporter {
 
         readCSVFile();
         dataObjectPackage = new DataObjectPackage();
+        dataObjectPackage.setDigestAlgorithm(digestAlgorithm);
 
         dataObjectPackage.resetInOutCounter();
         List<Line> rootLines = linesMap.get("");
@@ -296,6 +310,15 @@ public class CSVTreeToDataObjectPackageImporter {
             "sedalib: import du fichier csv d'arbre de plan de classement terminé",
             null
         );
+    }
+
+    /**
+     * Sets the digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
     }
 
     /**

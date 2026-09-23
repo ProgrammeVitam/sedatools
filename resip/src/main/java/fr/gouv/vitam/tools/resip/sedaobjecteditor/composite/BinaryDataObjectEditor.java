@@ -52,7 +52,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 import javax.swing.*;
@@ -115,6 +115,8 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
             } else if (sm instanceof FormatIdentification) {
                 summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("MimeType")));
                 summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("FormatId")));
+            } else if (sm instanceof DigestType) {
+                summaryList.add(getItOrUnknown(((DigestType) sm).getAlgorithm()));
             }
         }
         return String.join(", ", summaryList);
@@ -159,7 +161,8 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     private boolean setReadOnly(Path path) {
         try {
             // Office bug workaround
-            // This is a special patch to prevent Office to change a file when opening it to see the content...
+            // This is a special patch to prevent Office to change a file when opening it to
+            // see the content...
             if (System.getProperty("os.name").toLowerCase().contains("win")) Files.setAttribute(
                 path,
                 "dos:readonly",
@@ -186,7 +189,7 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         if (editedOnDiskPath != null) {
             try {
                 if (setReadOnly(editedOnDiskPath)) Desktop.getDesktop().open(editedOnDiskPath.toFile());
-            } catch (IOException ignored) {} //NOSONAR
+            } catch (IOException ignored) {} // NOSONAR
         }
     }
 
@@ -199,9 +202,10 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
 
     private void extractFileMetadataInEditors() {
         try {
+            String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
             replaceOrAddObjectEditor(
                 createSEDAObjectEditor(
-                    new DigestType("MessageDigest", DigestSha512.compute(editedOnDiskPath), "SHA-512"),
+                    new DigestType("MessageDigest", DigestComputer.compute(editedOnDiskPath, algorithm), algorithm),
                     this
                 )
             );
@@ -296,7 +300,9 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     /**
      * Create binary data object sample binary data object.
      *
-     * @param minimal the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @param minimal the minimal flag, if true subfields are selected and values
+     *                are empty, if false all subfields are added and values are
+     *                default values
      * @return the binary data object
      * @throws SEDALibException the seda lib exception
      */
