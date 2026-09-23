@@ -29,7 +29,7 @@
         <!--    For HTML manipulation-->
         <jsoup.version>1.23.2</jsoup.version>
         <!--    For format identification (DROID from the UK National Archives)-->
-        <droid.version>6.8.0</droid.version>
+        <droid.version>6.9.14</droid.version>
         <droidjaxb-impl.version>2.3.8</droidjaxb-impl.version>
         <!--    For Windows shortcut manipulation TODO: exotic library to replace-->
         <mslinks.version>1.0.6.2</mslinks.version>

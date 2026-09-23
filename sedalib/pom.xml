@@ -44,12 +44,25 @@
                     <groupId>org.apache.logging.log4j</groupId>
                     <artifactId>log4j-slf4j2-impl</artifactId>
                 </exclusion>
-                <!--bcprov-jdk15on is an end-of-life branch stuck on 1.68 with unpatched CVEs.
-                    truevfs-comp-zip only needs the org.bouncycastle.crypto classes, which the
-                    maintained bcprov-jdk18on artifact provides under the same package names.-->
+                <!--bcprov-jdk15on and bcprov-jdk15to18 are end-of-life branches stuck on old
+                    versions with unpatched CVEs. truevfs-comp-zip and jwat-common only need the
+                    org.bouncycastle classes, which the maintained bcprov-jdk18on artifact provides
+                    under the same package names.-->
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15to18</artifactId>
+                </exclusion>
+                <!--Droid 6.9 added S3 profile support, which drags in the whole AWS SDK and, through
+                    netty-nio-client, netty. droid-core-interfaces declares eight artifacts of that
+                    group, so excluding s3 alone left netty reachable through sso. Sedatools only
+                    identifies files on the local filesystem, so the whole group is kept out.-->
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
