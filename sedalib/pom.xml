@@ -44,7 +44,19 @@
                     <groupId>org.apache.logging.log4j</groupId>
                     <artifactId>log4j-slf4j2-impl</artifactId>
                 </exclusion>
+                <!--bcprov-jdk15on is an end-of-life branch stuck on 1.68 with unpatched CVEs.
+                    truevfs-comp-zip only needs the org.bouncycastle.crypto classes, which the
+                    maintained bcprov-jdk18on artifact provides under the same package names.-->
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <!--Replacement for the excluded, end-of-life bcprov-jdk15on needed by truevfs-comp-zip-->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>uk.gov.nationalarchives</groupId>
