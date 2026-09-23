@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "21"
 
       - name: Build and Run Tests
         run: mvn --settings .ci/github-actions-settings.xml -Dspotless.check.skip verify

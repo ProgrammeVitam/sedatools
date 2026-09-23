@@ -125,8 +125,8 @@
                         <configuration>
                             <target>
                                 <get
-                                    src="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29+7/OpenJDK11U-jre_x64_windows_hotspot_11.0.29_7.zip"
-                                    dest="${project.build.directory}/jre11.zip"
+                                    src="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jre_x64_windows_hotspot_21.0.12.1_1.zip"
+                                    dest="${project.build.directory}/jre21.zip"
                                     verbose="false"
                                     ignoreerrors="false"
                                     usetimestamp="true"/>
@@ -143,7 +143,7 @@
                             <target>
                                 <echo message="unzipping file"/>
                                 <unzip
-                                    src="${project.build.directory}/jre11.zip"
+                                    src="${project.build.directory}/jre21.zip"
                                     dest="${project.build.directory}/"/>
                             </target>
                         </configuration>
@@ -168,13 +168,13 @@
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>${project.build.directory}/MailExtract.exe</outfile>
                             <stayAlive>true</stayAlive>
-                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=21</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>./jdk-11.0.29+7-jre</path>
-                                <minVersion>11</minVersion>
+                                <path>./jdk-21.0.12.1+1-jre</path>
+                                <minVersion>21</minVersion>
                                 <requires64Bit/>
                                 <requiresJdk/>
                                 <opts>
@@ -215,13 +215,13 @@
                             <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>${project.build.directory}/MailExtractCmd.exe</outfile>
-                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=21</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>jdk-11</path>
-                                <minVersion>11</minVersion>
+                                <path>jdk-21</path>
+                                <minVersion>21</minVersion>
                                 <requires64Bit/>
                                 <requiresJdk/>
                                 <opts>
@@ -276,7 +276,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>zip-with-jdk-11-assembly</id>
+                        <id>zip-with-jdk-21-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
