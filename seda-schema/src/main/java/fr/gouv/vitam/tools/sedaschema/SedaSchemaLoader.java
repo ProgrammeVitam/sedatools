@@ -92,7 +92,7 @@ final class SedaSchemaLoader {
     private final Map<XSTypeDefinition, TypeDef> builtTypes = new IdentityHashMap<>();
     private final Map<String, SimpleTypeDef> builtInSimpleTypes = new HashMap<>();
 
-    SedaSchema load(URL mainXsd, SedaVersion version) throws SedaSchemaException {
+    SedaSchema load(URL mainXsd, SedaVersion version, SedaFlavor flavor) throws SedaSchemaException {
         XSModel model = loadModel(mainXsd);
         String targetNamespace = findTargetNamespace(model);
         if (version == null) version = SedaVersion.fromNamespace(targetNamespace);
@@ -109,7 +109,7 @@ final class SedaSchemaLoader {
         for (int i = 0; i < elements.getLength(); i++) {
             globalElements.put(elements.item(i).getName(), buildElement((XSElementDeclaration) elements.item(i)));
         }
-        return new SedaSchema(targetNamespace, version, globalElements, namedTypes);
+        return new SedaSchema(targetNamespace, version, flavor, globalElements, namedTypes);
     }
 
     private XSModel loadModel(URL mainXsd) throws SedaSchemaException {

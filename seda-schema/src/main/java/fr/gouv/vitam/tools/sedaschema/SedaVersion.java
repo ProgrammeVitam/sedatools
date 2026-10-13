@@ -38,21 +38,40 @@
 package fr.gouv.vitam.tools.sedaschema;
 
 /**
- * The SEDA versions whose official XSD are bundled in this module.
+ * The SEDA versions whose XSD are bundled in this module, in both flavours (see
+ * {@link SedaFlavor}).
  */
 public enum SedaVersion {
-    V2_1("2.1", "fr:gouv:culture:archivesdefrance:seda:v2.1", "sedaschema/xsd/seda2_1/seda-vitam-2.1-main.xsd"),
-    V2_2("2.2", "fr:gouv:culture:archivesdefrance:seda:v2.2", "sedaschema/xsd/seda2_2/seda-vitam-2.2-main.xsd"),
-    V2_3("2.3", "fr:gouv:culture:archivesdefrance:seda:v2.3", "sedaschema/xsd/seda2_3/seda-2.3-main.xsd");
+    V2_1(
+        "2.1",
+        "fr:gouv:culture:archivesdefrance:seda:v2.1",
+        "sedaschema/xsd/official/seda2_1/seda-2.1-main.xsd",
+        "sedaschema/xsd/vitam/seda2_1/seda-vitam-2.1-main.xsd"
+    ),
+    V2_2(
+        "2.2",
+        "fr:gouv:culture:archivesdefrance:seda:v2.2",
+        "sedaschema/xsd/official/seda2_2/seda-2.2-main.xsd",
+        "sedaschema/xsd/vitam/seda2_2/seda-vitam-2.2-main.xsd"
+    ),
+    // Vitam doesn't alter the 2.3: the single bundled XSD is the official one
+    V2_3(
+        "2.3",
+        "fr:gouv:culture:archivesdefrance:seda:v2.3",
+        "sedaschema/xsd/official/seda2_3/seda-2.3-main.xsd",
+        null
+    );
 
     private final String label;
     private final String namespace;
-    private final String mainXsdResource;
+    private final String officialMainXsdResource;
+    private final String vitamMainXsdResource;
 
-    SedaVersion(String label, String namespace, String mainXsdResource) {
+    SedaVersion(String label, String namespace, String officialMainXsdResource, String vitamMainXsdResource) {
         this.label = label;
         this.namespace = namespace;
-        this.mainXsdResource = mainXsdResource;
+        this.officialMainXsdResource = officialMainXsdResource;
+        this.vitamMainXsdResource = vitamMainXsdResource;
     }
 
     public String getLabel() {
@@ -64,10 +83,28 @@ public enum SedaVersion {
     }
 
     /**
-     * @return the classpath resource of the main XSD (the one including all the others)
+     * @return true if Vitam diverges from the standard in this version
+     */
+    public boolean hasVitamVariant() {
+        return vitamMainXsdResource != null;
+    }
+
+    /**
+     * @return the classpath resource of the official main XSD (the one including all the others)
      */
     public String getMainXsdResource() {
-        return mainXsdResource;
+        return officialMainXsdResource;
+    }
+
+    /**
+     * @param flavor the wanted flavour
+     * @return the classpath resource of its main XSD, the official one when Vitam doesn't diverge
+     * in this version
+     */
+    public String getMainXsdResource(SedaFlavor flavor) {
+        return flavor == SedaFlavor.VITAM && vitamMainXsdResource != null
+            ? vitamMainXsdResource
+            : officialMainXsdResource;
     }
 
     /**

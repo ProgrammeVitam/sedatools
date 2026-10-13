@@ -52,42 +52,56 @@ import java.util.Map;
  * A loaded XSD schema: the global elements (document roots) and the named types, from which the
  * whole content model is reachable.
  * <p>
- * Use {@link #of(SedaVersion)} for the bundled official SEDA schemas, {@link #load(URL)} for any
- * other XSD (a future SEDA version, a restricted variant...). Instances are immutable and thread
- * safe once built.
+ * Use {@link #of(SedaVersion)} for the bundled official SEDA schemas, {@link #of(SedaVersion,
+ * SedaFlavor)} to get the Vitam flavour instead, {@link #load(URL)} for any other XSD (a future
+ * SEDA version, a restricted variant...). Instances are immutable and thread safe once built.
  */
 public final class SedaSchema {
 
-    private static final Map<SedaVersion, SedaSchema> BUILTIN = new EnumMap<>(SedaVersion.class);
+    private static final Map<SedaFlavor, Map<SedaVersion, SedaSchema>> BUILTIN = new EnumMap<>(SedaFlavor.class);
 
     private final String targetNamespace;
     private final SedaVersion version;
+    private final SedaFlavor flavor;
     private final Map<String, ElementDef> globalElements;
     private final Map<String, TypeDef> namedTypes;
 
     SedaSchema(
         String targetNamespace,
         SedaVersion version,
+        SedaFlavor flavor,
         Map<String, ElementDef> globalElements,
         Map<String, TypeDef> namedTypes
     ) {
         this.targetNamespace = targetNamespace;
         this.version = version;
+        this.flavor = flavor;
         this.globalElements = Collections.unmodifiableMap(globalElements);
         this.namedTypes = Collections.unmodifiableMap(namedTypes);
     }
 
     /**
      * @param version a bundled SEDA version
-     * @return the schema of this version, loaded once and cached
+     * @return the official schema of this version, loaded once and cached
      */
-    public static synchronized SedaSchema of(SedaVersion version) throws SedaSchemaException {
-        SedaSchema schema = BUILTIN.get(version);
+    public static SedaSchema of(SedaVersion version) throws SedaSchemaException {
+        return of(version, SedaFlavor.OFFICIAL);
+    }
+
+    /**
+     * @param version a bundled SEDA version
+     * @param flavor  the official standard or the variant Vitam implements
+     * @return the schema of this version and flavour, loaded once and cached
+     */
+    public static synchronized SedaSchema of(SedaVersion version, SedaFlavor flavor) throws SedaSchemaException {
+        Map<SedaVersion, SedaSchema> byVersion = BUILTIN.computeIfAbsent(flavor, f -> new EnumMap<>(SedaVersion.class));
+        SedaSchema schema = byVersion.get(version);
         if (schema == null) {
-            URL url = SedaSchema.class.getClassLoader().getResource(version.getMainXsdResource());
-            if (url == null) throw new SedaSchemaException("Ressource XSD introuvable " + version.getMainXsdResource());
-            schema = new SedaSchemaLoader().load(url, version);
-            BUILTIN.put(version, schema);
+            String resource = version.getMainXsdResource(flavor);
+            URL url = SedaSchema.class.getClassLoader().getResource(resource);
+            if (url == null) throw new SedaSchemaException("Ressource XSD introuvable " + resource);
+            schema = new SedaSchemaLoader().load(url, version, flavor);
+            byVersion.put(version, schema);
         }
         return schema;
     }
@@ -98,7 +112,7 @@ public final class SedaSchema {
      * @param mainXsd the main XSD URL (file, jar, classpath resource...)
      */
     public static SedaSchema load(URL mainXsd) throws SedaSchemaException {
-        return new SedaSchemaLoader().load(mainXsd, null);
+        return new SedaSchemaLoader().load(mainXsd, null, null);
     }
 
     public String getTargetNamespace() {
@@ -110,6 +124,13 @@ public final class SedaSchema {
      */
     public SedaVersion getVersion() {
         return version;
+    }
+
+    /**
+     * @return the bundled flavour this schema was loaded from, or null when loaded from a URL
+     */
+    public SedaFlavor getFlavor() {
+        return flavor;
     }
 
     /**

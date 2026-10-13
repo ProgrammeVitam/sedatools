@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedaschema.node;
 
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaSchema;
 import fr.gouv.vitam.tools.sedaschema.SedaSchemaException;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
@@ -17,7 +18,8 @@ class SedaNodeTest {
 
     @Test
     void readsValidatesAndRewritesAManifest() throws Exception {
-        SedaSchema schema = SedaSchema.of(SedaVersion.V2_1);
+        // a ReSIP manifest: it holds TextContent, a Vitam extension the official 2.1 doesn't declare
+        SedaSchema schema = SedaSchema.of(SedaVersion.V2_1, SedaFlavor.VITAM);
         SedaNode root;
         try (InputStream in = getClass().getResourceAsStream("/SampleWithLinkFlatManifest.xml")) {
             root = new SedaNodeReader(schema).read(in);
