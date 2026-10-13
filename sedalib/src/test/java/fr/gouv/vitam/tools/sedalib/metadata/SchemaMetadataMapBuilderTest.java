@@ -9,66 +9,68 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Checks that the map {@link SchemaMetadataMapBuilder} builds from the XSD is the hand written
- * one: same Java class and same cardinality for every element the schema declares.
+ * Checks that the map {@link SchemaMetadataMapBuilder} builds from the XSD is exactly the hand
+ * written one: same elements, same order, same Java class, same cardinality, same expandability.
  * <p>
- * This is the safety net of the migration. While it is green, replacing the maps by the builder
- * changes nothing that sedalib or ReSIP can observe; the day the maps are gone, this test goes
- * with them. The elements the builder leaves out on purpose are those of
- * {@link MetadataMapXsdConformityTest#DESIGN_CHOICES}: sedalib holds them elsewhere, or they are
- * outside of the schema.
+ * This is the safety net of the migration. While it is green, serving the maps from the builder
+ * changes nothing that sedalib or ReSIP can observe; the day the hand written maps are gone, this
+ * test goes with them.
  */
 class SchemaMetadataMapBuilderTest {
 
     @ParameterizedTest
     @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2", "V2_3" })
-    void buildsTheSameMapsAsTheHandWrittenOnes(SedaVersion version) throws Exception {
+    void buildsExactlyTheHandWrittenMaps(SedaVersion version) throws Exception {
         List<String> differences = new ArrayList<>();
 
-        for (Class<?> clazz : MetadataMapXsdConformityTest.CLASS_TO_XSD_TYPE.keySet()) {
+        for (Class<?> clazz : SchemaMetadataMapBuilder.getXsdTypes().keySet()) {
             Map<String, ComplexListMetadataKind> handWritten = ComplexListInterface.metadataDefinitions(clazz).get(
                 version
             );
             LinkedHashMap<String, ComplexListMetadataKind> built = SchemaMetadataMapBuilder.build(clazz, version);
             if (handWritten == null || built == null) continue;
+            String name = clazz.getSimpleName();
 
-            Set<String> ignored = new LinkedHashSet<>(
-                MetadataMapXsdConformityTest.DESIGN_CHOICES.getOrDefault(clazz, Set.of())
+            if (!new ArrayList<>(handWritten.keySet()).equals(new ArrayList<>(built.keySet()))) differences.add(
+                name +
+                " : éléments ou ordre différents\n      écrite    " +
+                handWritten.keySet() +
+                "\n      construite" +
+                built.keySet()
             );
-            ignored.addAll(
-                MetadataMapXsdConformityTest.VERSION_DESIGN_CHOICES.getOrDefault(version, Map.of()).getOrDefault(
-                    clazz,
-                    Set.of()
-                )
-            );
-
             for (Map.Entry<String, ComplexListMetadataKind> e : built.entrySet()) {
-                if (ignored.contains(e.getKey())) continue;
-                String label = clazz.getSimpleName() + "." + e.getKey();
                 ComplexListMetadataKind expected = handWritten.get(e.getKey());
-                if (expected == null) {
-                    differences.add(label + " : construit mais absent de la classe");
-                    continue;
-                }
+                if (expected == null) continue;
                 if (!expected.getMetadataClass().equals(e.getValue().getMetadataClass())) differences.add(
-                    label +
+                    name +
+                    "." +
+                    e.getKey() +
                     " : classe " +
                     expected.getMetadataClass().getSimpleName() +
                     ", construite " +
                     e.getValue().getMetadataClass().getSimpleName()
                 );
                 if (expected.isMany() != e.getValue().isMany()) differences.add(
-                    label + " : cardinalité " + expected.isMany() + ", construite " + e.getValue().isMany()
+                    name +
+                    "." +
+                    e.getKey() +
+                    " : cardinalité " +
+                    expected.isMany() +
+                    ", construite " +
+                    e.getValue().isMany()
                 );
             }
+
+            Boolean expandable = ComplexListInterface.notExpandableFlags(clazz).get(version);
+            if (expandable != null && expandable == SchemaMetadataMapBuilder.isExpandable(clazz)) differences.add(
+                name + " : expandable " + !expandable + ", construite " + SchemaMetadataMapBuilder.isExpandable(clazz)
+            );
         }
 
         assertThat(differences)

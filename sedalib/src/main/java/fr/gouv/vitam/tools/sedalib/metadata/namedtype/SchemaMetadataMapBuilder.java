@@ -42,6 +42,8 @@ import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.Operation;
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentContainer;
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentPack;
 import fr.gouv.vitam.tools.sedalib.metadata.content.AdditionalProof;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Coverage;
@@ -87,8 +89,11 @@ import fr.gouv.vitam.tools.sedaschema.model.ElementDef;
 import fr.gouv.vitam.tools.sedaschema.model.Particle;
 import fr.gouv.vitam.tools.sedaschema.model.SimpleTypeDef;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Builds a metadataMap from the SEDA XSD read by seda-schema, instead of hand writing it.
@@ -99,8 +104,10 @@ import java.util.Map;
  * then the XSD built in base through {@link #LEAF_BY_BUILT_IN}), and the handful of elements
  * sedalib reads with another class than its type would give ({@link #OVERRIDES}).
  * <p>
- * The metadata outside of the schema (the Vitam compaction extension, and the 2.1 additions of
- * Content) are not returned: they are the business of whoever assembles the final map.
+ * Three more tables hold what the schema can't give: the elements it declares that sedalib keeps
+ * elsewhere ({@link #EXCLUDED}), the metadata sedalib adds outside of the schema
+ * ({@link #ADDITIONS}, the Vitam compaction extension among them) and the classes that accept any
+ * other element ({@link #EXPANDABLE}).
  */
 public final class SchemaMetadataMapBuilder {
 
@@ -262,6 +269,95 @@ public final class SchemaMetadataMapBuilder {
     }
 
     /**
+     * Elements the schema declares that the map leaves out, by class: sedalib holds them another
+     * way.
+     */
+    private static final Map<Class<?>, Set<String>> EXCLUDED = new LinkedHashMap<>();
+
+    static {
+        // the rule start date is carried by the Rule metadata, see RuleType and RuleMetadataKind
+        for (Class<?> c : XSD_TYPE_BY_CLASS.keySet()) if (RuleType.class.isAssignableFrom(c)) EXCLUDED.put(
+            c,
+            Set.of("StartDate")
+        );
+        // the binary content is kept as a file and referenced by Uri, never inlined in the manifest
+        EXCLUDED.put(BinaryDataObject.class, Set.of("Attachment"));
+    }
+
+    /**
+     * Metadata sedalib holds although the schema of the version doesn't declare it, appended in
+     * this order after the children of the schema.
+     */
+    private static final List<Addition> ADDITIONS = new ArrayList<>();
+
+    static {
+        // Vitam extensions of 2.1, in the standard from 2.2 on
+        ADDITIONS.add(
+            new Addition(Content.class, Set.of(SedaVersion.V2_1), "OriginatingSystemIdReplyTo", StringType.class, false)
+        );
+        ADDITIONS.add(new Addition(Content.class, Set.of(SedaVersion.V2_1), "TextContent", StringType.class, true));
+        // Vitam compaction extension, outside of the standard
+        for (SedaVersion v : SedaVersion.values()) {
+            ADDITIONS.add(new Addition(Content.class, Set.of(v), "DocumentContainer", DocumentContainer.class, false));
+            ADDITIONS.add(new Addition(Content.class, Set.of(v), "DocumentPack", DocumentPack.class, false));
+        }
+        // UpdateOperation left the XSD in 2.3, sedalib keeps it as the Vitam extension it was
+        ADDITIONS.add(
+            new Addition(Management.class, Set.of(SedaVersion.V2_3), "UpdateOperation", UpdateOperation.class, false)
+        );
+        ADDITIONS.add(
+            new Addition(
+                ManagementMetadata.class,
+                Set.of(SedaVersion.V2_3),
+                "UpdateOperation",
+                UpdateOperation.class,
+                false
+            )
+        );
+    }
+
+    /**
+     * The classes that accept any other element besides the ones of their map.
+     */
+    private static final Set<Class<?>> EXPANDABLE = Set.of(
+        Content.class,
+        Event.class,
+        HoldRule.class,
+        Management.class,
+        ManagementMetadata.class,
+        Metadata.class,
+        PhysicalDataObject.class
+    );
+
+    /**
+     * One metadata outside of the schema.
+     */
+    private static final class Addition {
+
+        private final Class<?> owner;
+        private final Set<SedaVersion> versions;
+        private final String name;
+        private final Class<?> metadataClass;
+        private final boolean many;
+
+        private Addition(Class<?> owner, Set<SedaVersion> versions, String name, Class<?> metadataClass, boolean many) {
+            this.owner = owner;
+            this.versions = versions;
+            this.name = name;
+            this.metadataClass = metadataClass;
+            this.many = many;
+        }
+    }
+
+    /**
+     * @param clazz a class with a metadataMap
+     * @return true if this class accepts any other element besides the ones of its map
+     */
+    public static boolean isExpandable(Class<?> clazz) {
+        return EXPANDABLE.contains(clazz);
+    }
+
+    /**
      * @return the classes with a metadataMap the schema declares, and their XSD complex type
      */
     public static Map<Class<?>, String> getXsdTypes() {
@@ -311,6 +407,10 @@ public final class SchemaMetadataMapBuilder {
         if (type == null) return null;
         LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
         collect(clazz.getSimpleName(), type.getContent(), false, map);
+        map.keySet().removeAll(EXCLUDED.getOrDefault(clazz, Set.of()));
+        for (Addition addition : ADDITIONS) if (
+            addition.owner.equals(clazz) && addition.versions.contains(version)
+        ) map.put(addition.name, new ComplexListMetadataKind(addition.metadataClass, addition.many));
         return map;
     }
 
