@@ -85,6 +85,8 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
         METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V2.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
 
         METADATA_MAP_V2.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
@@ -100,6 +102,8 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
         METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V3.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
         METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));

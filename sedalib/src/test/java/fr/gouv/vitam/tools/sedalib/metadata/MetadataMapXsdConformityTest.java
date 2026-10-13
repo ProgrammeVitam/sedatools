@@ -1,5 +1,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.AdditionalProof;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -33,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ToDelete;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgencyType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
@@ -114,6 +117,9 @@ class MetadataMapXsdConformityTest {
         CLASS_TO_XSD_TYPE.put(PlaceType.class, "BirthOrDeathPlaceType");
         CLASS_TO_XSD_TYPE.put(LinkingAgentIdentifier.class, "LinkingAgentIdentifierType");
         CLASS_TO_XSD_TYPE.put(ManagementMetadata.class, "ManagementMetadataType");
+        CLASS_TO_XSD_TYPE.put(BinaryDataObject.class, "BinaryDataObjectType");
+        CLASS_TO_XSD_TYPE.put(PhysicalDataObject.class, "PhysicalDataObjectType");
+        CLASS_TO_XSD_TYPE.put(ToDelete.class, "ToDeleteType");
         CLASS_TO_XSD_TYPE.put(Operation.class, "OperationType");
     }
 
@@ -135,6 +141,8 @@ class MetadataMapXsdConformityTest {
             Content.class,
             Set.of("DocumentContainer", "DocumentPack", "OriginatingSystemIdReplyTo", "TextContent")
         );
+        // the binary content is kept as a file and referenced by Uri, never inlined in the manifest
+        DESIGN_CHOICES.put(BinaryDataObject.class, Set.of("Attachment"));
     }
 
     /**

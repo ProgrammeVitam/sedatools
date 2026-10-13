@@ -66,7 +66,7 @@ public class ToDelete extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<>();
-        metadataMap.put(ARCHIVEUNITREFID_TAG, new ComplexListMetadataKind(SIPInternalIDType.class, false));
+        metadataMap.put(ARCHIVEUNITREFID_TAG, new ComplexListMetadataKind(SIPInternalIDType.class, true));
     }
 
     /**

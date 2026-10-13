@@ -91,7 +91,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
         new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
         new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
-        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
+        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
         new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
         new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
         new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
