@@ -191,7 +191,6 @@
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>seda-schema</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
