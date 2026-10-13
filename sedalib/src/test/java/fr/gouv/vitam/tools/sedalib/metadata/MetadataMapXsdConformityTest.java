@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DataObjectOrArchiveUnitRef
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.LinkingAgentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PlaceType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaSchema;
 import fr.gouv.vitam.tools.sedaschema.model.ComplexTypeDef;
 import fr.gouv.vitam.tools.sedaschema.model.ElementDef;
@@ -127,8 +128,9 @@ class MetadataMapXsdConformityTest {
             c,
             Set.of("StartDate")
         );
-        // Vitam compaction extension, not part of the standard; OriginatingSystemIdReplyTo and
-        // TextContent were Vitam extensions in 2.1 before entering the standard in 2.2
+        // DocumentContainer and DocumentPack are the Vitam compaction extension, outside of the
+        // standard; OriginatingSystemIdReplyTo and TextContent are sedalib additions in 2.1, where
+        // neither the official nor the Vitam XSD declares them, before they entered the 2.2 standard
         DESIGN_CHOICES.put(
             Content.class,
             Set.of("DocumentContainer", "DocumentPack", "OriginatingSystemIdReplyTo", "TextContent")
@@ -136,22 +138,33 @@ class MetadataMapXsdConformityTest {
     }
 
     /**
-     * Elements whose presence or cardinality differs from the XSD, to be fixed: left out of the
-     * comparison until then.
+     * Same, but only for one version.
      */
-    private static final Map<Class<?>, Set<String>> KNOWN_DRIFT = new LinkedHashMap<>();
+    private static final Map<SedaVersion, Map<Class<?>, Set<String>>> VERSION_DESIGN_CHOICES = new LinkedHashMap<>();
 
     static {
-        // Vitam extension kept in 2.3 although it left the official XSD
-        KNOWN_DRIFT.put(Management.class, Set.of("UpdateOperation"));
-        // UpdateOperation missing (2.1, 2.2)
-        KNOWN_DRIFT.put(ManagementMetadata.class, Set.of("UpdateOperation"));
+        // UpdateOperation left the XSD in 2.3, sedalib keeps it as the Vitam extension it was in
+        // 2.1 and 2.2, where it is still checked against the schema
+        VERSION_DESIGN_CHOICES.put(
+            SedaVersion.V2_3,
+            Map.of(Management.class, Set.of("UpdateOperation"), ManagementMetadata.class, Set.of("UpdateOperation"))
+        );
     }
+
+    /**
+     * Elements whose presence or cardinality differs from the XSD, to be fixed: left out of the
+     * comparison until then. Empty: the maps match the schema.
+     */
+    private static final Map<Class<?>, Set<String>> KNOWN_DRIFT = new LinkedHashMap<>();
 
     @ParameterizedTest
     @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2", "V2_3" })
     void metadataMapsMatchTheXsd(SedaVersion version) throws Exception {
-        SedaSchema schema = SedaSchema.of(fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(version.name()));
+        // sedalib implements the SEDA Vitam actually uses, not the bare standard
+        SedaSchema schema = SedaSchema.of(
+            fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(version.name()),
+            SedaFlavor.VITAM
+        );
         List<String> differences = new ArrayList<>();
 
         for (Map.Entry<Class<?>, String> e : CLASS_TO_XSD_TYPE.entrySet()) {
@@ -163,6 +176,7 @@ class MetadataMapXsdConformityTest {
             if (map == null || type == null) continue;
             Set<String> ignored = new LinkedHashSet<>(DESIGN_CHOICES.getOrDefault(e.getKey(), Set.of()));
             ignored.addAll(KNOWN_DRIFT.getOrDefault(e.getKey(), Set.of()));
+            ignored.addAll(VERSION_DESIGN_CHOICES.getOrDefault(version, Map.of()).getOrDefault(e.getKey(), Set.of()));
             compare(e.getKey().getSimpleName() + " / " + e.getValue(), map, type, ignored, differences);
         }
 

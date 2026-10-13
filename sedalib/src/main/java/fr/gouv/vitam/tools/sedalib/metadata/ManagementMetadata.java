@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
@@ -44,6 +45,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.management.DisseminationRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
@@ -70,26 +72,46 @@ public class ManagementMetadata extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
         metadataMap = new LinkedHashMap<>();
-        metadataMap.put("ArchivalProfile", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("ServiceLevel", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("AcquisitionInformation", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("LegalStatus", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("OriginatingAgencyIdentifier", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("SubmissionAgencyIdentifier", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("StorageRule", new ComplexListMetadataKind(StorageRule.class, false));
-        metadataMap.put("AppraisalRule", new ComplexListMetadataKind(AppraisalRule.class, false));
-        metadataMap.put("AccessRule", new ComplexListMetadataKind(AccessRule.class, false));
-        metadataMap.put("DisseminationRule", new ComplexListMetadataKind(DisseminationRule.class, false));
-        metadataMap.put("ReuseRule", new ComplexListMetadataKind(ReuseRule.class, false));
-        metadataMap.put("ClassificationRule", new ComplexListMetadataKind(ClassificationRule.class, false));
-        metadataMap.put("LogBook", new ComplexListMetadataKind(AnyXMLType.class, false));
-        metadataMap.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
+        putCommon(metadataMap);
+        // Vitam extension
+        metadataMap.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
         metadataMap.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
+    }
+
+    /**
+     * Init metadata map for SEDA 2.2 and later, where HoldRule comes before UpdateOperation.
+     */
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+
+    static {
+        metadataMap_v2 = new LinkedHashMap<>();
+        putCommon(metadataMap_v2);
+        metadataMap_v2.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
+        // Vitam extension
+        metadataMap_v2.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
+    }
+
+    private static void putCommon(Map<String, ComplexListMetadataKind> map) {
+        map.put("ArchivalProfile", new ComplexListMetadataKind(StringType.class, false));
+        map.put("ServiceLevel", new ComplexListMetadataKind(StringType.class, false));
+        map.put("AcquisitionInformation", new ComplexListMetadataKind(StringType.class, false));
+        map.put("LegalStatus", new ComplexListMetadataKind(StringType.class, false));
+        map.put("OriginatingAgencyIdentifier", new ComplexListMetadataKind(StringType.class, false));
+        map.put("SubmissionAgencyIdentifier", new ComplexListMetadataKind(StringType.class, false));
+        map.put("StorageRule", new ComplexListMetadataKind(StorageRule.class, false));
+        map.put("AppraisalRule", new ComplexListMetadataKind(AppraisalRule.class, false));
+        map.put("AccessRule", new ComplexListMetadataKind(AccessRule.class, false));
+        map.put("DisseminationRule", new ComplexListMetadataKind(DisseminationRule.class, false));
+        map.put("ReuseRule", new ComplexListMetadataKind(ReuseRule.class, false));
+        map.put("ClassificationRule", new ComplexListMetadataKind(ClassificationRule.class, false));
+        map.put("LogBook", new ComplexListMetadataKind(AnyXMLType.class, false));
+        map.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
