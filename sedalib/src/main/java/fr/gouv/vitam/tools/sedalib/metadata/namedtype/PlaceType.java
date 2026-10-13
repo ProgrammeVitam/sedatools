@@ -39,9 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class PlaceType.
  * <p>
@@ -50,22 +47,6 @@ import java.util.Map;
 public class PlaceType extends ComplexListType {
 
     static final String GEOGNAME = "Geogname";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(GEOGNAME, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Address", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("PostalCode", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("City", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Region", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Country", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     /**
      * Instantiates a new place type.

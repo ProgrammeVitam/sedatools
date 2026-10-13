@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class CustodialHistory.
@@ -58,18 +52,6 @@ import java.util.Map;
  * d'origine au fichier archivable. Correspond à l'historique de la conservation en ISAD(G)"
  */
 public class CustodialHistory extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("CustodialHistoryItem", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("CustodialHistoryFile", new ComplexListMetadataKind(DataObjectReference.class, false));
-    }
 
     /**
      * Instantiates a new custodial history.

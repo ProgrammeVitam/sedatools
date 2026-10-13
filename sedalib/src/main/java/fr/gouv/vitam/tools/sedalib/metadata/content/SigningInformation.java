@@ -37,13 +37,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class SigningInformation.
@@ -55,23 +52,6 @@ import java.util.Map;
  * Standard quote: "Contient toutes les informations relatives à la signature"
  */
 public class SigningInformation extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("SigningRole", new ComplexListMetadataKind(EnumType.class, true));
-        metadataMap.put("DetachedSigningRole", new ComplexListMetadataKind(EnumType.class, true));
-        metadataMap.put("SignedDocumentReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, true));
-        metadataMap.put("SignatureDescription", new ComplexListMetadataKind(SignatureDescription.class, true));
-        metadataMap.put("TimestampingInformation", new ComplexListMetadataKind(TimestampingInformation.class, true));
-        metadataMap.put("AdditionalProof", new ComplexListMetadataKind(AdditionalProof.class, true));
-        metadataMap.put("Extended", new ComplexListMetadataKind(AnyXMLListType.class, false));
-    }
 
     // Constructors
 

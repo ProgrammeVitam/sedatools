@@ -1,94 +1,118 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SchemaMetadataMapBuilder;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Checks that the map {@link SchemaMetadataMapBuilder} builds from the XSD is exactly the hand
- * written one: same elements, same order, same Java class, same cardinality, same expandability.
- * <p>
- * This is the safety net of the migration. While it is green, serving the maps from the builder
- * changes nothing that sedalib or ReSIP can observe; the day the hand written maps are gone, this
- * test goes with them.
+ * The maps are no longer written by hand: they are built from the XSD, and this pins what the
+ * builder answers. The structure itself is checked against the schema by construction; what has to
+ * stay stable is the order, which drives the XML output, the Java class of each element and the
+ * metadata sedalib holds outside of the schema.
  */
 class SchemaMetadataMapBuilderTest {
 
+    @Test
+    void buildsContentInTheSchemaOrderWithTheVitamExtensionsAtTheEnd() throws Exception {
+        assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_1).keySet())
+            .startsWith("DescriptionLevel", "Title", "FilePlanPosition", "SystemId", "OriginatingSystemId")
+            .endsWith(
+                "Gps",
+                "History",
+                "OriginatingSystemIdReplyTo",
+                "TextContent",
+                "DocumentContainer",
+                "DocumentPack"
+            );
+        // in the standard since 2.2, so in the schema order, before History
+        assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_2).keySet()).endsWith(
+            "Gps",
+            "OriginatingSystemIdReplyTo",
+            "TextContent",
+            "History",
+            "DocumentContainer",
+            "DocumentPack"
+        );
+        assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_3).keySet()).endsWith(
+            "PersistentIdentifier",
+            "DocumentContainer",
+            "DocumentPack"
+        );
+    }
+
+    @Test
+    void keepsUpdateOperationInManagementWhenItLeftTheSchema() throws Exception {
+        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_1).keySet()).containsExactly(
+            "StorageRule",
+            "AppraisalRule",
+            "AccessRule",
+            "DisseminationRule",
+            "ReuseRule",
+            "ClassificationRule",
+            "LogBook",
+            "NeedAuthorization",
+            "UpdateOperation",
+            "HoldRule"
+        );
+        // HoldRule before UpdateOperation from 2.2, and UpdateOperation left the 2.3 schema
+        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_2).keySet()).endsWith(
+            "HoldRule",
+            "UpdateOperation"
+        );
+        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_3).keySet()).endsWith(
+            "HoldRule",
+            "UpdateOperation"
+        );
+    }
+
     @ParameterizedTest
     @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2", "V2_3" })
-    void buildsExactlyTheHandWrittenMaps(SedaVersion version) throws Exception {
-        List<String> differences = new ArrayList<>();
+    void marksTheMembersOfARepeatingRuleBlock(SedaVersion version) throws Exception {
+        Map<String, ComplexListMetadataKind> hold = SchemaMetadataMapBuilder.build(HoldRule.class, version);
 
-        for (Class<?> clazz : SchemaMetadataMapBuilder.getXsdTypes().keySet()) {
-            Map<String, ComplexListMetadataKind> handWritten = ComplexListInterface.metadataDefinitions(clazz).get(
-                version
-            );
-            LinkedHashMap<String, ComplexListMetadataKind> built = SchemaMetadataMapBuilder.build(clazz, version);
-            if (handWritten == null || built == null) continue;
-            String name = clazz.getSimpleName();
+        assertThat(hold.get("Rule")).isNotInstanceOf(RuleMetadataKind.class);
+        assertThat(hold.get("HoldEndDate")).isInstanceOf(RuleMetadataKind.class);
+        assertThat(hold.get("HoldOwner")).isInstanceOf(RuleMetadataKind.class);
+        assertThat(hold.get("PreventRearrangement")).isInstanceOf(RuleMetadataKind.class);
+        assertThat(hold.get("PreventInheritance")).isNotInstanceOf(RuleMetadataKind.class);
+        // the rule start date is carried by the Rule metadata, so it is not an element of its own
+        assertThat(hold).doesNotContainKey("StartDate");
 
-            if (!new ArrayList<>(handWritten.keySet()).equals(new ArrayList<>(built.keySet()))) differences.add(
-                name +
-                " : éléments ou ordre différents\n      écrite    " +
-                handWritten.keySet() +
-                "\n      construite" +
-                built.keySet()
-            );
-            for (Map.Entry<String, ComplexListMetadataKind> e : built.entrySet()) {
-                ComplexListMetadataKind expected = handWritten.get(e.getKey());
-                if (expected == null) continue;
-                if (!expected.getMetadataClass().equals(e.getValue().getMetadataClass())) differences.add(
-                    name +
-                    "." +
-                    e.getKey() +
-                    " : classe " +
-                    expected.getMetadataClass().getSimpleName() +
-                    ", construite " +
-                    e.getValue().getMetadataClass().getSimpleName()
-                );
-                if (!expected.getClass().equals(e.getValue().getClass())) differences.add(
-                    name +
-                    "." +
-                    e.getKey() +
-                    " : nature " +
-                    expected.getClass().getSimpleName() +
-                    ", construite " +
-                    e.getValue().getClass().getSimpleName()
-                );
-                if (expected.isMany() != e.getValue().isMany()) differences.add(
-                    name +
-                    "." +
-                    e.getKey() +
-                    " : cardinalité " +
-                    expected.isMany() +
-                    ", construite " +
-                    e.getValue().isMany()
-                );
-            }
+        Map<String, ComplexListMetadataKind> appraisal = SchemaMetadataMapBuilder.build(AppraisalRule.class, version);
+        assertThat(appraisal.keySet()).containsExactly("Rule", "PreventInheritance", "RefNonRuleId", "FinalAction");
+        // an enumeration in the XSD, read as a plain string
+        assertThat(appraisal.get("FinalAction").getMetadataClass()).isEqualTo(StringType.class);
+    }
 
-            Boolean expandable = ComplexListInterface.notExpandableFlags(clazz).get(version);
-            if (expandable != null && expandable == SchemaMetadataMapBuilder.isExpandable(clazz)) differences.add(
-                name + " : expandable " + !expandable + ", construite " + SchemaMetadataMapBuilder.isExpandable(clazz)
-            );
-        }
+    @ParameterizedTest
+    @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2", "V2_3" })
+    void leavesTheInlinedBinaryOutOfTheDataObjects(SedaVersion version) throws Exception {
+        Map<String, ComplexListMetadataKind> binary = SchemaMetadataMapBuilder.build(BinaryDataObject.class, version);
 
-        assertThat(differences)
-            .as(
-                "Écarts entre les metadataMap écrites et celles construites depuis la XSD " +
-                version +
-                "\n" +
-                String.join("\n", differences)
-            )
-            .isEmpty();
+        assertThat(binary).doesNotContainKey("Attachment").containsKey("Uri");
+        // read to rebuild the DataObjectGroup model, in every version
+        assertThat(binary.get("DataObjectGroupId").getMetadataClass()).isEqualTo(StringType.class);
+        assertThat(binary.get("DataObjectGroupReferenceId").getMetadataClass()).isEqualTo(StringType.class);
+    }
+
+    @Test
+    void servesTheMapsOfTheFirstVersionForSeda20() throws Exception {
+        assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_0).keySet()).isEqualTo(
+            SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_1).keySet()
+        );
     }
 }

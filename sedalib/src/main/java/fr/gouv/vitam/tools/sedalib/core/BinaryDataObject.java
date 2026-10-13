@@ -38,13 +38,9 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
-import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -68,69 +64,6 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * the binary file.
  */
 public class BinaryDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
-
-    private static class MetadataField {
-
-        final String key;
-        final ComplexListMetadataKind kind;
-        final Set<Integer> versions;
-
-        MetadataField(String key, ComplexListMetadataKind kind, Integer... supportedVersions) {
-            this.key = key;
-            this.kind = kind;
-            this.versions = new HashSet<>(Arrays.asList(supportedVersions));
-        }
-
-        boolean isForVersion(int version) {
-            return versions.contains(version);
-        }
-    }
-
-    private static final List<MetadataField> ALL_FIELDS = Arrays.asList(
-        new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
-        new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
-        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
-        new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
-        new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
-        new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
-        new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
-        new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField(
-            "FormatIdentification",
-            new ComplexListMetadataKind(FormatIdentification.class, false),
-            1,
-            2,
-            3
-        ),
-        new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
-        new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
-        new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3)
-    );
-
-    private static LinkedHashMap<String, ComplexListMetadataKind> createMetadataMapForVersion(int version) {
-        LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
-        for (MetadataField field : ALL_FIELDS) {
-            if (field.isForVersion(version)) {
-                map.put(field.key, field.kind);
-            }
-        }
-        return map;
-    }
-
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_1 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1 = createMetadataMapForVersion(1);
-
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_2 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2 = createMetadataMapForVersion(2);
-
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3 = createMetadataMapForVersion(3);
 
     /**
      * {@inheritDoc}

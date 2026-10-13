@@ -39,9 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class AgencyType.
  * <p>
@@ -50,18 +47,6 @@ import java.util.Map;
 public class AgencyType extends ComplexListType {
 
     static final String IDENTIFIER_TAG = "Identifier";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("OrganizationDescriptiveMetadata", new ComplexListMetadataKind(AnyXMLType.class, false));
-    }
 
     /**
      * Instantiates a new agency type.

@@ -37,24 +37,19 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.DisseminationRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -68,34 +63,6 @@ import java.util.Map;
  * objets-données."
  */
 public class ManagementMetadata extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        putCommon(metadataMap);
-        // Vitam extension
-        metadataMap.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
-        metadataMap.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
-    }
-
-    /**
-     * Init metadata map for SEDA 2.2 and later, where HoldRule comes before UpdateOperation.
-     */
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
-
-    static {
-        metadataMap_v2 = new LinkedHashMap<>();
-        putCommon(metadataMap_v2);
-        metadataMap_v2.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
-        // Vitam extension
-        metadataMap_v2.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
-    }
 
     private static void putCommon(Map<String, ComplexListMetadataKind> map) {
         map.put("ArchivalProfile", new ComplexListMetadataKind(StringType.class, false));

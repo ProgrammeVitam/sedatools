@@ -40,9 +40,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class Gps.
  * <p>
@@ -54,24 +51,6 @@ import java.util.Map;
  * Fait référence à des coordonnées traitées par un utilisateur et non à des coordonnées captées"
  */
 public class Gps extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("GpsVersionID", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsAltitude", new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap.put("GpsAltitudeRef", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsLatitude", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsLatitudeRef", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsLongitude", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsLongitudeRef", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GpsDateStamp", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     /**
      * Instantiates a new gps type.

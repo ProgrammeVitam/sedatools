@@ -37,13 +37,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class Event.
@@ -57,42 +54,6 @@ import java.util.Map;
  * d’un avis administratif, etc.)."
  */
 public class Event extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap_default;
-
-    static {
-        metadataMap_default = new LinkedHashMap<>();
-        metadataMap_default.put("EventIdentifier", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("EventType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap_default.put("EventDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("EventDetailData", new ComplexListMetadataKind(StringType.class, false));
-    }
-
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
-
-    static {
-        metadataMap_v2 = new LinkedHashMap<>();
-        metadataMap_v2.put("EventIdentifier", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("EventType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap_v2.put("EventDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("EventDetailData", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("LinkingAgentIdentifier", new ComplexListMetadataKind(LinkingAgentIdentifier.class, true));
-    }
 
     /**
      * Instantiates a new Event.

@@ -421,11 +421,13 @@ public final class SchemaMetadataMapBuilder {
         throws SEDALibException {
         String typeName = XSD_TYPE_BY_CLASS.get(clazz);
         if (typeName == null) return null;
+        // no XSD is bundled for the 2.0, which sedalib has always served the 2.1 maps for
+        SedaVersion bundled = version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
         fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion;
         try {
-            schemaVersion = fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(version.name());
+            schemaVersion = fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(bundled.name());
         } catch (IllegalArgumentException e) {
-            return null; // no XSD bundled for this version, SEDA 2.0 for instance
+            return null;
         }
         ComplexTypeDef type;
         try {
@@ -438,7 +440,7 @@ public final class SchemaMetadataMapBuilder {
         collect(clazz, type.getContent(), false, map);
         map.keySet().removeAll(EXCLUDED.getOrDefault(clazz, Set.of()));
         for (Addition addition : ADDITIONS) if (
-            addition.owner.equals(clazz) && addition.versions.contains(version)
+            addition.owner.equals(clazz) && addition.versions.contains(bundled)
         ) map.put(addition.name, new ComplexListMetadataKind(addition.metadataClass, addition.many));
         return map;
     }

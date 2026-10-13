@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SIPInternalIDType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class ToDelete.
@@ -57,17 +51,6 @@ import java.util.Map;
 public class ToDelete extends ComplexListType {
 
     static final String ARCHIVEUNITREFID_TAG = "ArchiveUnitRefId";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(ARCHIVEUNITREFID_TAG, new ComplexListMetadataKind(SIPInternalIDType.class, true));
-    }
 
     /**
      * Instantiates a new ToDelete.

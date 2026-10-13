@@ -39,9 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class AgentType.
  * <p>
@@ -53,33 +50,6 @@ public class AgentType extends ComplexListType {
     static final String BIRTHNAME_TAG = "BirthName";
     static final String FULLNAME_TAG = "FullName";
     static final String IDENTIFIER_TAG = "Identifier";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    static Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(FIRSTNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(BIRTHNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(FULLNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("GivenName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Gender", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("BirthDate", new ComplexListMetadataKind(DateType.class, false));
-        metadataMap.put("BirthPlace", new ComplexListMetadataKind(PlaceType.class, false));
-        metadataMap.put("DeathDate", new ComplexListMetadataKind(DateType.class, false));
-        metadataMap.put("DeathPlace", new ComplexListMetadataKind(PlaceType.class, false));
-        metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap.put("Position", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap.put("Role", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap.put("Mandate", new ComplexListMetadataKind(TextType.class, true));
-    }
 
     /**
      * Instantiates a new agent type.
