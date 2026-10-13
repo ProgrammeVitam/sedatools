@@ -296,12 +296,15 @@ public final class SchemaMetadataMapBuilder {
         throws SEDALibException {
         String typeName = XSD_TYPE_BY_CLASS.get(clazz);
         if (typeName == null) return null;
+        fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion;
+        try {
+            schemaVersion = fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(version.name());
+        } catch (IllegalArgumentException e) {
+            return null; // no XSD bundled for this version, SEDA 2.0 for instance
+        }
         ComplexTypeDef type;
         try {
-            type = SedaSchema.of(
-                fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(version.name()),
-                SedaFlavor.VITAM
-            ).getComplexType(typeName);
+            type = SedaSchema.of(schemaVersion, SedaFlavor.VITAM).getComplexType(typeName);
         } catch (SedaSchemaException e) {
             throw new SEDALibException("Lecture du schéma SEDA " + version + " impossible", e);
         }

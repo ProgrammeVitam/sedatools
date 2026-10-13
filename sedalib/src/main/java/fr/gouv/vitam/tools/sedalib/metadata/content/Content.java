@@ -176,10 +176,10 @@ public class Content extends ComplexListType {
         metadataMap_v2.put("Event", new ComplexListMetadataKind(Event.class, true));
         metadataMap_v2.put("Signature", new ComplexListMetadataKind(Signature.class, true));
         metadataMap_v2.put("Gps", new ComplexListMetadataKind(Gps.class, false));
-        metadataMap_v2.put("History", new ComplexListMetadataKind(AnyXMLType.class, true));
         // specific in Seda 2.2 (was in Vitam before)
         metadataMap_v2.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("History", new ComplexListMetadataKind(AnyXMLType.class, true));
         // Experimental Compact extensions
         metadataMap_v2.put("DocumentContainer", new ComplexListMetadataKind(DocumentContainer.class, false));
         metadataMap_v2.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
