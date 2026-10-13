@@ -344,7 +344,8 @@ public class MailExtractProgressLogger {
     }
 
     /**
-     * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
+     * Do progress log, and log with exception detail if any, and throw InterruptedException if the
+     * thread has been interrupted.
      * <p>This method is thread-safe, allowing concurrent logging by
      * multiple threads.
      *
@@ -358,8 +359,22 @@ public class MailExtractProgressLogger {
         throws InterruptedException {
         if (mepl != null) {
             doProgressLogWithoutInterruption(mepl, level, log, e);
-            Thread.sleep(1);
+            checkInterruption();
         }
+    }
+
+    /**
+     * Check if the current thread has been interrupted, and if so throw the interruption.
+     * <p>
+     * This is the interruption point offered to the callers of the progress log methods. It has to
+     * stay allocation and syscall free, as it's called once per imported object (per unzipped file,
+     * per DataObjectGroup, per BinaryDataObject, per ArchiveUnit...), even when the message is
+     * filtered out by the log level and displayed nowhere.
+     *
+     * @throws InterruptedException if the current thread has been interrupted
+     */
+    private static void checkInterruption() throws InterruptedException {
+        if (Thread.interrupted()) throw new InterruptedException();
     }
 
     /**
@@ -388,7 +403,7 @@ public class MailExtractProgressLogger {
                             (rank % mepl.progressFuncStep == 0 ? "" : "* ") + log
                         );
                         mepl.log(level, log);
-                        Thread.sleep(1);
+                        checkInterruption();
                         mepl.previousStepEpochSeconds = nowEpochSeconds;
                         return;
                     }
@@ -400,7 +415,7 @@ public class MailExtractProgressLogger {
                     if ((mepl.progressLogFunc != null) && (rank % mepl.progressFuncStep) == 0) {
                         if (countLog == null) countLog = log.replace("%count", Integer.toString(rank));
                         mepl.progressLogFunc.doProgressLog(rank, countLog);
-                        Thread.sleep(1);
+                        checkInterruption();
                     }
                 }
             }
