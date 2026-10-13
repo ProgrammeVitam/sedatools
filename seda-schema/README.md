@@ -29,6 +29,61 @@ SedaSchema vitam      = SedaSchema.of(SedaVersion.V2_1, SedaFlavor.VITAM);
 `SedaVersion.hasVitamVariant()` dit si la version diverge ; à partir de 2.3 les ajouts Vitam sont
 entrés dans le standard et `getMainXsdResource(VITAM)` renvoie la ressource officielle.
 
+### Conformité de la variante Vitam au standard
+
+Les ajouts Vitam sont dans l'esprit du standard, mais pas dans sa forme.
+
+Le modèle officiel prévoit ses extensions par **substitution** : sept éléments abstraits déclarés
+dans `seda-2.x-types.xsd`, sous le commentaire « *Objets à spécifier par substitution* », auxquels
+une XSD tierce vient substituer ses propres éléments. Celui de `ManagementGroup` décrit mot pour
+mot le besoin auquel répond `UpdateOperation` :
+
+```xml
+<!-- In ManagementGroup from seda-2.1-management.xsd: for Management extension -->
+<xsd:element name="OtherManagementAbstract" abstract="true">
+  <xsd:documentation>Utilisé par exemple pour manipuler un ArchiveUnit déjà existant
+                     dans le système d'archivage électronique.</xsd:documentation>
+```
+
+Le second vecteur, `OpenType`, est un `<xsd:any namespace="##other" processContents="lax"/>` :
+l'extension est permise, mais obligatoirement dans un autre namespace que celui du SEDA.
+
+La variante Vitam n'emprunte ni l'un ni l'autre. Elle met les points d'extension en commentaire,
+les remplace par des jokers sans contrainte de namespace — un en officiel, huit en Vitam 2.1 et
+2.2 — et déclare ses métadonnées comme éléments locaux dans le namespace SEDA lui-même :
+
+```xml
+<!--xsd:element ref="ArchiveUnitReferenceAbstract"> … </xsd:element-->
+<!-- Redefined by VITAM -->
+<xsd:element name="DataObjectGroup" type="ObjectGroupRefType"/>
+<xsd:any processContents="lax" minOccurs="0"/>
+```
+
+Validation d'un manifeste ReSIP 2.1 contre la XSD officielle 2.1 :
+
+| manifeste | contre la XSD officielle 2.1 |
+|---|---|
+| sans métadonnée hors standard | valide |
+| avec `<Management><UpdateOperation>` (namespace SEDA) | rejeté, `This element is not expected` |
+| avec `<vitam:UpdateOperation>`, sans XSD d'extension | rejeté |
+| avec `<vitam:UpdateOperation>` et une XSD déclarant `substitutionGroup="seda:OtherManagementAbstract"` | valide |
+
+Une quinzaine de lignes de XSD d'extension auraient donc suffi à rendre la même métadonnée
+conforme.
+
+Deux conséquences pratiques :
+
+- **L'inclusion ne va que dans un sens.** Un manifeste valide pour l'officiel l'est pour Vitam, plus
+  permissif ; l'inverse est faux dès qu'une métadonnée Vitam apparaît. Exception en sens inverse en
+  2.2, où Vitam restreint `MessageIdentifier` de `IdentifierType` à `NonEmptyTokenType` : un
+  `MessageIdentifier` vide, valide pour le standard, est refusé par Vitam.
+- **Les XSD Vitam 2.1 et 2.2 ne sont pas des schémas XSD valides.** Un `xsd:any` sans restriction de
+  namespace dans un `choice` répété, à côté d'éléments nommés, viole la règle *Unique Particle
+  Attribution*. libxml2 refuse de les compiler (`complex type 'ArchiveUnitType': The content model
+  is not determinist`). Elles se chargent ici parce que Xerces désactive par défaut
+  `schema-full-checking`, qui porte ce contrôle, et que ni ce module ni `SEDAXMLValidator` ne
+  l'activent. Avec un validateur tiers, elles peuvent ne pas charger du tout.
+
 ## Ce qu'il fournit
 
 | Package | Rôle |
