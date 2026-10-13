@@ -56,6 +56,15 @@ class SchemaMetadataMapBuilderTest {
                     ", construite " +
                     e.getValue().getMetadataClass().getSimpleName()
                 );
+                if (!expected.getClass().equals(e.getValue().getClass())) differences.add(
+                    name +
+                    "." +
+                    e.getKey() +
+                    " : nature " +
+                    expected.getClass().getSimpleName() +
+                    ", construite " +
+                    e.getValue().getClass().getSimpleName()
+                );
                 if (expected.isMany() != e.getValue().isMany()) differences.add(
                     name +
                     "." +

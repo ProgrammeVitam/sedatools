@@ -224,6 +224,14 @@ public interface ComplexListInterface {
      */
     static Map<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass)
         throws SEDALibException {
+        if (SchemaMetadataMapBuilder.isKnown(complexListTypeMetadataClass)) {
+            Map<String, ComplexListMetadataKind> built = SchemaMetadataMapBuilder.get(
+                complexListTypeMetadataClass,
+                SedaContext.getVersion()
+            );
+            if (built != null) return built;
+        }
+
         final Map<SedaVersion, Map<String, ComplexListMetadataKind>> metadataDefinitions =
             ComplexListInterface.metadataDefinitions(complexListTypeMetadataClass);
 
@@ -252,6 +260,10 @@ public interface ComplexListInterface {
      * @return true, if is not expendable
      */
     static Boolean isNotExpandable(Class<?> complexListTypeMetadataClass) {
+        if (
+            SchemaMetadataMapBuilder.isKnown(complexListTypeMetadataClass)
+        ) return !SchemaMetadataMapBuilder.isExpandable(complexListTypeMetadataClass);
+
         final Map<SedaVersion, Boolean> notExpandableFlags = ComplexListInterface.notExpandableFlags(
             complexListTypeMetadataClass
         );

@@ -90,10 +90,12 @@ import fr.gouv.vitam.tools.sedaschema.model.Particle;
 import fr.gouv.vitam.tools.sedaschema.model.SimpleTypeDef;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Builds a metadataMap from the SEDA XSD read by seda-schema, instead of hand writing it.
@@ -350,6 +352,33 @@ public final class SchemaMetadataMapBuilder {
     }
 
     /**
+     * The maps already built, by class then version: building one walks the schema, serving one
+     * happens on every metadata read, write and edit.
+     */
+    private static final Map<Class<?>, Map<SedaVersion, LinkedHashMap<String, ComplexListMetadataKind>>> CACHE =
+        new ConcurrentHashMap<>();
+
+    /**
+     * Same as {@link #build(Class, SedaVersion)}, built once and kept.
+     *
+     * @param clazz   a class with a metadataMap
+     * @param version the SEDA version
+     * @return the map, or null when the class or its type is not in this version
+     * @throws SEDALibException if the schema can't be read
+     */
+    public static LinkedHashMap<String, ComplexListMetadataKind> get(Class<?> clazz, SedaVersion version)
+        throws SEDALibException {
+        Map<SedaVersion, LinkedHashMap<String, ComplexListMetadataKind>> byVersion = CACHE.computeIfAbsent(
+            clazz,
+            c -> new EnumMap<>(SedaVersion.class)
+        );
+        synchronized (byVersion) {
+            if (!byVersion.containsKey(version)) byVersion.put(version, build(clazz, version));
+            return byVersion.get(version);
+        }
+    }
+
+    /**
      * @param clazz a class with a metadataMap
      * @return true if this class accepts any other element besides the ones of its map
      */
@@ -406,7 +435,7 @@ public final class SchemaMetadataMapBuilder {
         }
         if (type == null) return null;
         LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
-        collect(clazz.getSimpleName(), type.getContent(), false, map);
+        collect(clazz, type.getContent(), false, map);
         map.keySet().removeAll(EXCLUDED.getOrDefault(clazz, Set.of()));
         for (Addition addition : ADDITIONS) if (
             addition.owner.equals(clazz) && addition.versions.contains(version)
@@ -415,7 +444,7 @@ public final class SchemaMetadataMapBuilder {
     }
 
     private static void collect(
-        String owner,
+        Class<?> owner,
         Particle particle,
         boolean inRepeatableGroup,
         Map<String, ComplexListMetadataKind> out
@@ -430,11 +459,23 @@ public final class SchemaMetadataMapBuilder {
                 if (many) known.setMany(true);
                 return;
             }
-            out.put(element.getName(), new ComplexListMetadataKind(metadataClassOf(owner, element), many));
+            Class<?> metadataClass = metadataClassOf(owner.getSimpleName(), element);
+            // a rule block repeats as a whole: its members other than the rule identifier are
+            // regrouped around each Rule, which RuleMetadataKind marks (see RuleType)
+            boolean inRuleBlock =
+                inRepeatableGroup && RuleType.class.isAssignableFrom(owner) && !RULE_ELEMENT.equals(element.getName());
+            out.put(
+                element.getName(),
+                inRuleBlock
+                    ? new RuleMetadataKind(metadataClass, many)
+                    : new ComplexListMetadataKind(metadataClass, many)
+            );
         } else if (particle.isGroup()) {
             for (Particle child : particle.getGroup().getParticles()) collect(owner, child, many, out);
         }
     }
+
+    private static final String RULE_ELEMENT = "Rule";
 
     private static Class<?> metadataClassOf(String owner, ElementDef element) {
         Class<?> override = OVERRIDES.get(owner + "." + element.getName());
