@@ -50,7 +50,7 @@ import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;

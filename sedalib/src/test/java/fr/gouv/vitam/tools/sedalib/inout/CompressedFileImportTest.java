@@ -46,8 +46,8 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;

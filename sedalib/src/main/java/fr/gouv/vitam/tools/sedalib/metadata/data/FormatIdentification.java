@@ -37,9 +37,9 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class FormatIdentification.

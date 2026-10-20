@@ -37,13 +37,13 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;

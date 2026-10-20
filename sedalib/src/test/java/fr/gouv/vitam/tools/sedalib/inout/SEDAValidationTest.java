@@ -42,12 +42,12 @@ import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.junit.jupiter.api.Test;
 

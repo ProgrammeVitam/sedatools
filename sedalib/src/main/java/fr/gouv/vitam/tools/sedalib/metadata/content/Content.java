@@ -37,11 +37,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;

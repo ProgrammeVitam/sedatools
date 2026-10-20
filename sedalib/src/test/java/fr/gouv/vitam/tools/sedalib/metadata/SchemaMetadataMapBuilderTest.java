@@ -1,7 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
@@ -10,6 +9,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SchemaMetadataMapBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -107,12 +107,5 @@ class SchemaMetadataMapBuilderTest {
         // read to rebuild the DataObjectGroup model, in every version
         assertThat(binary.get("DataObjectGroupId").getMetadataClass()).isEqualTo(StringType.class);
         assertThat(binary.get("DataObjectGroupReferenceId").getMetadataClass()).isEqualTo(StringType.class);
-    }
-
-    @Test
-    void servesTheMapsOfTheFirstVersionForSeda20() throws Exception {
-        assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_0).keySet()).isEqualTo(
-            SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_1).keySet()
-        );
     }
 }

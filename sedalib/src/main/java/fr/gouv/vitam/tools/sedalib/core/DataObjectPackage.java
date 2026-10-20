@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
@@ -45,6 +44,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;

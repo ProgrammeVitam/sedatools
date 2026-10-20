@@ -37,9 +37,9 @@
  */
 package fr.gouv.vitam.tools.sedalibsamples;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.slf4j.LoggerFactory;
 
 public class Sample1 {

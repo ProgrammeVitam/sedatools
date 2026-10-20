@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 

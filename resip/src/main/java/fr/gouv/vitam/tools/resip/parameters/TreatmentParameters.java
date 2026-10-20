@@ -39,7 +39,7 @@ package fr.gouv.vitam.tools.resip.parameters;
 
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -444,7 +444,7 @@ public class TreatmentParameters {
 
     private SedaVersion parseSedaVersion(String version) {
         // the minor alone ("3") is accepted too, and an unknown version falls back to the 2.1
-        for (SedaVersion allowedVersion : SedaVersion.withSchema()) {
+        for (SedaVersion allowedVersion : SedaVersion.values()) {
             if (
                 allowedVersion.toString().equals(version) || Integer.toString(allowedVersion.getMinor()).equals(version)
             ) return allowedVersion;

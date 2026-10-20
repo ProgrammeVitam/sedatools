@@ -55,9 +55,9 @@ import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;

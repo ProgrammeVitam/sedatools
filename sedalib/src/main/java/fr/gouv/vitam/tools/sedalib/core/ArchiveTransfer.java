@@ -38,13 +38,13 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
@@ -138,16 +138,15 @@ public class ArchiveTransfer {
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
 
-            final fr.gouv.vitam.tools.sedaschema.SedaVersion schema = getSedaVersion().getSchemaVersion();
-            if (schema == null) throw new SEDALibException("Version [" + getSedaVersion() + "] sans schéma", null);
-            final String mainXsd = schema.getMainXsdResource();
-            xmlWriter.writeDefaultNamespace(schema.getNamespace());
+            final SedaVersion sedaVersion = getSedaVersion();
+            final String mainXsd = sedaVersion.getMainXsdResource();
+            xmlWriter.writeDefaultNamespace(sedaVersion.getNamespace());
             xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
             xmlWriter.writeAttribute(
                 "xsi",
                 "http://www.w3.org/2001/XMLSchema-instance",
                 "schemaLocation",
-                schema.getNamespace() + " " + mainXsd.substring(mainXsd.lastIndexOf('/') + 1)
+                sedaVersion.getNamespace() + " " + mainXsd.substring(mainXsd.lastIndexOf('/') + 1)
             );
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {

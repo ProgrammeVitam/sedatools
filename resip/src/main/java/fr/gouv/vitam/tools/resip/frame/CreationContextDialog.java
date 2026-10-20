@@ -42,7 +42,7 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;

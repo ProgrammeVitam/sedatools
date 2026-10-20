@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;

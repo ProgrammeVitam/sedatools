@@ -39,9 +39,9 @@ package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalibsamples;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
@@ -46,6 +45,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;

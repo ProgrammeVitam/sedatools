@@ -38,7 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class DataObjectPackageElement.

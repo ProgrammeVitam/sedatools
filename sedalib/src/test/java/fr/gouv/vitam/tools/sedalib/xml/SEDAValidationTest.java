@@ -37,8 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.readFileToString;

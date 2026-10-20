@@ -41,12 +41,12 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponent
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.RuleTypeEditor;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageElement;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;

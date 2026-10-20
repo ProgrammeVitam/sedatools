@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
@@ -50,6 +49,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.util.Map;
 

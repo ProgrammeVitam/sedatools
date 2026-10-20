@@ -39,7 +39,6 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
@@ -48,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 

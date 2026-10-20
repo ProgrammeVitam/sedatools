@@ -52,13 +52,13 @@ import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -402,7 +402,7 @@ public class ResipApp {
         SedaVersion sedaVersion = SedaVersion.V2_1;
         if (cmd.hasOption("sedaversion")) {
             final Map<String, SedaVersion> supportedSedaVersions = new LinkedHashMap<>();
-            for (SedaVersion version : SedaVersion.withSchema()) supportedSedaVersions.put(version.toString(), version);
+            for (SedaVersion version : SedaVersion.values()) supportedSedaVersions.put(version.toString(), version);
 
             String sedaVersionOption = cmd.getOptionValue("sedaversion");
             boolean isNotSupportedVersion = !supportedSedaVersions.containsKey(sedaVersionOption);

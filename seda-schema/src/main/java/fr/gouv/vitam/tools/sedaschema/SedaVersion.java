@@ -38,44 +38,70 @@
 package fr.gouv.vitam.tools.sedaschema;
 
 /**
- * The SEDA versions whose XSD are bundled in this module, in both flavours (see
- * {@link SedaFlavor}).
+ * The SEDA versions, each with its XSD bundled in this module in both flavours (see
+ * {@link SedaFlavor}). They are declared in chronological order, so that they compare as versions
+ * do.
  */
 public enum SedaVersion {
     V2_1(
-        "2.1",
+        2,
+        1,
         "fr:gouv:culture:archivesdefrance:seda:v2.1",
         "sedaschema/xsd/official/seda2_1/seda-2.1-main.xsd",
         "sedaschema/xsd/vitam/seda2_1/seda-vitam-2.1-main.xsd"
     ),
     V2_2(
-        "2.2",
+        2,
+        2,
         "fr:gouv:culture:archivesdefrance:seda:v2.2",
         "sedaschema/xsd/official/seda2_2/seda-2.2-main.xsd",
         "sedaschema/xsd/vitam/seda2_2/seda-vitam-2.2-main.xsd"
     ),
     // Vitam doesn't alter the 2.3: the single bundled XSD is the official one
-    V2_3(
-        "2.3",
-        "fr:gouv:culture:archivesdefrance:seda:v2.3",
-        "sedaschema/xsd/official/seda2_3/seda-2.3-main.xsd",
-        null
-    );
+    V2_3(2, 3, "fr:gouv:culture:archivesdefrance:seda:v2.3", "sedaschema/xsd/official/seda2_3/seda-2.3-main.xsd", null);
 
-    private final String label;
+    private final int major;
+    private final int minor;
     private final String namespace;
     private final String officialMainXsdResource;
     private final String vitamMainXsdResource;
 
-    SedaVersion(String label, String namespace, String officialMainXsdResource, String vitamMainXsdResource) {
-        this.label = label;
+    SedaVersion(int major, int minor, String namespace, String officialMainXsdResource, String vitamMainXsdResource) {
+        this.major = major;
+        this.minor = minor;
         this.namespace = namespace;
         this.officialMainXsdResource = officialMainXsdResource;
         this.vitamMainXsdResource = vitamMainXsdResource;
     }
 
+    public int getMajor() {
+        return major;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
+
+    /**
+     * @return the label of the version, such as "2.1"
+     */
     public String getLabel() {
-        return label;
+        return major + "." + minor;
+    }
+
+    /**
+     * @return the label, the form the version is stored in (preferences, saved sessions)
+     */
+    @Override
+    public String toString() {
+        return getLabel();
+    }
+
+    /**
+     * @return the version to be shown, such as "SEDA 2.1"
+     */
+    public String displayString() {
+        return "SEDA " + getLabel();
     }
 
     public String getNamespace() {
@@ -108,6 +134,15 @@ public enum SedaVersion {
     }
 
     /**
+     * @param since the first version of the range, null for no lower bound
+     * @param until the last version of the range, null for no upper bound
+     * @return true if this version is in the range
+     */
+    public boolean isBetween(SedaVersion since, SedaVersion until) {
+        return (since == null || compareTo(since) >= 0) && (until == null || compareTo(until) <= 0);
+    }
+
+    /**
      * @param namespace a SEDA namespace
      * @return the version of this namespace, or null if unknown
      */
@@ -117,11 +152,32 @@ public enum SedaVersion {
     }
 
     /**
-     * @param label a version label, such as "2.3"
-     * @return the version of this label, or null if no XSD is bundled for it
+     * @param major the major number
+     * @param minor the minor number
+     * @return the version
+     * @throws IllegalArgumentException if the version is not supported
      */
-    public static SedaVersion fromLabel(String label) {
-        for (SedaVersion v : values()) if (v.label.equals(label)) return v;
-        return null;
+    public static SedaVersion from(int major, int minor) {
+        for (SedaVersion version : values()) {
+            if (version.major == major && version.minor == minor) {
+                return version;
+            }
+        }
+        throw new IllegalArgumentException("Unsupported SEDA version: " + major + "." + minor);
+    }
+
+    /**
+     * @param version a version label, such as "2.1", or its minor number alone, such as "1"
+     * @return the version
+     * @throws IllegalArgumentException if the version is not supported, NumberFormatException if
+     * it is not a number
+     */
+    public static SedaVersion from(String version) {
+        String[] fragments = version.split("[.]");
+
+        if (fragments.length == 1) return from(2, Integer.parseInt(fragments[0]));
+        if (fragments.length == 2) return from(Integer.parseInt(fragments[0]), Integer.parseInt(fragments[1]));
+
+        throw new IllegalArgumentException("Unsupported SEDA version: " + version);
     }
 }

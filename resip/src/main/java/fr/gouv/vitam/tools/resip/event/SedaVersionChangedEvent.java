@@ -37,7 +37,7 @@
  */
 package fr.gouv.vitam.tools.resip.event;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 public class SedaVersionChangedEvent implements Event {
 

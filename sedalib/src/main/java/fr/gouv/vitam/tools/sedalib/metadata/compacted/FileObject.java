@@ -38,7 +38,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
@@ -47,6 +46,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
