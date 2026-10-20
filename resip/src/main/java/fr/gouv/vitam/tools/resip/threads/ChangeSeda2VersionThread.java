@@ -38,7 +38,6 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -58,7 +57,6 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
 
     //input
-    private final SedaVersion currentVersion;
     private final SedaVersion nextVersion;
     private final DataObjectPackage dop;
     private final InOutDialog inOutDialog;
@@ -72,18 +70,11 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
     /**
      * Instantiates a new Check profile thread.
      *
-     * @param currentVersion current SEDA version
      * @param nextVersion target SEDA version
      * @param dop the data object package
      * @param dialog the dialog
      */
-    public ChangeSeda2VersionThread(
-        SedaVersion currentVersion,
-        SedaVersion nextVersion,
-        DataObjectPackage dop,
-        InOutDialog dialog
-    ) {
-        this.currentVersion = currentVersion;
+    public ChangeSeda2VersionThread(SedaVersion nextVersion, DataObjectPackage dop, InOutDialog dialog) {
         this.nextVersion = nextVersion;
         this.dop = dop;
         this.inOutDialog = dialog;
@@ -94,7 +85,6 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        Work work = ResipGraphicApp.getTheApp().currentWork;
         try {
             int localLogLevel;
             int localLogStep;
@@ -120,7 +110,7 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            if (work == null) throw new ResipException("Pas de contenu à transformer");
+            if (dop == null) throw new ResipException("Pas de contenu à transformer");
 
             convertedDop = new SedaVersionConverter(spl).convert(dop, nextVersion);
         } catch (Throwable e) { //NOSONAR

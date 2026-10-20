@@ -68,7 +68,7 @@ public class ImportService {
      * Extracts in the temporary directory of the imported file, as it is: the choice of the
      * command line.
      */
-    public static final TmpDirResolver USE_AS_IS = (workDir, sourcePath) -> tmpDirOf(workDir, sourcePath);
+    public static final TmpDirResolver USE_AS_IS = (workDir, subDir) -> workDir + File.separator + subDir;
 
     private final Preferences preferences;
     private final TmpDirResolver tmpDirResolver;
@@ -86,12 +86,11 @@ public class ImportService {
     }
 
     /**
-     * @param workDir    the work directory
      * @param sourcePath the path of the imported file
-     * @return the temporary directory of this file in the work directory
+     * @return the subdirectory of the work directory this file is extracted in
      */
-    public static String tmpDirOf(String workDir, String sourcePath) {
-        return workDir + File.separator + Paths.get(sourcePath).getFileName().toString() + "-tmpdir";
+    public static String tmpSubDirOf(String sourcePath) {
+        return Paths.get(sourcePath).getFileName().toString() + "-tmpdir";
     }
 
     /**
@@ -181,7 +180,7 @@ public class ImportService {
 
     private ImportResult doZipImport(ZipImportContext zic, SedaVersion sedaVersion, SEDALibProgressLogger spl)
         throws ResipException, InterruptedException, SEDALibException {
-        String target = tmpDirResolver.resolve(zic.getWorkDir(), zic.getOnDiskInput());
+        String target = tmpDirResolver.resolve(zic.getWorkDir(), tmpSubDirOf(zic.getOnDiskInput()));
         //TODO add preferences for compressed filename import
         String encoding = zic.getOnDiskInput().endsWith("zip") ? "CP850" : "UTF8";
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
@@ -214,7 +213,7 @@ public class ImportService {
 
     private ImportResult doSIPImport(SIPImportContext sic, SEDALibProgressLogger spl)
         throws SEDALibException, InterruptedException, ResipException {
-        String target = tmpDirResolver.resolve(sic.getWorkDir(), sic.getOnDiskInput());
+        String target = tmpDirResolver.resolve(sic.getWorkDir(), tmpSubDirOf(sic.getOnDiskInput()));
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(), target, spl);
         si.doImport();
         return of(si.getArchiveTransfer(), si.getSummary());
@@ -222,7 +221,7 @@ public class ImportService {
 
     private ImportResult doDIPImport(DIPImportContext dic, SEDALibProgressLogger spl)
         throws ResipException, InterruptedException, SEDALibException {
-        String target = tmpDirResolver.resolve(dic.getWorkDir(), dic.getOnDiskInput());
+        String target = tmpDirResolver.resolve(dic.getWorkDir(), tmpSubDirOf(dic.getOnDiskInput()));
         DIPToArchiveDeliveryRequestReplyImporter di = new DIPToArchiveDeliveryRequestReplyImporter(
             dic.getOnDiskInput(),
             target,
@@ -269,7 +268,7 @@ public class ImportService {
         MailExtractProgressLogger mepl
     ) throws ResipException, InterruptedException, SEDALibException {
         Objects.requireNonNull(mepl, "Le journal de l'extraction de courriels est obligatoire");
-        String target = tmpDirResolver.resolve(mic.getWorkDir(), mic.getOnDiskInput());
+        String target = tmpDirResolver.resolve(mic.getWorkDir(), tmpSubDirOf(mic.getOnDiskInput()));
         MailImporter mi = new MailImporter(
             mic.isExtractMessageTextFile(),
             mic.isExtractMessageTextMetadata(),

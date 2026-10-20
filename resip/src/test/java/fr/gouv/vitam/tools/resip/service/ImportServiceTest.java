@@ -62,11 +62,11 @@ class ImportServiceTest {
     // the bigger samples are sedalib's, not duplicated here
     private static final String SEDALIB_SAMPLES = "../sedalib/src/test/resources/PacketSamples/";
 
-    private final List<String> resolvedSources = new ArrayList<>();
+    private final List<String> resolvedSubDirs = new ArrayList<>();
 
-    private final ImportService importService = new ImportService(Preferences.getInstance(), (workDir, sourcePath) -> {
-        resolvedSources.add(sourcePath);
-        return ImportService.tmpDirOf(workDir, sourcePath);
+    private final ImportService importService = new ImportService(Preferences.getInstance(), (workDir, subDir) -> {
+        resolvedSubDirs.add(subDir);
+        return ImportService.USE_AS_IS.resolve(workDir, subDir);
     });
 
     @ParameterizedTest
@@ -85,7 +85,7 @@ class ImportServiceTest {
         assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).hasSize(22);
         assertThat(result.getSummary()).isNotBlank();
         // the directory needs no temporary extraction
-        assertThat(resolvedSources).isEmpty();
+        assertThat(resolvedSubDirs).isEmpty();
         assertThat(context.getModelVersion()).isEqualTo(2);
     }
 
@@ -98,8 +98,8 @@ class ImportServiceTest {
 
         assertThat(result.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_1);
         assertThat(result.getGlobalMetadata()).isNotNull();
-        assertThat(resolvedSources).containsExactly(sip);
-        assertThat(new File(ImportService.tmpDirOf(WORK_DIR, sip))).isDirectory();
+        assertThat(resolvedSubDirs).containsExactly("TestSip.zip-tmpdir");
+        assertThat(new File(WORK_DIR, "TestSip.zip-tmpdir")).isDirectory();
     }
 
     @Test
@@ -110,7 +110,7 @@ class ImportServiceTest {
 
         assertThat(result.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_1);
         assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).isNotEmpty();
-        assertThat(resolvedSources).containsExactly(dip);
+        assertThat(resolvedSubDirs).containsExactly("TestDIP.zip-tmpdir");
     }
 
     @Test
@@ -126,7 +126,7 @@ class ImportServiceTest {
 
         assertThat(result.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_3);
         assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).isNotEmpty();
-        assertThat(resolvedSources).containsExactly(zip);
+        assertThat(resolvedSubDirs).containsExactly("TestImport.zip-tmpdir");
     }
 
     @Test
@@ -175,7 +175,7 @@ class ImportServiceTest {
 
     @Test
     void stopsWhenTheTemporaryDirectoryIsRefused() {
-        ImportService refusing = new ImportService(Preferences.getInstance(), (workDir, sourcePath) -> {
+        ImportService refusing = new ImportService(Preferences.getInstance(), (workDir, subDir) -> {
             throw new ResipException("Opération annulée");
         });
 

@@ -41,16 +41,16 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 
 /**
  * Chooses the temporary directory a SIP, a DIP, a compressed file or a mail container is extracted
- * in, which may already exist from a previous import.
+ * in, which may already exist from a previous extraction.
  */
 @FunctionalInterface
 public interface TmpDirResolver {
     /**
-     * @param workDir    the work directory
-     * @param sourcePath the path of the imported file
+     * @param workDir the work directory
+     * @param subDir  the subdirectory of the work directory proposed for the extraction
      * @return the directory to extract in
      * @throws ResipException       if the import is to be abandoned
      * @throws InterruptedException if the import is interrupted
      */
-    String resolve(String workDir, String sourcePath) throws ResipException, InterruptedException;
+    String resolve(String workDir, String subDir) throws ResipException, InterruptedException;
 }

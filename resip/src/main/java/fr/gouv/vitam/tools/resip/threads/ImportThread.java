@@ -118,8 +118,7 @@ public class ImportThread extends SwingWorker<String, String> {
         }
     }
 
-    private String getTmpDirTarget(String workDir, String srcPathName) throws ResipException, InterruptedException {
-        String subDir = Paths.get(srcPathName).getFileName().toString() + "-tmpdir";
+    private String getTmpDirTarget(String workDir, String subDir) throws ResipException, InterruptedException {
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
             UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheWindow(), workDir, subDir);

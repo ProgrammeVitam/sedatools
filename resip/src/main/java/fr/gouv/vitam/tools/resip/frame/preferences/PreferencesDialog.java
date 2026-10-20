@@ -1589,12 +1589,11 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    private boolean tryToConvertCurrentWorkSedaVersion(SedaVersion currentVersion, SedaVersion nextVersion) {
+    private boolean tryToConvertCurrentWorkSedaVersion(SedaVersion nextVersion) {
         DataObjectPackage currentPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
         InOutDialog inOutDialog = new InOutDialog(this.owner, "Conversion vers le schéma " + nextVersion);
         ChangeSeda2VersionThread conversionThread = new ChangeSeda2VersionThread(
-            currentVersion,
             nextVersion,
             currentPackage,
             inOutDialog
@@ -1787,7 +1786,7 @@ public class PreferencesDialog extends JDialog {
 
             if (userChoice != OK_DIALOG) return false;
 
-            if (!tryToConvertCurrentWorkSedaVersion(currentVersion, selectedVersion)) return false;
+            if (!tryToConvertCurrentWorkSedaVersion(selectedVersion)) return false;
         }
 
         EventBus.publish(new SedaVersionChangedEvent(selectedVersion));
