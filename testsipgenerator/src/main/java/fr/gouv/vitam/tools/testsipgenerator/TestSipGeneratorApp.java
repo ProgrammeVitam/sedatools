@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.testsipgenerator;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
@@ -553,7 +554,7 @@ public class TestSipGeneratorApp {
             null,
             100
         );
-        try (SIPBuilder sb = new SIPBuilder(outPath.toString(), spl)) {
+        try (SIPBuilder sb = new SIPBuilder(SedaVersion.V2_1, outPath.toString(), spl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("Accepte_les_objets_non_identifies");
             sb.createRootArchiveUnit(

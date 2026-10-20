@@ -73,6 +73,7 @@ class CompactorTest implements UseTestFiles {
     void TestCompactor() throws Exception {
         // Given this test directory imported
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
             null
         );
@@ -130,6 +131,7 @@ class CompactorTest implements UseTestFiles {
         // Given this test directory imported
         SedaContext.setVersion(SedaVersion.V2_3);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
             null
         );

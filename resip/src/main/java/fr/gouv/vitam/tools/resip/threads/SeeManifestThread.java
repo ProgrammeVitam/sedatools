@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.resip.frame.ManifestWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -105,7 +106,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+        ArchiveTransfer archiveTransfer = new ArchiveTransfer(SedaContext.getVersion());
         try {
             int localLogLevel, localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {

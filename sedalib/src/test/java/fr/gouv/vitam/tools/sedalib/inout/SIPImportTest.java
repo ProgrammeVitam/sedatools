@@ -49,6 +49,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
@@ -74,6 +75,7 @@ class SIPImportTest implements UseTestFiles {
         // do import of test directory
         TestUtilities.eraseAll("target/tmpJunit/SipOK.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SIP_OK.zip",
             "target/tmpJunit/SipOK.zip-tmpdir",
             null
@@ -298,6 +300,7 @@ class SIPImportTest implements UseTestFiles {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip",
             "target/tmpJunit/TestSipWrongDogReferences.zip-tmpdir",
             null
@@ -310,7 +313,7 @@ class SIPImportTest implements UseTestFiles {
 
         // do import of test directory
         DiskToArchiveTransferImporter dai1;
-        dai1 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2", null);
+        dai1 = new DiskToArchiveTransferImporter(SedaContext.getVersion(), "target/tmpJunit/SWLMV2", null);
 
         dai1.addIgnorePattern("Thumbs.db");
         dai1.addIgnorePattern("pagefile.sys");
@@ -336,7 +339,7 @@ class SIPImportTest implements UseTestFiles {
 
         // do reimport of test directory
         DiskToArchiveTransferImporter dai2;
-        dai2 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2.1", null);
+        dai2 = new DiskToArchiveTransferImporter(SedaContext.getVersion(), "target/tmpJunit/SWLMV2.1", null);
 
         dai2.addIgnorePattern("Thumbs.db");
         dai2.addIgnorePattern("pagefile.sys");

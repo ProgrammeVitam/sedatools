@@ -63,29 +63,17 @@ public class SedaVersionConverter {
     /**
      * Converts a DataObjectPackage from one SEDA version to another by serializing and re-parsing the XML.
      *
-     * @param originalPackage the original DataObjectPackage
-     * @param sourceSedaVersion the source SEDA version
+     * @param originalPackage the original DataObjectPackage, in its own SEDA version
      * @param targetSedaVersion the target SEDA version
      * @return a new DataObjectPackage in the target SEDA version
      * @throws SEDALibException if conversion fails
      * @throws InterruptedException if the operation is interrupted
      */
-    public DataObjectPackage convert(
-        DataObjectPackage originalPackage,
-        SedaVersion sourceSedaVersion,
-        SedaVersion targetSedaVersion
-    ) throws SEDALibException, InterruptedException {
+    public DataObjectPackage convert(DataObjectPackage originalPackage, SedaVersion targetSedaVersion)
+        throws SEDALibException, InterruptedException {
+        SedaVersion sourceSedaVersion = originalPackage.getSedaVersion();
         if (sourceSedaVersion.equals(targetSedaVersion)) {
             throw new SEDALibException("Source and target SEDA versions are identical: " + sourceSedaVersion);
-        }
-        if (!sourceSedaVersion.equals(SedaContext.getVersion())) {
-            throw new SEDALibException(
-                "Source and context SEDA versions are different: " +
-                "(source: " +
-                sourceSedaVersion +
-                ", context: " +
-                SedaContext.getVersion()
-            );
         }
 
         logGlobal("Conversion from " + sourceSedaVersion + " to " + targetSedaVersion);
@@ -94,7 +82,7 @@ public class SedaVersionConverter {
         SedaContext.setVersion(targetSedaVersion);
 
         try {
-            DataObjectPackage convertedPackage = deserializeFromSedaXml(sedaXml);
+            DataObjectPackage convertedPackage = deserializeFromSedaXml(sedaXml, targetSedaVersion);
             restoreBinaryObjectPaths(originalPackage, convertedPackage);
             return convertedPackage;
         } catch (Exception e) {
@@ -121,7 +109,8 @@ public class SedaVersionConverter {
         }
     }
 
-    private DataObjectPackage deserializeFromSedaXml(String xml) throws SEDALibException, InterruptedException {
+    private DataObjectPackage deserializeFromSedaXml(String xml, SedaVersion sedaVersion)
+        throws SEDALibException, InterruptedException {
         logStep("-> Deserializing XML to DataObjectPackage");
 
         try (
@@ -129,7 +118,7 @@ public class SedaVersionConverter {
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
         ) {
             xmlReader.xmlReader.nextEvent(); // skip StartDocument
-            return DataObjectPackage.fromSedaXml(xmlReader, "unknown", progressLogger);
+            return DataObjectPackage.fromSedaXml(xmlReader, sedaVersion, "unknown", progressLogger);
         } catch (IOException | XMLStreamException e) {
             throw new SEDALibException("Failed to deserialize XML to DataObjectPackage", e);
         }

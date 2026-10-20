@@ -38,7 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
@@ -81,14 +81,34 @@ public class ArchiveTransfer {
     // Constructors
 
     /**
-     * Instantiates a new archive transfer. Used for json deserialization.
+     * Instantiates an archive transfer for json deserialization, which sets its DataObjectPackage
+     * and so its SEDA version.
      */
-    public ArchiveTransfer() {
+    private ArchiveTransfer() {
         this.globalMetadata = null;
-        this.setDataObjectPackage(new DataObjectPackage());
+    }
+
+    /**
+     * Instantiates a new archive transfer.
+     *
+     * @param sedaVersion the SEDA version of the archive transfer
+     */
+    public ArchiveTransfer(SedaVersion sedaVersion) {
+        this.globalMetadata = null;
+        this.setDataObjectPackage(new DataObjectPackage(sedaVersion));
     }
 
     // Methods
+
+    /**
+     * Gets the SEDA version, the one of its DataObjectPackage.
+     *
+     * @return the SEDA version
+     */
+    @JsonIgnore
+    public SedaVersion getSedaVersion() {
+        return dataObjectPackage.getSedaVersion();
+    }
 
     /**
      * Gets the summary description of ArchiveTransfer. It list the number of
@@ -118,11 +138,8 @@ public class ArchiveTransfer {
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
 
-            final fr.gouv.vitam.tools.sedaschema.SedaVersion schema = SedaContext.getVersion().getSchemaVersion();
-            if (schema == null) throw new SEDALibException(
-                "Version [" + SedaContext.getVersion() + "] sans schéma",
-                null
-            );
+            final fr.gouv.vitam.tools.sedaschema.SedaVersion schema = getSedaVersion().getSchemaVersion();
+            if (schema == null) throw new SEDALibException("Version [" + getSedaVersion() + "] sans schéma", null);
             final String mainXsd = schema.getMainXsdResource();
             xmlWriter.writeDefaultNamespace(schema.getNamespace());
             xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -332,6 +349,7 @@ public class ArchiveTransfer {
      * Import the whole structure from XML SEDA Manifest.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param sedaVersion           the SEDA version of the manifest
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
@@ -341,15 +359,18 @@ public class ArchiveTransfer {
      */
     public static ArchiveTransfer fromSedaXml(
         SEDAXMLEventReader xmlReader,
+        SedaVersion sedaVersion,
         String rootDir,
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException, InterruptedException {
         ArchiveTransfer archiveTransfer;
         importStartDocument(xmlReader);
-        archiveTransfer = new ArchiveTransfer();
+        archiveTransfer = new ArchiveTransfer(sedaVersion);
         archiveTransfer.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveTransfer);
-        archiveTransfer.setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
+        archiveTransfer.setDataObjectPackage(
+            DataObjectPackage.fromSedaXml(xmlReader, sedaVersion, rootDir, sedaLibProgressLogger)
+        );
         importFooter(xmlReader, archiveTransfer);
         importEndDocument(xmlReader);
 
@@ -373,7 +394,7 @@ public class ArchiveTransfer {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
-        Schema sedaSchema = SEDAXMLValidator.getSEDASchema();
+        Schema sedaSchema = SEDAXMLValidator.getSEDASchema(getSedaVersion());
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 

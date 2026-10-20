@@ -144,7 +144,7 @@ class SEDA2VersionTest {
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais)
         ) {
             xmlReader.nextUsefullEvent();
-            dop = DataObjectPackage.fromSedaXml(xmlReader, "", null);
+            dop = DataObjectPackage.fromSedaXml(xmlReader, SedaVersion.V2_1, "", null);
         } catch (XMLStreamException | IOException | InterruptedException e) {
             assertThat(e).isNull();
         }
@@ -167,7 +167,7 @@ class SEDA2VersionTest {
         // Then the Event in ArchiveUnit has a LinkingAgentIdentifierType metadata
 
         try {
-            dop = new SedaVersionConverter(null).convert(dop, SedaVersion.V2_1, SedaVersion.V2_2);
+            dop = new SedaVersionConverter(null).convert(dop, SedaVersion.V2_2);
         } catch (InterruptedException ignored) {}
         SedaContext.setVersion(SedaVersion.V2_2);
 

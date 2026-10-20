@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -68,6 +69,7 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
         throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );

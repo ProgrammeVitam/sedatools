@@ -47,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,6 +67,7 @@ class DiskImportExportTest implements UseTestFiles {
     void TestDiskImportWithoutLink() throws Exception {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
             null
         );
@@ -240,7 +242,11 @@ class DiskImportExportTest implements UseTestFiles {
     void TestDiskImportWithLink() throws Exception {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
+            "src/test/resources/PacketSamples/SampleWithLinksModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -373,6 +379,7 @@ class DiskImportExportTest implements UseTestFiles {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             true,
             replaced,

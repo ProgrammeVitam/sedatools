@@ -46,6 +46,7 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVTreeToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,7 @@ class CSVTreeToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cti = new CSVTreeToDataObjectPackageImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestOK.csv",
             "Cp1252",
             ';',
@@ -112,6 +114,7 @@ class CSVTreeToDataObjectPackageImporterTest {
 
         // When loaded with the csv KO test file with a line out of all defined series
         cti = new CSVTreeToDataObjectPackageImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestKO1.csv",
             "Cp1252",
             ';',

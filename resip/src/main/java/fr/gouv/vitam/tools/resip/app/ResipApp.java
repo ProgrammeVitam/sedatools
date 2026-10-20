@@ -508,6 +508,7 @@ public class ResipApp {
                 if (creationContext instanceof DiskImportContext) {
                     DiskImportContext diskImportContext = (DiskImportContext) creationContext;
                     DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+                        SedaContext.getVersion(),
                         diskImportContext.getOnDiskInput(),
                         spl
                     );
@@ -522,6 +523,7 @@ public class ResipApp {
                         Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() +
                         "-tmpdir";
                     SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                        SedaContext.getVersion(),
                         sipImportContext.getOnDiskInput(),
                         target,
                         spl
@@ -531,6 +533,7 @@ public class ResipApp {
                 } else if (creationContext instanceof CSVImportContext) {
                     CSVMetadataImportContext cSVMetadataImportContext = (CSVMetadataImportContext) creationContext;
                     CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+                        SedaContext.getVersion(),
                         cSVMetadataImportContext.getOnDiskInput(),
                         cSVMetadataImportContext.getCsvCharsetName(),
                         cSVMetadataImportContext.getDelimiter(),
@@ -538,7 +541,7 @@ public class ResipApp {
                     );
                     cmi.doImport();
 
-                    packet = new ArchiveTransfer();
+                    packet = new ArchiveTransfer(SedaContext.getVersion());
                     Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
                     work
                         .getDataObjectPackage()

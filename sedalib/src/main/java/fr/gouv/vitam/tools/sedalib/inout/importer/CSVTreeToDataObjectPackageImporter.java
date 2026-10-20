@@ -43,6 +43,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.utils.ByteOrderMarkUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -134,6 +135,11 @@ public class CSVTreeToDataObjectPackageImporter {
     Instant start, end;
 
     /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
+
+    /**
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
@@ -141,6 +147,7 @@ public class CSVTreeToDataObjectPackageImporter {
     /**
      * Instantiates a new csv tree file importer.
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param csvFileName           the csv file name
      * @param encoding              the encoding format string (most of the time UTF8 or Cp1252)
      * @param separator             the char used as column separator (; or , or \t...)
@@ -148,6 +155,7 @@ public class CSVTreeToDataObjectPackageImporter {
      * @throws SEDALibException if file doesn't exist
      */
     public CSVTreeToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         String csvFileName,
         String encoding,
         char separator,
@@ -161,6 +169,7 @@ public class CSVTreeToDataObjectPackageImporter {
         );
 
         this.csvFileName = csvFileName;
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.encoding = encoding;
         this.separator = separator;
@@ -266,7 +275,7 @@ public class CSVTreeToDataObjectPackageImporter {
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         readCSVFile();
-        dataObjectPackage = new DataObjectPackage();
+        dataObjectPackage = new DataObjectPackage(sedaVersion);
 
         dataObjectPackage.resetInOutCounter();
         List<Line> rootLines = linesMap.get("");

@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
@@ -69,6 +70,7 @@ class UnreadableBinaryDataObjectTest implements UseTestFiles {
     private static SIPToArchiveTransferImporter importSampleSip(String tmpDir) throws Exception {
         TestUtilities.eraseAll(tmpDir);
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SIP_OK.zip",
             tmpDir,
             null
@@ -148,6 +150,7 @@ class UnreadableBinaryDataObjectTest implements UseTestFiles {
     @Test
     void shouldCountAndReportTheFilesIgnoredAtDiskImport() throws Exception {
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );

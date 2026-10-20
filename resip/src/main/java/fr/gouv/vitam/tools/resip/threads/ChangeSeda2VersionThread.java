@@ -122,7 +122,7 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
 
             if (work == null) throw new ResipException("Pas de contenu à transformer");
 
-            convertedDop = new SedaVersionConverter(spl).convert(dop, currentVersion, nextVersion);
+            convertedDop = new SedaVersionConverter(spl).convert(dop, nextVersion);
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }

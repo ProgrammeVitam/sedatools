@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
@@ -82,7 +83,13 @@ class SIPBuilderTest {
             LoggerFactory.getLogger("SIPBuilderTest"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip", pl)) {
+        try (
+            SIPBuilder sb = new SIPBuilder(
+                SedaContext.getVersion(),
+                "target/tmpJunit/SIPBuilder/SIPBuilderTest.zip",
+                pl
+            )
+        ) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createRootArchiveUnit(
@@ -144,7 +151,13 @@ class SIPBuilderTest {
             LoggerFactory.getLogger("SIPBuilderTest"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip", pl)) {
+        try (
+            SIPBuilder sb = new SIPBuilder(
+                SedaContext.getVersion(),
+                "target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip",
+                pl
+            )
+        ) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createSystemExistingRootArchiveUnit(

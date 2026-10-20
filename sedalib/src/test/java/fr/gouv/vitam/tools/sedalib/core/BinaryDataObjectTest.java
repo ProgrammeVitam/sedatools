@@ -78,6 +78,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestSip.zip",
             "target/tmpJunit/TestSIP.zip-tmpdir",
             null
@@ -202,6 +203,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestSip.zip",
             "target/tmpJunit/TestSIP.zip-tmpdir",
             null
@@ -245,6 +247,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestSip.zip",
             "target/tmpJunit/TestSIP.zip-tmpdir",
             null
@@ -282,6 +285,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/TestSip.zip",
             "target/tmpJunit/TestSIP.zip-tmpdir",
             null

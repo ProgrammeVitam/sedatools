@@ -59,7 +59,7 @@ public class SEDAValidationTest {
         String sedaContent = readFileToString(sedaFilePath);
 
         // When
-        boolean isValid = validator.checkWithXSDSchema(sedaContent, SEDAXMLValidator.getSEDASchema());
+        boolean isValid = validator.checkWithXSDSchema(sedaContent, SEDAXMLValidator.getSEDASchema(SedaVersion.V2_1));
 
         // Then
         assertThat(isValid).as("Validation process on SEDA 2.1 failed").isTrue();

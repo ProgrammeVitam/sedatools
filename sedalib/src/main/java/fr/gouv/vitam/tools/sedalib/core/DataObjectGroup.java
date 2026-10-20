@@ -38,7 +38,6 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
@@ -288,7 +287,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                                 bdo.inDataPackageObjectId +
                                 "] utilise un raccordement DataObjectGroup mode SEDA2.0 " +
                                 "dans un DataObjectGroup mode " +
-                                SedaContext.getVersion()
+                                dataObjectPackage.getSedaVersion()
                             );
                             StringType bdoUri = (StringType) bdo.getFirstNamedMetadata("Uri");
                             bdo.setOnDiskPathFromString(
@@ -309,7 +308,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                                 pdo.inDataPackageObjectId +
                                 "] utilise un raccordement DataObjectGroup mode SEDA2.0 " +
                                 "dans un DataObjectGroup mode " +
-                                SedaContext.getVersion()
+                                dataObjectPackage.getSedaVersion()
                             );
                             dog.addDataObject(pdo);
                             break;

@@ -48,6 +48,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -170,6 +171,7 @@ public class ImportThread extends SwingWorker<String, String> {
         if (work.getCreationContext().getOnDiskInput().endsWith("zip")) encoding = "CP850";
         else encoding = "UTF8";
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
+            SedaContext.getVersion(),
             work.getCreationContext().getOnDiskInput(),
             target,
             encoding,
@@ -188,6 +190,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             work.getCreationContext().getOnDiskInput(),
             diskImportContext.isNoLinkFlag(),
             null,
@@ -206,7 +209,12 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         SIPImportContext sic = (SIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(sic.getWorkDir(), sic.getOnDiskInput());
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(), target, spl);
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
+            sic.getOnDiskInput(),
+            target,
+            spl
+        );
         si.doImport();
         setWorkFromArchiveTransfer(si.getArchiveTransfer());
         summary = si.getSummary();
@@ -219,6 +227,7 @@ public class ImportThread extends SwingWorker<String, String> {
         DIPImportContext dic = (DIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(dic.getWorkDir(), dic.getOnDiskInput());
         DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
+            SedaContext.getVersion(),
             dic.getOnDiskInput(),
             target,
             spl
@@ -234,6 +243,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
         CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
+            SedaContext.getVersion(),
             ctic.getOnDiskInput(),
             ctic.getCsvCharsetName(),
             ctic.getDelimiter(),
@@ -251,6 +261,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaContext.getVersion(),
             cmic.getOnDiskInput(),
             cmic.getCsvCharsetName(),
             cmic.getDelimiter(),
@@ -308,7 +319,7 @@ public class ImportThread extends SwingWorker<String, String> {
 
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
-        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(SedaContext.getVersion(), lp, spl);
         for (String ip : new DiskImportContext(Preferences.getInstance()).getIgnorePatternList()) di.addIgnorePattern(
             ip
         );

@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -95,6 +96,11 @@ public class SIPToArchiveTransferImporter {
      * The end.
      */
     Instant start, end;
+
+    /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
 
     /**
      * The progress logger.
@@ -190,12 +196,14 @@ public class SIPToArchiveTransferImporter {
     /**
      * Instantiates a new SEDA SIP importer.
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param zipFile               the zip file
      * @param unCompressDirectory   the directory where the zipfile is uncompressed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
     public SIPToArchiveTransferImporter(
+        SedaVersion sedaVersion,
         String zipFile,
         String unCompressDirectory,
         SEDALibProgressLogger sedaLibProgressLogger
@@ -220,6 +228,7 @@ public class SIPToArchiveTransferImporter {
 
         this.zipFile = zipFile;
         this.unCompressDirectory = unCompressDirectoryPath.normalize().toString();
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
@@ -246,7 +255,12 @@ public class SIPToArchiveTransferImporter {
             FileInputStream fis = new FileInputStream(unCompressDirectory + File.separator + manifest);
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(fis)
         ) {
-            archiveTransfer = ArchiveTransfer.fromSedaXml(xmlReader, unCompressDirectory, sedaLibProgressLogger);
+            archiveTransfer = ArchiveTransfer.fromSedaXml(
+                xmlReader,
+                sedaVersion,
+                unCompressDirectory,
+                sedaLibProgressLogger
+            );
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Impossible d'importer le fichier [" + manifest + "] comme manifest du SIP", e);
         }

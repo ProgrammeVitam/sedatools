@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -113,7 +114,7 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+            ArchiveTransfer archiveTransfer = new ArchiveTransfer(SedaContext.getVersion());
             work
                 .getDataObjectPackage()
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());

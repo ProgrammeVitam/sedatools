@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.Operation;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.InnerIdentifierType;
@@ -115,12 +116,21 @@ public class ArchiveDeliveryRequestReply {
     // Constructors
 
     /**
-     * Instantiates a new empty ArchiveDeliveryRequestReply. Used for json
-     * deserialization.
+     * Instantiates an ArchiveDeliveryRequestReply for json deserialization, which sets its
+     * DataObjectPackage and so its SEDA version.
      */
-    public ArchiveDeliveryRequestReply() {
+    private ArchiveDeliveryRequestReply() {
         this.globalMetadata = null;
-        this.setDataObjectPackage(new DataObjectPackage());
+    }
+
+    /**
+     * Instantiates a new empty ArchiveDeliveryRequestReply.
+     *
+     * @param sedaVersion the SEDA version of the reply
+     */
+    public ArchiveDeliveryRequestReply(SedaVersion sedaVersion) {
+        this.globalMetadata = null;
+        this.setDataObjectPackage(new DataObjectPackage(sedaVersion));
     }
 
     // Methods
@@ -343,6 +353,7 @@ public class ArchiveDeliveryRequestReply {
      * Import the whole structure from XML SEDA Manifest.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param sedaVersion           the SEDA version of the manifest
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
@@ -352,16 +363,17 @@ public class ArchiveDeliveryRequestReply {
      */
     public static ArchiveDeliveryRequestReply fromSedaXml(
         SEDAXMLEventReader xmlReader,
+        SedaVersion sedaVersion,
         String rootDir,
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException, InterruptedException {
         ArchiveDeliveryRequestReply archiveDeliveryRequestReply;
         importStartDocument(xmlReader);
-        archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply();
+        archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply(sedaVersion);
         archiveDeliveryRequestReply.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);
         archiveDeliveryRequestReply.setDataObjectPackage(
-            DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger)
+            DataObjectPackage.fromSedaXml(xmlReader, sedaVersion, rootDir, sedaLibProgressLogger)
         );
         importFooter(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);
         importEndDocument(xmlReader, archiveDeliveryRequestReply);

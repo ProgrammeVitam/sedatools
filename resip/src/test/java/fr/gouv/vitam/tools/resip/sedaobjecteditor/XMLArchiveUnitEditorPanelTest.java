@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -63,7 +64,7 @@ public class XMLArchiveUnitEditorPanelTest {
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
 
-        DataObjectPackage dop = new DataObjectPackage();
+        DataObjectPackage dop = new DataObjectPackage(SedaContext.getVersion());
         ArchiveUnit archiveUnit = new ArchiveUnit();
         SEDAMetadata sedaMetadata;
 

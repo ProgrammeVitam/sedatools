@@ -47,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,6 +66,7 @@ class CompressedFileImportTest implements UseTestFiles {
     void TestZipImport() throws Exception {
         // do import of test directory
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/zip/TestImport.zip",
             "target/tmpJunit/TestImport.zip-tmpdir",
             "UTF8",

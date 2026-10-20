@@ -108,12 +108,12 @@ public class SedaVersionConverterTest {
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais)
         ) {
             xmlReader.nextUsefullEvent(); // skip StartDocument
-            dop = DataObjectPackage.fromSedaXml(xmlReader, "", logger);
+            dop = DataObjectPackage.fromSedaXml(xmlReader, SedaVersion.V2_1, "", logger);
         }
 
         // When
         SedaVersionConverter converter = new SedaVersionConverter(logger);
-        DataObjectPackage convertedDop = converter.convert(dop, SedaVersion.V2_1, SedaVersion.V2_2);
+        DataObjectPackage convertedDop = converter.convert(dop, SedaVersion.V2_2);
 
         // Then
         SedaContext.setVersion(SedaVersion.V2_2); // Required to use correct metadata definitions
@@ -137,10 +137,10 @@ public class SedaVersionConverterTest {
 
     @Test
     public void testConvert_sameVersion_throwsException() {
-        DataObjectPackage original = new DataObjectPackage();
+        DataObjectPackage original = new DataObjectPackage(SedaVersion.V2_2);
 
         SEDALibException thrown = assertThrows(SEDALibException.class, () -> {
-            converter.convert(original, SedaVersion.V2_2, SedaVersion.V2_2);
+            converter.convert(original, SedaVersion.V2_2);
         });
 
         assertTrue(thrown.getMessage().contains("identical"));
@@ -150,25 +150,12 @@ public class SedaVersionConverterTest {
     public void testConvert_interruptedDuringSerialization_propagates() throws Exception {
         // Given a DataObjectPackage that throws InterruptedException during toSedaXml
         DataObjectPackage mockPackage = mock(DataObjectPackage.class);
+        when(mockPackage.getSedaVersion()).thenReturn(SedaVersion.V2_1);
         doThrow(new InterruptedException("interrupted")).when(mockPackage).toSedaXml(any(), eq(true), any());
 
         // When + Then
         assertThrows(InterruptedException.class, () -> {
-            converter.convert(mockPackage, SedaVersion.V2_1, SedaVersion.V2_3);
+            converter.convert(mockPackage, SedaVersion.V2_3);
         });
-    }
-
-    @Test
-    public void shouldFailWhenSourceVersionAndContextVersionAreDifferent() {
-        DataObjectPackage original = new DataObjectPackage();
-
-        /**
-         * @see SedaContextExtension initial SEDA version is SedaVersion.V2_1
-         */
-        SEDALibException thrown = assertThrows(SEDALibException.class, () -> {
-            converter.convert(original, SedaVersion.V2_2, SedaVersion.V2_3);
-        });
-
-        assertTrue(thrown.getMessage().contains("different"));
     }
 }

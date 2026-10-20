@@ -42,6 +42,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibJsonProcessingException;
 
@@ -58,6 +59,17 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = -2569548330768460468L;
+
+    /**
+     * The JSON field holding the SEDA version of the package.
+     */
+    public static final String SEDA_VERSION_FIELD = "sedaVersion";
+
+    /**
+     * The deserialization attribute giving the SEDA version of a package saved without it, before
+     * the version was part of the package.
+     */
+    public static final String SEDA_VERSION_ATTRIBUTE = "sedalib.sedaVersion";
 
     /**
      * Instantiates a new DataObjectPackage deserializer.
@@ -80,13 +92,22 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
      */
     @Override
     public DataObjectPackage deserialize(JsonParser parser, DeserializationContext deserializer) throws IOException {
-        DataObjectPackage dataObjectPackage = new DataObjectPackage();
+        DataObjectPackage dataObjectPackage = null;
 
         parser.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
         try {
             while (parser.nextToken() != JsonToken.END_OBJECT) {
                 String fieldname = parser.getCurrentName();
                 parser.nextToken();
+                if (SEDA_VERSION_FIELD.equals(fieldname)) {
+                    if (dataObjectPackage == null) dataObjectPackage = new DataObjectPackage(
+                        SedaVersion.from(parser.getText())
+                    );
+                    continue;
+                }
+                if (dataObjectPackage == null) dataObjectPackage = new DataObjectPackage(
+                    savedWithoutVersion(deserializer)
+                );
                 switch (fieldname) {
                     case "dataObjectGroupList":
                         while (parser.nextToken() != JsonToken.END_ARRAY) {
@@ -124,6 +145,15 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
             );
         }
 
-        return dataObjectPackage;
+        return dataObjectPackage != null ? dataObjectPackage : new DataObjectPackage(savedWithoutVersion(deserializer));
+    }
+
+    private static SedaVersion savedWithoutVersion(DeserializationContext deserializer)
+        throws SEDALibJsonProcessingException {
+        Object version = deserializer.getAttribute(SEDA_VERSION_ATTRIBUTE);
+        if (version == null) throw new SEDALibJsonProcessingException(
+            "Erreur dans la deserialisation du DataObjectPackage\n->Version SEDA absente"
+        );
+        return (SedaVersion) version;
     }
 }

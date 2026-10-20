@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -114,13 +115,17 @@ public class DiskToArchiveTransferImporter {
      * It will consider each directory and each file in this directory as a root
      * ArchiveUnit or a special metadata file
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param directory             the directory name
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
-    public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
-        throws SEDALibException {
-        this(directory, false, simpleCopy, sedaLibProgressLogger);
+    public DiskToArchiveTransferImporter(
+        SedaVersion sedaVersion,
+        String directory,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
+        this(sedaVersion, directory, false, simpleCopy, sedaLibProgressLogger);
     }
 
     /**
@@ -135,6 +140,7 @@ public class DiskToArchiveTransferImporter {
      * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param directory                        the directory name
      * @param noLinkFlag                       the no link flag
      * @param extractTitleFromFileNameFunction the extract title from file name function
@@ -142,6 +148,7 @@ public class DiskToArchiveTransferImporter {
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(
+        SedaVersion sedaVersion,
         String directory,
         boolean noLinkFlag,
         Function<String, String> extractTitleFromFileNameFunction,
@@ -151,7 +158,7 @@ public class DiskToArchiveTransferImporter {
         Iterator<Path> pi;
 
         this.onDiskGlobalMetadataPath = null;
-        this.archiveTransfer = new ArchiveTransfer();
+        this.archiveTransfer = new ArchiveTransfer(sedaVersion);
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.onDiskRootPaths = new ArrayList<>();
 
@@ -171,6 +178,7 @@ public class DiskToArchiveTransferImporter {
         }
 
         this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            sedaVersion,
             this.onDiskRootPaths,
             noLinkFlag,
             extractTitleFromFileNameFunction,
@@ -184,11 +192,16 @@ public class DiskToArchiveTransferImporter {
      * It will consider each directory and each file in this list as a root
      * ArchiveUnit or a special metadata file
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param paths                 the paths
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
-    public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
-        this(paths, false, simpleCopy, sedaLibProgressLogger);
+    public DiskToArchiveTransferImporter(
+        SedaVersion sedaVersion,
+        List<Path> paths,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
+        this(sedaVersion, paths, false, simpleCopy, sedaLibProgressLogger);
     }
 
     /**
@@ -203,19 +216,21 @@ public class DiskToArchiveTransferImporter {
      * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param paths                            the paths
      * @param noLinkFlag                       the no link flag
      * @param extractTitleFromFileNameFunction the extract title from file name function
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      */
     public DiskToArchiveTransferImporter(
+        SedaVersion sedaVersion,
         List<Path> paths,
         boolean noLinkFlag,
         Function<String, String> extractTitleFromFileNameFunction,
         SEDALibProgressLogger sedaLibProgressLogger
     ) {
         this.onDiskGlobalMetadataPath = null;
-        this.archiveTransfer = new ArchiveTransfer();
+        this.archiveTransfer = new ArchiveTransfer(sedaVersion);
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.onDiskRootPaths = new ArrayList<>();
 
@@ -225,6 +240,7 @@ public class DiskToArchiveTransferImporter {
         }
 
         this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            sedaVersion,
             this.onDiskRootPaths,
             noLinkFlag,
             extractTitleFromFileNameFunction,

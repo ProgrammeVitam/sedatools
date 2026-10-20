@@ -80,6 +80,7 @@ class SEDAValidationTest implements UseTestFiles {
         // do import of test directory
         SedaContext.setVersion(SedaVersion.V2_2);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );
@@ -147,6 +148,7 @@ class SEDAValidationTest implements UseTestFiles {
     private static DiskToArchiveTransferImporter importSampleWithCompleteGlobalMetadata()
         throws SEDALibException, InterruptedException {
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );
@@ -196,6 +198,7 @@ class SEDAValidationTest implements UseTestFiles {
     void testSedaXmlValidationKO() throws IllegalArgumentException, SEDALibException, InterruptedException {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );
@@ -253,6 +256,7 @@ class SEDAValidationTest implements UseTestFiles {
         // given
         TestUtilities.eraseAll("target/tmpJunit/OK_468.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/OK_468.zip",
             "target/tmpJunit/OK_468.zip-tmpdir",
             null
@@ -270,6 +274,7 @@ class SEDAValidationTest implements UseTestFiles {
         // given
         TestUtilities.eraseAll("target/tmpJunit/KO_468.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/KO_468.zip",
             "target/tmpJunit/KO_468.zip-tmpdir",
             null
@@ -310,6 +315,7 @@ class SEDAValidationTest implements UseTestFiles {
     void shouldGiveTheSameAnomaliesWhenTheProfileCheckIsReplayed() throws Exception {
         TestUtilities.eraseAll("target/tmpJunit/KO_468_replay.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            SedaContext.getVersion(),
             "src/test/resources/PacketSamples/KO_468.zip",
             "target/tmpJunit/KO_468_replay.zip-tmpdir",
             null

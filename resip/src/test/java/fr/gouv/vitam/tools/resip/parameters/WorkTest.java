@@ -118,6 +118,7 @@ class WorkTest implements UseTestFiles {
         Work ow = new Work(null, oic, gmc);
 
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             ow.getCreationContext().getOnDiskInput(),
             spl
         );
@@ -165,7 +166,7 @@ class WorkTest implements UseTestFiles {
             String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
             new File("./target/tmpJunit").mkdirs();
 
-            Work ow = new Work(new DataObjectPackage(), null, new ExportContext());
+            Work ow = new Work(new DataObjectPackage(SedaContext.getVersion()), null, new ExportContext());
             ow.save(file);
 
             assertEquals(SedaVersion.V2_2, Work.getSeda2VersionFromFile(file));
@@ -191,7 +192,7 @@ class WorkTest implements UseTestFiles {
             String legacyFile = "./target/tmpJunit/junit_resipWork_legacy.rsp";
             new File("./target/tmpJunit").mkdirs();
 
-            new Work(new DataObjectPackage(), null, new ExportContext()).save(file);
+            new Work(new DataObjectPackage(SedaContext.getVersion()), null, new ExportContext()).save(file);
             removeVersionFromSaveFile(file, legacyFile);
 
             assertEquals(SedaVersion.V2_1, Work.getSeda2VersionFromFile(legacyFile));
