@@ -50,6 +50,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
+import fr.gouv.vitam.tools.resip.service.SessionService;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
@@ -790,7 +791,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
-                final SedaVersion sedaVersionFromWorkspace = Work.getSeda2VersionFromFile(filename);
+                final SedaVersion sedaVersionFromWorkspace = SessionService.readSedaVersion(filename);
 
                 if ((sedaVersionFromWorkspace != null) && (sedaVersionFromWorkspace != sedaVersion)) {
                     if (
@@ -810,7 +811,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     treatmentParameters.toPrefs(Preferences.getInstance());
                 }
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                currentWork = Work.createFromFile(filename);
+                currentWork = SessionService.load(filename);
                 getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
                 mainWindow.load();
                 mainWindow.setCursor(Cursor.getDefaultCursor());
@@ -837,7 +838,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private void saveWork() {
         if (filenameWork != null) try {
             mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            currentWork.save(filenameWork);
+            SessionService.save(currentWork, filenameWork);
             mainWindow.setCursor(Cursor.getDefaultCursor());
             setModifiedContext(false);
         } catch (Exception e) {
@@ -875,7 +876,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         OK_DIALOG)
                 ) return;
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                currentWork.save(filename);
+                SessionService.save(currentWork, filename);
                 mainWindow.setCursor(Cursor.getDefaultCursor());
                 getGlobalLogger().log(ResipLogger.GLOBAL, "Resip.Graphic: Fichier [" + filename + "] sauvegardé", null);
                 setModifiedContext(false);

@@ -46,7 +46,7 @@ import java.io.IOException;
 
 public class NullDeserializer<T> extends StdDeserializer<T> {
 
-    protected NullDeserializer() {
+    public NullDeserializer() {
         super((Class<T>) null);
     }
 
