@@ -40,19 +40,12 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
+import fr.gouv.vitam.tools.resip.service.AnalysisService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
@@ -78,13 +71,6 @@ public class StatisticThread extends SwingWorker<String, String> {
         this.statisticWindow = statisticWindow;
     }
 
-    private String findCategory(String formatId, LinkedHashMap<String, List<String>> formatByCatgeoryMap) {
-        for (Map.Entry<String, List<String>> category : formatByCatgeoryMap.entrySet()) {
-            if (category.getValue().contains(formatId)) return category.getKey();
-        }
-        return null;
-    }
-
     @Override
     public String doInBackground() {
         try {
@@ -106,43 +92,11 @@ public class StatisticThread extends SwingWorker<String, String> {
                 1000
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-            DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
-            LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
-            LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp()
-                .treatmentParameters.getFormatByCategoryMap();
-            String otherCategory = null;
-            for (Map.Entry<String, List<String>> category : formatByCatgeoryMap.entrySet()) {
-                sizeByCategoryMap.put(category.getKey(), new ArrayList<Long>());
-                if (category.getValue().contains("Other")) otherCategory = category.getKey();
-            }
-            sizeByCategoryMap.put("Tous formats", new ArrayList<Long>());
-            int counter = 0;
-            for (BinaryDataObject bdo : dataObjectPackage.getBdoInDataObjectPackageIdMap().values()) {
-                String category = null;
-                FormatIdentification formatIdentification = bdo.getMetadataFormatIdentification();
-                if (formatIdentification != null) category = findCategory(
-                    formatIdentification.getSimpleMetadata("FormatId"),
-                    formatByCatgeoryMap
-                );
-                if (category == null) category = otherCategory;
-                IntegerType size = bdo.getMetadataSize();
-                if (size != null) {
-                    if (category != null) sizeByCategoryMap.get(category).add(size.getValue());
-                    sizeByCategoryMap.get("Tous formats").add(size.getValue());
-                }
-                counter++;
-                doProgressLogIfStep(
-                    spl,
-                    SEDALibProgressLogger.OBJECTS_GROUP,
-                    counter,
-                    "resip: " + counter + " objets pris en compte dans les statistiques"
-                );
-            }
-            statisticDataList = sizeByCategoryMap
-                .entrySet()
-                .stream()
-                .map(e -> new StatisticData(e.getKey(), e.getValue()))
-                .collect(Collectors.toList());
+            statisticDataList = AnalysisService.statistics(
+                ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage(),
+                ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap(),
+                spl
+            );
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";

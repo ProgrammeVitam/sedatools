@@ -39,12 +39,11 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.service.WorkDirService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
@@ -57,7 +56,6 @@ public class CleanThread extends SwingWorker<String, String> {
     private String workDir;
     private InOutDialog inOutDialog;
     //run output
-    private int fileCounter;
     private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
@@ -74,21 +72,9 @@ public class CleanThread extends SwingWorker<String, String> {
         this.inOutDialog = dialog;
     }
 
-    private void recursiveDelete(File inFile) throws IOException, InterruptedException {
-        if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete();
-        } else {
-            inFile.delete();
-            fileCounter++;
-            doProgressLogIfStep(spl, OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
-        }
-    }
-
     @Override
     public String doInBackground() {
         spl = null;
-        fileCounter = 0;
         try {
             int localLogLevel, localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
@@ -112,15 +98,7 @@ public class CleanThread extends SwingWorker<String, String> {
                 1000
             );
 
-            doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
-            for (File f : new File(workDir).listFiles()) {
-                if (f.isDirectory() && f.toString().endsWith("-tmpdir")) {
-                    fileCounter = 0;
-                    doProgressLog(spl, STEP, "  - Sous-répertoire pris en compte: " + f.toString(), null);
-                    recursiveDelete(f);
-                    doProgressLog(spl, STEP, "    Terminé, " + fileCounter + " effacés", null);
-                }
-            }
+            WorkDirService.cleanTmpDirs(workDir, spl);
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";

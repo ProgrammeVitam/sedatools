@@ -41,23 +41,18 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.service.AddService;
 import fr.gouv.vitam.tools.resip.service.ImportResult;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
@@ -77,7 +72,6 @@ public class MailExtractThread extends SwingWorker<String, String> {
     private ImportResult imported;
     private String summary;
     private Throwable exitThrowable;
-    private int fileCounter;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -135,47 +129,11 @@ public class MailExtractThread extends SwingWorker<String, String> {
         this.work = work;
         this.targetNode = targetNode;
         this.bdoToExpand = bdoToExpand;
-        this.addService = new AddService(Preferences.getInstance(), this::getTmpDirTarget);
+        this.addService = new AddService(Preferences.getInstance(), new UsedTmpDirResolver(this, () -> spl));
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
         dialog.setThread(this);
-    }
-
-    private void recursiveDelete(File inFile) throws InterruptedException {
-        if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete();
-        } else {
-            inFile.delete();
-            fileCounter++;
-            doProgressLogIfStep(
-                spl,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                fileCounter,
-                fileCounter + " fichiers effacés"
-            );
-        }
-    }
-
-    private String getTmpDirTarget(String workDir, String subDir) throws ResipException, InterruptedException {
-        String target = workDir + File.separator + subDir;
-        if (Files.exists(Paths.get(target))) {
-            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.mainWindow, workDir, subDir);
-            utdd.setVisible(true);
-            if (utdd.getReturnValue() == STATUS_CLEAN) {
-                fileCounter = 0;
-                recursiveDelete(new File(utdd.getResult()));
-                doProgressLog(spl, SEDALibProgressLogger.STEP, fileCounter + " fichiers effacés au total", null);
-                target = utdd.getResult();
-            } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
-                target = utdd.getResult();
-            } else { // STATUS_CANCEL
-                this.cancel(false);
-                throw new ResipException("Opération annulée");
-            }
-        }
-        return target;
     }
 
     @Override
