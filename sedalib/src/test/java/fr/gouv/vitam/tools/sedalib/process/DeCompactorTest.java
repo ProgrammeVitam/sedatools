@@ -37,20 +37,18 @@
  */
 package fr.gouv.vitam.tools.sedalib.process;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -59,7 +57,6 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 class DeCompactorTest implements UseTestFiles {
 
     private void eraseAll(String dirOrFile) {
@@ -110,7 +107,7 @@ class DeCompactorTest implements UseTestFiles {
     void TestDeCompactor() throws Exception {
         // Given this test directory imported with Management metadata put on root and ArchiveUnit sorted
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
             null
         );

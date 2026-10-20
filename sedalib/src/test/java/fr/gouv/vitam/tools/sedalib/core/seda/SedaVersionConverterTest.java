@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.core.seda;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -48,7 +47,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +55,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SedaContextExtension.class)
 public class SedaVersionConverterTest {
 
     private SEDALibProgressLogger logger;
@@ -116,7 +113,6 @@ public class SedaVersionConverterTest {
         DataObjectPackage convertedDop = converter.convert(dop, SedaVersion.V2_2);
 
         // Then
-        SedaContext.setVersion(SedaVersion.V2_2); // Required to use correct metadata definitions
         Content content = convertedDop.getArchiveUnitById("ID10").getContent();
         boolean foundLinking = false;
 

@@ -41,34 +41,31 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@ExtendWith(SedaContextExtension.class)
 class DataObjectPackageTest {
 
     @Test
     void testCycleDetectionOK() throws SEDALibException, InterruptedException {
         // Given
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestSip.zip",
             "target/tmpJunit/TestSIP.zip-tmpdir",
             null
         );
         si.doImport();
         SIPToArchiveTransferImporter wrongSi = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples" + "/TestSipCyclic.zip",
             "target/tmpJunit/TestSIPCyclic.zip-tmpdir",
             null
@@ -84,7 +81,7 @@ class DataObjectPackageTest {
     void testCycleDetectionKO() throws SEDALibException, InterruptedException {
         // Given
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples" + "/TestSipCyclic.zip",
             "target/tmpJunit/TestSipCyclic.zip-tmpdir",
             null
@@ -109,7 +106,7 @@ class DataObjectPackageTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip",
             "target/tmpJunit/TestSipWrongDogReferences.zip-tmpdir",
             null
@@ -124,7 +121,7 @@ class DataObjectPackageTest {
         }
 
         si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestSipDogMerge.zip",
             "target/tmpJunit/TestSipDogMerge.zip-tmpdir",
             null
@@ -575,7 +572,7 @@ class DataObjectPackageTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestSip" + ".zip",
             "target/tmpJunit/TestSip.zip-tmpdir",
             null

@@ -94,6 +94,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -377,8 +378,7 @@ public final class SchemaMetadataMapBuilder {
      */
     public static LinkedHashMap<String, ComplexListMetadataKind> get(Class<?> clazz, SedaVersion version)
         throws SEDALibException {
-        // the cache can't key on a missing version, which is served the maps it stands for
-        if (version == null) version = bundledVersion(null);
+        Objects.requireNonNull(version, "La version SEDA est obligatoire");
         Map<SedaVersion, LinkedHashMap<String, ComplexListMetadataKind>> byVersion = CACHE.computeIfAbsent(
             clazz,
             c -> new EnumMap<>(SedaVersion.class)
@@ -452,13 +452,12 @@ public final class SchemaMetadataMapBuilder {
     }
 
     /**
-     * @param version the SEDA version, null when none is set
+     * @param version the SEDA version
      * @return the version whose XSD serves it: no XSD is bundled for the 2.0, which sedalib has
-     * always served the 2.1 maps for, and with no version set the hand written maps served their
-     * first one, the 2.1 one
+     * always served the 2.1 maps for
      */
     private static SedaVersion bundledVersion(SedaVersion version) {
-        return version == null || version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
+        return version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
     }
 
     private static void collect(

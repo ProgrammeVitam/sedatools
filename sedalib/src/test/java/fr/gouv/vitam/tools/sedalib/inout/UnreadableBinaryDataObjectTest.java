@@ -37,18 +37,16 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -64,13 +62,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * on the first missing file naming nothing but the SIP being written. That is the "export incomplet,
  * binaires manquants alors que les métadonnées descriptives sont présentes" report.
  */
-@ExtendWith(SedaContextExtension.class)
 class UnreadableBinaryDataObjectTest implements UseTestFiles {
 
     private static SIPToArchiveTransferImporter importSampleSip(String tmpDir) throws Exception {
         TestUtilities.eraseAll(tmpDir);
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SIP_OK.zip",
             tmpDir,
             null
@@ -150,7 +147,7 @@ class UnreadableBinaryDataObjectTest implements UseTestFiles {
     @Test
     void shouldCountAndReportTheFilesIgnoredAtDiskImport() throws Exception {
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-            SedaContext.getVersion(),
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );

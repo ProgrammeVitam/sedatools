@@ -50,7 +50,6 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -160,20 +159,14 @@ class WorkTest implements UseTestFiles {
      */
     @Test
     void TestResipWorkSedaVersionSerializationDeserialization() throws ResipException, IOException {
-        SedaVersion previousVersion = SedaContext.getVersion();
-        try {
-            SedaContext.setVersion(SedaVersion.V2_2);
-            String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
-            new File("./target/tmpJunit").mkdirs();
+        String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
+        new File("./target/tmpJunit").mkdirs();
 
-            Work ow = new Work(new DataObjectPackage(SedaContext.getVersion()), null, new ExportContext());
-            ow.save(file);
+        Work ow = new Work(new DataObjectPackage(SedaVersion.V2_2), null, new ExportContext());
+        ow.save(file);
 
-            assertEquals(SedaVersion.V2_2, Work.getSeda2VersionFromFile(file));
-            assertEquals(SedaVersion.V2_2, Work.createFromFile(file).getVersion());
-        } finally {
-            SedaContext.setVersion(previousVersion);
-        }
+        assertEquals(SedaVersion.V2_2, Work.getSeda2VersionFromFile(file));
+        assertEquals(SedaVersion.V2_2, Work.createFromFile(file).getVersion());
     }
 
     /**
@@ -185,20 +178,14 @@ class WorkTest implements UseTestFiles {
      */
     @Test
     void TestResipWorkWithoutSedaVersionIsReadAsSeda21() throws ResipException, IOException {
-        SedaVersion previousVersion = SedaContext.getVersion();
-        try {
-            SedaContext.setVersion(SedaVersion.V2_2);
-            String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
-            String legacyFile = "./target/tmpJunit/junit_resipWork_legacy.rsp";
-            new File("./target/tmpJunit").mkdirs();
+        String file = "./target/tmpJunit/junit_resipWork_seda22.rsp";
+        String legacyFile = "./target/tmpJunit/junit_resipWork_legacy.rsp";
+        new File("./target/tmpJunit").mkdirs();
 
-            new Work(new DataObjectPackage(SedaContext.getVersion()), null, new ExportContext()).save(file);
-            removeVersionFromSaveFile(file, legacyFile);
+        new Work(new DataObjectPackage(SedaVersion.V2_2), null, new ExportContext()).save(file);
+        removeVersionFromSaveFile(file, legacyFile);
 
-            assertEquals(SedaVersion.V2_1, Work.getSeda2VersionFromFile(legacyFile));
-        } finally {
-            SedaContext.setVersion(previousVersion);
-        }
+        assertEquals(SedaVersion.V2_1, Work.getSeda2VersionFromFile(legacyFile));
     }
 
     private void removeVersionFromSaveFile(String source, String destination) throws IOException {
