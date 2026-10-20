@@ -306,7 +306,14 @@ public final class SchemaMetadataMapBuilder {
             new Addition(Management.class, SedaVersion.V2_3, null, "UpdateOperation", UpdateOperation.class, false)
         );
         ADDITIONS.add(
-            new Addition(ManagementMetadata.class, SedaVersion.V2_3, null, "UpdateOperation", UpdateOperation.class, false)
+            new Addition(
+                ManagementMetadata.class,
+                SedaVersion.V2_3,
+                null,
+                "UpdateOperation",
+                UpdateOperation.class,
+                false
+            )
         );
     }
 

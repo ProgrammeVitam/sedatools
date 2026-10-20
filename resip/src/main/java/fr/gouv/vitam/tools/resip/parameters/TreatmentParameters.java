@@ -446,8 +446,7 @@ public class TreatmentParameters {
         // the minor alone ("3") is accepted too, and an unknown version falls back to the 2.1
         for (SedaVersion allowedVersion : SedaVersion.withSchema()) {
             if (
-                allowedVersion.toString().equals(version) ||
-                Integer.toString(allowedVersion.getMinor()).equals(version)
+                allowedVersion.toString().equals(version) || Integer.toString(allowedVersion.getMinor()).equals(version)
             ) return allowedVersion;
         }
         return SedaVersion.V2_1;
