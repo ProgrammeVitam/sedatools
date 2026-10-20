@@ -45,7 +45,6 @@ import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
@@ -159,7 +158,7 @@ public class ExportThread extends SwingWorker<String, String> {
                 ResipGraphicApp.mainWindow.treePane.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer(SedaContext.getVersion());
+            ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
             work
                 .getDataObjectPackage()
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());

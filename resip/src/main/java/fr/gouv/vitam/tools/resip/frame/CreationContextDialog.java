@@ -42,7 +42,7 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +79,7 @@ public class CreationContextDialog extends JDialog {
      * @param owner the owner
      */
     public CreationContextDialog(JFrame owner) {
-        this(owner, new DiskImportContext(Preferences.getInstance()), new DataObjectPackage(SedaContext.getVersion()));
+        this(owner, new DiskImportContext(Preferences.getInstance()), new DataObjectPackage(SedaVersion.V2_1));
     }
 
     /**

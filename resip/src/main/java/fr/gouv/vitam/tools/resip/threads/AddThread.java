@@ -49,7 +49,6 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectP
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -183,7 +182,13 @@ public class AddThread extends SwingWorker<String, String> {
             if (this.work.getCreationContext() instanceof DiskImportContext) dic =
                 (DiskImportContext) this.work.getCreationContext();
             else dic = new DiskImportContext(Preferences.getInstance());
-            di = new DiskToDataObjectPackageImporter(SedaContext.getVersion(), lp, dic.isNoLinkFlag(), null, spl);
+            di = new DiskToDataObjectPackageImporter(
+                work.getDataObjectPackage().getSedaVersion(),
+                lp,
+                dic.isNoLinkFlag(),
+                null,
+                spl
+            );
             for (String ip : dic.getIgnorePatternList()) di.addIgnorePattern(ip);
             di.doImport();
             summary = di.getSummary();

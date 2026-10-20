@@ -52,7 +52,6 @@ import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
@@ -289,8 +288,6 @@ public class ResipApp {
     public static void main(String[] args) throws ResipException {
         System.out.println("Resip launched");
 
-        EventBus.subscribe(SedaVersionChangedEvent.class, event -> SedaContext.setVersion(event.getNewVersion()));
-
         String workdirString;
         int logLevel;
         CreationContext creationContext;
@@ -401,21 +398,22 @@ public class ResipApp {
             }
         }
 
-        // define the SEDA 2 version
+        // define the SEDA 2 version, the one of the command line treatments, 2.1 by default
+        SedaVersion sedaVersion = SedaVersion.V2_1;
         if (cmd.hasOption("sedaversion")) {
             final Map<String, SedaVersion> supportedSedaVersions = new LinkedHashMap<>();
             for (SedaVersion version : SedaVersion.withSchema()) supportedSedaVersions.put(version.toString(), version);
 
-            String sedaVersion = cmd.getOptionValue("sedaversion");
-            boolean isNotSupportedVersion = !supportedSedaVersions.containsKey(sedaVersion);
+            String sedaVersionOption = cmd.getOptionValue("sedaversion");
+            boolean isNotSupportedVersion = !supportedSedaVersions.containsKey(sedaVersionOption);
 
             if (isNotSupportedVersion) {
                 System.err.println("Doit valoir " + String.join(",", supportedSedaVersions.keySet()));
                 System.exit(1);
             }
 
-            final SedaVersion version = supportedSedaVersions.get(sedaVersion);
-            EventBus.publish(new SedaVersionChangedEvent(version));
+            sedaVersion = supportedSedaVersions.get(sedaVersionOption);
+            EventBus.publish(new SedaVersionChangedEvent(sedaVersion));
         }
 
         // define the global logger
@@ -508,7 +506,7 @@ public class ResipApp {
                 if (creationContext instanceof DiskImportContext) {
                     DiskImportContext diskImportContext = (DiskImportContext) creationContext;
                     DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                        SedaContext.getVersion(),
+                        sedaVersion,
                         diskImportContext.getOnDiskInput(),
                         spl
                     );
@@ -523,7 +521,7 @@ public class ResipApp {
                         Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() +
                         "-tmpdir";
                     SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                        SedaContext.getVersion(),
+                        sedaVersion,
                         sipImportContext.getOnDiskInput(),
                         target,
                         spl
@@ -533,7 +531,7 @@ public class ResipApp {
                 } else if (creationContext instanceof CSVImportContext) {
                     CSVMetadataImportContext cSVMetadataImportContext = (CSVMetadataImportContext) creationContext;
                     CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
-                        SedaContext.getVersion(),
+                        sedaVersion,
                         cSVMetadataImportContext.getOnDiskInput(),
                         cSVMetadataImportContext.getCsvCharsetName(),
                         cSVMetadataImportContext.getDelimiter(),
@@ -541,7 +539,7 @@ public class ResipApp {
                     );
                     cmi.doImport();
 
-                    packet = new ArchiveTransfer(SedaContext.getVersion());
+                    packet = new ArchiveTransfer(sedaVersion);
                     Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
                     work
                         .getDataObjectPackage()

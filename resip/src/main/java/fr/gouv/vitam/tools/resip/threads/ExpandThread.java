@@ -49,7 +49,6 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectP
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -223,7 +222,7 @@ public class ExpandThread extends SwingWorker<String, String> {
                 bdoToExpand.getInDataObjectPackageId()
             );
             zi = new CompressedFileToArchiveTransferImporter(
-                SedaContext.getVersion(),
+                bdoToExpand.getSedaVersion(),
                 bdoToExpand.getOnDiskPathToString(),
                 target,
                 null,

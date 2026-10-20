@@ -50,7 +50,6 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -269,7 +268,8 @@ public class Work {
      */
     public void save(String file) {
         try {
-            if (version == null) version = SedaContext.getVersion();
+            // the version of the session is the one of its package
+            if (dataObjectPackage != null) version = dataObjectPackage.getSedaVersion();
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
             module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());

@@ -56,7 +56,6 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -274,7 +273,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                     if (!path.toString().endsWith("__ArchiveUnitMetadata.xml")) lp.add(path);
                 }
             }
-            di = new DiskToArchiveTransferImporter(SedaContext.getVersion(), lp, spl);
+            di = new DiskToArchiveTransferImporter(bdoToExpand.getSedaVersion(), lp, spl);
             for (String ip : new DiskImportContext(
                 Preferences.getInstance()
             ).getIgnorePatternList()) di.addIgnorePattern(ip);
