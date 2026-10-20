@@ -88,8 +88,20 @@ public class ArchiveUnitEditor extends CompositeEditor {
         return (
             translateTag("ArchiveUnit") +
             " - " +
-            (editedObject == null ? translateTag("Unknown") : getArchiveUnitMetadata().getInDataObjectPackageId())
+            (editedObject == null ? translateTag("Unknown") : getArchiveUnitMetadata().getInDataObjectPackageId()) +
+            sedaVersionSuffix(editedObject == null ? null : getArchiveUnitMetadata())
         );
+    }
+
+    /**
+     * Gets the SEDA version an ArchiveUnit is edited in, to be shown after its name.
+     *
+     * @param archiveUnit the ArchiveUnit, or null
+     * @return " (SEDA x.y)", or an empty string if the ArchiveUnit is in no package
+     */
+    public static String sedaVersionSuffix(ArchiveUnit archiveUnit) {
+        if ((archiveUnit == null) || (archiveUnit.getDataObjectPackage() == null)) return "";
+        return " (" + archiveUnit.getSedaVersion().displayString() + ")";
     }
 
     @Override

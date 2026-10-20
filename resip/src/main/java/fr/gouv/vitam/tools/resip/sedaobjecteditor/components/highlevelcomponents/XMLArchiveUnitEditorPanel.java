@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ArchiveUnitEditor;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
@@ -294,7 +295,12 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             choiceComboBox.setEnabled(true);
             xmlTextArea.setText(archiveUnit.toSedaXmlFragments());
             xmlTextArea.setCaretPosition(0);
-            globalLabel.setText(translateTag("ArchiveUnit") + " - " + archiveUnit.getInDataObjectPackageId());
+            globalLabel.setText(
+                translateTag("ArchiveUnit") +
+                " - " +
+                archiveUnit.getInDataObjectPackageId() +
+                ArchiveUnitEditor.sedaVersionSuffix(archiveUnit)
+            );
             ResipGraphicApp.getTheWindow().dogMetadataPane.editDataObjectGroup(archiveUnit);
         }
     }

@@ -180,7 +180,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * @throws ResipException the resip exception
      */
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
-        EventBus.subscribe(SedaVersionChangedEvent.class, event -> this.sedaVersion = event.getNewVersion());
+        EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
+            this.sedaVersion = event.getNewVersion();
+            refreshSedaVersionDisplay();
+        });
 
         try {
             if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
@@ -228,6 +231,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public void run() {
         try {
             mainWindow = new MainWindow(this); //NOSONAR
+            refreshSedaVersionDisplay();
             mainWindow.setVisible(true);
             mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
@@ -259,6 +263,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     @SuppressWarnings("SameReturnValue")
     public static String getAppName() {
         return "Resip";
+    }
+
+    /**
+     * Shows the SEDA version of the interface in the window title and in the menus checking
+     * conformity to it, once they exist.
+     */
+    private void refreshSedaVersionDisplay() {
+        if (sedaVersion == null) return;
+        if (mainWindow != null) mainWindow.setTitle(getAppName() + " - " + sedaVersion.displayString());
+        if (sedaValidationMenuItem != null) sedaValidationMenuItem.setText(
+            "Vérifier la conformité " + sedaVersion.displayString() + "..."
+        );
+        if (sedaProfileValidationMenuItem != null) sedaProfileValidationMenuItem.setText(
+            "Vérifier la conformité à un profil " + sedaVersion.displayString() + "..."
+        );
     }
 
     // Menu controller
