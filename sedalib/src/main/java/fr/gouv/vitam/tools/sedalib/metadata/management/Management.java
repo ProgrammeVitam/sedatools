@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -70,9 +71,11 @@ public class Management extends ComplexListType {
 
     /**
      * Instantiates a new Management.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Management() {
-        super("Management");
+    public Management(SedaVersion sedaVersion) {
+        super(sedaVersion, "Management");
     }
 
     /**

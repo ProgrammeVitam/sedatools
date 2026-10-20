@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 /**
@@ -51,21 +52,23 @@ public class AgencyType extends ComplexListType {
     /**
      * Instantiates a new agency type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public AgencyType(String elementName) {
-        super(elementName);
+    public AgencyType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new agency type with identifier.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param identifier  the identifier
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public AgencyType(String elementName, String identifier) throws SEDALibException {
-        super(elementName);
+    public AgencyType(SedaVersion sedaVersion, String elementName, String identifier) throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(IDENTIFIER_TAG, identifier);
     }
 }

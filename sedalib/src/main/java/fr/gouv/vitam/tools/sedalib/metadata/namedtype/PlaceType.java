@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 /**
@@ -51,21 +52,23 @@ public class PlaceType extends ComplexListType {
     /**
      * Instantiates a new place type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public PlaceType(String elementName) {
-        super(elementName);
+    public PlaceType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new place type with geogname.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param geogname    the geogname
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public PlaceType(String elementName, String geogname) throws SEDALibException {
-        super(elementName);
+    public PlaceType(SedaVersion sedaVersion, String elementName, String geogname) throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(GEOGNAME, geogname);
     }
 }

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -57,19 +58,22 @@ public class ReuseRule extends RuleType {
 
     /**
      * Instantiates a new reuse rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ReuseRule() {
-        super(REUSERULE_TAG);
+    public ReuseRule(SedaVersion sedaVersion) {
+        super(sedaVersion, REUSERULE_TAG);
     }
 
     /**
      * Instantiates a new reuse rule, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
-    public ReuseRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(REUSERULE_TAG, rule, startDate);
+    public ReuseRule(SedaVersion sedaVersion, String rule, LocalDate startDate) throws SEDALibException {
+        super(sedaVersion, REUSERULE_TAG, rule, startDate);
     }
 }

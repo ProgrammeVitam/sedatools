@@ -313,12 +313,17 @@ public abstract class AbstractUnitaryDataObject
     /**
      * Create a new empty instance of the same AbstractUnitaryDataObject subclass.
      *
+     * It refers to the same DataObjectPackage, so as to be read in its SEDA version, but is not
+     * added to it.
+     *
      * @return A new empty instance of the same class as the input object, or null if instantiation fails
      */
     @JsonIgnore
     public AbstractUnitaryDataObject getEmptySameAbstractUnitaryDataObjet() throws SEDALibException {
         try {
-            return this.getClass().getDeclaredConstructor().newInstance();
+            AbstractUnitaryDataObject udo = this.getClass().getDeclaredConstructor().newInstance();
+            udo.setDataObjectPackage(getDataObjectPackage());
+            return udo;
         } catch (ReflectiveOperationException e) {
             throw new SEDALibException("Type de DataObject [" + getClass() + "] non géré", e);
         }

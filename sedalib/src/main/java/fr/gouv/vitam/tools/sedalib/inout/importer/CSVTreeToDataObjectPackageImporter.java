@@ -232,7 +232,7 @@ public class CSVTreeToDataObjectPackageImporter {
         Content content;
 
         au = new ArchiveUnit(dataObjectPackage);
-        content = new Content();
+        content = new Content(sedaVersion);
         try {
             content.addNewMetadata("Title", line.title);
             if (!line.description.isEmpty()) content.addNewMetadata("Description", line.description);

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -75,19 +76,22 @@ public class DocumentPack extends ComplexListType {
 
     /**
      * Instantiates a new DocumentPack.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public DocumentPack() {
-        super("DocumentPack");
+    public DocumentPack(SedaVersion sedaVersion) {
+        super(sedaVersion, "DocumentPack");
     }
 
     /**
      * Instantiates a new DocumentPack.
      *
+     * @param sedaVersion the SEDA version
      * @param recordGrp the record grp
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DocumentPack(RecordGrp recordGrp) throws SEDALibException {
-        super("DocumentPack");
+    public DocumentPack(SedaVersion sedaVersion, RecordGrp recordGrp) throws SEDALibException {
+        super(sedaVersion, "DocumentPack");
         addMetadata(recordGrp);
     }
 }

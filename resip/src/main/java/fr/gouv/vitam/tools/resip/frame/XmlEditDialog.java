@@ -41,7 +41,9 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -119,7 +121,7 @@ public class XmlEditDialog extends JDialog {
      * @throws SEDALibException the seda lib exception
      */
     public XmlEditDialog(JFrame owner) throws SEDALibException {
-        this(owner, createSEDAMetadataSample("AgentType", "Writer", false));
+        this(owner, createSEDAMetadataSample(SedaVersion.V2_1, "AgentType", "Writer", false));
     }
 
     /**
@@ -506,7 +508,11 @@ public class XmlEditDialog extends JDialog {
                 xmlObjectResult = dataObject;
             } else if (xmlObject instanceof SEDAMetadata) {
                 SEDAMetadata sm = (SEDAMetadata) xmlObject;
-                xmlObjectResult = SEDAMetadata.fromString(xmlDataString, sm.getClass());
+                // a complex list type is read again in its own SEDA version
+                SedaVersion sedaVersion = sm instanceof ComplexListType
+                    ? ((ComplexListType) sm).getSedaVersion()
+                    : null;
+                xmlObjectResult = SEDAMetadata.fromString(xmlDataString, sm.getClass(), sedaVersion);
             } else if (xmlObject instanceof ArchiveUnit) {
                 ArchiveUnit au = (ArchiveUnit) xmlObject;
                 au.fromSedaXmlFragments(xmlDataString);

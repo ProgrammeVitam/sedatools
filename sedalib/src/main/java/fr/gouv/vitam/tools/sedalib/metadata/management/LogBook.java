@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -55,19 +56,22 @@ public class LogBook extends ComplexListType {
 
     /**
      * Instantiates a new custodial history.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public LogBook() {
-        super("LogBook");
+    public LogBook(SedaVersion sedaVersion) {
+        super(sedaVersion, "LogBook");
     }
 
     /**
      * Instantiates a new logbook type from args, each is an event item.
      *
+     * @param sedaVersion the SEDA version
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public LogBook(Object... args) throws SEDALibException {
-        this();
+    public LogBook(SedaVersion sedaVersion, Object... args) throws SEDALibException {
+        this(sedaVersion);
         for (int i = 0; i < args.length; i++) {
             if (!(args[i] instanceof String)) throw new SEDALibException(
                 "Mauvais arguments pour le constructeur de l'élément [" + elementName + "]"

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -57,14 +58,17 @@ public class SigningInformation extends ComplexListType {
 
     /**
      * Instantiates a new file info.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public SigningInformation() {
-        super("SigningInformation");
+    public SigningInformation(SedaVersion sedaVersion) {
+        super(sedaVersion, "SigningInformation");
     }
 
     /**
      * Instantiates a new signing information block with metadata.
      *
+     * @param sedaVersion the SEDA version
      * @param signingRole      the role of the signer
      * @param sipInternalID    the unique reference ID of the signed document
      * @param signerFirstName  the first name of the signer
@@ -75,6 +79,7 @@ public class SigningInformation extends ComplexListType {
      * @throws SEDALibException if sub-elements construction fails
      */
     public SigningInformation(
+        SedaVersion sedaVersion,
         String signingRole,
         String sipInternalID,
         String signerFirstName,
@@ -83,7 +88,7 @@ public class SigningInformation extends ComplexListType {
         String signerIdentifier,
         String signingType
     ) throws SEDALibException {
-        super("SigningInformation");
+        super(sedaVersion, "SigningInformation");
         if (signingRole != null) addNewMetadata("SigningRole", signingRole);
         if (sipInternalID != null) addNewMetadata("SignedDocumentReferenceId", sipInternalID);
         if (

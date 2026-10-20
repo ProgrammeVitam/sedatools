@@ -591,7 +591,7 @@ public class DataObjectPackage {
         childDataObjectPackage.setBdoInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setPdoInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setGhostRootAu(new ArchiveUnit());
-        Content c = new Content();
+        Content c = new Content(childDataObjectPackage.getSedaVersion());
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -62,9 +63,11 @@ public class Content extends ComplexListType {
 
     /**
      * Instantiates a new Content.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Content() {
-        super("Content");
+    public Content(SedaVersion sedaVersion) {
+        super(sedaVersion, "Content");
     }
 
     /**

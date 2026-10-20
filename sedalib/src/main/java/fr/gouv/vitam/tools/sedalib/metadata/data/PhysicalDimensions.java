@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 
 /**
@@ -54,8 +55,19 @@ public class PhysicalDimensions extends ComplexListType {
 
     /**
      * Instantiates a new file info.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public PhysicalDimensions() {
+    public PhysicalDimensions(SedaVersion sedaVersion) {
+        super(sedaVersion, "PhysicalDimensions");
+    }
+
+    /**
+     * Instantiates a new PhysicalDimensions for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private PhysicalDimensions() {
         super("PhysicalDimensions");
     }
 }

@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -90,19 +91,26 @@ public class ComplexListTypeEditor extends CompositeEditor {
      * Gets ComplexListType sample.
      *
      * @param complexListSubType the complex list sub type
+     * @param sedaVersion        the SEDA version of the sample
      * @param elementName        the element name, corresponding to the XML tag in SEDA
      * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    public static SEDAMetadata getSEDAMetadataSample(Class<?> complexListSubType, String elementName, boolean minimal)
-        throws SEDALibException {
+    public static SEDAMetadata getSEDAMetadataSample(
+        Class<?> complexListSubType,
+        SedaVersion sedaVersion,
+        String elementName,
+        boolean minimal
+    ) throws SEDALibException {
         ComplexListType result;
         try {
-            result = (ComplexListType) complexListSubType.getConstructor().newInstance();
+            result = (ComplexListType) complexListSubType.getConstructor(SedaVersion.class).newInstance(sedaVersion);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e1) {
             try {
-                result = (ComplexListType) complexListSubType.getConstructor(String.class).newInstance(elementName);
+                result = (ComplexListType) complexListSubType
+                    .getConstructor(SedaVersion.class, String.class)
+                    .newInstance(sedaVersion, elementName);
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e2) {
                 throw new SEDALibException(
                     "La création d'une métadonnée de type [" + complexListSubType + "] n'est pas possible",
@@ -125,6 +133,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
                 ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
                 SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
+                    sedaVersion,
                     complexListMetadataKind.getMetadataClass().getSimpleName(),
                     metadataName,
                     minimal
@@ -136,6 +145,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 }
                 if ((complexListMetadataKind.isMany()) && !minimal) {
                     metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
+                        sedaVersion,
                         complexListMetadataKind.getMetadataClass().getSimpleName(),
                         metadataName,
                         minimal
@@ -272,7 +282,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
         if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
-            createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
+            createSEDAMetadataSample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
                 .getMetadataMap()
@@ -281,6 +291,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
             );
             sedaMetadata = createSEDAMetadataSample(
+                getSedaVersion(),
                 complexListMetadataKind.getMetadataClass().getSimpleName(),
                 metadataName,
                 true

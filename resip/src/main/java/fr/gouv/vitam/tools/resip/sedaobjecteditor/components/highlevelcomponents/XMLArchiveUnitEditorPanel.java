@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -85,14 +86,15 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
      * Get add content editedObject array string [ ], with all SEDAMetadata
      * that can be inserted in an ArchiveUnit.
      *
+     * @param sedaVersion the SEDA version of the ArchiveUnit
      * @return the string [ ]
      */
-    public static String[] getAddContentMetadataArray() {
+    public static String[] getAddContentMetadataArray(SedaVersion sedaVersion) {
         List<String> options = new ArrayList<>();
 
         try {
             options.add("[A]ArchiveUnitProfile ");
-            Content c = new Content();
+            Content c = new Content(sedaVersion);
             List<String> contentMetadataList = new ArrayList<String>();
             contentMetadataList.add("[C]AnyOtherMetadata ");
             for (String metadataName : c.getMetadataMap().keySet()) {
@@ -101,7 +103,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             }
             contentMetadataList.sort(String::compareTo);
             options.addAll(contentMetadataList);
-            Management m = new Management();
+            Management m = new Management(sedaVersion);
             List<String> managementMetadataList = new ArrayList<String>();
             managementMetadataList.add("[C]AnyOtherMetadata ");
             for (String metadataName : m.getMetadataMap().keySet()) {
@@ -178,7 +180,8 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         gbc.gridy = 2;
         add(addButton, gbc);
 
-        choiceComboBox = new JComboBox<String>(getAddContentMetadataArray());
+        // filled with the metadata of the version of the edited ArchiveUnit
+        choiceComboBox = new JComboBox<String>();
         choiceComboBox.setFont(SEDAObjectEditor.LABEL_FONT);
         choiceComboBox.setEnabled(false);
         gbc = new GridBagConstraints();
@@ -206,20 +209,27 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         String macroMetadata = choiceName.substring(0, 3);
         String elementName = choiceName.substring(3, choiceName.indexOf(' '));
         if (macroMetadata.equals("[A]")) {
-            result = SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", false);
+            result = SEDAObjectEditor.createSEDAMetadataSample(
+                archiveUnit.getSedaVersion(),
+                "ArchiveUnitProfile",
+                "ArchiveUnitProfile",
+                false
+            );
         } else {
             Map<String, ComplexListMetadataKind> metadataMap;
             if (macroMetadata.equals("[C]")) {
-                metadataMap = new Content().getMetadataMap();
+                metadataMap = new Content(archiveUnit.getSedaVersion()).getMetadataMap();
             } else {
-                metadataMap = new Management().getMetadataMap();
+                metadataMap = new Management(archiveUnit.getSedaVersion()).getMetadataMap();
             }
             if (elementName.equals("AnyOtherMetadata")) result = SEDAObjectEditor.createSEDAMetadataSample(
+                archiveUnit.getSedaVersion(),
                 "AnyXMLType",
                 elementName,
                 false
             );
             else result = SEDAObjectEditor.createSEDAMetadataSample(
+                archiveUnit.getSedaVersion(),
                 metadataMap.get(elementName).getMetadataClass().getSimpleName(),
                 elementName,
                 false
@@ -278,6 +288,9 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         } else {
             editButton.setEnabled(true);
             addButton.setEnabled(true);
+            choiceComboBox.setModel(
+                new DefaultComboBoxModel<>(getAddContentMetadataArray(archiveUnit.getSedaVersion()))
+            );
             choiceComboBox.setEnabled(true);
             xmlTextArea.setText(archiveUnit.toSedaXmlFragments());
             xmlTextArea.setCaretPosition(0);

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -60,20 +61,24 @@ public class ClassificationRule extends RuleType {
      */
     /**
      * Instantiates a new access rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ClassificationRule() {
-        super(CLASSIFICATIONRULE_TAG);
+    public ClassificationRule(SedaVersion sedaVersion) {
+        super(sedaVersion, CLASSIFICATIONRULE_TAG);
     }
 
     /**
      * Instantiates a new classification rule.
      *
+     * @param sedaVersion the SEDA version
      * @param classificationLevel the classification level
      * @param classificationOwner the classification owner
      * @throws SEDALibException the seda lib exception
      */
-    public ClassificationRule(String classificationLevel, String classificationOwner) throws SEDALibException {
-        this();
+    public ClassificationRule(SedaVersion sedaVersion, String classificationLevel, String classificationOwner)
+        throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(CLASSIFICATIONLEVEL_TAG, classificationLevel);
         addNewMetadata(CLASSIFICATIONOWNER_TAG, classificationOwner);
     }

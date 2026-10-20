@@ -92,7 +92,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     public void addChildTo(String metadataName, Rule ruleParent) throws SEDALibException {
         SEDAMetadata sedaMetadata;
         if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
-            createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
+            createSEDAMetadataSample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
                 .getMetadataMap()
@@ -101,6 +101,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
                 "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
             );
             sedaMetadata = createSEDAMetadataSample(
+                getSedaVersion(),
                 complexListMetadataKind.getMetadataClass().getSimpleName(),
                 metadataName,
                 true

@@ -64,7 +64,7 @@ class SEDA2VersionTest {
     void testSeda2VersionComplianceTest() throws SEDALibException {
         // Given
         SedaContext.setVersion(SedaVersion.V2_1);
-        Content c = new Content();
+        Content c = new Content(SedaContext.getVersion());
 
         String xmlFragments =
             "  <Event>\n" +
@@ -93,7 +93,7 @@ class SEDA2VersionTest {
         // But in Seda2.2 version the LinkingAgentIdentifier is a recognized XML element and re-ordered before the
         // expansion field
         SedaContext.setVersion(SedaVersion.V2_2);
-        c = new Content();
+        c = new Content(SedaContext.getVersion());
         c.addSedaXmlFragments(xmlFragments);
         cOut = c.toString();
         assertThat(cOut).isNotEqualTo(testOut);

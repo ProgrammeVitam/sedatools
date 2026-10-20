@@ -65,7 +65,7 @@ class ContentTest {
     // Test Content and ComplexListType subclass
     void testConstructors() throws SEDALibException, FileNotFoundException {
         // Given
-        Content content = new Content();
+        Content content = new Content(SedaContext.getVersion());
 
         // When loaded with all different kind of metadata
 
@@ -78,18 +78,18 @@ class ContentTest {
         content.addMetadata(textType);
 
         // Test AgencyType metadata
-        AgencyType agencyType = new AgencyType("OriginatingAgency", "Agency1");
+        AgencyType agencyType = new AgencyType(SedaContext.getVersion(), "OriginatingAgency", "Agency1");
         content.addMetadata(agencyType);
 
         // Test AgentType and PlaceType metadata
-        AgentType writer = new AgentType("Writer");
+        AgentType writer = new AgentType(SedaContext.getVersion(), "Writer");
         writer.addNewMetadata("FirstName", "TestPrenom");
         writer.addNewMetadata("BirthName", "TestNom");
         writer.addNewMetadata("Identifier", "ID1");
         writer.addNewMetadata("Identifier", "ID2");
         writer.addNewMetadata("Function", "F1");
         writer.addNewMetadata("BirthDate", LocalDate.of(2019, 7, 14));
-        PlaceType birthPlace = new PlaceType("BirthPlace");
+        PlaceType birthPlace = new PlaceType(SedaContext.getVersion(), "BirthPlace");
         birthPlace.addNewMetadata("Geogname", "Location1");
         birthPlace.addNewMetadata("Country", "Country1");
         writer.addMetadata(birthPlace);
@@ -105,11 +105,11 @@ class ContentTest {
         content.addMetadata(integerType);
 
         // Test Signe metadata
-        Signer signer = new Signer("Laura Tremoulet", LocalDateTime.of(1970, 1, 1, 2, 0));
+        Signer signer = new Signer(SedaContext.getVersion(), "Laura Tremoulet", LocalDateTime.of(1970, 1, 1, 2, 0));
         signer.addNewMetadata("BirthPlace", "TestLocation1");
 
         // Test Signature metadata
-        Signature signature = new Signature();
+        Signature signature = new Signature(SedaContext.getVersion());
         signature.addNewMetadata("Signer", "Paul", "Dupont", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata("Signer", "Martin Durant", LocalDateTime.of(1970, 1, 2, 1, 0));
         signature.addNewMetadata(
@@ -125,7 +125,7 @@ class ContentTest {
         content.addMetadata(signature);
 
         // Test Coverage metadata
-        Coverage coverage = new Coverage();
+        Coverage coverage = new Coverage(SedaContext.getVersion());
         coverage.addNewMetadata("Spatial", "TestSpatial1");
         coverage.addNewMetadata("Spatial", "TestSpatial2");
         coverage.addNewMetadata("Spatial", "TestSpatial3");
@@ -135,34 +135,55 @@ class ContentTest {
         content.addMetadata(coverage);
 
         // Test CustodialHistory metadata
-        CustodialHistory custodialHistory = new CustodialHistory("TestItem1", "TestItem2", "TestItem3", "TestItem4");
+        CustodialHistory custodialHistory = new CustodialHistory(
+            SedaContext.getVersion(),
+            "TestItem1",
+            "TestItem2",
+            "TestItem3",
+            "TestItem4"
+        );
         content.addMetadata(custodialHistory);
 
         // Test Event metadata and expandability
-        Event event = new Event();
+        Event event = new Event(SedaContext.getVersion());
         event.addNewMetadata("EventDateTime", LocalDateTime.of(1970, 1, 1, 1, 0));
         event.addNewMetadata("Outcome", "OK");
         event.addNewMetadata("Information", "<Information>OK</Information>");
         content.addMetadata(event);
 
         // Test Keyword and KeywordType metadata
-        Keyword keyword = new Keyword();
+        Keyword keyword = new Keyword(SedaContext.getVersion());
         EnumType keywordType = new EnumType("KeywordType", "subject");
         keyword.addMetadata(keywordType);
         content.addMetadata(keyword);
 
         // Test RelatedObjectReference
-        RelatedObjectReference relatedObjectReference = new RelatedObjectReference();
+        RelatedObjectReference relatedObjectReference = new RelatedObjectReference(SedaContext.getVersion());
         relatedObjectReference.addNewMetadata("IsVersionOf", "DogRefId");
-        DataObjectOrArchiveUnitReferenceType isVersionOf = new DataObjectOrArchiveUnitReferenceType("IsVersionOf");
+        DataObjectOrArchiveUnitReferenceType isVersionOf = new DataObjectOrArchiveUnitReferenceType(
+            SedaContext.getVersion(),
+            "IsVersionOf"
+        );
         isVersionOf.addNewMetadata("ArchiveUnitRefId", "AURefId");
-        DataObjectOrArchiveUnitReferenceType replaces = new DataObjectOrArchiveUnitReferenceType("Replaces");
+        DataObjectOrArchiveUnitReferenceType replaces = new DataObjectOrArchiveUnitReferenceType(
+            SedaContext.getVersion(),
+            "Replaces"
+        );
         replaces.addNewMetadata("DataObjectReference", "DoRefId", null);
-        DataObjectOrArchiveUnitReferenceType requires = new DataObjectOrArchiveUnitReferenceType("Requires");
+        DataObjectOrArchiveUnitReferenceType requires = new DataObjectOrArchiveUnitReferenceType(
+            SedaContext.getVersion(),
+            "Requires"
+        );
         requires.addNewMetadata("RepositoryArchiveUnitPID", "AuPid");
-        DataObjectOrArchiveUnitReferenceType isPartOf = new DataObjectOrArchiveUnitReferenceType("IsPartOf");
+        DataObjectOrArchiveUnitReferenceType isPartOf = new DataObjectOrArchiveUnitReferenceType(
+            SedaContext.getVersion(),
+            "IsPartOf"
+        );
         isPartOf.addNewMetadata("RepositoryObjectPID", "DoPid");
-        DataObjectOrArchiveUnitReferenceType references = new DataObjectOrArchiveUnitReferenceType("References");
+        DataObjectOrArchiveUnitReferenceType references = new DataObjectOrArchiveUnitReferenceType(
+            SedaContext.getVersion(),
+            "References"
+        );
         references.addNewMetadata("ExternalReference", "ExtrenalRef");
         relatedObjectReference.addMetadata(isVersionOf);
         relatedObjectReference.addMetadata(replaces);
@@ -205,7 +226,7 @@ class ContentTest {
         String cOut = content.toString();
 
         // Test read write in XML string format
-        Content cNext = (Content) SEDAMetadata.fromString(cOut, Content.class);
+        Content cNext = (Content) SEDAMetadata.fromString(cOut, Content.class, SedaContext.getVersion());
         String cNextOut = cNext.toString();
 
         // Then
@@ -218,7 +239,7 @@ class ContentTest {
     void testCsvList() throws SEDALibException, FileNotFoundException {
         // Given
         String contentXmlData = ResourceUtils.getResourceAsString("metadata/content_01.xml");
-        Content content = (Content) Content.fromString(contentXmlData, Content.class);
+        Content content = (Content) Content.fromString(contentXmlData, Content.class, SedaContext.getVersion());
 
         // When the csv list is generated
         LinkedHashMap<String, String> csvList = content.toCsvList();
@@ -239,7 +260,8 @@ class ContentTest {
 
         Content content = (Content) Content.fromString(
             ResourceUtils.getResourceAsString("metadata/content_01.xml"),
-            Content.class
+            Content.class,
+            SedaContext.getVersion()
         );
 
         // When the csv list is generated
@@ -261,7 +283,8 @@ class ContentTest {
 
         Content content = (Content) Content.fromString(
             ResourceUtils.getResourceAsString("metadata/content_01.xml"),
-            Content.class
+            Content.class,
+            SedaContext.getVersion()
         );
 
         // When the csv list is generated
@@ -274,7 +297,7 @@ class ContentTest {
     @Test
     void testSpecificMetadata() throws SEDALibException {
         // Given
-        Content c = new Content();
+        Content c = new Content(SedaContext.getVersion());
 
         // When loaded with all metadata with specific kind of creation
         c.addNewMetadata("Gps", null, -100000, "TestLatitude", "TestLongitude", null);
@@ -300,22 +323,22 @@ class ContentTest {
 
     @Test
     void testSeda2Version() throws SEDALibException {
-        // Given
-        Content c = new Content();
+        // Given the same metadata in a SEDA 2.1 and in a SEDA 2.2 Content
+        Content c21 = new Content(SedaVersion.V2_1);
+        Content c22 = new Content(SedaVersion.V2_2);
+        for (Content c : List.of(c21, c22)) {
+            c.addNewMetadata("Gps", null, -100000, "TestLatitude", "TestLongitude", null);
+            c.addNewMetadata("Keyword", "TestKeywordContent", null, null);
+        }
 
-        // When loaded with all metadata with specific kind of creation
-        c.addNewMetadata("Gps", null, -100000, "TestLatitude", "TestLongitude", null);
-        c.addNewMetadata("Keyword", "TestKeywordContent", null, null);
-
-        // and add Agent in SEDA 2.1 version then
-        assertThatThrownBy(() -> c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
+        // When adding an Agent, it is refused in SEDA 2.1
+        assertThatThrownBy(() -> c21.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
             .isInstanceOf(SEDALibException.class)
             .hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
 
-        // and add Agent in SEDA 2.1 version then
-        SedaContext.setVersion(SedaVersion.V2_2);
-        c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
-        String cOut = c.toString();
+        // and accepted in SEDA 2.2
+        c22.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
+        String cOut = c22.toString();
         String testOut =
             "<Content>\n" +
             "  <Keyword>\n" +
@@ -334,13 +357,12 @@ class ContentTest {
             "  </Gps>\n" +
             "</Content>";
         assertThat(cOut).isEqualTo(testOut);
-        SedaContext.setVersion(SedaVersion.V2_1);
     }
 
     @Test
     void testSomeExceptions() {
         // Given
-        Content c = new Content();
+        Content c = new Content(SedaContext.getVersion());
 
         // When loaded with all different kind of metadata
 
@@ -357,7 +379,7 @@ class ContentTest {
         assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0))).hasStackTraceContaining(
             "Pas de constructeur"
         ); // for GenericXMLBlock
-        Event event = new Event();
+        Event event = new Event(SedaContext.getVersion());
         assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date")).hasStackTraceContaining(
             "Impossible de construire"
         ); // for DateTimeType
@@ -370,16 +392,22 @@ class ContentTest {
     @Test
     void testAddNewMetadata() throws SEDALibException, FileNotFoundException {
         // Given
-        Content content = new Content();
+        Content content = new Content(SedaContext.getVersion());
 
         // When loaded with all different kind of metadata (in random order)
 
         // Test expandability
-        AgentType beneficiary = new AgentType("Beneficiary", "TestFirstName", "TestBirthName", "TestIdentifier");
+        AgentType beneficiary = new AgentType(
+            SedaContext.getVersion(),
+            "Beneficiary",
+            "TestFirstName",
+            "TestBirthName",
+            "TestIdentifier"
+        );
         content.addMetadata(beneficiary);
 
         // Test Signer metadata
-        Signature signature = new Signature();
+        Signature signature = new Signature(SedaContext.getVersion());
         signature.addNewMetadata("Signer", "TestFullName", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata("Signer", "TestFirstName", "TestBirthName", LocalDateTime.of(1970, 1, 1, 1, 0));
         signature.addNewMetadata(
@@ -416,7 +444,7 @@ class ContentTest {
         content.addNewMetadata("CustodialHistory", "TestItem1", "TestItem2", "TestItem3", "TestItem4");
 
         // Test Coverage metadata
-        Coverage coverage = new Coverage();
+        Coverage coverage = new Coverage(SedaContext.getVersion());
         coverage.addNewMetadata("Spatial", "TestSpatial1");
         coverage.addNewMetadata("Spatial", "TestSpatial2");
         coverage.addNewMetadata("Spatial", "TestSpatial3");
@@ -432,7 +460,7 @@ class ContentTest {
         content.addNewMetadata("Writer", "TestFullName");
         content.addNewMetadata("Writer", "TestFirstName", "TestBirthName");
         content.addNewMetadata("Writer", "TestFirstName", "TestBirthName", "TestIdentifier");
-        AgentType writer = new AgentType("Writer", "TestFullName");
+        AgentType writer = new AgentType(SedaContext.getVersion(), "Writer", "TestFullName");
         writer.addNewMetadata("BirthPlace", "TestGeogname");
         content.addMetadata(writer);
 
@@ -476,7 +504,7 @@ class ContentTest {
         String cOut = content.toString();
 
         // Test read write in XML string format
-        Content cNext = (Content) SEDAMetadata.fromString(cOut, Content.class);
+        Content cNext = (Content) SEDAMetadata.fromString(cOut, Content.class, SedaContext.getVersion());
         String cNextOut = cNext.toString();
 
         // Then

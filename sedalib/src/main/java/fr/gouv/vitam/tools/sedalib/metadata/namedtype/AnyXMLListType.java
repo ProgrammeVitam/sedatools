@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -70,29 +71,42 @@ public class AnyXMLListType extends ComplexListType {
 
     /**
      * Instantiates a new XML blocks list type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public AnyXMLListType() {
+    public AnyXMLListType(SedaVersion sedaVersion) {
+        super(sedaVersion, null);
+    }
+
+    /**
+     * Instantiates a new AnyXMLListType for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private AnyXMLListType() {
         super(null);
     }
 
     /**
      * Instantiates a new XML blocks list type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the XML element name
      */
-    public AnyXMLListType(String elementName) {
-        super(elementName);
+    public AnyXMLListType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new XML block type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the XML element name
      * @param rawXmlList  the raw Xml list String
      * @throws SEDALibException if the XML Block can't be read or is not compliant to the seda schema
      */
-    public AnyXMLListType(String elementName, String rawXmlList) throws SEDALibException {
-        super(elementName);
+    public AnyXMLListType(SedaVersion sedaVersion, String elementName, String rawXmlList) throws SEDALibException {
+        super(sedaVersion, elementName);
         try (
             ByteArrayInputStream bais = new ByteArrayInputStream(rawXmlList.getBytes(StandardCharsets.UTF_8));
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
@@ -101,7 +115,7 @@ public class AnyXMLListType extends ComplexListType {
             xmlReader.nextUsefullEvent();
             String tmp = xmlReader.peekName();
             while (tmp != null) {
-                SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
+                SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class, getSedaVersion());
                 addMetadata(sm);
                 tmp = xmlReader.peekName();
             }

@@ -206,6 +206,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata;
         SEDAMetadata sm = createSEDAMetadataSample(
+            getSedaVersion(),
             getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(),
             metadataName,
             true

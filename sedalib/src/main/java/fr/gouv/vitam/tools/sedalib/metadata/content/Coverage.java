@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -53,22 +54,26 @@ public class Coverage extends ComplexListType {
 
     /**
      * Instantiates a new coverage type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Coverage() {
-        super("Coverage");
+    public Coverage(SedaVersion sedaVersion) {
+        super(sedaVersion, "Coverage");
     }
 
     /**
      * Instantiates a new coverage type with Spatial, Temporal and Juridictional. If any is null, it's not added
      *
+     * @param sedaVersion the SEDA version
      * @param elementName   the element name
      * @param spatial       the spatial
      * @param temporal      the temporal
      * @param juridictional the juridictional
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public Coverage(String elementName, String spatial, String temporal, String juridictional) throws SEDALibException {
-        super(elementName);
+    public Coverage(SedaVersion sedaVersion, String elementName, String spatial, String temporal, String juridictional)
+        throws SEDALibException {
+        super(sedaVersion, elementName);
         if (spatial != null) addNewMetadata("Spatial", spatial);
         if (temporal != null) addNewMetadata("Temporal", temporal);
         if (juridictional != null) addNewMetadata("Juridictional", juridictional);

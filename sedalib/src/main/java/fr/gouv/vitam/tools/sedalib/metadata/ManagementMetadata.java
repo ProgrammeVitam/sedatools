@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
@@ -83,9 +84,11 @@ public class ManagementMetadata extends ComplexListType {
 
     /**
      * Instantiates a new Management.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ManagementMetadata() {
-        super("ManagementMetadata");
+    public ManagementMetadata(SedaVersion sedaVersion) {
+        super(sedaVersion, "ManagementMetadata");
     }
 
     // FIXME: est-ce vraiment pertinent de tordre la logique systématique des constructeurs pour ce cas?

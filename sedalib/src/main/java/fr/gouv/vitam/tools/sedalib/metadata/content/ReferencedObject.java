@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -53,20 +54,24 @@ public class ReferencedObject extends ComplexListType {
 
     /**
      * Instantiates a new reference object type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ReferencedObject() {
-        super("ReferencedObject");
+    public ReferencedObject(SedaVersion sedaVersion) {
+        super(sedaVersion, "ReferencedObject");
     }
 
     /**
      * Instantiates a new referenced object type with SignedObjectId and SignedObjectDigest.
      *
+     * @param sedaVersion the SEDA version
      * @param signedObjectId    the signed object id
      * @param signedObjectDigest the signed object digest
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public ReferencedObject(String signedObjectId, String signedObjectDigest) throws SEDALibException {
-        this();
+    public ReferencedObject(SedaVersion sedaVersion, String signedObjectId, String signedObjectDigest)
+        throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata("SignedObjectId", signedObjectId);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }
@@ -74,14 +79,19 @@ public class ReferencedObject extends ComplexListType {
     /**
      * Instantiates a new referenced object type with SignedObjectId and SignedObjectDigest.
      *
+     * @param sedaVersion the SEDA version
      * @param signedObjectId              the signed object id
      * @param signedObjectDigest          the signed object digest
      * @param signedObjectDigestAlgorithm the signed object digest algorithm
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public ReferencedObject(String signedObjectId, String signedObjectDigest, String signedObjectDigestAlgorithm)
-        throws SEDALibException {
-        this();
+    public ReferencedObject(
+        SedaVersion sedaVersion,
+        String signedObjectId,
+        String signedObjectDigest,
+        String signedObjectDigestAlgorithm
+    ) throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata("SignedObjectId", signedObjectId);
         addNewMetadata("SignedObjectDigest", signedObjectDigest, signedObjectDigestAlgorithm);
     }

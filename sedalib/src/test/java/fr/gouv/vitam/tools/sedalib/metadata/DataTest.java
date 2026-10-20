@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
@@ -61,6 +62,7 @@ class DataTest {
     void testFileInfo() throws SEDALibException, FileNotFoundException {
         // Given
         FileInfo fi = new FileInfo(
+            SedaContext.getVersion(),
             "TestFileName",
             "TestCreatingApplicationName",
             "TestCreatingApplicationVersion",
@@ -73,7 +75,7 @@ class DataTest {
         String fiOut = fi.toString();
 
         // When read write in XML string format
-        FileInfo fiNext = (FileInfo) SEDAMetadata.fromString(fiOut, FileInfo.class);
+        FileInfo fiNext = (FileInfo) SEDAMetadata.fromString(fiOut, FileInfo.class, SedaContext.getVersion());
         String fiNextOut = fiNext.toString();
 
         //Then
@@ -84,6 +86,7 @@ class DataTest {
     void testFormatIdentification() throws SEDALibException {
         // Given
         FormatIdentification fi = new FormatIdentification(
+            SedaContext.getVersion(),
             "TestFormatLitteral",
             "TestMimeType",
             "TestFormatId",
@@ -93,7 +96,11 @@ class DataTest {
         String fiOut = fi.toString();
 
         // When read write in XML string format
-        FormatIdentification fiNext = (FormatIdentification) SEDAMetadata.fromString(fiOut, FormatIdentification.class);
+        FormatIdentification fiNext = (FormatIdentification) SEDAMetadata.fromString(
+            fiOut,
+            FormatIdentification.class,
+            SedaContext.getVersion()
+        );
         String fiNextOut = fiNext.toString();
 
         //Then
@@ -110,7 +117,7 @@ class DataTest {
     @Test
     void testPhysicalDimensions() throws SEDALibException, FileNotFoundException {
         // Given
-        PhysicalDimensions pd = new PhysicalDimensions();
+        PhysicalDimensions pd = new PhysicalDimensions(SedaContext.getVersion());
         pd.addNewMetadata("Width", 10.0, "metre");
         pd.addNewMetadata("Height", 20.0, "centimetre");
         pd.addNewMetadata("Depth", 1000.10, "millimetre");
@@ -124,7 +131,11 @@ class DataTest {
         String pdOut = pd.toString();
 
         // When read write in XML string format
-        PhysicalDimensions pdNext = (PhysicalDimensions) SEDAMetadata.fromString(pdOut, PhysicalDimensions.class);
+        PhysicalDimensions pdNext = (PhysicalDimensions) SEDAMetadata.fromString(
+            pdOut,
+            PhysicalDimensions.class,
+            SedaContext.getVersion()
+        );
         String pdNextOut = pdNext.toString();
 
         //Then
@@ -134,14 +145,14 @@ class DataTest {
     @Test
     void testMetadata() throws SEDALibException {
         // Given
-        Metadata m = new Metadata();
+        Metadata m = new Metadata(SedaContext.getVersion());
         m.addNewMetadata("Audio", "<Codec>mp3</Codec><Volume>98</Volume>");
         m.addNewMetadata("Quality", "<Quality>bad</Quality>");
 
         String mOut = m.toString();
 
         // When read write in XML string format
-        Metadata mNext = (Metadata) SEDAMetadata.fromString(mOut, Metadata.class);
+        Metadata mNext = (Metadata) SEDAMetadata.fromString(mOut, Metadata.class, SedaContext.getVersion());
         String mNextOut = mNext.toString();
 
         //Then

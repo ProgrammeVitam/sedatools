@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -54,9 +55,11 @@ public class Gps extends ComplexListType {
 
     /**
      * Instantiates a new gps type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Gps() {
-        super("Gps");
+    public Gps(SedaVersion sedaVersion) {
+        super(sedaVersion, "Gps");
     }
 
     /**
@@ -64,6 +67,7 @@ public class Gps extends ComplexListType {
      * is 'S', if not 'N'), GpsLongitude(if begin by '-' GpsLongitudeRef is 'O', if not 'E') and GpsDateStamp. If version
      * or date stamp is null, or if altitude=-100000 they are not added
      *
+     * @param sedaVersion the SEDA version
      * @param gpsVersionID the gps version id
      * @param gpsAltitude  the gps altitude
      * @param gpsLatitude  the gps latitude
@@ -71,9 +75,15 @@ public class Gps extends ComplexListType {
      * @param gpsDateStamp the gps date stamp
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public Gps(String gpsVersionID, int gpsAltitude, String gpsLatitude, String gpsLongitude, String gpsDateStamp)
-        throws SEDALibException {
-        this();
+    public Gps(
+        SedaVersion sedaVersion,
+        String gpsVersionID,
+        int gpsAltitude,
+        String gpsLatitude,
+        String gpsLongitude,
+        String gpsDateStamp
+    ) throws SEDALibException {
+        this(sedaVersion);
         if (gpsVersionID != null) addNewMetadata("GpsVersionID", gpsVersionID);
         if (gpsAltitude != -100000) {
             if (gpsAltitude < 0) addNewMetadata("GpsAltitudeRef", "1");

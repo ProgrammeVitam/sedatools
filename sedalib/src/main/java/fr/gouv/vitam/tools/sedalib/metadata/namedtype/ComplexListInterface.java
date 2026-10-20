@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Gps;
@@ -222,15 +221,19 @@ public interface ComplexListInterface {
      * cardinality for a given ComplexListType subclass.
      *
      * @param complexListTypeMetadataClass the complex list type metadata class
+     * @param sedaVersion                  the SEDA version
      * @return the metadata map
      * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
-    static Map<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass)
-        throws SEDALibException {
+    static Map<String, ComplexListMetadataKind> getMetadataMap(
+        Class<?> complexListTypeMetadataClass,
+        SedaVersion sedaVersion
+    ) throws SEDALibException {
+        Objects.requireNonNull(sedaVersion, "La version SEDA est obligatoire");
         if (SchemaMetadataMapBuilder.isKnown(complexListTypeMetadataClass)) {
             Map<String, ComplexListMetadataKind> built = SchemaMetadataMapBuilder.get(
                 complexListTypeMetadataClass,
-                SedaContext.getVersion()
+                sedaVersion
             );
             if (built != null) return built;
         }
@@ -238,8 +241,8 @@ public interface ComplexListInterface {
         final Map<SedaVersion, Map<String, ComplexListMetadataKind>> metadataDefinitions =
             ComplexListInterface.metadataDefinitions(complexListTypeMetadataClass);
 
-        if (metadataDefinitions.containsKey(SedaContext.getVersion())) {
-            return metadataDefinitions.get(SedaContext.getVersion());
+        if (metadataDefinitions.containsKey(sedaVersion)) {
+            return metadataDefinitions.get(sedaVersion);
         }
 
         return metadataDefinitions
@@ -260,9 +263,10 @@ public interface ComplexListInterface {
      * Checks if the metadata list is closed for a given ComplexListType subclass.
      *
      * @param complexListTypeMetadataClass the complex list type metadata class
+     * @param sedaVersion                  the SEDA version
      * @return true, if is not expendable
      */
-    static Boolean isNotExpandable(Class<?> complexListTypeMetadataClass) {
+    static Boolean isNotExpandable(Class<?> complexListTypeMetadataClass, SedaVersion sedaVersion) {
         if (
             SchemaMetadataMapBuilder.isKnown(complexListTypeMetadataClass)
         ) return !SchemaMetadataMapBuilder.isExpandable(complexListTypeMetadataClass);
@@ -271,8 +275,8 @@ public interface ComplexListInterface {
             complexListTypeMetadataClass
         );
 
-        if (notExpandableFlags.containsKey(SedaContext.getVersion())) {
-            return notExpandableFlags.get(SedaContext.getVersion());
+        if (notExpandableFlags.containsKey(sedaVersion)) {
+            return notExpandableFlags.get(sedaVersion);
         }
 
         return false;
@@ -292,6 +296,13 @@ public interface ComplexListInterface {
      * @return true if the metadata list is not expandable, false if new elements can be added
      */
     boolean isNotExpandable();
+
+    /**
+     * Gets the SEDA version the metadata list is read, written and checked in.
+     *
+     * @return the SEDA version
+     */
+    SedaVersion getSedaVersion();
 
     /**
      * Gets the list of metadata elements contained in this metadata type.
@@ -398,14 +409,19 @@ public interface ComplexListInterface {
      * @param originalArgs array of original constructor arguments
      * @return array of arguments with element name prepended if needed
      */
-    private static Object[] prepareConstructorArgs(boolean isNamedType, String elementName, Object[] originalArgs) {
-        if (!isNamedType) {
-            return originalArgs;
-        }
-        Object[] prefixed = new Object[originalArgs.length + 1];
-        prefixed[0] = elementName;
-        System.arraycopy(originalArgs, 0, prefixed, 1, originalArgs.length);
-        return prefixed;
+    private static Object[] prepareConstructorArgs(
+        boolean isComplexListType,
+        SedaVersion sedaVersion,
+        boolean isNamedType,
+        String elementName,
+        Object[] originalArgs
+    ) {
+        List<Object> prefixed = new ArrayList<>(originalArgs.length + 2);
+        // a complex list type is built in the SEDA version of its parent
+        if (isComplexListType) prefixed.add(sedaVersion);
+        if (isNamedType) prefixed.add(elementName);
+        prefixed.addAll(Arrays.asList(originalArgs));
+        return prefixed.toArray();
     }
 
     /**
@@ -425,19 +441,33 @@ public interface ComplexListInterface {
      */
     private static SEDAMetadata getClassMemberConstructedFromArgs(
         Class<?> metadataClass,
+        SedaVersion sedaVersion,
         String elementName,
         Object[] args
     ) throws SEDALibException, IllegalAccessException, InvocationTargetException, InstantiationException {
         boolean isNamedType = metadataClass.getName().contains(".namedtype.");
+        boolean isComplexListType = ComplexListType.class.isAssignableFrom(metadataClass);
         SEDAMetadata sm;
 
-        Object[] constructorArgs = prepareConstructorArgs(isNamedType, elementName, args);
+        Object[] constructorArgs = prepareConstructorArgs(
+            isComplexListType,
+            sedaVersion,
+            isNamedType,
+            elementName,
+            args
+        );
         Constructor<?> compatibleCtor = getCompatibleConstructor(metadataClass, constructorArgs);
 
         if (compatibleCtor == null) {
             // Try to use a constructor with a variable argument list (Object... args) pattern
             try {
-                if (isNamedType) sm = (SEDAMetadata) metadataClass
+                if (isComplexListType && isNamedType) sm = (SEDAMetadata) metadataClass
+                    .getConstructor(SedaVersion.class, String.class, Object[].class)
+                    .newInstance(sedaVersion, elementName, args);
+                else if (isComplexListType) sm = (SEDAMetadata) metadataClass
+                    .getConstructor(SedaVersion.class, Object[].class)
+                    .newInstance(sedaVersion, args);
+                else if (isNamedType) sm = (SEDAMetadata) metadataClass
                     .getConstructor(String.class, Object[].class)
                     .newInstance(elementName, args);
                 else sm = (SEDAMetadata) metadataClass
@@ -471,13 +501,18 @@ public interface ComplexListInterface {
     default SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap = this.getMetadataMap();
         if (metadataMap == null) throw new SEDALibException(
-            "Impossible de construire l'élément [" + elementName + "] en " + SedaContext.getVersion(),
+            "Impossible de construire l'élément [" + elementName + "] en " + getSedaVersion(),
             null
         );
         ComplexListMetadataKind metadataKind = metadataMap.get(elementName);
         try {
             Class<?> metadataClass = (metadataKind != null ? metadataKind.getMetadataClass() : AnyXMLType.class);
-            SEDAMetadata metadata = getClassMemberConstructedFromArgs(metadataClass, elementName, args);
+            SEDAMetadata metadata = getClassMemberConstructedFromArgs(
+                metadataClass,
+                getSedaVersion(),
+                elementName,
+                args
+            );
             if (metadata == null) throw new SEDALibException(
                 "Impossible de construire l'élément [" + elementName + "]"
             );
@@ -534,7 +569,7 @@ public interface ComplexListInterface {
                     "] au type composé [" +
                     this.getXmlElementName() +
                     "] en " +
-                    SedaContext.getVersion(),
+                    getSedaVersion(),
                     e
                 );
             }
@@ -734,7 +769,7 @@ public interface ComplexListInterface {
                     );
                     else metadataClass = AnyXMLType.class;
                 } else metadataClass = mi.getMetadataClass();
-                SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
+                SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass, getSedaVersion());
                 this.addMetadata(sm);
                 tmp = xmlReader.peekName();
             }
@@ -792,7 +827,7 @@ public interface ComplexListInterface {
             String elementName = xmlReader.peekName();
             while (elementName != null) {
                 Class<?> metadataClass = resolveMetadataClass(elementName, metadataMap, isNotExpandable);
-                SEDAMetadata metadata = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
+                SEDAMetadata metadata = SEDAMetadata.fromSedaXml(xmlReader, metadataClass, getSedaVersion());
                 addMetadata(metadata);
                 elementName = xmlReader.peekName();
             }

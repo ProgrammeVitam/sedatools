@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -55,19 +56,22 @@ public class Operation extends ComplexListType {
 
     /**
      * Instantiates a new operation.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Operation() {
-        super("Operation");
+    public Operation(SedaVersion sedaVersion) {
+        super(sedaVersion, "Operation");
     }
 
     /**
      * Instantiates a new operation from args, each is an event item.
      *
+     * @param sedaVersion the SEDA version
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public Operation(Object... args) throws SEDALibException {
-        this();
+    public Operation(SedaVersion sedaVersion, Object... args) throws SEDALibException {
+        this(sedaVersion);
         for (int i = 0; i < args.length; i++) {
             if (!(args[i] instanceof String)) throw new SEDALibException(
                 "Mauvais arguments pour le constructeur de l'élément [" + elementName + "]"

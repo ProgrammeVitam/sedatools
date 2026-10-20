@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 
 /**
@@ -52,8 +53,10 @@ public class Signature extends ComplexListType {
 
     /**
      * Instantiates a new signature.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Signature() {
-        super("Signature");
+    public Signature(SedaVersion sedaVersion) {
+        super(sedaVersion, "Signature");
     }
 }

@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.management.*;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -57,16 +58,21 @@ class ManagementTest {
     @Test
     void testConstructors() throws SEDALibException, FileNotFoundException {
         // Given
-        Management m = new Management();
+        Management m = new Management(SedaContext.getVersion());
 
         // When loaded with all different kind of metadata
 
         // Test StorageRule and RuleType subclass newmetadata
-        StorageRule storageRule = new StorageRule("TestStoRule1", LocalDate.of(1970, 1, 1), "Transfer");
+        StorageRule storageRule = new StorageRule(
+            SedaContext.getVersion(),
+            "TestStoRule1",
+            LocalDate.of(1970, 1, 1),
+            "Transfer"
+        );
         m.addMetadata(storageRule);
 
         // Test AppraisalRule and RuleType subclass metadata add
-        AppraisalRule appraisalRule = new AppraisalRule();
+        AppraisalRule appraisalRule = new AppraisalRule(SedaContext.getVersion());
         appraisalRule.addRule("TestAppRule1", LocalDate.of(1970, 1, 1));
         appraisalRule.setPreventInheritance(true);
         appraisalRule.addRule("TestAppRule2");
@@ -75,7 +81,7 @@ class ManagementTest {
         m.addMetadata(appraisalRule);
 
         // Test AccessRule and RuleType subclass metadata add
-        AccessRule accessRule = new AccessRule();
+        AccessRule accessRule = new AccessRule(SedaContext.getVersion());
         accessRule.addRule("TestAccRule1", LocalDate.of(1970, 1, 1));
         accessRule.setPreventInheritance(true);
         accessRule.addRule("TestAccRule2");
@@ -83,7 +89,7 @@ class ManagementTest {
         m.addMetadata(accessRule);
 
         // Test DisseminationRule and RuleType subclass metadata add
-        DisseminationRule disseminationRule = new DisseminationRule();
+        DisseminationRule disseminationRule = new DisseminationRule(SedaContext.getVersion());
         disseminationRule.addRule("TestDisRule1", LocalDate.of(1970, 1, 1));
         disseminationRule.setPreventInheritance(true);
         disseminationRule.addRule("TestDisRule2");
@@ -91,7 +97,7 @@ class ManagementTest {
         m.addMetadata(disseminationRule);
 
         // Test ReuseRule and RuleType subclass metadata add
-        ReuseRule reuseRule = new ReuseRule();
+        ReuseRule reuseRule = new ReuseRule(SedaContext.getVersion());
         reuseRule.addRule("TestReuRule1", LocalDate.of(1970, 1, 1));
         reuseRule.setPreventInheritance(true);
         reuseRule.addRule("TestReuRule2");
@@ -99,7 +105,7 @@ class ManagementTest {
         m.addMetadata(reuseRule);
 
         // Test ClassificationRule and RuleType subclass metadata add
-        ClassificationRule classificationRule = new ClassificationRule();
+        ClassificationRule classificationRule = new ClassificationRule(SedaContext.getVersion());
         classificationRule.addRule("TestRule1", LocalDate.of(1970, 1, 1));
         classificationRule.setPreventInheritance(true);
         classificationRule.addRule("TestRule2");
@@ -111,7 +117,7 @@ class ManagementTest {
         m.addMetadata(classificationRule);
 
         // Test HoldRule and RuleType subclass metadata add
-        HoldRule holdRule = new HoldRule();
+        HoldRule holdRule = new HoldRule(SedaContext.getVersion());
         holdRule.addRule("TestHoldRule1", LocalDate.of(1970, 1, 1));
         holdRule.addNewMetadata("HoldOwner", "TestHoldOwner1");
         holdRule.setPreventInheritance(true);
@@ -125,7 +131,7 @@ class ManagementTest {
         m.addMetadata(holdRule);
 
         // Test LogBook
-        LogBook logBook = new LogBook();
+        LogBook logBook = new LogBook(SedaContext.getVersion());
         logBook.addNewMetadata("Event", "ID-00001", "Request", LocalDateTime.of(2000, 1, 1, 13, 10), "OK");
         m.addMetadata(logBook);
 
@@ -133,15 +139,19 @@ class ManagementTest {
         m.addNewMetadata("RawXML", "<Try>Here</Try>");
 
         // Test UpdateOperation
-        UpdateOperation updateOperation = new UpdateOperation("TestSystemId");
+        UpdateOperation updateOperation = new UpdateOperation(SedaContext.getVersion(), "TestSystemId");
         m.addMetadata(updateOperation);
-        UpdateOperation updateOperation2 = new UpdateOperation("TestMetadataName", "TestMetadataValue"); // verify that uniq metadata is overwritten
+        UpdateOperation updateOperation2 = new UpdateOperation(
+            SedaContext.getVersion(),
+            "TestMetadataName",
+            "TestMetadataValue"
+        ); // verify that uniq metadata is overwritten
         m.addMetadata(updateOperation2);
 
         String mOut = m.toString();
 
         // Test read write in XML string format
-        Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class);
+        Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class, SedaContext.getVersion());
         String mNextOut = mNext.toString();
 
         // Then
@@ -152,7 +162,7 @@ class ManagementTest {
     @Test
     void testAddNewMetadata() throws SEDALibException {
         // Given
-        Management m = new Management();
+        Management m = new Management(SedaContext.getVersion());
 
         // When loaded with all different kind of metadata
 
@@ -177,7 +187,7 @@ class ManagementTest {
         String mOut = m.toString();
 
         // Test read write in XML string format
-        Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class);
+        Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class, SedaContext.getVersion());
         String mNextOut = mNext.toString();
 
         // Then

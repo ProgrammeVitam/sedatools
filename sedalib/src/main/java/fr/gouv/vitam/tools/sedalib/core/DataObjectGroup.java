@@ -190,7 +190,8 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             logBook = (LogBook) SEDAMetadata.fromString(
                 logBook.toString().replace("</LogBook>", "") +
                 dataObjectGroup.logBook.toString().replace("<LogBook>", ""),
-                LogBook.class
+                LogBook.class,
+                logBook.getSedaVersion()
             );
         }
     }
@@ -318,7 +319,11 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                 }
                 String nextElementName = xmlReader.peekName();
                 if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
-                    dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+                    dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(
+                        xmlReader,
+                        LogBook.class,
+                        dataObjectPackage.getSedaVersion()
+                    );
                 }
                 xmlReader.endBlockNamed("DataObjectGroup");
             }
@@ -352,7 +357,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             xmlReader.nextUsefullEvent();
             String nextElementName = xmlReader.peekName();
             if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
-                dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+                dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class, getSedaVersion());
             }
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture du DataObjectGroup", e);

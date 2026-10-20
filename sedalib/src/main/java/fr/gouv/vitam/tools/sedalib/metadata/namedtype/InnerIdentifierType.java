@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
@@ -64,28 +65,32 @@ public class InnerIdentifierType extends ComplexListType {
 
     /**
      * Instantiates a new InnerIdentifierType.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public InnerIdentifierType() {
-        super(null);
+    public InnerIdentifierType(SedaVersion sedaVersion) {
+        super(sedaVersion, null);
     }
 
     /**
      * Instantiates a new InnerIdentifierType.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the XML element name
      */
-    public InnerIdentifierType(String elementName) {
-        super(elementName);
+    public InnerIdentifierType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new InnerIdentifierType.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the XML element name
      * @param value       the value
      */
-    public InnerIdentifierType(String elementName, String value) throws SEDALibException {
-        super(elementName);
+    public InnerIdentifierType(SedaVersion sedaVersion, String elementName, String value) throws SEDALibException {
+        super(sedaVersion, elementName);
         if ((value != null) && !value.isEmpty()) addNewMetadata("Identifier", value);
     }
 }

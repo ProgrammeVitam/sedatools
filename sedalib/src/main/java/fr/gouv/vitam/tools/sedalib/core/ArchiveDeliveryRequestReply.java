@@ -136,6 +136,16 @@ public class ArchiveDeliveryRequestReply {
     // Methods
 
     /**
+     * Gets the SEDA version, the one of its DataObjectPackage.
+     *
+     * @return the SEDA version
+     */
+    @JsonIgnore
+    public SedaVersion getSedaVersion() {
+        return dataObjectPackage.getSedaVersion();
+    }
+
+    /**
      * Gets the summary description of ArchiveDeliveryRequestReply. It list the
      * number of ArchiveUnits, DataObjectGroup, BinaryDataObject (with size in
      * bytes) and PhysicalDatObject
@@ -233,7 +243,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("ReplyCode")) {
                 archiveDeliveryRequestReply.replyCode = (StringType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    StringType.class
+                    StringType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -245,7 +256,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("Operation")) {
                 archiveDeliveryRequestReply.operation = (Operation) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    Operation.class
+                    Operation.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -257,7 +269,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("MessageRequestIdentifier")) {
                 archiveDeliveryRequestReply.messageRequestIdentifier = (StringType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    StringType.class
+                    StringType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -269,7 +282,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("AuthorizationRequestReplyIdentifier")) {
                 archiveDeliveryRequestReply.authorizationRequestReplyIdentifier = (StringType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    StringType.class
+                    StringType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -281,7 +295,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("UnitIdentifier")) {
                 archiveDeliveryRequestReply.unitIdentifier = (StringType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    StringType.class
+                    StringType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -293,7 +308,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("ArchivalAgency")) {
                 archiveDeliveryRequestReply.archivalAgency = (InnerIdentifierType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    InnerIdentifierType.class
+                    InnerIdentifierType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,
@@ -305,7 +321,8 @@ public class ArchiveDeliveryRequestReply {
             if (xmlReader.peekBlockIfNamed("Requester")) {
                 archiveDeliveryRequestReply.requester = (InnerIdentifierType) SEDAMetadata.fromSedaXml(
                     xmlReader,
-                    InnerIdentifierType.class
+                    InnerIdentifierType.class,
+                    archiveDeliveryRequestReply.getSedaVersion()
                 );
                 SEDALibProgressLogger.doProgressLog(
                     sedaLibProgressLogger,

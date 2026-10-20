@@ -71,7 +71,10 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(this.getClass());
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(
+            this.getClass(),
+            getSedaVersion()
+        );
     }
 
     /**
@@ -80,7 +83,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @JsonIgnore
     @Override
     public boolean isNotExpandable() {
-        return ComplexListInterface.isNotExpandable(this.getClass());
+        return ComplexListInterface.isNotExpandable(this.getClass(), getSedaVersion());
     }
 
     // Inner element
@@ -125,7 +128,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         if (nameValue == null) {
             return;
         }
-        FileInfo fileInfo = new FileInfo();
+        FileInfo fileInfo = new FileInfo(getSedaVersion());
         try {
             fileInfo.addNewMetadata("Filename", nameValue);
         } catch (SEDALibException ignored) {}
@@ -222,7 +225,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
 
         FileInfo fileInfo = getMetadataFileInfo();
         if (fileInfo == null) {
-            fileInfo = new FileInfo();
+            fileInfo = new FileInfo(getSedaVersion());
             filename = null;
         } else filename = fileInfo.getSimpleMetadata("Filename");
 
@@ -286,9 +289,15 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
 
         IdentificationResult idResult = identifyFormat(sedaLibProgressLogger, onDiskPath);
         if (idResult != null) addMetadata(
-            new FormatIdentification(idResult.getName(), idResult.getMimeType(), idResult.getPuid(), null)
+            new FormatIdentification(
+                getSedaVersion(),
+                idResult.getName(),
+                idResult.getMimeType(),
+                idResult.getPuid(),
+                null
+            )
         );
-        else addMetadata(new FormatIdentification("Unknown", null, "UNKNOWN", null));
+        else addMetadata(new FormatIdentification(getSedaVersion(), "Unknown", null, "UNKNOWN", null));
     }
 
     /**

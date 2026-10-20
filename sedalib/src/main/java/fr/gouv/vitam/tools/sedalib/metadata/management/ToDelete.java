@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -54,19 +55,22 @@ public class ToDelete extends ComplexListType {
 
     /**
      * Instantiates a new ToDelete.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ToDelete() {
-        super("ToDelete");
+    public ToDelete(SedaVersion sedaVersion) {
+        super(sedaVersion, "ToDelete");
     }
 
     /**
      * Instantiates a new ToDelete with the ArchiveUnit reference.
      *
+     * @param sedaVersion the SEDA version
      * @param archiveUnitRefId the archive unit reference id
      * @throws SEDALibException if sub-element construction is not possible
      */
-    public ToDelete(String archiveUnitRefId) throws SEDALibException {
-        this();
+    public ToDelete(SedaVersion sedaVersion, String archiveUnitRefId) throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(ARCHIVEUNITREFID_TAG, archiveUnitRefId);
     }
 }

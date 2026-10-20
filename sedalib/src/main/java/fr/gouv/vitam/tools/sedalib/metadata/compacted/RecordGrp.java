@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
@@ -81,20 +82,24 @@ public class RecordGrp extends ComplexListType {
 
     /**
      * Instantiates a new RecordGrp.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public RecordGrp() {
-        super(ELEMENT_NAME);
+    public RecordGrp(SedaVersion sedaVersion) {
+        super(sedaVersion, ELEMENT_NAME);
     }
 
     /**
      * Instantiates a new RecordGrp, from RecordGrpID and content.
      *
+     * @param sedaVersion the SEDA version
      * @param recordGrpID the record group id
      * @param content     the content
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public RecordGrp(String recordGrpID, Content content, Management management) throws SEDALibException {
-        super(ELEMENT_NAME);
+    public RecordGrp(SedaVersion sedaVersion, String recordGrpID, Content content, Management management)
+        throws SEDALibException {
+        super(sedaVersion, ELEMENT_NAME);
         addNewMetadata("RecordGrpID", recordGrpID);
         if (content != null) addMetadata(content);
         if (management != null) addMetadata(management);

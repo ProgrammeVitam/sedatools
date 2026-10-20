@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 public class LinkingAgentIdentifier extends ComplexListType {
@@ -44,15 +45,17 @@ public class LinkingAgentIdentifier extends ComplexListType {
     /**
      * Instantiates a new linking agent identifier type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public LinkingAgentIdentifier(String elementName) {
-        super(elementName);
+    public LinkingAgentIdentifier(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new linking agent identifier with type, value and role.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName                 the element name
      * @param linkingAgentIdentifierType  the linking agent identifier type
      * @param linkingAgentIdentifierValue the linking agent identifier value
@@ -60,12 +63,13 @@ public class LinkingAgentIdentifier extends ComplexListType {
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public LinkingAgentIdentifier(
+        SedaVersion sedaVersion,
         String elementName,
         String linkingAgentIdentifierType,
         String linkingAgentIdentifierValue,
         String linkingAgentRole
     ) throws SEDALibException {
-        super(elementName);
+        super(sedaVersion, elementName);
         if (linkingAgentIdentifierType != null) addNewMetadata(
             "LinkingAgentIdentifierType",
             linkingAgentIdentifierType

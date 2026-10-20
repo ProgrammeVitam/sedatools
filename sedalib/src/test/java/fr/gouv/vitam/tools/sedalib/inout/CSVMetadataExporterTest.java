@@ -433,9 +433,9 @@ class CSVMetadataExporterTest {
         DataObjectPackage dop = new DataObjectPackage(SedaContext.getVersion());
         ArchiveUnit au = new ArchiveUnit();
         au.setInDataObjectPackageId("AU1");
+        dop.addArchiveUnit(au);
         au.setDefaultContent("Title AU1", "Item");
         au.setArchiveUnitProfile(new ArchiveUnitProfile("MyProfile"));
-        dop.addArchiveUnit(au);
         dop.addRootAu(au);
 
         DataObjectPackageToCSVMetadataExporter csvMetadataExporter;

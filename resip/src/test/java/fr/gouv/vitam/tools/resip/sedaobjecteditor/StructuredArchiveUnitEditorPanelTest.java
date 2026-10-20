@@ -40,7 +40,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -61,16 +61,26 @@ public class StructuredArchiveUnitEditorPanelTest {
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
 
-        DataObjectPackage dop = new DataObjectPackage(SedaContext.getVersion());
+        DataObjectPackage dop = new DataObjectPackage(SedaVersion.V2_1);
         ArchiveUnit archiveUnit = new ArchiveUnit();
         SEDAMetadata sedaMetadata;
 
         archiveUnit.setInDataObjectPackageId("TestID");
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", true);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(
+            dop.getSedaVersion(),
+            "ArchiveUnitProfile",
+            "ArchiveUnitProfile",
+            true
+        );
         archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Content", "Content", true);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(dop.getSedaVersion(), "Content", "Content", true);
         archiveUnit.setContent((Content) sedaMetadata);
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Management", "Management", true);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(
+            dop.getSedaVersion(),
+            "Management",
+            "Management",
+            true
+        );
         archiveUnit.setManagement((Management) sedaMetadata);
         dop.addArchiveUnit(archiveUnit);
 

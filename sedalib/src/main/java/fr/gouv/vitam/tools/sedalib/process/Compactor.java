@@ -330,7 +330,7 @@ public class Compactor {
 
     private Content filterContentMetadata(boolean documentFlag, Content originContent) throws SEDALibException {
         Map<String, Integer> contentMetadataFilter;
-        Content resultContent = new Content();
+        Content resultContent = new Content(dataObjectPackage.getSedaVersion());
 
         contentMetadataFilter = (documentFlag ? documentContentMetadataFilter : subDocumentContentMetadataFilter);
         // if no metadata filter defined all is copied
@@ -355,7 +355,10 @@ public class Compactor {
         String auURI;
         String compactedFileURI;
 
-        subDocument = new SubDocument(filterContentMetadata(false, au.getContent()));
+        subDocument = new SubDocument(
+            dataObjectPackage.getSedaVersion(),
+            filterContentMetadata(false, au.getContent())
+        );
         auURI = parentAuURI + File.separator + "SubDocument" + localSubDocumentCounter;
         localSubDocumentCounter++;
         if (au.getTheDataObjectGroup() != null) {
@@ -367,7 +370,7 @@ public class Compactor {
                         auURI + "-" + dataObjectVersion.getValue(),
                         bdo.getOnDiskPath()
                     );
-                    subDocument.addMetadata(new FileObject(bdo, compactedFileURI));
+                    subDocument.addMetadata(new FileObject(dataObjectPackage.getSedaVersion(), bdo, compactedFileURI));
                     compactedFilesList.add(new CompactedFile(compactedFileURI, bdo.getOnDiskPath()));
                 } else leafWithDroppedFile++;
             }
@@ -388,7 +391,11 @@ public class Compactor {
         List<CompactedFile> compactedFileList = new ArrayList<>();
 
         parentRecordGrpID = parentRecordGrp.getSimpleMetadata("RecordGrpID");
-        document = new Document(parentRecordGrpID, filterContentMetadata(true, au.getContent()));
+        document = new Document(
+            dataObjectPackage.getSedaVersion(),
+            parentRecordGrpID,
+            filterContentMetadata(true, au.getContent())
+        );
         auURI = parentRecordGrpID + "-" + "Document" + documentCounter;
         if (au.getTheDataObjectGroup() != null) {
             for (BinaryDataObject bdo : au.getTheDataObjectGroup().getBinaryDataObjectList()) {
@@ -399,7 +406,7 @@ public class Compactor {
                         auURI + "-" + dataObjectVersion.getValue(),
                         bdo.getOnDiskPath()
                     );
-                    document.addMetadata(new FileObject(bdo, compactedFileURI));
+                    document.addMetadata(new FileObject(dataObjectPackage.getSedaVersion(), bdo, compactedFileURI));
                     compactedFileList.add(new CompactedFile(compactedFileURI, bdo.getOnDiskPath()));
                 } else leafWithDroppedFile++;
             }
@@ -417,7 +424,12 @@ public class Compactor {
     private RecordGrp addTreeNodeChild(ArchiveUnit au, RecordGrp parentRecordGrp) throws SEDALibException {
         RecordGrp curRecordGrp;
 
-        curRecordGrp = new RecordGrp("Node" + treenodeCounter, au.getContent(), au.getManagement());
+        curRecordGrp = new RecordGrp(
+            dataObjectPackage.getSedaVersion(),
+            "Node" + treenodeCounter,
+            au.getContent(),
+            au.getManagement()
+        );
         if (parentRecordGrp == null) rootRecordGrp = curRecordGrp;
         else parentRecordGrp.addMetadata(curRecordGrp);
         if (!au.getDataObjectRefList().getDataObjectList().isEmpty()) treenodeWithDroppedFile++;
@@ -508,7 +520,7 @@ public class Compactor {
         documentPack.addNewMetadata("FileObjectsCount", compactedFileList.size());
         Path documentPackFilePath = createDocumentPackArchiveFile(packCount, compactedFileList);
         ArchiveUnit packAu = new ArchiveUnit(dataObjectPackage);
-        Content curContent = new Content();
+        Content curContent = new Content(dataObjectPackage.getSedaVersion());
         curContent.addNewMetadata(DESCRIPTION_LEVEL, "Item");
         curContent.addNewMetadata(TITLE, "DocumentPack" + packCount);
         curContent.addMetadata(documentPack);
@@ -565,15 +577,20 @@ public class Compactor {
         Content curContent;
 
         rootContainerAU = new ArchiveUnit(dataObjectPackage);
-        curContent = new Content();
+        curContent = new Content(dataObjectPackage.getSedaVersion());
         curContent.addNewMetadata(DESCRIPTION_LEVEL, "RecordGrp");
         curContent.addNewMetadata(TITLE, archiveUnit.getContent().getSimpleMetadata(TITLE));
-        DocumentContainer documentContainer = new DocumentContainer(documentCounter, fileCounter, rootRecordGrp);
+        DocumentContainer documentContainer = new DocumentContainer(
+            dataObjectPackage.getSedaVersion(),
+            documentCounter,
+            fileCounter,
+            rootRecordGrp
+        );
         curContent.addMetadata(documentContainer);
         rootContainerAU.setContent(curContent);
 
         // create all packs ArchiveUnit
-        DocumentPack documentPack = new DocumentPack(rootRecordGrp);
+        DocumentPack documentPack = new DocumentPack(dataObjectPackage.getSedaVersion(), rootRecordGrp);
         String xmlString;
         int documentCount = 0;
         int totalDocumentCount = 0;
@@ -600,7 +617,7 @@ public class Compactor {
                     compactedFileList,
                     packCounter
                 );
-                documentPack = new DocumentPack(rootRecordGrp);
+                documentPack = new DocumentPack(dataObjectPackage.getSedaVersion(), rootRecordGrp);
                 documentCount = 0;
                 compactedFileList.clear();
                 metadataSize = documentPack.toString().length() + 100;

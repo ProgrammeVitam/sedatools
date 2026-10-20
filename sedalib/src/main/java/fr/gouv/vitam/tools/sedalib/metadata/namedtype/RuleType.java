@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -64,22 +65,25 @@ public abstract class RuleType extends ComplexListType {
     /**
      * Instantiates a new rule Type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public RuleType(String elementName) {
-        super(elementName);
+    public RuleType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new rule type, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param rule        the rule
      * @param startDate   the start date
      * @throws SEDALibException the seda lib exception
      */
-    public RuleType(String elementName, String rule, LocalDate startDate) throws SEDALibException {
-        super(elementName);
+    public RuleType(SedaVersion sedaVersion, String elementName, String rule, LocalDate startDate)
+        throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(RULE_TAG, rule, startDate);
     }
 
@@ -263,7 +267,7 @@ public abstract class RuleType extends ComplexListType {
                         );
                         else metadataClass = AnyXMLType.class;
                     } else metadataClass = mi.getMetadataClass();
-                    SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
+                    SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass, getSedaVersion());
                     addMetadata(sm);
                     tmp = xmlReader.peekName();
                 }

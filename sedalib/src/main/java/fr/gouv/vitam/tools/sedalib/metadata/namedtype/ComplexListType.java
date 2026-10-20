@@ -71,6 +71,13 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
     protected List<SEDAMetadata> metadataList;
 
     /**
+     * The SEDA version the metadata list is read, written and checked in. Only null between the
+     * json deserialization and {@link #restoreSedaVersion(List, SedaVersion)}.
+     */
+    @JsonIgnore
+    private SedaVersion sedaVersion;
+
+    /**
      * Gets the metadata list.
      *
      * @return the metadata list
@@ -91,11 +98,53 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
     /**
      * Instantiates a new complex list.
      *
+     * @param sedaVersion the SEDA version
+     * @param elementName the element name
+     */
+    protected ComplexListType(SedaVersion sedaVersion, String elementName) {
+        super(elementName);
+        this.sedaVersion = Objects.requireNonNull(sedaVersion, "La version SEDA de la métadonnée est obligatoire");
+        this.metadataList = new ArrayList<>();
+    }
+
+    /**
+     * Instantiates a new complex list for json deserialization, whose SEDA version is then
+     * restored by {@link #restoreSedaVersion(List, SedaVersion)}.
+     *
      * @param elementName the element name
      */
     protected ComplexListType(String elementName) {
         super(elementName);
         this.metadataList = new ArrayList<>();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @JsonIgnore
+    public SedaVersion getSedaVersion() {
+        if (sedaVersion == null) throw new IllegalStateException(
+            "La métadonnée [" + elementName + "] n'a pas de version SEDA"
+        );
+        return sedaVersion;
+    }
+
+    /**
+     * Gives their SEDA version to json deserialized metadata, and to the ones they hold.
+     *
+     * @param metadataList the metadata
+     * @param sedaVersion  the SEDA version of the package holding them
+     */
+    public static void restoreSedaVersion(List<SEDAMetadata> metadataList, SedaVersion sedaVersion) {
+        if (metadataList == null) return;
+        for (SEDAMetadata sm : metadataList) {
+            if (sm instanceof ComplexListType) {
+                ComplexListType complex = (ComplexListType) sm;
+                complex.sedaVersion = sedaVersion;
+                restoreSedaVersion(complex.metadataList, sedaVersion);
+            }
+        }
     }
 
     /**
@@ -146,7 +195,7 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
      */
     @JsonIgnore
     public boolean isNotExpandable() {
-        return ComplexListInterface.isNotExpandable(this.getClass());
+        return ComplexListInterface.isNotExpandable(this.getClass(), getSedaVersion());
     }
 
     /**
@@ -158,12 +207,25 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
      */
     @JsonIgnore
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(this.getClass());
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(
+            this.getClass(),
+            getSedaVersion()
+        );
     }
 
+    /**
+     * Gets the metadata map of a class in a SEDA version.
+     *
+     * @param clazz       the complex list type metadata class
+     * @param sedaVersion the SEDA version
+     * @return the metadata map
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
+     */
     @JsonIgnore
-    public static LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap(Class<?> clazz)
-        throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(clazz);
+    public static LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap(
+        Class<?> clazz,
+        SedaVersion sedaVersion
+    ) throws SEDALibException {
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(clazz, sedaVersion);
     }
 }

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -74,21 +75,25 @@ public class DocumentContainer extends ComplexListType {
 
     /**
      * Instantiates a new DocumentContainer.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public DocumentContainer() {
-        super("DocumentContainer");
+    public DocumentContainer(SedaVersion sedaVersion) {
+        super(sedaVersion, "DocumentContainer");
     }
 
     /**
      * Instantiates a new DocumentContainer, with DocumentsCounts, FileObjectsCount and RecordGrp tree
      *
+     * @param sedaVersion the SEDA version
      * @param documentsCounts  the documents counts
      * @param fileObjectsCount the file objects count
      * @param recordGrp        the record grp
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DocumentContainer(int documentsCounts, int fileObjectsCount, RecordGrp recordGrp) throws SEDALibException {
-        super("DocumentContainer");
+    public DocumentContainer(SedaVersion sedaVersion, int documentsCounts, int fileObjectsCount, RecordGrp recordGrp)
+        throws SEDALibException {
+        super(sedaVersion, "DocumentContainer");
         addNewMetadata("DocumentsCount", documentsCounts);
         addNewMetadata("FileObjectsCount", fileObjectsCount);
         addMetadata(recordGrp);

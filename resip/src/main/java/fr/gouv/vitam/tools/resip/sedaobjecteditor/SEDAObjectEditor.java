@@ -40,7 +40,10 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.RuleTypeEditor;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageElement;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -198,14 +201,19 @@ public abstract class SEDAObjectEditor {
     /**
      * Create sample SEDA metadata.
      *
+     * @param sedaVersion  the SEDA version of the sample, used by the complex list types
      * @param metadataType the SEDAMetadata type used for this editedObject
      * @param elementName        the XML tag in SEDA
      * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
      * @return the seda editedObject
      * @throws SEDALibException the seda lib exception
      */
-    public static SEDAMetadata createSEDAMetadataSample(String metadataType, String elementName, boolean minimal)
-        throws SEDALibException {
+    public static SEDAMetadata createSEDAMetadataSample(
+        SedaVersion sedaVersion,
+        String metadataType,
+        String elementName,
+        boolean minimal
+    ) throws SEDALibException {
         SEDAMetadata result;
         try {
             String objectEditorType = "fr.gouv.vitam.tools.resip.sedaobjecteditor." + metadataType + "Editor";
@@ -230,7 +238,7 @@ public abstract class SEDAObjectEditor {
             if (!ComplexListType.class.isAssignableFrom(objectClass)) throw new SEDALibException(
                 "L'éditeur de métadonnée [" + metadataType + "] n'existe pas"
             );
-            result = ComplexListTypeEditor.getSEDAMetadataSample(objectClass, elementName, minimal);
+            result = ComplexListTypeEditor.getSEDAMetadataSample(objectClass, sedaVersion, elementName, minimal);
         }
         return result;
     }
@@ -297,7 +305,10 @@ public abstract class SEDAObjectEditor {
         boolean minimal,
         SEDAObjectEditor father
     ) throws SEDALibException {
-        return createSEDAObjectEditor(createSEDAMetadataSample(metadataType, elementName, minimal), father);
+        return createSEDAObjectEditor(
+            createSEDAMetadataSample(father.getSedaVersion(), metadataType, elementName, minimal),
+            father
+        );
     }
 
     /**
@@ -310,7 +321,17 @@ public abstract class SEDAObjectEditor {
     public static SEDAMetadata getEmptySameSEDAMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         Constructor<?> cons;
         try {
-            if (sedaMetadata.getClass().getName().contains("namedtype")) {
+            if (sedaMetadata instanceof ComplexListType) {
+                // in the SEDA version of the copied metadata
+                SedaVersion sedaVersion = ((ComplexListType) sedaMetadata).getSedaVersion();
+                if (sedaMetadata.getClass().getName().contains("namedtype")) {
+                    cons = sedaMetadata.getClass().getConstructor(SedaVersion.class, String.class);
+                    sedaMetadata = (SEDAMetadata) cons.newInstance(sedaVersion, sedaMetadata.getXmlElementName());
+                } else {
+                    cons = sedaMetadata.getClass().getConstructor(SedaVersion.class);
+                    sedaMetadata = (SEDAMetadata) cons.newInstance(sedaVersion);
+                }
+            } else if (sedaMetadata.getClass().getName().contains("namedtype")) {
                 cons = sedaMetadata.getClass().getConstructor(String.class);
                 sedaMetadata = (SEDAMetadata) cons.newInstance(sedaMetadata.getXmlElementName());
             } else {
@@ -455,6 +476,20 @@ public abstract class SEDAObjectEditor {
      */
     public SEDAObjectEditor getFather() {
         return father;
+    }
+
+    /**
+     * Gets the SEDA version of the edited object, or of the one containing it.
+     *
+     * @return the SEDA version
+     */
+    public SedaVersion getSedaVersion() {
+        if (editedObject instanceof ComplexListInterface) return ((ComplexListInterface) editedObject).getSedaVersion();
+        if (editedObject instanceof DataObjectPackageElement) return (
+            (DataObjectPackageElement) editedObject
+        ).getSedaVersion();
+        if (father != null) return father.getSedaVersion();
+        throw new IllegalStateException("L'objet édité n'a pas de version SEDA");
     }
 
     /**

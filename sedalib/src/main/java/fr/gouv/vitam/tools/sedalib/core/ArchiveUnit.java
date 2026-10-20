@@ -191,7 +191,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (archiveUnitProfileXmlData == null) return null;
         archiveUnitProfile = (ArchiveUnitProfile) SEDAMetadata.fromString(
             archiveUnitProfileXmlData,
-            ArchiveUnitProfile.class
+            ArchiveUnitProfile.class,
+            getSedaVersion()
         );
         // as fromString function normalise ArchiveUnitProfile had to destroy approximate version archiveUnitProfileXmlData
         archiveUnitProfileXmlData = null;
@@ -242,7 +243,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return management;
         }
         if (managementXmlData == null) return null;
-        management = (Management) SEDAMetadata.fromString(managementXmlData, Management.class);
+        management = (Management) SEDAMetadata.fromString(managementXmlData, Management.class, getSedaVersion());
         // as fromString function normalise Management had to destroy approximate version managementXmlData
         managementXmlData = null;
         return management;
@@ -280,7 +281,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (content != null) return true;
         if (contentXmlData == null) return false;
         try {
-            content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class);
+            content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class, getSedaVersion());
             contentXmlData = null;
         } catch (SEDALibException e) {
             return false;
@@ -298,7 +299,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (getDataObjectPackage().getExportMetadataList() == null) return getContentXmlData();
         if (content != null) return content.filteredToString(getDataObjectPackage().getExportMetadataList());
         try {
-            content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class);
+            content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class, getSedaVersion());
             contentXmlData = null;
         } catch (SEDALibException e) {
             return contentXmlData;
@@ -328,7 +329,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return content;
         }
         if (contentXmlData == null) return null;
-        content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class);
+        content = (Content) SEDAMetadata.fromString(contentXmlData, Content.class, getSedaVersion());
         // as fromString function normalise Content had to destroy approximate version contentXmlData
         contentXmlData = null;
         return content;
@@ -354,7 +355,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public void setDefaultContent(String title, String descriptionLevel) throws SEDALibException {
-        Content c = new Content();
+        Content c = new Content(getSedaVersion());
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         setContent(c);

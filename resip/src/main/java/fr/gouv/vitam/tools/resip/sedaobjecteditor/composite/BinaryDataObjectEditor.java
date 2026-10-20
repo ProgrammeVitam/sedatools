@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
@@ -216,12 +217,14 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
             IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(editedOnDiskPath);
             FormatIdentification formatIdentification;
             if (ir != null) formatIdentification = new FormatIdentification(
+                getSedaVersion(),
                 ir.getName(),
                 ir.getMimeType(),
                 ir.getPuid(),
                 null
             );
             else formatIdentification = new FormatIdentification(
+                getSedaVersion(),
                 translateTag(UNKNOWN),
                 null,
                 translateTag(UNKNOWN),
@@ -237,7 +240,7 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
             SEDAObjectEditor fileInfoObjectEditor = getSEDAObjectEditor("FileInfo");
             if (fileInfoObjectEditor != null) expanded =
                 ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
-            FileInfo fileInfo = new FileInfo();
+            FileInfo fileInfo = new FileInfo(getSedaVersion());
             fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
             fileInfo.addNewMetadata(
                 "LastModified",
@@ -296,16 +299,24 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     /**
      * Create binary data object sample binary data object.
      *
+     * @param dataObjectPackage the DataObjectPackage the sample is built for, in its SEDA version, without being added to it
      * @param minimal the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
      * @return the binary data object
      * @throws SEDALibException the seda lib exception
      */
-    public static BinaryDataObject createBinaryDataObjectSample(boolean minimal) throws SEDALibException {
+    public static BinaryDataObject createBinaryDataObjectSample(DataObjectPackage dataObjectPackage, boolean minimal)
+        throws SEDALibException {
         BinaryDataObject result = new BinaryDataObject();
+        result.setDataObjectPackage(dataObjectPackage);
 
         for (Map.Entry<String, ComplexListMetadataKind> e : result.getMetadataMap().entrySet()) {
             if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey())) result.addMetadata(
-                createSEDAMetadataSample(e.getValue().getMetadataClass().getName(), e.getKey(), minimal)
+                createSEDAMetadataSample(
+                    result.getSedaVersion(),
+                    e.getValue().getMetadataClass().getName(),
+                    e.getKey(),
+                    minimal
+                )
             );
         }
 

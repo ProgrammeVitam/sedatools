@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -57,8 +58,19 @@ public class Event extends ComplexListType {
 
     /**
      * Instantiates a new Event.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Event() {
+    public Event(SedaVersion sedaVersion) {
+        super(sedaVersion, "Event");
+    }
+
+    /**
+     * Instantiates a new Event for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private Event() {
         super("Event");
     }
 
@@ -66,15 +78,21 @@ public class Event extends ComplexListType {
      * Instantiates a new Event, with EventIdentifier, EventType, EventDateTime and Outcome.
      * If any is null, it's not added.
      *
+     * @param sedaVersion the SEDA version
      * @param eventIdentifier the event identifier
      * @param eventType       the event type
      * @param eventDateTime   the event date time
      * @param outcome         the outcome
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Event(String eventIdentifier, String eventType, LocalDateTime eventDateTime, String outcome)
-        throws SEDALibException {
-        super("Event");
+    public Event(
+        SedaVersion sedaVersion,
+        String eventIdentifier,
+        String eventType,
+        LocalDateTime eventDateTime,
+        String outcome
+    ) throws SEDALibException {
+        super(sedaVersion, "Event");
         if (eventIdentifier != null) addNewMetadata("EventIdentifier", eventIdentifier);
         if (eventType != null) addNewMetadata("EventType", eventType);
         if (eventDateTime != null) addNewMetadata("EventDateTime", eventDateTime);

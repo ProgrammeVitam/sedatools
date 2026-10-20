@@ -297,7 +297,9 @@ class BinaryDataObjectTest {
             .getBdoInDataObjectPackageIdMap()
             .get("ID7");
         bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
-        bdo.addMetadata(new PersistentIdentifier("PType", "POrigin", "PReference", "PContent"));
+        bdo.addMetadata(
+            new PersistentIdentifier(SedaContext.getVersion(), "PType", "POrigin", "PReference", "PContent")
+        );
         bdo.addMetadata(new StringType("DataObjectUse", "BinaryMaster"));
         bdo.addMetadata(new IntegerType("DataObjectNumber", 1));
 

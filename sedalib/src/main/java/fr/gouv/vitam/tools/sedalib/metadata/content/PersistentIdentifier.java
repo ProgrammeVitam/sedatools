@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -59,14 +60,26 @@ public class PersistentIdentifier extends ComplexListType {
 
     /**
      * Instantiates a new persistent identifier.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public PersistentIdentifier() {
+    public PersistentIdentifier(SedaVersion sedaVersion) {
+        super(sedaVersion, "PersistentIdentifier");
+    }
+
+    /**
+     * Instantiates a new PersistentIdentifier for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private PersistentIdentifier() {
         super("PersistentIdentifier");
     }
 
     /**
      * Creates a new instance of PersistentIdentifier.
      *
+     * @param sedaVersion the SEDA version
      * @param persistentIdentifierType      the persistent identifier type
      * @param persistentIdentifierOrigin    the persistent identifier origin
      * @param persistentIdentifierReference the persistent identifier reference
@@ -74,12 +87,13 @@ public class PersistentIdentifier extends ComplexListType {
      * @throws SEDALibException if sub-elements construction fails (not expected to occur)
      */
     public PersistentIdentifier(
+        SedaVersion sedaVersion,
         String persistentIdentifierType,
         String persistentIdentifierOrigin,
         String persistentIdentifierReference,
         String persistentIdentifierContent
     ) throws SEDALibException {
-        super("PersistentIdentifier");
+        super(sedaVersion, "PersistentIdentifier");
         if (persistentIdentifierType != null) {
             addNewMetadata("PersistentIdentifierType", persistentIdentifierType);
         }

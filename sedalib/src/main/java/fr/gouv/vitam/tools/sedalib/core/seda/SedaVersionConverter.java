@@ -79,14 +79,12 @@ public class SedaVersionConverter {
         logGlobal("Conversion from " + sourceSedaVersion + " to " + targetSedaVersion);
 
         String sedaXml = serializeToSedaXml(originalPackage, sourceSedaVersion);
-        SedaContext.setVersion(targetSedaVersion);
 
         try {
             DataObjectPackage convertedPackage = deserializeFromSedaXml(sedaXml, targetSedaVersion);
             restoreBinaryObjectPaths(originalPackage, convertedPackage);
             return convertedPackage;
         } catch (Exception e) {
-            SedaContext.setVersion(sourceSedaVersion);
             throw new SEDALibException("Failed to convert DataObjectPackage to " + targetSedaVersion, e);
         }
     }

@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
@@ -77,20 +78,23 @@ public class Document extends ComplexListType {
 
     /**
      * Instantiates a new Document.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Document() {
-        super("Document");
+    public Document(SedaVersion sedaVersion) {
+        super(sedaVersion, "Document");
     }
 
     /**
      * Instantiates a new Document, from NodeID and content.
      *
+     * @param sedaVersion the SEDA version
      * @param recordGrpID the record groupe node id
      * @param content     the content
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Document(String recordGrpID, Content content) throws SEDALibException {
-        super("Document");
+    public Document(SedaVersion sedaVersion, String recordGrpID, Content content) throws SEDALibException {
+        super(sedaVersion, "Document");
         addNewMetadata("RecordGrpID", recordGrpID);
         addMetadata(content);
     }

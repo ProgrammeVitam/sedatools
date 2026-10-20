@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -70,32 +71,37 @@ public class AppraisalRule extends RuleType {
 
     /**
      * Instantiates a new access rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public AppraisalRule() {
-        super(APPRAISALRULE_TAG);
+    public AppraisalRule(SedaVersion sedaVersion) {
+        super(sedaVersion, APPRAISALRULE_TAG);
     }
 
     /**
      * Instantiates a new access rule, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
-    public AppraisalRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(APPRAISALRULE_TAG, rule, startDate);
+    public AppraisalRule(SedaVersion sedaVersion, String rule, LocalDate startDate) throws SEDALibException {
+        super(sedaVersion, APPRAISALRULE_TAG, rule, startDate);
     }
 
     /**
      * Instantiates a new appraisal rule, with one rule, a date and final action.
      *
+     * @param sedaVersion the SEDA version
      * @param rule        the rule
      * @param startDate   the start date
      * @param finalAction the final action
      * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
-    public AppraisalRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        super(APPRAISALRULE_TAG, rule, startDate);
+    public AppraisalRule(SedaVersion sedaVersion, String rule, LocalDate startDate, String finalAction)
+        throws SEDALibException {
+        super(sedaVersion, APPRAISALRULE_TAG, rule, startDate);
         setFinalAction(finalAction);
     }
 

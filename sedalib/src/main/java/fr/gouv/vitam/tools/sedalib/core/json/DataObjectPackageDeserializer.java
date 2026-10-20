@@ -43,10 +43,12 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibJsonProcessingException;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The Class DataObjectPackageDeserializer.
@@ -112,6 +114,7 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                     case "dataObjectGroupList":
                         while (parser.nextToken() != JsonToken.END_ARRAY) {
                             DataObjectGroup og = parser.readValueAs(DataObjectGroup.class);
+                            restoreSedaVersion(og, dataObjectPackage.getSedaVersion());
                             dataObjectPackage.addDataObjectGroup(og);
                             for (BinaryDataObject bdo : og.getBinaryDataObjectList()) dataObjectPackage.addDataObjectPackageIdElement(
                                 bdo
@@ -146,6 +149,19 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
         }
 
         return dataObjectPackage != null ? dataObjectPackage : new DataObjectPackage(savedWithoutVersion(deserializer));
+    }
+
+    // the json metadata are built without their SEDA version, the one of the package
+    private static void restoreSedaVersion(DataObjectGroup og, SedaVersion sedaVersion) {
+        if (og.logBook != null) ComplexListType.restoreSedaVersion(List.of(og.logBook), sedaVersion);
+        for (BinaryDataObject bdo : og.getBinaryDataObjectList()) ComplexListType.restoreSedaVersion(
+            bdo.getMetadataList(),
+            sedaVersion
+        );
+        for (PhysicalDataObject pdo : og.getPhysicalDataObjectList()) ComplexListType.restoreSedaVersion(
+            pdo.getMetadataList(),
+            sedaVersion
+        );
     }
 
     private static SedaVersion savedWithoutVersion(DeserializationContext deserializer)

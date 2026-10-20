@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -57,32 +58,37 @@ public class HoldRule extends RuleType {
 
     /**
      * Instantiates a new hold rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public HoldRule() {
-        super(HOLDRULE_TAG);
+    public HoldRule(SedaVersion sedaVersion) {
+        super(sedaVersion, HOLDRULE_TAG);
     }
 
     /**
      * Instantiates a new hold rule, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
-    public HoldRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(HOLDRULE_TAG, rule, startDate);
+    public HoldRule(SedaVersion sedaVersion, String rule, LocalDate startDate) throws SEDALibException {
+        super(sedaVersion, HOLDRULE_TAG, rule, startDate);
     }
 
     /**
      * Instantiates a new hold rule, with one rule, a date and other metadata.
      *
+     * @param sedaVersion the SEDA version
      * @param rule          the rule
      * @param startDate     the start date
      * @param otherMetadata the other metadata
      * @throws SEDALibException the seda lib exception
      */
-    public HoldRule(String rule, LocalDate startDate, Map<String, Object> otherMetadata) throws SEDALibException {
-        super(HOLDRULE_TAG, rule, startDate);
+    public HoldRule(SedaVersion sedaVersion, String rule, LocalDate startDate, Map<String, Object> otherMetadata)
+        throws SEDALibException {
+        super(sedaVersion, HOLDRULE_TAG, rule, startDate);
         for (Map.Entry<String, Object> entry : otherMetadata.entrySet()) {
             addNewMetadata(entry.getKey(), entry.getValue());
         }

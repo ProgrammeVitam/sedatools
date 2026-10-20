@@ -58,7 +58,10 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(this.getClass());
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(
+            this.getClass(),
+            getSedaVersion()
+        );
     }
 
     /**
@@ -67,7 +70,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
     @JsonIgnore
     @Override
     public boolean isNotExpandable() {
-        return ComplexListInterface.isNotExpandable(this.getClass());
+        return ComplexListInterface.isNotExpandable(this.getClass(), getSedaVersion());
     }
 
     /**

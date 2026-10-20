@@ -312,7 +312,9 @@ class PhysicalDataObjectTest {
             .getPdoInDataObjectPackageIdMap()
             .get("ID18");
         pdo.addNewMetadata("DataObjectProfile", "Test");
-        pdo.addMetadata(new PersistentIdentifier("PType", "POrigin", "PReference", "PContent"));
+        pdo.addMetadata(
+            new PersistentIdentifier(SedaContext.getVersion(), "PType", "POrigin", "PReference", "PContent")
+        );
         pdo.addMetadata(new StringType("DataObjectUse", "PhysicalMaster"));
         pdo.addMetadata(new IntegerType("DataObjectNumber", 1));
 

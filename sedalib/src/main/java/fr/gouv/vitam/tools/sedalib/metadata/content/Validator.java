@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -55,20 +56,23 @@ public class Validator extends ComplexListType {
 
     /**
      * Instantiates a new validator type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Validator() {
-        super("Validator");
+    public Validator(SedaVersion sedaVersion) {
+        super(sedaVersion, "Validator");
     }
 
     /**
      * Instantiates a new validator type with corpname and validation time.
      *
+     * @param sedaVersion the SEDA version
      * @param corpname       the corporation name
      * @param validationTime the validation time
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Validator(String corpname, LocalDateTime validationTime) throws SEDALibException {
-        this();
+    public Validator(SedaVersion sedaVersion, String corpname, LocalDateTime validationTime) throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata("Corpname", corpname);
         addNewMetadata("ValidationTime", validationTime);
     }

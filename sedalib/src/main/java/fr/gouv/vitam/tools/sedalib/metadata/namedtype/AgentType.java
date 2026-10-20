@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 /**
@@ -54,34 +55,38 @@ public class AgentType extends ComplexListType {
     /**
      * Instantiates a new agent type.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public AgentType(String elementName) {
-        super(elementName);
+    public AgentType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new agent type with fullname.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param fullName    the full name
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public AgentType(String elementName, String fullName) throws SEDALibException {
-        super(elementName);
+    public AgentType(SedaVersion sedaVersion, String elementName, String fullName) throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(FULLNAME_TAG, fullName);
     }
 
     /**
      * Instantiates a new agent type with firstname and birthname.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
-        super(elementName);
+    public AgentType(SedaVersion sedaVersion, String elementName, String firstName, String birthName)
+        throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
     }
@@ -89,15 +94,21 @@ public class AgentType extends ComplexListType {
     /**
      * Instantiates a new agent type with firstname, birthname and identifier.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public AgentType(String elementName, String firstName, String birthName, String identifier)
-        throws SEDALibException {
-        super(elementName);
+    public AgentType(
+        SedaVersion sedaVersion,
+        String elementName,
+        String firstName,
+        String birthName,
+        String identifier
+    ) throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(IDENTIFIER_TAG, identifier);
