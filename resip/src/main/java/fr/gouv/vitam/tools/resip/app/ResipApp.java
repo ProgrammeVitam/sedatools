@@ -39,24 +39,20 @@ package fr.gouv.vitam.tools.resip.app;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
-import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
 import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.resip.service.ImportService;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.cli.CommandLine;
@@ -79,6 +75,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * ResipApp class for launching the command or the graphic application.
@@ -264,7 +261,14 @@ public class ResipApp {
         );
         options.addOption(verbatim);
 
-        Option sedaversion = new Option("V", "sedaversion", true, "sous-version du SEDA 2 (1|2), à 1 par défaut");
+        Option sedaversion = new Option(
+            "V",
+            "sedaversion",
+            true,
+            "version du SEDA (" +
+            Arrays.stream(SedaVersion.values()).map(SedaVersion::toString).collect(Collectors.joining("|")) +
+            "), 2.1 par défaut, un SIP étant lu dans la version de son manifest"
+        );
         options.addOption(sedaversion);
 
         return options;
@@ -503,49 +507,13 @@ public class ResipApp {
                     logLevel
                 );
 
-                if (creationContext instanceof DiskImportContext) {
-                    DiskImportContext diskImportContext = (DiskImportContext) creationContext;
-                    DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                        sedaVersion,
-                        diskImportContext.getOnDiskInput(),
-                        spl
-                    );
-                    for (String ip : diskImportContext.getIgnorePatternList()) di.addIgnorePattern(ip);
-                    di.doImport();
-                    packet = di.getArchiveTransfer();
-                } else if (creationContext instanceof SIPImportContext) { //noinspection ConstantConditions
-                    SIPImportContext sipImportContext = (SIPImportContext) creationContext;
-                    String target =
-                        sipImportContext.getWorkDir() +
-                        File.separator +
-                        Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() +
-                        "-tmpdir";
-                    SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                        sipImportContext.getOnDiskInput(),
-                        target,
-                        spl
-                    );
-                    si.doImport();
-                    packet = si.getArchiveTransfer();
-                } else if (creationContext instanceof CSVImportContext) {
-                    CSVMetadataImportContext cSVMetadataImportContext = (CSVMetadataImportContext) creationContext;
-                    CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
-                        sedaVersion,
-                        cSVMetadataImportContext.getOnDiskInput(),
-                        cSVMetadataImportContext.getCsvCharsetName(),
-                        cSVMetadataImportContext.getDelimiter(),
-                        spl
-                    );
-                    cmi.doImport();
-
-                    packet = new ArchiveTransfer(sedaVersion);
-                    Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
-                    work
-                        .getDataObjectPackage()
-                        .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-                    packet.setDataObjectPackage(work.getDataObjectPackage());
-                    packet.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-                }
+                // the command line extracts in the temporary directory as it is, and doesn't normalise
+                if (creationContext != null) packet = new ImportService(
+                    Preferences.getInstance(),
+                    ImportService.USE_AS_IS
+                )
+                    .doImport(creationContext, sedaVersion, spl, null)
+                    .toArchiveTransfer();
 
                 if (((cmd.hasOption("generatesip")) || (cmd.hasOption("manifest"))) && (packet != null)) {
                     if (packet.getGlobalMetadata() == null) packet.setGlobalMetadata(
