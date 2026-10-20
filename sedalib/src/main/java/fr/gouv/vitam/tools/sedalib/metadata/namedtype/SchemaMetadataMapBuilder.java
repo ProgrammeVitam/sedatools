@@ -295,26 +295,18 @@ public final class SchemaMetadataMapBuilder {
     static {
         // Vitam extensions of 2.1, in the standard from 2.2 on
         ADDITIONS.add(
-            new Addition(Content.class, Set.of(SedaVersion.V2_1), "OriginatingSystemIdReplyTo", StringType.class, false)
+            new Addition(Content.class, null, SedaVersion.V2_1, "OriginatingSystemIdReplyTo", StringType.class, false)
         );
-        ADDITIONS.add(new Addition(Content.class, Set.of(SedaVersion.V2_1), "TextContent", StringType.class, true));
+        ADDITIONS.add(new Addition(Content.class, null, SedaVersion.V2_1, "TextContent", StringType.class, true));
         // Vitam compaction extension, outside of the standard
-        for (SedaVersion v : SedaVersion.values()) {
-            ADDITIONS.add(new Addition(Content.class, Set.of(v), "DocumentContainer", DocumentContainer.class, false));
-            ADDITIONS.add(new Addition(Content.class, Set.of(v), "DocumentPack", DocumentPack.class, false));
-        }
+        ADDITIONS.add(new Addition(Content.class, null, null, "DocumentContainer", DocumentContainer.class, false));
+        ADDITIONS.add(new Addition(Content.class, null, null, "DocumentPack", DocumentPack.class, false));
         // UpdateOperation left the XSD in 2.3, sedalib keeps it as the Vitam extension it was
         ADDITIONS.add(
-            new Addition(Management.class, Set.of(SedaVersion.V2_3), "UpdateOperation", UpdateOperation.class, false)
+            new Addition(Management.class, SedaVersion.V2_3, null, "UpdateOperation", UpdateOperation.class, false)
         );
         ADDITIONS.add(
-            new Addition(
-                ManagementMetadata.class,
-                Set.of(SedaVersion.V2_3),
-                "UpdateOperation",
-                UpdateOperation.class,
-                false
-            )
+            new Addition(ManagementMetadata.class, SedaVersion.V2_3, null, "UpdateOperation", UpdateOperation.class, false)
         );
     }
 
@@ -337,14 +329,24 @@ public final class SchemaMetadataMapBuilder {
     private static final class Addition {
 
         private final Class<?> owner;
-        private final Set<SedaVersion> versions;
+        // the range of versions it is added in, null for an open bound
+        private final SedaVersion since;
+        private final SedaVersion until;
         private final String name;
         private final Class<?> metadataClass;
         private final boolean many;
 
-        private Addition(Class<?> owner, Set<SedaVersion> versions, String name, Class<?> metadataClass, boolean many) {
+        private Addition(
+            Class<?> owner,
+            SedaVersion since,
+            SedaVersion until,
+            String name,
+            Class<?> metadataClass,
+            boolean many
+        ) {
             this.owner = owner;
-            this.versions = versions;
+            this.since = since;
+            this.until = until;
             this.name = name;
             this.metadataClass = metadataClass;
             this.many = many;
@@ -423,12 +425,8 @@ public final class SchemaMetadataMapBuilder {
         if (typeName == null) return null;
         // no XSD is bundled for the 2.0, which sedalib has always served the 2.1 maps for
         SedaVersion bundled = version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
-        fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion;
-        try {
-            schemaVersion = fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(bundled.name());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion = bundled.getSchemaVersion();
+        if (schemaVersion == null) return null;
         ComplexTypeDef type;
         try {
             type = SedaSchema.of(schemaVersion, SedaFlavor.VITAM).getComplexType(typeName);
@@ -440,7 +438,7 @@ public final class SchemaMetadataMapBuilder {
         collect(clazz, type.getContent(), false, map);
         map.keySet().removeAll(EXCLUDED.getOrDefault(clazz, Set.of()));
         for (Addition addition : ADDITIONS) if (
-            addition.owner.equals(clazz) && addition.versions.contains(bundled)
+            addition.owner.equals(clazz) && bundled.isBetween(addition.since, addition.until)
         ) map.put(addition.name, new ComplexListMetadataKind(addition.metadataClass, addition.many));
         return map;
     }

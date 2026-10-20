@@ -443,14 +443,13 @@ public class TreatmentParameters {
     }
 
     private SedaVersion parseSedaVersion(String version) {
-        final List<String> allowedVersions = List.of("1", "2", "3", "2.1", "2.2", "2.3");
-        final String defaultVersion = allowedVersions.get(0);
-        final String finalVersion = allowedVersions
-            .stream()
-            .filter(allowedVersion -> allowedVersion.equals(version))
-            .findFirst()
-            .orElse(defaultVersion);
-
-        return SedaVersion.from(finalVersion);
+        // the minor alone ("3") is accepted too, and an unknown version falls back to the 2.1
+        for (SedaVersion allowedVersion : SedaVersion.withSchema()) {
+            if (
+                allowedVersion.toString().equals(version) ||
+                Integer.toString(allowedVersion.getMinor()).equals(version)
+            ) return allowedVersion;
+        }
+        return SedaVersion.V2_1;
     }
 }

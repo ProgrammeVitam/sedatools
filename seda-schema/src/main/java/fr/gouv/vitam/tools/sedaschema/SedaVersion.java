@@ -115,4 +115,13 @@ public enum SedaVersion {
         for (SedaVersion v : values()) if (v.namespace.equals(namespace)) return v;
         return null;
     }
+
+    /**
+     * @param label a version label, such as "2.3"
+     * @return the version of this label, or null if no XSD is bundled for it
+     */
+    public static SedaVersion fromLabel(String label) {
+        for (SedaVersion v : values()) if (v.label.equals(label)) return v;
+        return null;
+    }
 }

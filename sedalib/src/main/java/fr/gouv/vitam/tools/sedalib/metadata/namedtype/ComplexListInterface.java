@@ -74,7 +74,7 @@ import java.util.*;
  * Example of a metadata map definition:
  * <pre>
  * {@code
- * @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_3 })
+ * @ComplexListMetadataMap(isExpandable = true, since = "2.3")
  * public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
  *
  * static {
@@ -106,15 +106,18 @@ public interface ComplexListInterface {
     }
 
     /**
-     * Get SEDA version from annotation.
-     * When no has value provided, all SEDA version are positioned.
+     * Get SEDA versions from annotation, the ones between its since and until bounds.
+     * When no bound is provided, all SEDA versions are positioned.
      *
      * @param annotation a metadata definition map annotation.
      * @return SEDA version list for this annotation.
      */
     private static List<SedaVersion> getSedaVersions(ComplexListMetadataMap annotation) {
-        SedaVersion[] explicit = annotation.sedaVersion();
-        return explicit.length == 0 ? Arrays.asList(SedaVersion.values()) : Arrays.asList(explicit);
+        SedaVersion since = annotation.since().isEmpty() ? null : SedaVersion.from(annotation.since());
+        SedaVersion until = annotation.until().isEmpty() ? null : SedaVersion.from(annotation.until());
+        List<SedaVersion> result = new ArrayList<>();
+        for (SedaVersion version : SedaVersion.values()) if (version.isBetween(since, until)) result.add(version);
+        return result;
     }
 
     /**
@@ -130,7 +133,7 @@ public interface ComplexListInterface {
      * {@code
      * // Class definition with annotated metadata map
      * public class MyMetadata {
-     *   @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_3 })
+     *   @ComplexListMetadataMap(isExpandable = true, since = "2.3")
      *   public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
      *   ...
      * }

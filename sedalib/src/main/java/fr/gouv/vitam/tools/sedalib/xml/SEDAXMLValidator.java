@@ -71,12 +71,8 @@ public class SEDAXMLValidator {
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
     public static Schema getSEDASchema() throws SEDALibException {
-        fr.gouv.vitam.tools.sedaschema.SedaVersion version;
-        try {
-            version = fr.gouv.vitam.tools.sedaschema.SedaVersion.valueOf(SedaContext.getVersion().name());
-        } catch (IllegalArgumentException e) {
-            throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", e);
-        }
+        fr.gouv.vitam.tools.sedaschema.SedaVersion version = SedaContext.getVersion().getSchemaVersion();
+        if (version == null) throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
         // the XSD Vitam implements, bundled by seda-schema along with the official one
         String resource = version.getMainXsdResource(SedaFlavor.VITAM);
         return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(resource));
