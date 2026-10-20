@@ -40,9 +40,10 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.service.ExportService;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -107,24 +108,8 @@ public class CheckProfileThread extends SwingWorker<String, String> {
 
             if (work == null) throw new ResipException("Pas de contenu à valider");
 
-            // first verify and reindex if neccesary
-            if (work.getExportContext().isReindex()) {
-                work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
-            }
-
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
-            work
-                .getDataObjectPackage()
-                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-
-            if (profileFileName == null) {
-                archiveTransfer.sedaSchemaValidate(spl);
-            } else {
-                archiveTransfer.sedaProfileValidate(profileFileName, spl);
-            }
+            new ExportService(Preferences.getInstance()).validate(work, profileFileName, spl);
+            if (work.getExportContext().isReindex()) ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }

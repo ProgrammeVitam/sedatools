@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.app;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
@@ -47,12 +48,13 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.resip.service.ExportService;
+import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
+import fr.gouv.vitam.tools.resip.service.ImportResult;
 import fr.gouv.vitam.tools.resip.service.ImportService;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.cli.CommandLine;
@@ -498,7 +500,6 @@ public class ResipApp {
         } else {
             try {
                 DroidIdentifier.getInstance();
-                ArchiveTransfer packet = null;
                 Instant start, end;
 
                 start = Instant.now();
@@ -508,34 +509,32 @@ public class ResipApp {
                 );
 
                 // the command line extracts in the temporary directory as it is, and doesn't normalise
-                if (creationContext != null) packet = new ImportService(
-                    Preferences.getInstance(),
-                    ImportService.USE_AS_IS
-                )
-                    .doImport(creationContext, sedaVersion, spl, null)
-                    .toArchiveTransfer();
-
-                if (((cmd.hasOption("generatesip")) || (cmd.hasOption("manifest"))) && (packet != null)) {
-                    if (packet.getGlobalMetadata() == null) packet.setGlobalMetadata(
-                        exportContext.getArchiveTransferGlobalMetadata()
+                ImportResult imported = creationContext == null
+                    ? null
+                    : new ImportService(Preferences.getInstance(), ImportService.USE_AS_IS).doImport(
+                        creationContext,
+                        sedaVersion,
+                        spl,
+                        null
                     );
-                    if (packet.getDataObjectPackage().getManagementMetadataXmlData() == null) packet
-                        .getDataObjectPackage()
-                        .setManagementMetadataXmlData(exportContext.getManagementMetadataXmlData());
-                    ArchiveTransferToSIPExporter se = new ArchiveTransferToSIPExporter(packet, spl);
-                    if (cmd.hasOption("generatesip")) {
-                        se.doExportToSEDASIP(
-                            cmd.getOptionValue("generatesip"),
-                            cmd.hasOption("hierarchical"),
-                            cmd.hasOption("indented")
-                        );
-                    } else if (cmd.hasOption("manifest")) {
-                        se.doExportToSEDAXMLManifest(
-                            cmd.getOptionValue("manifest"),
-                            cmd.hasOption("hierarchical"),
-                            cmd.hasOption("indented")
-                        );
-                    }
+
+                boolean generateSip = cmd.hasOption("generatesip");
+                if ((generateSip || cmd.hasOption("manifest")) && (imported != null)) {
+                    // the metadata of an imported SIP take over the ones of the export context
+                    Work work = imported.toWork(creationContext, exportContext);
+                    ExportContext workExportContext = work.getExportContext();
+                    // the output and its form come from the options, and the command line has never
+                    // reindexed nor filtered the exported metadata
+                    workExportContext.setOnDiskOutput(cmd.getOptionValue(generateSip ? "generatesip" : "manifest"));
+                    workExportContext.setHierarchicalArchiveUnits(cmd.hasOption("hierarchical"));
+                    workExportContext.setIndented(cmd.hasOption("indented"));
+                    workExportContext.setReindex(false);
+                    workExportContext.setMetadataFilterFlag(false);
+                    new ExportService(Preferences.getInstance()).export(
+                        work,
+                        generateSip ? ExportType.SIP_ALL : ExportType.SIP_MANIFEST,
+                        spl
+                    );
                 }
 
                 end = Instant.now();

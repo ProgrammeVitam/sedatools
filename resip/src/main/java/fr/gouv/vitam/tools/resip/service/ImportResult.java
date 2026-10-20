@@ -40,7 +40,6 @@ package fr.gouv.vitam.tools.resip.service;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 
@@ -93,15 +92,5 @@ public class ImportResult {
             dataObjectPackage.getManagementMetadataXmlData()
         );
         return new Work(dataObjectPackage, creationContext, exportContext);
-    }
-
-    /**
-     * @return the archive transfer of the import, in the SEDA version of its package
-     */
-    public ArchiveTransfer toArchiveTransfer() {
-        ArchiveTransfer archiveTransfer = new ArchiveTransfer(dataObjectPackage.getSedaVersion());
-        archiveTransfer.setDataObjectPackage(dataObjectPackage);
-        archiveTransfer.setGlobalMetadata(globalMetadata);
-        return archiveTransfer;
     }
 }

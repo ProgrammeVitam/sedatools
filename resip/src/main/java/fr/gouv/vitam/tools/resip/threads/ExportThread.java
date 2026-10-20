@@ -40,19 +40,14 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.service.ExportService;
+import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.io.File;
-import java.text.DecimalFormat;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
@@ -64,32 +59,10 @@ public class ExportThread extends SwingWorker<String, String> {
     /**
      * The Sip all export.
      */
-    public static final int SIP_ALL_EXPORT = 1;
-    /**
-     * The Sip manifest export.
-     */
-    public static final int SIP_MANIFEST_EXPORT = 2;
-    /**
-     * The Disk export.
-     */
-    public static final int DISK_EXPORT = 3;
-    /**
-     * The Csv all disk export.
-     */
-    public static final int CSV_ALL_DISK_EXPORT = 4;
-    /**
-     * The Csv metadata file export.
-     */
-    public static final int CSV_METADATA_FILE_EXPORT = 5;
-    /**
-     * The Csv all zip export.
-     */
-    public static final int CSV_ALL_ZIP_EXPORT = 6;
-
     //input
     private Work work;
     private InOutDialog inOutDialog;
-    private int exportType;
+    private ExportType exportType;
     //run output
     private String summary;
     private Throwable exitThrowable;
@@ -103,7 +76,7 @@ public class ExportThread extends SwingWorker<String, String> {
      * @param exportType the export type
      * @param dialog     the dialog
      */
-    public ExportThread(Work work, int exportType, InOutDialog dialog) {
+    public ExportThread(Work work, ExportType exportType, InOutDialog dialog) {
         this.work = work;
         this.exportType = exportType;
         dialog.setThread(this);
@@ -111,17 +84,24 @@ public class ExportThread extends SwingWorker<String, String> {
         this.exitThrowable = null;
     }
 
-    /**
-     * Readable file size.
-     *
-     * @param size the size
-     * @return the string
-     */
-    public static String readableFileSize(long size) {
-        if (size <= 0) return "0";
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    private static String getExportDescription(ExportType exportType, Work work) {
+        String output = work.getExportContext().getOnDiskOutput();
+        switch (exportType) {
+            case SIP_MANIFEST:
+                return "Export du manifest SEDA en " + output + "\n";
+            case SIP_ALL:
+                return "Export du SIP SEDA en " + output + "\n";
+            case DISK:
+                return "Export en hiérarchie disque complète en " + output + "\n";
+            case CSV_ALL_ZIP:
+                return (
+                    "Export en hiérarchie disque simplifiée dans un zip avec fichier csv des métadonnées " +
+                    output +
+                    "\n"
+                );
+            default:
+                return "Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + output + "\n";
+        }
     }
 
     @Override
@@ -152,131 +132,9 @@ public class ExportThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            // first verify and reindex if neccesary
-            if (work.getExportContext().isReindex()) {
-                work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.mainWindow.treePane.allTreeChanged();
-            }
-
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
-            work
-                .getDataObjectPackage()
-                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-            if (work.getExportContext().isMetadataFilterFlag()) work
-                .getDataObjectPackage()
-                .setExportMetadataList(work.getExportContext().getKeptMetadataList());
-            else work.getDataObjectPackage().setExportMetadataList(null);
-            switch (exportType) {
-                case SIP_MANIFEST_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export du manifest SEDA en " + work.getExportContext().getOnDiskOutput() + "\n"
-                    );
-                    ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
-                    sm.doExportToSEDAXMLManifest(
-                        work.getExportContext().getOnDiskOutput(),
-                        work.getExportContext().isHierarchicalArchiveUnits(),
-                        work.getExportContext().isIndented()
-                    );
-                    doProgressLog(
-                        spl,
-                        GLOBAL,
-                        "resip: fichier sauvegardé (" +
-                        readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) +
-                        ")",
-                        null
-                    );
-                    summary = sm.getSummary();
-                    break;
-                case SIP_ALL_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export du SIP SEDA en " + work.getExportContext().getOnDiskOutput() + "\n"
-                    );
-                    ArchiveTransferToSIPExporter smm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
-                    smm.doExportToSEDASIP(
-                        work.getExportContext().getOnDiskOutput(),
-                        work.getExportContext().isHierarchicalArchiveUnits(),
-                        work.getExportContext().isIndented()
-                    );
-                    doProgressLog(
-                        spl,
-                        GLOBAL,
-                        "resip: fichier sauvegardé (" +
-                        readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) +
-                        ")",
-                        null
-                    );
-                    summary = smm.getSummary();
-                    break;
-                case DISK_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export en hiérarchie disque complète en " + work.getExportContext().getOnDiskOutput() + "\n"
-                    );
-                    ArchiveTransferToDiskExporter de = new ArchiveTransferToDiskExporter(archiveTransfer, spl);
-                    de.doExport(work.getExportContext().getOnDiskOutput());
-                    summary = de.getSummary();
-                    break;
-                case CSV_ALL_DISK_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " +
-                        work.getExportContext().getOnDiskOutput() +
-                        "\n"
-                    );
-                    CSVImportContext cmic = new CSVImportContext(Preferences.getInstance());
-                    DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
-                        archiveTransfer.getDataObjectPackage(),
-                        work.getExportContext().getCsvCharsetName(),
-                        cmic.getDelimiter(),
-                        work.getExportContext().getUsageVersionSelectionMode(),
-                        work.getExportContext().isCsvExtendedFormat(),
-                        work.getExportContext().getMaxNameSize(),
-                        spl
-                    );
-                    cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput(), "metadata.csv");
-                    summary = cme.getSummary();
-                    break;
-                case CSV_ALL_ZIP_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export en hiérarchie disque simplifiée dans un zip avec fichier csv des métadonnées " +
-                        work.getExportContext().getOnDiskOutput() +
-                        "\n"
-                    );
-                    CSVImportContext cmicz = new CSVImportContext(Preferences.getInstance());
-                    DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
-                        archiveTransfer.getDataObjectPackage(),
-                        work.getExportContext().getCsvCharsetName(),
-                        cmicz.getDelimiter(),
-                        work.getExportContext().getUsageVersionSelectionMode(),
-                        work.getExportContext().isCsvExtendedFormat(),
-                        work.getExportContext().getMaxNameSize(),
-                        spl
-                    );
-                    cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput(), "metadata.csv");
-                    summary = cmez.getSummary();
-                    break;
-                case CSV_METADATA_FILE_EXPORT:
-                    inOutDialog.extProgressTextArea.setText(
-                        "Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " +
-                        work.getExportContext().getOnDiskOutput() +
-                        "\n"
-                    );
-                    CSVImportContext cmicm = new CSVImportContext(Preferences.getInstance());
-                    DataObjectPackageToCSVMetadataExporter cmem = new DataObjectPackageToCSVMetadataExporter(
-                        archiveTransfer.getDataObjectPackage(),
-                        work.getExportContext().getCsvCharsetName(),
-                        cmicm.getDelimiter(),
-                        work.getExportContext().getUsageVersionSelectionMode(),
-                        work.getExportContext().isCsvExtendedFormat(),
-                        work.getExportContext().getMaxNameSize(),
-                        spl
-                    );
-                    cmem.doExportToCSVMetadataFile(work.getExportContext().getOnDiskOutput());
-                    summary = cmem.getSummary();
-                    break;
-                default:
-                    throw new ResipException("Export attendu inconnu");
-            }
+            inOutDialog.extProgressTextArea.setText(getExportDescription(exportType, work));
+            summary = new ExportService(Preferences.getInstance()).export(work, exportType, spl);
+            if (work.getExportContext().isReindex()) ResipGraphicApp.mainWindow.treePane.allTreeChanged();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
