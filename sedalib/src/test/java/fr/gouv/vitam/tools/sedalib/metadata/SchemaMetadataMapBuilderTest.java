@@ -115,4 +115,12 @@ class SchemaMetadataMapBuilderTest {
             SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_1).keySet()
         );
     }
+
+    @Test
+    void servesTheMapsOfTheFirstVersionWhenNoneIsSet() throws Exception {
+        // ReSIP builds an ArchiveTransfer before any version is set, as WorkTest does
+        assertThat(SchemaMetadataMapBuilder.get(Content.class, null).keySet()).isEqualTo(
+            SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_1).keySet()
+        );
+    }
 }

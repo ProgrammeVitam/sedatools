@@ -370,6 +370,8 @@ public final class SchemaMetadataMapBuilder {
      */
     public static LinkedHashMap<String, ComplexListMetadataKind> get(Class<?> clazz, SedaVersion version)
         throws SEDALibException {
+        // the cache can't key on a missing version, which is served the maps it stands for
+        if (version == null) version = bundledVersion(null);
         Map<SedaVersion, LinkedHashMap<String, ComplexListMetadataKind>> byVersion = CACHE.computeIfAbsent(
             clazz,
             c -> new EnumMap<>(SedaVersion.class)
@@ -423,8 +425,7 @@ public final class SchemaMetadataMapBuilder {
         throws SEDALibException {
         String typeName = XSD_TYPE_BY_CLASS.get(clazz);
         if (typeName == null) return null;
-        // no XSD is bundled for the 2.0, which sedalib has always served the 2.1 maps for
-        SedaVersion bundled = version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
+        SedaVersion bundled = bundledVersion(version);
         fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion = bundled.getSchemaVersion();
         if (schemaVersion == null) return null;
         ComplexTypeDef type;
@@ -441,6 +442,16 @@ public final class SchemaMetadataMapBuilder {
             addition.owner.equals(clazz) && bundled.isBetween(addition.since, addition.until)
         ) map.put(addition.name, new ComplexListMetadataKind(addition.metadataClass, addition.many));
         return map;
+    }
+
+    /**
+     * @param version the SEDA version, null when none is set
+     * @return the version whose XSD serves it: no XSD is bundled for the 2.0, which sedalib has
+     * always served the 2.1 maps for, and with no version set the hand written maps served their
+     * first one, the 2.1 one
+     */
+    private static SedaVersion bundledVersion(SedaVersion version) {
+        return version == null || version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
     }
 
     private static void collect(
