@@ -45,7 +45,6 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DIPToArchiveDeliveryRequestReplyImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
@@ -65,7 +64,6 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestDIP.zip",
             "target/tmpJunit/TestDIP.zip-tmpdir",
             null

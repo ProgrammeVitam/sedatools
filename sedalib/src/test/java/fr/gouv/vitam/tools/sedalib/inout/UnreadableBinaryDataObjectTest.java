@@ -67,7 +67,6 @@ class UnreadableBinaryDataObjectTest implements UseTestFiles {
     private static SIPToArchiveTransferImporter importSampleSip(String tmpDir) throws Exception {
         TestUtilities.eraseAll(tmpDir);
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SIP_OK.zip",
             tmpDir,
             null

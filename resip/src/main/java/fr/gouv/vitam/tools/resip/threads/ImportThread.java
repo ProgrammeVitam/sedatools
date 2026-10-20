@@ -40,6 +40,8 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
@@ -215,12 +217,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         SIPImportContext sic = (SIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(sic.getWorkDir(), sic.getOnDiskInput());
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            sedaVersion,
-            sic.getOnDiskInput(),
-            target,
-            spl
-        );
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(), target, spl);
         si.doImport();
         setWorkFromArchiveTransfer(si.getArchiveTransfer());
         summary = si.getSummary();
@@ -233,7 +230,6 @@ public class ImportThread extends SwingWorker<String, String> {
         DIPImportContext dic = (DIPImportContext) work.getCreationContext();
         String target = getTmpDirTarget(dic.getWorkDir(), dic.getOnDiskInput());
         DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
-            sedaVersion,
             dic.getOnDiskInput(),
             target,
             spl
@@ -397,6 +393,20 @@ public class ImportThread extends SwingWorker<String, String> {
                 exitThrowable
             );
         } else {
+            // a SIP or a DIP is read in the version of its manifest, the interface switches to it
+            SedaVersion workSedaVersion = work.getDataObjectPackage().getSedaVersion();
+            if (workSedaVersion != sedaVersion) {
+                EventBus.publish(new SedaVersionChangedEvent(workSedaVersion));
+                theApp.treatmentParameters.toPrefs(Preferences.getInstance());
+                doProgressLogWithoutInterruption(
+                    spl,
+                    GLOBAL,
+                    "resip: le manifest est en " +
+                    workSedaVersion.displayString() +
+                    ", l'interface passe dans cette version",
+                    null
+                );
+            }
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;
             theApp.setFilenameWork(null);

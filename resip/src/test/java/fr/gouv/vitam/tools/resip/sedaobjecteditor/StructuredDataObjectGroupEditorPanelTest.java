@@ -43,7 +43,6 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 
 import javax.swing.*;
@@ -65,7 +64,6 @@ public class StructuredDataObjectGroupEditorPanelTest {
         dialog.setPreferredSize(new Dimension(600, 600));
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "sedalib/src/test/resources/PacketSamples/TestSipDogMerge.zip",
             "target/tmpJunit/TestSipDogMerge.zip-tmpdir",
             null

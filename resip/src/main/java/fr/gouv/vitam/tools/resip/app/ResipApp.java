@@ -521,7 +521,6 @@ public class ResipApp {
                         Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() +
                         "-tmpdir";
                     SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                        sedaVersion,
                         sipImportContext.getOnDiskInput(),
                         target,
                         spl

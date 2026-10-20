@@ -94,6 +94,17 @@ public enum SedaVersion {
     }
 
     /**
+     * @param namespace the namespace of a SEDA manifest
+     * @return the version with bundled XSD of this namespace, or null if there is none
+     */
+    public static SedaVersion fromNamespace(String namespace) {
+        for (SedaVersion version : withSchema()) if (
+            version.getSchemaVersion().getNamespace().equals(namespace)
+        ) return version;
+        return null;
+    }
+
+    /**
      * @return the versions with bundled XSD, the ones a manifest can be written and validated in
      */
     public static List<SedaVersion> withSchema() {

@@ -39,7 +39,6 @@ package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -91,11 +90,6 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
      * The start, end of import process.
      */
     Instant start, end;
-
-    /**
-     * The SEDA version of the imported package.
-     */
-    private final SedaVersion sedaVersion;
 
     /**
      * The progress logger.
@@ -191,14 +185,12 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
     /**
      * Instantiates a new SEDA DIP importer.
      *
-     * @param sedaVersion the SEDA version of the imported package
      * @param zipFile               the zip file
      * @param unCompressDirectory   the directory where the zipfile is uncompressed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
     public DIPToArchiveDeliveryRequestReplyImporter(
-        SedaVersion sedaVersion,
         String zipFile,
         String unCompressDirectory,
         SEDALibProgressLogger sedaLibProgressLogger
@@ -226,7 +218,6 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
 
         this.zipFile = zipFile;
         this.unCompressDirectory = unCompressDirectory;
-        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
@@ -255,7 +246,6 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
         ) {
             archiveDeliveryRequestReply = ArchiveDeliveryRequestReply.fromSedaXml(
                 xmlReader,
-                sedaVersion,
                 unCompressDirectory,
                 sedaLibProgressLogger
             );

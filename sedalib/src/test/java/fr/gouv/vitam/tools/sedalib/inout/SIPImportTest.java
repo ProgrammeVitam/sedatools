@@ -72,7 +72,6 @@ class SIPImportTest implements UseTestFiles {
         // do import of test directory
         TestUtilities.eraseAll("target/tmpJunit/SipOK.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SIP_OK.zip",
             "target/tmpJunit/SipOK.zip-tmpdir",
             null
@@ -297,7 +296,6 @@ class SIPImportTest implements UseTestFiles {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip",
             "target/tmpJunit/TestSipWrongDogReferences.zip-tmpdir",
             null

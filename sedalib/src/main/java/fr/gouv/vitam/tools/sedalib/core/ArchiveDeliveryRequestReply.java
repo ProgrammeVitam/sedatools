@@ -165,17 +165,26 @@ public class ArchiveDeliveryRequestReply {
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
-    private static void importStartDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
+    private static SedaVersion importStartDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
+        String namespace;
         try {
             event = xmlReader.nextUsefullEvent();
             if (!event.isStartDocument()) throw new SEDALibException("Pas de document XML");
+            event = xmlReader.peekUsefullEvent();
+            namespace = event.isStartElement() ? event.asStartElement().getName().getNamespaceURI() : null;
             if (!xmlReader.nextBlockIfNamed("ArchiveDeliveryRequestReply")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML", e);
         }
+        // the version of the manifest is the one of its namespace
+        SedaVersion sedaVersion = SedaVersion.fromNamespace(namespace);
+        if (sedaVersion == null) throw new SEDALibException(
+            "Le manifest n'est pas dans une version SEDA connue, son espace de noms est [" + namespace + "]"
+        );
+        return sedaVersion;
     }
 
     /**
@@ -369,23 +378,24 @@ public class ArchiveDeliveryRequestReply {
     /**
      * Import the whole structure from XML SEDA Manifest.
      *
+     * The SEDA version is the one of the manifest namespace.
+     *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
-     * @param sedaVersion           the SEDA version of the manifest
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveDeliveryRequestReply
-     * @throws SEDALibException     if the XML can't be read or is not in expected form
+     * @throws SEDALibException     if the XML can't be read, is not in expected form or not in a known
+     *                              SEDA version
      * @throws InterruptedException if export process is interrupted
      */
     public static ArchiveDeliveryRequestReply fromSedaXml(
         SEDAXMLEventReader xmlReader,
-        SedaVersion sedaVersion,
         String rootDir,
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException, InterruptedException {
         ArchiveDeliveryRequestReply archiveDeliveryRequestReply;
-        importStartDocument(xmlReader);
+        SedaVersion sedaVersion = importStartDocument(xmlReader);
         archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply(sedaVersion);
         archiveDeliveryRequestReply.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);

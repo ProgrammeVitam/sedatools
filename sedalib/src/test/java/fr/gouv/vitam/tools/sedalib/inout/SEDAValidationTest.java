@@ -250,7 +250,6 @@ class SEDAValidationTest implements UseTestFiles {
         // given
         TestUtilities.eraseAll("target/tmpJunit/OK_468.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/OK_468.zip",
             "target/tmpJunit/OK_468.zip-tmpdir",
             null
@@ -268,7 +267,6 @@ class SEDAValidationTest implements UseTestFiles {
         // given
         TestUtilities.eraseAll("target/tmpJunit/KO_468.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/KO_468.zip",
             "target/tmpJunit/KO_468.zip-tmpdir",
             null
@@ -309,7 +307,6 @@ class SEDAValidationTest implements UseTestFiles {
     void shouldGiveTheSameAnomaliesWhenTheProfileCheckIsReplayed() throws Exception {
         TestUtilities.eraseAll("target/tmpJunit/KO_468_replay.zip-tmpdir");
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/KO_468.zip",
             "target/tmpJunit/KO_468_replay.zip-tmpdir",
             null
