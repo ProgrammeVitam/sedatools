@@ -49,6 +49,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -81,6 +82,11 @@ import java.util.Map;
  */
 
 public class TestSipGeneratorApp {
+
+    /**
+     * The SEDA version of the generated SIP.
+     */
+    private static final SedaVersion SEDA_VERSION = SedaVersion.V2_1;
 
     static final int ZERO_CONTENT = 0;
     static final int TEXT_CONTENT = 1;
@@ -298,7 +304,7 @@ public class TestSipGeneratorApp {
             if (StringUtils.isNotBlank(gms)) {
                 Map<String, ComplexListMetadataKind> contentMetadataMap;
                 try {
-                    contentMetadataMap = ComplexListInterface.getMetadataMap(Content.class);
+                    contentMetadataMap = ComplexListInterface.getMetadataMap(Content.class, SEDA_VERSION);
                 } catch (SEDALibException e) {
                     System.err.println("Impossible de lire les métadonnées de Content: " + e.getMessage());
                     System.exit(1);
@@ -518,11 +524,11 @@ public class TestSipGeneratorApp {
         bdo.addMetadata(new DigestType("MessageDigest", digest, "SHA-512"));
         bdo.addNewMetadata("Size", lsize);
         if (contentType == TEXT_CONTENT) bdo.addMetadata(
-            new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null)
+            new FormatIdentification(bdo.getSedaVersion(), "Plain Text File", "text/plain", "x-fmt/111", null)
         );
         else bdo.addNewMetadata("FormatIdentification", "Unknown", null, null, null);
 
-        FileInfo fileInfo = new FileInfo();
+        FileInfo fileInfo = new FileInfo(bdo.getSedaVersion());
         fileInfo.addNewMetadata("Filename", lfilename);
         fileInfo.addNewMetadata("LastModified", llastModified.toString());
         bdo.addMetadata(fileInfo);
@@ -553,7 +559,7 @@ public class TestSipGeneratorApp {
             null,
             100
         );
-        try (SIPBuilder sb = new SIPBuilder(outPath.toString(), spl)) {
+        try (SIPBuilder sb = new SIPBuilder(SEDA_VERSION, outPath.toString(), spl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("Accepte_les_objets_non_identifies");
             sb.createRootArchiveUnit(

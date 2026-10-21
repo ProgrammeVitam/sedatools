@@ -222,6 +222,7 @@ public class ExpandThread extends SwingWorker<String, String> {
                 bdoToExpand.getInDataObjectPackageId()
             );
             zi = new CompressedFileToArchiveTransferImporter(
+                bdoToExpand.getSedaVersion(),
                 bdoToExpand.getOnDiskPathToString(),
                 target,
                 null,

@@ -39,7 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.Operation;
 import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentContainer;
@@ -84,6 +83,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaSchema;
 import fr.gouv.vitam.tools.sedaschema.SedaSchemaException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import fr.gouv.vitam.tools.sedaschema.model.ComplexTypeDef;
 import fr.gouv.vitam.tools.sedaschema.model.ElementDef;
 import fr.gouv.vitam.tools.sedaschema.model.Particle;
@@ -94,6 +94,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -377,8 +378,7 @@ public final class SchemaMetadataMapBuilder {
      */
     public static LinkedHashMap<String, ComplexListMetadataKind> get(Class<?> clazz, SedaVersion version)
         throws SEDALibException {
-        // the cache can't key on a missing version, which is served the maps it stands for
-        if (version == null) version = bundledVersion(null);
+        Objects.requireNonNull(version, "La version SEDA est obligatoire");
         Map<SedaVersion, LinkedHashMap<String, ComplexListMetadataKind>> byVersion = CACHE.computeIfAbsent(
             clazz,
             c -> new EnumMap<>(SedaVersion.class)
@@ -432,12 +432,9 @@ public final class SchemaMetadataMapBuilder {
         throws SEDALibException {
         String typeName = XSD_TYPE_BY_CLASS.get(clazz);
         if (typeName == null) return null;
-        SedaVersion bundled = bundledVersion(version);
-        fr.gouv.vitam.tools.sedaschema.SedaVersion schemaVersion = bundled.getSchemaVersion();
-        if (schemaVersion == null) return null;
         ComplexTypeDef type;
         try {
-            type = SedaSchema.of(schemaVersion, SedaFlavor.VITAM).getComplexType(typeName);
+            type = SedaSchema.of(version, SedaFlavor.VITAM).getComplexType(typeName);
         } catch (SedaSchemaException e) {
             throw new SEDALibException("Lecture du schéma SEDA " + version + " impossible", e);
         }
@@ -446,19 +443,9 @@ public final class SchemaMetadataMapBuilder {
         collect(clazz, type.getContent(), false, map);
         map.keySet().removeAll(EXCLUDED.getOrDefault(clazz, Set.of()));
         for (Addition addition : ADDITIONS) if (
-            addition.owner.equals(clazz) && bundled.isBetween(addition.since, addition.until)
+            addition.owner.equals(clazz) && version.isBetween(addition.since, addition.until)
         ) map.put(addition.name, new ComplexListMetadataKind(addition.metadataClass, addition.many));
         return map;
-    }
-
-    /**
-     * @param version the SEDA version, null when none is set
-     * @return the version whose XSD serves it: no XSD is bundled for the 2.0, which sedalib has
-     * always served the 2.1 maps for, and with no version set the hand written maps served their
-     * first one, the 2.1 one
-     */
-    private static SedaVersion bundledVersion(SedaVersion version) {
-        return version == null || version == SedaVersion.V2_0 ? SedaVersion.V2_1 : version;
     }
 
     private static void collect(

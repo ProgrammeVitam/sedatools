@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
@@ -47,9 +46,9 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -67,7 +66,6 @@ import static fr.gouv.vitam.tools.sedalib.TestUtilities.eraseAll;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.ALL_DATAOBJECTS;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 class CSVMetadataExporterTest {
 
     private static final String TEMPORARY_FILE = "target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv";
@@ -202,6 +200,7 @@ class CSVMetadataExporterTest {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );
@@ -244,6 +243,7 @@ class CSVMetadataExporterTest {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );
@@ -281,6 +281,7 @@ class CSVMetadataExporterTest {
 
     private static DataObjectPackage importSampleDirectory() throws SEDALibException, InterruptedException {
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );
@@ -340,6 +341,7 @@ class CSVMetadataExporterTest {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );
@@ -381,6 +383,7 @@ class CSVMetadataExporterTest {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2",
             null
         );
@@ -424,12 +427,12 @@ class CSVMetadataExporterTest {
 
     @Test
     void exportCSVWithArchiveUnitProfile() throws SEDALibException, InterruptedException, IOException {
-        DataObjectPackage dop = new DataObjectPackage();
+        DataObjectPackage dop = new DataObjectPackage(SedaVersion.V2_1);
         ArchiveUnit au = new ArchiveUnit();
         au.setInDataObjectPackageId("AU1");
+        dop.addArchiveUnit(au);
         au.setDefaultContent("Title AU1", "Item");
         au.setArchiveUnitProfile(new ArchiveUnitProfile("MyProfile"));
-        dop.addArchiveUnit(au);
         dop.addRootAu(au);
 
         DataObjectPackageToCSVMetadataExporter csvMetadataExporter;

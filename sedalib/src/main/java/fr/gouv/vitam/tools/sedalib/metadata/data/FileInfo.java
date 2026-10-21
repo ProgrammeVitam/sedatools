@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
@@ -59,14 +60,26 @@ public class FileInfo extends ComplexListType {
 
     /**
      * Instantiates a new file info.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public FileInfo() {
+    public FileInfo(SedaVersion sedaVersion) {
+        super(sedaVersion, "FileInfo");
+    }
+
+    /**
+     * Instantiates a new FileInfo for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private FileInfo() {
         super("FileInfo");
     }
 
     /**
      * Instantiates a new file info.
      *
+     * @param sedaVersion the SEDA version
      * @param filename                   the filename
      * @param creatingApplicationName    the creating application name
      * @param creatingApplicationVersion the creating application version
@@ -77,6 +90,7 @@ public class FileInfo extends ComplexListType {
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public FileInfo(
+        SedaVersion sedaVersion,
         String filename,
         String creatingApplicationName,
         String creatingApplicationVersion,
@@ -85,7 +99,7 @@ public class FileInfo extends ComplexListType {
         String creatingOsVersion,
         FileTime lastModified
     ) throws SEDALibException {
-        super("FileInfo");
+        super(sedaVersion, "FileInfo");
         if (filename != null) addNewMetadata("Filename", filename);
         if (creatingApplicationName != null) addNewMetadata("CreatingApplicationName", creatingApplicationName);
         if (creatingApplicationVersion != null) addNewMetadata(

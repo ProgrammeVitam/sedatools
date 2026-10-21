@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class AgencyType.
@@ -51,21 +52,24 @@ public class DataObjectOrArchiveUnitReferenceType extends ComplexListType {
     /**
      * Instantiates a new reference to SIP internal or external reference.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName the element name
      */
-    public DataObjectOrArchiveUnitReferenceType(String elementName) {
-        super(elementName);
+    public DataObjectOrArchiveUnitReferenceType(SedaVersion sedaVersion, String elementName) {
+        super(sedaVersion, elementName);
     }
 
     /**
      * Instantiates a new reference to SIP internal or external reference with a DataObjectGroupID.
      *
+     * @param sedaVersion the SEDA version
      * @param elementName       the element name
      * @param dataObjectGroupID the data object group id
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DataObjectOrArchiveUnitReferenceType(String elementName, String dataObjectGroupID) throws SEDALibException {
-        super(elementName);
+    public DataObjectOrArchiveUnitReferenceType(SedaVersion sedaVersion, String elementName, String dataObjectGroupID)
+        throws SEDALibException {
+        super(sedaVersion, elementName);
         addNewMetadata(DATAOBJECTREFERENCE, null, dataObjectGroupID);
     }
 }

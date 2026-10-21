@@ -41,7 +41,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
@@ -50,8 +49,8 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackage
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -64,7 +63,6 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 class CSVMetadataToDataObjectPackageImporterTest {
 
     /**
@@ -85,6 +83,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             bomCsv.toString(),
             "UTF-8",
             ';',
@@ -111,6 +110,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/MetadataTestOK1col.csv",
             "windows-1252",
             ';',
@@ -173,6 +173,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/MetadataTestOK3col.csv",
             "windows-1252",
             ';',
@@ -201,6 +202,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/MetadataTestManagementOK3col.csv",
             "windows-1252",
             ';',
@@ -227,6 +229,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/MetadataTestTagKO.csv",
             "windows-1252",
             ';',
@@ -250,6 +253,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/MetadataTestLineKO.csv",
             "windows-1252",
             ';',
@@ -270,6 +274,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
         Files.write(csvFile, csvContent.getBytes(StandardCharsets.UTF_8));
 
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             csvFile.toString(),
             "UTF-8",
             ';',

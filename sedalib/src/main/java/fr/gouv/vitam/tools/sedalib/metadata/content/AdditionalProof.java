@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class AdditionalProof.
@@ -55,19 +56,22 @@ public class AdditionalProof extends ComplexListType {
 
     /**
      * Instantiates a new additional evidence.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public AdditionalProof() {
-        super("AdditionalProof");
+    public AdditionalProof(SedaVersion sedaVersion) {
+        super(sedaVersion, "AdditionalProof");
     }
 
     /**
      * Creates a new instance of AdditionalProof.
      *
+     * @param sedaVersion the SEDA version
      * @param additionalProofInformation the additional proof information
      * @throws SEDALibException if sub-elements construction fails (not expected to occur)
      */
-    public AdditionalProof(String additionalProofInformation) throws SEDALibException {
-        super("AdditionalProof");
+    public AdditionalProof(SedaVersion sedaVersion, String additionalProofInformation) throws SEDALibException {
+        super(sedaVersion, "AdditionalProof");
         if (additionalProofInformation != null) addNewMetadata(
             "AdditionalProofInformation",
             additionalProofInformation

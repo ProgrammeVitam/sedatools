@@ -37,9 +37,9 @@
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -70,11 +70,9 @@ public class SEDAXMLValidator {
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
-    public static Schema getSEDASchema() throws SEDALibException {
-        fr.gouv.vitam.tools.sedaschema.SedaVersion version = SedaContext.getVersion().getSchemaVersion();
-        if (version == null) throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
+    public static Schema getSEDASchema(SedaVersion sedaVersion) throws SEDALibException {
         // the XSD Vitam implements, bundled by seda-schema along with the official one
-        String resource = version.getMainXsdResource(SedaFlavor.VITAM);
+        String resource = sedaVersion.getMainXsdResource(SedaFlavor.VITAM);
         return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(resource));
     }
 

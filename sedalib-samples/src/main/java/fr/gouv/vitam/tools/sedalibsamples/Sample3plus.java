@@ -45,6 +45,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -70,7 +71,7 @@ public class Sample3plus {
             LoggerFactory.getLogger("sedalibsamples"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("sedalib-samples/samples/Sample3plus.zip", pl)) {
+        try (SIPBuilder sb = new SIPBuilder(SedaVersion.V2_1, "sedalib-samples/samples/Sample3plus.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createSystemExistingRootArchiveUnit(
@@ -108,19 +109,19 @@ public class Sample3plus {
                 Content content = sb.getContent(procId);
                 content.addNewMetadata("OriginatingSystemId", procId);
                 content.addNewMetadata("RegisteredDate", registeredDate);
-                Event event = new Event();
+                Event event = new Event(content.getSedaVersion());
                 event.addNewMetadata("EventTypeCode", "Avis administratif");
                 event.addNewMetadata("EventDateTime", resultDate);
                 event.addNewMetadata("Outcome", result);
                 content.addMetadata(event);
-                AgentType requirer = new AgentType("Requirer");
+                AgentType requirer = new AgentType(content.getSedaVersion(), "Requirer");
                 requirer.addNewMetadata("Identifier", requirerId);
                 requirer.addNewMetadata("FirstName", firstname);
                 requirer.addNewMetadata("BirthName", birthname);
                 content.addMetadata(requirer);
                 sb.setContent(procId, content);
                 Management management = sb.getManagement(procId);
-                AppraisalRule appraisalRule = new AppraisalRule();
+                AppraisalRule appraisalRule = new AppraisalRule(content.getSedaVersion());
                 appraisalRule.addRule("APP-1069001", resultDate.toLocalDate());
                 appraisalRule.setFinalAction("Destroy");
                 management.addMetadata(appraisalRule);

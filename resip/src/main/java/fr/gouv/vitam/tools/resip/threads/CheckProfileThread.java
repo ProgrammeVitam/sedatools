@@ -113,7 +113,7 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+            ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
             work
                 .getDataObjectPackage()
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());

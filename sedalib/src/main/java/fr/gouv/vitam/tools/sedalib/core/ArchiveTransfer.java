@@ -38,13 +38,13 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
@@ -81,14 +81,34 @@ public class ArchiveTransfer {
     // Constructors
 
     /**
-     * Instantiates a new archive transfer. Used for json deserialization.
+     * Instantiates an archive transfer for json deserialization, which sets its DataObjectPackage
+     * and so its SEDA version.
      */
-    public ArchiveTransfer() {
+    private ArchiveTransfer() {
         this.globalMetadata = null;
-        this.setDataObjectPackage(new DataObjectPackage());
+    }
+
+    /**
+     * Instantiates a new archive transfer.
+     *
+     * @param sedaVersion the SEDA version of the archive transfer
+     */
+    public ArchiveTransfer(SedaVersion sedaVersion) {
+        this.globalMetadata = null;
+        this.setDataObjectPackage(new DataObjectPackage(sedaVersion));
     }
 
     // Methods
+
+    /**
+     * Gets the SEDA version, the one of its DataObjectPackage.
+     *
+     * @return the SEDA version
+     */
+    @JsonIgnore
+    public SedaVersion getSedaVersion() {
+        return dataObjectPackage.getSedaVersion();
+    }
 
     /**
      * Gets the summary description of ArchiveTransfer. It list the number of
@@ -118,19 +138,15 @@ public class ArchiveTransfer {
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
 
-            final fr.gouv.vitam.tools.sedaschema.SedaVersion schema = SedaContext.getVersion().getSchemaVersion();
-            if (schema == null) throw new SEDALibException(
-                "Version [" + SedaContext.getVersion() + "] sans schéma",
-                null
-            );
-            final String mainXsd = schema.getMainXsdResource();
-            xmlWriter.writeDefaultNamespace(schema.getNamespace());
+            final SedaVersion sedaVersion = getSedaVersion();
+            final String mainXsd = sedaVersion.getMainXsdResource();
+            xmlWriter.writeDefaultNamespace(sedaVersion.getNamespace());
             xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
             xmlWriter.writeAttribute(
                 "xsi",
                 "http://www.w3.org/2001/XMLSchema-instance",
                 "schemaLocation",
-                schema.getNamespace() + " " + mainXsd.substring(mainXsd.lastIndexOf('/') + 1)
+                sedaVersion.getNamespace() + " " + mainXsd.substring(mainXsd.lastIndexOf('/') + 1)
             );
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
@@ -236,17 +252,26 @@ public class ArchiveTransfer {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importStartDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
+    private static SedaVersion importStartDocument(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
+        String namespace;
         try {
             event = xmlReader.nextUsefullEvent();
             if (!event.isStartDocument()) throw new SEDALibException("Pas de document XML");
+            event = xmlReader.peekUsefullEvent();
+            namespace = event.isStartElement() ? event.asStartElement().getName().getNamespaceURI() : null;
             if (!xmlReader.nextBlockIfNamed("ArchiveTransfer")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML", e);
         }
+        // the version of the manifest is the one of its namespace
+        SedaVersion sedaVersion = SedaVersion.fromNamespace(namespace);
+        if (sedaVersion == null) throw new SEDALibException(
+            "Le manifest n'est pas dans une version SEDA connue, son espace de noms est [" + namespace + "]"
+        );
+        return sedaVersion;
     }
 
     /**
@@ -331,12 +356,15 @@ public class ArchiveTransfer {
     /**
      * Import the whole structure from XML SEDA Manifest.
      *
+     * The SEDA version is the one of the manifest namespace.
+     *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveTransfer
-     * @throws SEDALibException     if the XML can't be read or is not in expected form
+     * @throws SEDALibException     if the XML can't be read, is not in expected form or not in a known
+     *                              SEDA version
      * @throws InterruptedException if export process is interrupted
      */
     public static ArchiveTransfer fromSedaXml(
@@ -345,11 +373,13 @@ public class ArchiveTransfer {
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException, InterruptedException {
         ArchiveTransfer archiveTransfer;
-        importStartDocument(xmlReader);
-        archiveTransfer = new ArchiveTransfer();
+        SedaVersion sedaVersion = importStartDocument(xmlReader);
+        archiveTransfer = new ArchiveTransfer(sedaVersion);
         archiveTransfer.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveTransfer);
-        archiveTransfer.setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
+        archiveTransfer.setDataObjectPackage(
+            DataObjectPackage.fromSedaXml(xmlReader, sedaVersion, rootDir, sedaLibProgressLogger)
+        );
         importFooter(xmlReader, archiveTransfer);
         importEndDocument(xmlReader);
 
@@ -373,7 +403,7 @@ public class ArchiveTransfer {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
-        Schema sedaSchema = SEDAXMLValidator.getSEDASchema();
+        Schema sedaSchema = SEDAXMLValidator.getSEDASchema(getSedaVersion());
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 

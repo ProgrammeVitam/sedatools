@@ -273,7 +273,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                     if (!path.toString().endsWith("__ArchiveUnitMetadata.xml")) lp.add(path);
                 }
             }
-            di = new DiskToArchiveTransferImporter(lp, spl);
+            di = new DiskToArchiveTransferImporter(bdoToExpand.getSedaVersion(), lp, spl);
             for (String ip : new DiskImportContext(
                 Preferences.getInstance()
             ).getIgnorePatternList()) di.addIgnorePattern(ip);

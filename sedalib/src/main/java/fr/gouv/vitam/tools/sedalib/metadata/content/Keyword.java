@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class Keyword.
@@ -54,21 +55,25 @@ public class Keyword extends ComplexListType {
 
     /**
      * Instantiates a new keyword type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Keyword() {
-        super("Keyword");
+    public Keyword(SedaVersion sedaVersion) {
+        super(sedaVersion, "Keyword");
     }
 
     /**
      * Instantiates a new keyword type with KeywordContent, KeywordReference and KeywordType. If any is null, it's not added.
      *
+     * @param sedaVersion the SEDA version
      * @param keywordContent   the keyword content
      * @param keywordReference the keyword reference
      * @param keywordType      the keyword type
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Keyword(String keywordContent, String keywordReference, String keywordType) throws SEDALibException {
-        this();
+    public Keyword(SedaVersion sedaVersion, String keywordContent, String keywordReference, String keywordType)
+        throws SEDALibException {
+        this(sedaVersion);
         if (keywordContent != null) addNewMetadata("KeywordContent", keywordContent);
         if (keywordReference != null) addNewMetadata("KeywordReference", keywordReference);
         if (keywordType != null) addNewMetadata("KeywordType", keywordType);

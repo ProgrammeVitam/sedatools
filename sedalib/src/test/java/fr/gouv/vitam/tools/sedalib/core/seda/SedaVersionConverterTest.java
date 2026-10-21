@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.core.seda;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -46,9 +45,9 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.LinkingAgentIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -57,7 +56,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SedaContextExtension.class)
 public class SedaVersionConverterTest {
 
     private SEDALibProgressLogger logger;
@@ -108,15 +106,14 @@ public class SedaVersionConverterTest {
             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais)
         ) {
             xmlReader.nextUsefullEvent(); // skip StartDocument
-            dop = DataObjectPackage.fromSedaXml(xmlReader, "", logger);
+            dop = DataObjectPackage.fromSedaXml(xmlReader, SedaVersion.V2_1, "", logger);
         }
 
         // When
         SedaVersionConverter converter = new SedaVersionConverter(logger);
-        DataObjectPackage convertedDop = converter.convert(dop, SedaVersion.V2_1, SedaVersion.V2_2);
+        DataObjectPackage convertedDop = converter.convert(dop, SedaVersion.V2_2);
 
         // Then
-        SedaContext.setVersion(SedaVersion.V2_2); // Required to use correct metadata definitions
         Content content = convertedDop.getArchiveUnitById("ID10").getContent();
         boolean foundLinking = false;
 
@@ -137,10 +134,10 @@ public class SedaVersionConverterTest {
 
     @Test
     public void testConvert_sameVersion_throwsException() {
-        DataObjectPackage original = new DataObjectPackage();
+        DataObjectPackage original = new DataObjectPackage(SedaVersion.V2_2);
 
         SEDALibException thrown = assertThrows(SEDALibException.class, () -> {
-            converter.convert(original, SedaVersion.V2_2, SedaVersion.V2_2);
+            converter.convert(original, SedaVersion.V2_2);
         });
 
         assertTrue(thrown.getMessage().contains("identical"));
@@ -150,25 +147,12 @@ public class SedaVersionConverterTest {
     public void testConvert_interruptedDuringSerialization_propagates() throws Exception {
         // Given a DataObjectPackage that throws InterruptedException during toSedaXml
         DataObjectPackage mockPackage = mock(DataObjectPackage.class);
+        when(mockPackage.getSedaVersion()).thenReturn(SedaVersion.V2_1);
         doThrow(new InterruptedException("interrupted")).when(mockPackage).toSedaXml(any(), eq(true), any());
 
         // When + Then
         assertThrows(InterruptedException.class, () -> {
-            converter.convert(mockPackage, SedaVersion.V2_1, SedaVersion.V2_3);
+            converter.convert(mockPackage, SedaVersion.V2_3);
         });
-    }
-
-    @Test
-    public void shouldFailWhenSourceVersionAndContextVersionAreDifferent() {
-        DataObjectPackage original = new DataObjectPackage();
-
-        /**
-         * @see SedaContextExtension initial SEDA version is SedaVersion.V2_1
-         */
-        SEDALibException thrown = assertThrows(SEDALibException.class, () -> {
-            converter.convert(original, SedaVersion.V2_2, SedaVersion.V2_3);
-        });
-
-        assertTrue(thrown.getMessage().contains("different"));
     }
 }

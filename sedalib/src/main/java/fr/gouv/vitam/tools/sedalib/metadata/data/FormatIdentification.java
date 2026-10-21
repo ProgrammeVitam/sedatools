@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class FormatIdentification.
@@ -57,23 +58,40 @@ public class FormatIdentification extends ComplexListType {
 
     /**
      * Instantiates a new FormatIdentification.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public FormatIdentification() {
+    public FormatIdentification(SedaVersion sedaVersion) {
+        super(sedaVersion, "FormatIdentification");
+    }
+
+    /**
+     * Instantiates a new FormatIdentification for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private FormatIdentification() {
         super("FormatIdentification");
     }
 
     /**
      * Instantiates a new FormatIdentification.
      *
+     * @param sedaVersion the SEDA version
      * @param formatLitteral the format litteral
      * @param mimeType       the mime type
      * @param formatId       the format id
      * @param encoding       the encoding
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding)
-        throws SEDALibException {
-        super("FormatIdentification");
+    public FormatIdentification(
+        SedaVersion sedaVersion,
+        String formatLitteral,
+        String mimeType,
+        String formatId,
+        String encoding
+    ) throws SEDALibException {
+        super(sedaVersion, "FormatIdentification");
         if ((formatLitteral != null) && !formatLitteral.isEmpty()) addNewMetadata("FormatLitteral", formatLitteral);
         if ((mimeType != null) && !mimeType.isEmpty()) addNewMetadata("MimeType", mimeType);
         if ((formatId != null) && !formatId.isEmpty()) addNewMetadata("FormatId", formatId);

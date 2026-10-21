@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class CustodialHistory.
@@ -55,19 +56,22 @@ public class CustodialHistory extends ComplexListType {
 
     /**
      * Instantiates a new custodial history.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public CustodialHistory() {
-        super("CustodialHistory");
+    public CustodialHistory(SedaVersion sedaVersion) {
+        super(sedaVersion, "CustodialHistory");
     }
 
     /**
      * Instantiates a new custodial history type from args, each is a custodial history item.
      *
+     * @param sedaVersion the SEDA version
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public CustodialHistory(Object... args) throws SEDALibException {
-        this();
+    public CustodialHistory(SedaVersion sedaVersion, Object... args) throws SEDALibException {
+        this(sedaVersion);
         for (int i = 0; i < args.length; i++) {
             if (!(args[i] instanceof String)) throw new SEDALibException(
                 "Mauvais arguments pour le constructeur de l'élément [" + elementName + "]"

@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.PhysicalDataObjectEd
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class DataObjectGroupEditorTest {
         content.setScrollableWidth(ScrollablePanel.ScrollableSizeHint.FIT);
         content.setScrollableHeight(ScrollablePanel.ScrollableSizeHint.NONE);
 
-        DataObjectPackage dop = new DataObjectPackage();
+        DataObjectPackage dop = new DataObjectPackage(SedaVersion.V2_1);
         String bdoXML =
             "<DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
             "  <Uri>content/ID52.jpg</Uri>\n" +

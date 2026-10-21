@@ -37,25 +37,23 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 class ManagementMetadataTest {
 
     @Test
     void testConstructors() throws SEDALibException {
         //Given
-        ManagementMetadata mm = new ManagementMetadata();
+        ManagementMetadata mm = new ManagementMetadata(SedaVersion.V2_1);
 
         // When loaded with all different kind of metadata
 
@@ -68,7 +66,7 @@ class ManagementMetadataTest {
 
         // Test RuleType metadata
         mm.addNewMetadata("AccessRule", "TestAccRule1", LocalDate.of(1970, 1, 1));
-        AppraisalRule appraisalRule = new AppraisalRule();
+        AppraisalRule appraisalRule = new AppraisalRule(SedaVersion.V2_1);
         appraisalRule.addRule("TestAppRule1", LocalDate.of(1970, 1, 1));
         appraisalRule.setPreventInheritance(true);
         appraisalRule.addRefNonRuleId("TestAppRule3");
@@ -81,7 +79,7 @@ class ManagementMetadataTest {
             LocalDate.of(1970, 1, 1),
             Collections.singletonMap("HoldEndDate", LocalDate.of(1970, 1, 1))
         );
-        HoldRule holdRule = new HoldRule();
+        HoldRule holdRule = new HoldRule(SedaVersion.V2_1);
         holdRule.addRule("HoldRule2");
         holdRule.addHoldReason("HoldRule2Reason");
         holdRule.addRule("HoldRule3");
@@ -93,7 +91,11 @@ class ManagementMetadataTest {
         String mmOut = mm.toString();
 
         // Test read write in XML string format
-        ManagementMetadata mmNext = (ManagementMetadata) SEDAMetadata.fromString(mmOut, ManagementMetadata.class);
+        ManagementMetadata mmNext = (ManagementMetadata) SEDAMetadata.fromString(
+            mmOut,
+            ManagementMetadata.class,
+            SedaVersion.V2_1
+        );
         String mmNextOut = mmNext.toString();
 
         // Then

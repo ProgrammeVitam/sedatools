@@ -40,7 +40,6 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
@@ -48,8 +47,8 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -59,13 +58,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(SedaContextExtension.class)
 class DiskImportExportTest implements UseTestFiles {
 
     @Test
     void TestDiskImportWithoutLink() throws Exception {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
             null
         );
@@ -240,7 +239,11 @@ class DiskImportExportTest implements UseTestFiles {
     void TestDiskImportWithLink() throws Exception {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
+        di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
+            "src/test/resources/PacketSamples/SampleWithLinksModelV2",
+            null
+        );
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -373,6 +376,7 @@ class DiskImportExportTest implements UseTestFiles {
         // do import of test directory
         DiskToArchiveTransferImporter di;
         di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             true,
             replaced,

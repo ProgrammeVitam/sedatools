@@ -40,6 +40,8 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
@@ -51,6 +53,7 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.io.File;
@@ -79,6 +82,11 @@ public class ImportThread extends SwingWorker<String, String> {
     private SEDALibProgressLogger spl;
 
     /**
+     * The SEDA version of the imported work, the one of the interface.
+     */
+    private final SedaVersion sedaVersion;
+
+    /**
      * Instantiates a new Import thread.
      *
      * @param cc     the cc
@@ -86,6 +94,7 @@ public class ImportThread extends SwingWorker<String, String> {
      */
     public ImportThread(CreationContext cc, InOutDialog dialog) {
         this.work = new Work(null, cc, null);
+        this.sedaVersion = ResipGraphicApp.getTheApp().treatmentParameters.getSedaVersion();
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
@@ -170,6 +179,7 @@ public class ImportThread extends SwingWorker<String, String> {
         if (work.getCreationContext().getOnDiskInput().endsWith("zip")) encoding = "CP850";
         else encoding = "UTF8";
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
+            sedaVersion,
             work.getCreationContext().getOnDiskInput(),
             target,
             encoding,
@@ -188,6 +198,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            sedaVersion,
             work.getCreationContext().getOnDiskInput(),
             diskImportContext.isNoLinkFlag(),
             null,
@@ -234,6 +245,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
         CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
+            sedaVersion,
             ctic.getOnDiskInput(),
             ctic.getCsvCharsetName(),
             ctic.getDelimiter(),
@@ -251,6 +263,7 @@ public class ImportThread extends SwingWorker<String, String> {
         );
         CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            sedaVersion,
             cmic.getOnDiskInput(),
             cmic.getCsvCharsetName(),
             cmic.getDelimiter(),
@@ -308,7 +321,7 @@ public class ImportThread extends SwingWorker<String, String> {
 
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
-        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(sedaVersion, lp, spl);
         for (String ip : new DiskImportContext(Preferences.getInstance()).getIgnorePatternList()) di.addIgnorePattern(
             ip
         );
@@ -380,6 +393,20 @@ public class ImportThread extends SwingWorker<String, String> {
                 exitThrowable
             );
         } else {
+            // a SIP or a DIP is read in the version of its manifest, the interface switches to it
+            SedaVersion workSedaVersion = work.getDataObjectPackage().getSedaVersion();
+            if (workSedaVersion != sedaVersion) {
+                EventBus.publish(new SedaVersionChangedEvent(workSedaVersion));
+                theApp.treatmentParameters.toPrefs(Preferences.getInstance());
+                doProgressLogWithoutInterruption(
+                    spl,
+                    GLOBAL,
+                    "resip: le manifest est en " +
+                    workSedaVersion.displayString() +
+                    ", l'interface passe dans cette version",
+                    null
+                );
+            }
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;
             theApp.setFilenameWork(null);

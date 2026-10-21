@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -71,32 +72,37 @@ public class StorageRule extends RuleType {
 
     /**
      * Instantiates a new access rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public StorageRule() {
-        super(STORAGERULE_TAG);
+    public StorageRule(SedaVersion sedaVersion) {
+        super(sedaVersion, STORAGERULE_TAG);
     }
 
     /**
      * Instantiates a new storage rule, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
-    public StorageRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(STORAGERULE_TAG, rule, startDate);
+    public StorageRule(SedaVersion sedaVersion, String rule, LocalDate startDate) throws SEDALibException {
+        super(sedaVersion, STORAGERULE_TAG, rule, startDate);
     }
 
     /**
      * Instantiates a new storage rule, with one rule, a date and final action.
      *
+     * @param sedaVersion the SEDA version
      * @param rule        the rule
      * @param startDate   the start date
      * @param finalAction the final action
      * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
-    public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        super(STORAGERULE_TAG, rule, startDate);
+    public StorageRule(SedaVersion sedaVersion, String rule, LocalDate startDate, String finalAction)
+        throws SEDALibException {
+        super(sedaVersion, STORAGERULE_TAG, rule, startDate);
         setFinalAction(finalAction);
     }
 

@@ -50,10 +50,9 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -210,6 +209,8 @@ public class Work {
      * @throws ResipException the resip exception
      */
     public static Work createFromFile(String file) throws ResipException {
+        // a DataObjectPackage saved before it held its version is in the one of the session
+        SedaVersion savedVersion = getSeda2VersionFromFile(file);
         Work ow;
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
             ObjectMapper mapper = new ObjectMapper();
@@ -222,12 +223,13 @@ public class Work {
             if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
                 "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
             );
-            ow = mapper.readValue(zis, Work.class);
+            ow = mapper
+                .readerFor(Work.class)
+                .withAttribute(DataObjectPackageDeserializer.SEDA_VERSION_ATTRIBUTE, savedVersion)
+                .readValue(zis);
 
             // some fields need to be computed or defined after the load phase from Json
-            if (ow.version == null) ow.version = SedaContext.getVersion() == null
-                ? DEFAULT_SEDA_VERSION
-                : SedaContext.getVersion();
+            if (ow.version == null) ow.version = ow.getDataObjectPackage().getSedaVersion();
             ow.getDataObjectPackage().getGhostRootAu().setDataObjectPackage(ow.getDataObjectPackage());
             for (Map.Entry<String, ArchiveUnit> pair : ow
                 .getDataObjectPackage()
@@ -266,7 +268,8 @@ public class Work {
      */
     public void save(String file) {
         try {
-            if (version == null) version = SedaContext.getVersion();
+            // the version of the session is the one of its package
+            if (dataObjectPackage != null) version = dataObjectPackage.getSedaVersion();
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
             module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());

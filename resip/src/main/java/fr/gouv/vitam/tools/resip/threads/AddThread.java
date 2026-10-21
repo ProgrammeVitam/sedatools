@@ -182,7 +182,13 @@ public class AddThread extends SwingWorker<String, String> {
             if (this.work.getCreationContext() instanceof DiskImportContext) dic =
                 (DiskImportContext) this.work.getCreationContext();
             else dic = new DiskImportContext(Preferences.getInstance());
-            di = new DiskToDataObjectPackageImporter(lp, dic.isNoLinkFlag(), null, spl);
+            di = new DiskToDataObjectPackageImporter(
+                work.getDataObjectPackage().getSedaVersion(),
+                lp,
+                dic.isNoLinkFlag(),
+                null,
+                spl
+            );
             for (String ip : dic.getIgnorePatternList()) di.addIgnorePattern(ip);
             di.doImport();
             summary = di.getSummary();

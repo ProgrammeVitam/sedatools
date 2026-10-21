@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.slf4j.LoggerFactory;
 
 public class Sample4 {
@@ -50,7 +51,7 @@ public class Sample4 {
             LoggerFactory.getLogger("sedalibsamples"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("sedalib-samples/samples/Sample4.zip", pl)) {
+        try (SIPBuilder sb = new SIPBuilder(SedaVersion.V2_1, "sedalib-samples/samples/Sample4.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createRootArchiveUnit(

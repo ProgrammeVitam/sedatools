@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class ArchiveUnitIdentifierKey.
@@ -56,20 +57,24 @@ public class ArchiveUnitIdentifierKey extends ComplexListType {
 
     /**
      * Instantiates a new ArchiveUnit identifier key type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public ArchiveUnitIdentifierKey() {
-        super("ArchiveUnitIdentifierKey");
+    public ArchiveUnitIdentifierKey(SedaVersion sedaVersion) {
+        super(sedaVersion, "ArchiveUnitIdentifierKey");
     }
 
     /**
      * Instantiates a new ArchiveUnit identifier key type with metadata name and value.
      *
+     * @param sedaVersion the SEDA version
      * @param metadataName  the metadata name
      * @param metadataValue the metadata value
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public ArchiveUnitIdentifierKey(String metadataName, String metadataValue) throws SEDALibException {
-        this();
+    public ArchiveUnitIdentifierKey(SedaVersion sedaVersion, String metadataName, String metadataValue)
+        throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(METADATANAME, metadataName);
         addNewMetadata(METADATAVALUE, metadataValue);
     }

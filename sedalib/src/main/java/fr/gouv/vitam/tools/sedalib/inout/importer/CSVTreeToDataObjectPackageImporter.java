@@ -47,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.utils.ByteOrderMarkUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -134,6 +135,11 @@ public class CSVTreeToDataObjectPackageImporter {
     Instant start, end;
 
     /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
+
+    /**
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
@@ -141,6 +147,7 @@ public class CSVTreeToDataObjectPackageImporter {
     /**
      * Instantiates a new csv tree file importer.
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param csvFileName           the csv file name
      * @param encoding              the encoding format string (most of the time UTF8 or Cp1252)
      * @param separator             the char used as column separator (; or , or \t...)
@@ -148,6 +155,7 @@ public class CSVTreeToDataObjectPackageImporter {
      * @throws SEDALibException if file doesn't exist
      */
     public CSVTreeToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         String csvFileName,
         String encoding,
         char separator,
@@ -161,6 +169,7 @@ public class CSVTreeToDataObjectPackageImporter {
         );
 
         this.csvFileName = csvFileName;
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.encoding = encoding;
         this.separator = separator;
@@ -223,7 +232,7 @@ public class CSVTreeToDataObjectPackageImporter {
         Content content;
 
         au = new ArchiveUnit(dataObjectPackage);
-        content = new Content();
+        content = new Content(sedaVersion);
         try {
             content.addNewMetadata("Title", line.title);
             if (!line.description.isEmpty()) content.addNewMetadata("Description", line.description);
@@ -266,7 +275,7 @@ public class CSVTreeToDataObjectPackageImporter {
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         readCSVFile();
-        dataObjectPackage = new DataObjectPackage();
+        dataObjectPackage = new DataObjectPackage(sedaVersion);
 
         dataObjectPackage.resetInOutCounter();
         List<Line> rootLines = linesMap.get("");

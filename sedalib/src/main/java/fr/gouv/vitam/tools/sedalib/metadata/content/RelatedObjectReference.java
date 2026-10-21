@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class RelatedObjectReference.
@@ -53,20 +54,24 @@ public class RelatedObjectReference extends ComplexListType {
 
     /**
      * Instantiates a new reference object type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public RelatedObjectReference() {
-        super("RelatedObjectReference");
+    public RelatedObjectReference(SedaVersion sedaVersion) {
+        super(sedaVersion, "RelatedObjectReference");
     }
 
     /**
      * Instantiates a new referenced object type with SignedObjectID and SignedObjectDigest.
      *
+     * @param sedaVersion the SEDA version
      * @param signedObjectID     the signed object id
      * @param signedObjectDigest the signed object digest
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public RelatedObjectReference(String signedObjectID, String signedObjectDigest) throws SEDALibException {
-        this();
+    public RelatedObjectReference(SedaVersion sedaVersion, String signedObjectID, String signedObjectDigest)
+        throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata("SignedObjectID", signedObjectID);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }

@@ -50,6 +50,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -66,6 +67,11 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * For code samples, consult <b>sedalib-samples</b> module
  */
 public class SIPBuilder implements AutoCloseable {
+
+    /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
 
     /**
      * The progress logger..
@@ -90,15 +96,16 @@ public class SIPBuilder implements AutoCloseable {
     /**
      * Instantiates a new SIP builder.
      *
+     * @param sedaVersion the SEDA version of the built SIP
      * @param sipPathString         the sip path string
      * @param sedaLibProgressLogger the progress logger
      */
-    public SIPBuilder(String sipPathString, SEDALibProgressLogger sedaLibProgressLogger) {
+    public SIPBuilder(SedaVersion sedaVersion, String sipPathString, SEDALibProgressLogger sedaLibProgressLogger) {
         GlobalMetadata gm = new GlobalMetadata();
-        ManagementMetadata mm = new ManagementMetadata();
+        ManagementMetadata mm = new ManagementMetadata(sedaVersion);
 
         this.sipPathString = sipPathString;
-        this.archiveTransfer = new ArchiveTransfer();
+        this.archiveTransfer = new ArchiveTransfer(sedaVersion);
         gm.comment = "SIPBuilder generated";
         gm.messageIdentifier = "SIP " + java.util.UUID.randomUUID().toString();
         gm.setNowFlag(true);
@@ -126,6 +133,7 @@ public class SIPBuilder implements AutoCloseable {
         "    <RelationshipCodeListVersion>RelationshipCodeListVersion</RelationshipCodeListVersion>\n" +
         "  </CodeListVersions>";
         this.archiveTransfer.setGlobalMetadata(gm);
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.managementMetadata = mm;
     }
@@ -232,7 +240,7 @@ public class SIPBuilder implements AutoCloseable {
     ) throws SEDALibException {
         ArchiveUnit au = createRootArchiveUnit(archiveUnitID);
 
-        Content c = new Content();
+        Content c = new Content(sedaVersion);
         try {
             c.addNewMetadata("DescriptionLevel", descriptionLevel);
             c.addNewMetadata("Title", title);
@@ -259,7 +267,7 @@ public class SIPBuilder implements AutoCloseable {
         ArchiveUnit au = createRootArchiveUnit(archiveUnitID);
         if (au == null) throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
 
-        Management m = new Management();
+        Management m = new Management(sedaVersion);
         m.addNewMetadata("UpdateOperation", systemId);
         au.setManagement(m);
 
@@ -288,11 +296,11 @@ public class SIPBuilder implements AutoCloseable {
     ) throws SEDALibException {
         ArchiveUnit au = createRootArchiveUnit(archiveUnitID);
 
-        Management m = new Management();
+        Management m = new Management(sedaVersion);
         m.addNewMetadata("UpdateOperation", metadataName, metadataValue);
         au.setManagement(m);
 
-        Content c = new Content();
+        Content c = new Content(sedaVersion);
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         au.setContent(c);
@@ -346,7 +354,7 @@ public class SIPBuilder implements AutoCloseable {
         au = new ArchiveUnit();
         au.setInDataObjectPackageId(childArchiveUnitID);
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
-        Content c = new Content();
+        Content c = new Content(sedaVersion);
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         c.addNewMetadata("Description", description);
@@ -414,7 +422,7 @@ public class SIPBuilder implements AutoCloseable {
         au = new ArchiveUnit();
         au.setInDataObjectPackageId(childArchiveUnitID);
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
-        Content c = new Content();
+        Content c = new Content(sedaVersion);
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         if (description != null) c.addNewMetadata("Description", description);
@@ -479,6 +487,7 @@ public class SIPBuilder implements AutoCloseable {
             "Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]"
         );
         DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(
+            sedaVersion,
             onDiskPathString,
             noLinkFlag,
             extractTitleFromFileNameFunction,
@@ -517,6 +526,7 @@ public class SIPBuilder implements AutoCloseable {
             "Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]"
         );
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            sedaVersion,
             onDiskPathString,
             encoding,
             separator,
@@ -654,7 +664,7 @@ public class SIPBuilder implements AutoCloseable {
         if (au == null) throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         Content c = au.getContent();
         if (c == null) {
-            c = new Content();
+            c = new Content(sedaVersion);
             au.setContent(c);
         }
         return c;
@@ -685,7 +695,7 @@ public class SIPBuilder implements AutoCloseable {
         if (au == null) throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         Management m = au.getManagement();
         if (m == null) {
-            m = new Management();
+            m = new Management(sedaVersion);
             au.setManagement(m);
         }
         return m;

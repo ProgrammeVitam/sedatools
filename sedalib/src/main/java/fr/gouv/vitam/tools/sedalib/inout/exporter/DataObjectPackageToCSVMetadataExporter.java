@@ -311,7 +311,8 @@ public class DataObjectPackageToCSVMetadataExporter {
                         headerNames.removeAll(ruleHeaderNames);
                     } else if (ComplexListType.class.isAssignableFrom(metadataClass)) {
                         for (Map.Entry<String, ComplexListMetadataKind> e : ComplexListType.getMetadataMap(
-                            metadataClass
+                            metadataClass,
+                            dataObjectPackage.getSedaVersion()
                         ).entrySet()) {
                             getSortedHeaderNames(
                                 sortedHeaderNames,

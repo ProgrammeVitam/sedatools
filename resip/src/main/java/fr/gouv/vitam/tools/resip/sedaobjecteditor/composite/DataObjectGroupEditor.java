@@ -230,15 +230,21 @@ public class DataObjectGroupEditor extends CompositeEditor {
         SEDAObjectEditor addedObjectEditor = null;
         switch (editedObjectName) {
             case "BinaryDataObject":
-                metadata = BinaryDataObjectEditor.createBinaryDataObjectSample(true);
+                metadata = BinaryDataObjectEditor.createBinaryDataObjectSample(
+                    getDataObjectGroupMetadata().getDataObjectPackage(),
+                    true
+                );
                 addedObjectEditor = new BinaryDataObjectEditor((BinaryDataObject) metadata, this);
                 break;
             case "PhysicalDataObject":
-                metadata = PhysicalDataObjectEditor.createPhysicalDataObjectSample(true);
+                metadata = PhysicalDataObjectEditor.createPhysicalDataObjectSample(
+                    getDataObjectGroupMetadata().getDataObjectPackage(),
+                    true
+                );
                 addedObjectEditor = new PhysicalDataObjectEditor((PhysicalDataObject) metadata, this);
                 break;
             case "LogBook":
-                metadata = createSEDAMetadataSample("LogBook", "LogBook", true);
+                metadata = createSEDAMetadataSample(getSedaVersion(), "LogBook", "LogBook", true);
                 addedObjectEditor = createSEDAObjectEditor((SEDAMetadata) metadata, this);
                 break;
         }

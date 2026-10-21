@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;
@@ -62,9 +63,11 @@ public class Content extends ComplexListType {
 
     /**
      * Instantiates a new Content.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Content() {
-        super("Content");
+    public Content(SedaVersion sedaVersion) {
+        super(sedaVersion, "Content");
     }
 
     /**

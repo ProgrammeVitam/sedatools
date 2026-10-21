@@ -43,9 +43,9 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersionConverter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 
@@ -122,7 +122,7 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
 
             if (work == null) throw new ResipException("Pas de contenu à transformer");
 
-            convertedDop = new SedaVersionConverter(spl).convert(dop, currentVersion, nextVersion);
+            convertedDop = new SedaVersionConverter(spl).convert(dop, nextVersion);
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }

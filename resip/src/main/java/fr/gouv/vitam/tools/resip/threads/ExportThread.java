@@ -158,7 +158,7 @@ public class ExportThread extends SwingWorker<String, String> {
                 ResipGraphicApp.mainWindow.treePane.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+            ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
             work
                 .getDataObjectPackage()
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());

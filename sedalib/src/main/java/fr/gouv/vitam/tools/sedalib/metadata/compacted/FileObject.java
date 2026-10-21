@@ -46,6 +46,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -126,20 +127,23 @@ public class FileObject extends ComplexListType {
 
     /**
      * Instantiates a new FileObject.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public FileObject() {
-        super("FileObject");
+    public FileObject(SedaVersion sedaVersion) {
+        super(sedaVersion, "FileObject");
     }
 
     /**
      * Instantiates a new FileObject, from BinaryDataObject and URI.
      *
+     * @param sedaVersion the SEDA version
      * @param binaryDataObject the binary data object
      * @param uri              the URI in container
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public FileObject(BinaryDataObject binaryDataObject, String uri) throws SEDALibException {
-        super("FileObject");
+    public FileObject(SedaVersion sedaVersion, BinaryDataObject binaryDataObject, String uri) throws SEDALibException {
+        super(sedaVersion, "FileObject");
         for (SEDAMetadata sm : binaryDataObject.getMetadataList()) addMetadata(sm);
         if (uri != null) addMetadata(new StringType("Uri", uri));
     }

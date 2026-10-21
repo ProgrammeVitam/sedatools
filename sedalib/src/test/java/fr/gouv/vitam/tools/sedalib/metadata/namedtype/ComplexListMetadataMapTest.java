@@ -35,17 +35,26 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.core.seda;
+package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-public class SedaContext {
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.FileObject;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
+import org.junit.jupiter.api.Test;
 
-    private static SedaVersion _version;
+import java.util.Map;
 
-    public static SedaVersion getVersion() {
-        return _version;
-    }
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-    public static void setVersion(SedaVersion version) {
-        _version = version;
+class ComplexListMetadataMapTest {
+
+    @Test
+    void shouldServeTheAnnotatedMapsByVersionRange() {
+        Map<SedaVersion, Map<String, ComplexListMetadataKind>> maps = ComplexListInterface.metadataDefinitions(
+            FileObject.class
+        );
+
+        assertSame(FileObject.METADATA_MAP_V1, maps.get(SedaVersion.V2_1));
+        assertSame(FileObject.METADATA_MAP_V2, maps.get(SedaVersion.V2_2));
+        assertSame(FileObject.METADATA_MAP_V3, maps.get(SedaVersion.V2_3));
     }
 }

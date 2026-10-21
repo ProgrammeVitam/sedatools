@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.time.LocalDateTime;
 
@@ -61,20 +62,23 @@ public class Signer extends ComplexListType {
 
     /**
      * Instantiates a new signer type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Signer() {
-        super("Signer");
+    public Signer(SedaVersion sedaVersion) {
+        super(sedaVersion, "Signer");
     }
 
     /**
      * Instantiates a new signer type with fullname and signing time.
      *
+     * @param sedaVersion the SEDA version
      * @param fullName    the full name
      * @param signingTime the signing time
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Signer(String fullName, LocalDateTime signingTime) throws SEDALibException {
-        this();
+    public Signer(SedaVersion sedaVersion, String fullName, LocalDateTime signingTime) throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(FULLNAME_TAG, fullName);
         addNewMetadata(SIGNINGTIME_TAG, signingTime);
     }
@@ -82,13 +86,15 @@ public class Signer extends ComplexListType {
     /**
      * Instantiates a new signer type with firstname, birthname and signing time.
      *
+     * @param sedaVersion the SEDA version
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param signingTime the signing time
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Signer(String firstName, String birthName, LocalDateTime signingTime) throws SEDALibException {
-        this();
+    public Signer(SedaVersion sedaVersion, String firstName, String birthName, LocalDateTime signingTime)
+        throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(SIGNINGTIME_TAG, signingTime);
@@ -97,15 +103,21 @@ public class Signer extends ComplexListType {
     /**
      * Instantiates a new signer type with firstname, birthname, identifier and signing time.
      *
+     * @param sedaVersion the SEDA version
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
      * @param signingTime the signing time
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier)
-        throws SEDALibException {
-        this();
+    public Signer(
+        SedaVersion sedaVersion,
+        String firstName,
+        String birthName,
+        LocalDateTime signingTime,
+        String identifier
+    ) throws SEDALibException {
+        this(sedaVersion);
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(IDENTIFIER_TAG, identifier);

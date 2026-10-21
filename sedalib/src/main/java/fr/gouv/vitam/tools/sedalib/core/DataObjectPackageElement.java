@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class DataObjectPackageElement.
@@ -84,5 +85,18 @@ public class DataObjectPackageElement {
      */
     public void setDataObjectPackage(DataObjectPackage dataObjectPackage) {
         this.dataObjectPackage = dataObjectPackage;
+    }
+
+    /**
+     * Gets the SEDA version, the one of its DataObjectPackage.
+     *
+     * @return the SEDA version
+     */
+    @JsonIgnore
+    public SedaVersion getSedaVersion() {
+        if (dataObjectPackage == null) throw new IllegalStateException(
+            "L'élément [" + getClass().getSimpleName() + "] n'est dans aucun paquet, il n'a pas de version SEDA"
+        );
+        return dataObjectPackage.getSedaVersion();
     }
 }

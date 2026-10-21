@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.time.LocalDateTime;
 
@@ -57,21 +58,27 @@ public class TimestampingInformation extends ComplexListType {
 
     /**
      * Instantiates a new signature description.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public TimestampingInformation() {
-        super("TimestampingInformation");
+    public TimestampingInformation(SedaVersion sedaVersion) {
+        super(sedaVersion, "TimestampingInformation");
     }
 
     /**
      * Creates a new instance of TimestampingInformation.
      *
+     * @param sedaVersion the SEDA version
      * @param timeStamp                         the time stamp
      * @param additionalTimestampingInformation additional information about timestamping
      * @throws SEDALibException if sub-elements construction fails (not expected to occur)
      */
-    public TimestampingInformation(LocalDateTime timeStamp, String additionalTimestampingInformation)
-        throws SEDALibException {
-        super("TimestampingInformation");
+    public TimestampingInformation(
+        SedaVersion sedaVersion,
+        LocalDateTime timeStamp,
+        String additionalTimestampingInformation
+    ) throws SEDALibException {
+        super(sedaVersion, "TimestampingInformation");
         if (timeStamp != null) addNewMetadata("TimeStamp", timeStamp);
         if (additionalTimestampingInformation != null) addNewMetadata(
             "AdditionalTimestampingInformation",

@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class Metadata.
@@ -55,8 +56,19 @@ public class Metadata extends ComplexListType {
 
     /**
      * Instantiates a new file info.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public Metadata() {
+    public Metadata(SedaVersion sedaVersion) {
+        super(sedaVersion, "Metadata");
+    }
+
+    /**
+     * Instantiates a new Metadata for json deserialization: its SEDA version is then restored from
+     * its DataObjectPackage, see {@link ComplexListType#restoreSedaVersion}.
+     */
+    @SuppressWarnings("unused")
+    private Metadata() {
         super("Metadata");
     }
 }

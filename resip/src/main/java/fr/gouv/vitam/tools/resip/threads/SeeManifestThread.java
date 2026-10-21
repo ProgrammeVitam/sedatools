@@ -105,7 +105,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+        ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
         try {
             int localLogLevel, localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {

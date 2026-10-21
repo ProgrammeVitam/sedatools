@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.FileInputStream;
@@ -242,12 +243,13 @@ public class DiskToDataObjectPackageImporter {
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     private DiskToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         boolean noLinkFlag,
         Function<String, String> extractTitleFromFileNameFunction,
         SEDALibProgressLogger sedaLibProgressLogger
     ) {
         this.onDiskRootPaths = new ArrayList<>();
-        this.dataObjectPackage = null;
+        this.dataObjectPackage = new DataObjectPackage(sedaVersion);
         ignorePatterns = new ArrayList<>();
         isWindows = System.getProperty("os.name").toLowerCase().contains("win");
         this.auPathStringMap = new HashMap<>();
@@ -275,6 +277,7 @@ public class DiskToDataObjectPackageImporter {
      * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param directory                        the directory
      * @param noLinkFlag                       the no link flag
      * @param extractTitleFromFileNameFunction the extract title from file name function
@@ -282,12 +285,13 @@ public class DiskToDataObjectPackageImporter {
      * @throws SEDALibException if not a directory
      */
     public DiskToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         String directory,
         boolean noLinkFlag,
         Function<String, String> extractTitleFromFileNameFunction,
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException {
-        this(noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
+        this(sedaVersion, noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
         Path path;
         Iterator<Path> pi;
 
@@ -301,7 +305,6 @@ public class DiskToDataObjectPackageImporter {
         } catch (IOException e) {
             throw new SEDALibException("Impossible de lister les fichiers du répertoire [" + directory + "]", e);
         }
-        dataObjectPackage = new DataObjectPackage();
     }
 
     /**
@@ -310,11 +313,16 @@ public class DiskToDataObjectPackageImporter {
      * It will consider each directory and each file in this list as a root
      * ArchiveUnit or the management metadata file
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param paths                 the paths
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
-    public DiskToDataObjectPackageImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
-        this(paths, false, simpleCopy, sedaLibProgressLogger);
+    public DiskToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
+        List<Path> paths,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
+        this(sedaVersion, paths, false, simpleCopy, sedaLibProgressLogger);
     }
 
     /**
@@ -329,20 +337,21 @@ public class DiskToDataObjectPackageImporter {
      * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param paths                            the paths
      * @param noLinkFlag                       the no link flag
      * @param extractTitleFromFileNameFunction the extract title from file name function
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      */
     public DiskToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         List<Path> paths,
         boolean noLinkFlag,
         Function<String, String> extractTitleFromFileNameFunction,
         SEDALibProgressLogger sedaLibProgressLogger
     ) {
-        this(noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
+        this(sedaVersion, noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
         this.onDiskRootPaths = paths;
-        dataObjectPackage = new DataObjectPackage();
     }
 
     /**

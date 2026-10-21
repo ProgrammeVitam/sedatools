@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 /**
  * The Class DataObjectReference.
@@ -53,22 +54,28 @@ public class DataObjectReference extends ComplexListType {
 
     /**
      * Instantiates a new reference to SIP internal object type.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public DataObjectReference() {
-        super("DataObjectReference");
+    public DataObjectReference(SedaVersion sedaVersion) {
+        super(sedaVersion, "DataObjectReference");
     }
 
     /**
      * Instantiates a new referenced to SIP internal object type with DataObjectReferenceId and DataObjectGroupReferenceId..
      * If one field is null, it's omitted.
      *
+     * @param sedaVersion the SEDA version
      * @param dataObjectReferenceId      the data object reference id
      * @param dataObjectGroupReferenceId the data object group reference id
      * @throws SEDALibException the seda lib exception
      */
-    public DataObjectReference(String dataObjectReferenceId, String dataObjectGroupReferenceId)
-        throws SEDALibException {
-        this();
+    public DataObjectReference(
+        SedaVersion sedaVersion,
+        String dataObjectReferenceId,
+        String dataObjectGroupReferenceId
+    ) throws SEDALibException {
+        this(sedaVersion);
         if (dataObjectReferenceId != null) addNewMetadata("DataObjectReferenceId", dataObjectReferenceId);
         if (dataObjectGroupReferenceId != null) addNewMetadata(
             "DataObjectGroupReferenceId",

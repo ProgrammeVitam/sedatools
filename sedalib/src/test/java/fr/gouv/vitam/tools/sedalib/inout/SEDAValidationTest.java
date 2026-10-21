@@ -37,22 +37,19 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
@@ -63,7 +60,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@ExtendWith(SedaContextExtension.class)
 class SEDAValidationTest implements UseTestFiles {
 
     @Test
@@ -78,8 +74,8 @@ class SEDAValidationTest implements UseTestFiles {
     void testSedaXmlArchiveTransferGenerationAndValidationForSedaVersion2()
         throws IllegalArgumentException, SEDALibException, InterruptedException {
         // do import of test directory
-        SedaContext.setVersion(SedaVersion.V2_2);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_2,
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );
@@ -141,12 +137,12 @@ class SEDAValidationTest implements UseTestFiles {
         } catch (XMLStreamException | IOException e) {
             throw new RuntimeException(e);
         }
-        SedaContext.setVersion(SedaVersion.V2_1);
     }
 
     private static DiskToArchiveTransferImporter importSampleWithCompleteGlobalMetadata()
         throws SEDALibException, InterruptedException {
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );
@@ -196,6 +192,7 @@ class SEDAValidationTest implements UseTestFiles {
     void testSedaXmlValidationKO() throws IllegalArgumentException, SEDALibException, InterruptedException {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/SampleWithLinksModelV2",
             null
         );

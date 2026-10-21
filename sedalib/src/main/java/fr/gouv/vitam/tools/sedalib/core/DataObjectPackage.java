@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -150,24 +151,26 @@ public class DataObjectPackage {
      */
     private int vitamNormalizationStatus;
 
+    /**
+     * The SEDA version of this package, the one its metadata are read, written and checked in.
+     */
+    private final SedaVersion sedaVersion;
+
     // Constructors
 
     /**
-     * Instantiates a new archive transfer. Used for json deserialization.
+     * Instantiates a new DataObjectPackage.
+     *
+     * @param sedaVersion the SEDA version of the package
      */
-    public DataObjectPackage() {
+    public DataObjectPackage(SedaVersion sedaVersion) {
+        this.sedaVersion = Objects.requireNonNull(sedaVersion, "La version SEDA du paquet est obligatoire");
         this.auInDataObjectPackageIdMap = new HashMap<>();
         this.dogInDataObjectPackageIdMap = new HashMap<>();
 
         this.bdoInDataObjectPackageIdMap = new HashMap<>();
         this.pdoInDataObjectPackageIdMap = new HashMap<>();
         this.ghostRootAu = new ArchiveUnit();
-        Content c = new Content();
-        try {
-            c.addNewMetadata("Title", "GhostRootAu");
-        } catch (SEDALibException ignored) {
-            //ignored
-        }
         this.ghostRootAu.setDataObjectPackage(this);
 
         this.exportMetadataList = null;
@@ -179,6 +182,15 @@ public class DataObjectPackage {
     }
 
     // Methods
+
+    /**
+     * Gets the SEDA version of the package.
+     *
+     * @return the SEDA version
+     */
+    public SedaVersion getSedaVersion() {
+        return sedaVersion;
+    }
 
     /**
      * Checks if is inDataPackageObjectId already known in this DataObjectPackage.
@@ -579,7 +591,7 @@ public class DataObjectPackage {
         childDataObjectPackage.setBdoInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setPdoInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setGhostRootAu(new ArchiveUnit());
-        Content c = new Content();
+        Content c = new Content(childDataObjectPackage.getSedaVersion());
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {
@@ -1315,6 +1327,7 @@ public class DataObjectPackage {
      * Import the whole structure in XML SEDA Manifest.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param sedaVersion           the SEDA version of the manifest
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
@@ -1325,10 +1338,11 @@ public class DataObjectPackage {
      */
     public static DataObjectPackage fromSedaXml(
         SEDAXMLEventReader xmlReader,
+        SedaVersion sedaVersion,
         String rootDir,
         SEDALibProgressLogger sedaLibProgressLogger
     ) throws SEDALibException, InterruptedException {
-        DataObjectPackage dataObjectPackage = new DataObjectPackage();
+        DataObjectPackage dataObjectPackage = new DataObjectPackage(sedaVersion);
         dataObjectPackage.resetInOutCounter();
         importDataObjectPackageObjects(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
         dataObjectPackage.resetInOutCounter();

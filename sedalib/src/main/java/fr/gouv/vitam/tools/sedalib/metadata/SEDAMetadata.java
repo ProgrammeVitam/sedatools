@@ -47,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import javax.xml.stream.XMLStreamException;
@@ -57,7 +58,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The Class SEDAMetadata.
@@ -145,22 +149,23 @@ public abstract class SEDAMetadata {
     /**
      * Return the SEDAMetadata object from an XML event reader.
      *
-     * @param xmlReader the xml reader
-     * @param target    the target sub-class of SEDAMetadata
+     * @param xmlReader   the xml reader
+     * @param target      the target sub-class of SEDAMetadata
+     * @param sedaVersion the SEDA version the XML is read in
      * @return the read SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */
-    public static SEDAMetadata fromSedaXml(SEDAXMLEventReader xmlReader, Class<?> target) throws SEDALibException {
+    public static SEDAMetadata fromSedaXml(SEDAXMLEventReader xmlReader, Class<?> target, SedaVersion sedaVersion)
+        throws SEDALibException {
         try {
             boolean needName = target.getName().contains(".namedtype.");
-            SEDAMetadata sm;
-            if (needName) {
-                XMLEvent event = xmlReader.peekUsefullEvent();
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(
-                    target,
-                    event.asStartElement().getName().getLocalPart()
-                );
-            } else sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[]) null);
+            List<Object> args = new ArrayList<>(2);
+            // a complex list type is read in the SEDA version, the other types don't depend on it
+            if (ComplexListType.class.isAssignableFrom(target)) args.add(
+                Objects.requireNonNull(sedaVersion, "La version SEDA est obligatoire")
+            );
+            if (needName) args.add(xmlReader.peekUsefullEvent().asStartElement().getName().getLocalPart());
+            SEDAMetadata sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, args.toArray());
             if (sm.fillFromSedaXml(xmlReader)) return sm;
             Method method = target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
             return (SEDAMetadata) method.invoke(null, xmlReader);
@@ -182,12 +187,14 @@ public abstract class SEDAMetadata {
     /**
      * Return the SEDAMetadata object from an XML the String representation.
      *
-     * @param xmlData the xml data
-     * @param target  the target sub-class of SEDAMetadata
+     * @param xmlData     the xml data
+     * @param target      the target sub-class of SEDAMetadata
+     * @param sedaVersion the SEDA version the XML is read in
      * @return the SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */
-    public static SEDAMetadata fromString(String xmlData, Class<?> target) throws SEDALibException {
+    public static SEDAMetadata fromString(String xmlData, Class<?> target, SedaVersion sedaVersion)
+        throws SEDALibException {
         SEDAMetadata result;
 
         try (
@@ -196,7 +203,7 @@ public abstract class SEDAMetadata {
         ) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
-            result = fromSedaXml(xmlReader, target);
+            result = fromSedaXml(xmlReader, target, sedaVersion);
             XMLEvent event = xmlReader.xmlReader.peek();
             if (!event.isEndDocument()) throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {

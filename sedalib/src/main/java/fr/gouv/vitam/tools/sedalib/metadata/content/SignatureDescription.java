@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.time.LocalDateTime;
 
@@ -57,14 +58,17 @@ public class SignatureDescription extends ComplexListType {
 
     /**
      * Instantiates a new signature description.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public SignatureDescription() {
-        super("SignatureDescription");
+    public SignatureDescription(SedaVersion sedaVersion) {
+        super(sedaVersion, "SignatureDescription");
     }
 
     /**
      * Creates a new instance of SignatureDescription.
      *
+     * @param sedaVersion the SEDA version
      * @param signerFirstName   the first name of the signer
      * @param signerBirthName   the birth name of the signer
      * @param signingTime       the time of signing
@@ -75,6 +79,7 @@ public class SignatureDescription extends ComplexListType {
      * @throws SEDALibException if sub-elements construction fails
      */
     public SignatureDescription(
+        SedaVersion sedaVersion,
         String signerFirstName,
         String signerBirthName,
         LocalDateTime signingTime,
@@ -83,7 +88,7 @@ public class SignatureDescription extends ComplexListType {
         LocalDateTime validationTime,
         String signingType
     ) throws SEDALibException {
-        super("SignatureDescription");
+        super(sedaVersion, "SignatureDescription");
         Signer signer = null;
         Validator validator = null;
 

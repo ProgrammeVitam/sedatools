@@ -38,7 +38,6 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
@@ -191,7 +190,8 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             logBook = (LogBook) SEDAMetadata.fromString(
                 logBook.toString().replace("</LogBook>", "") +
                 dataObjectGroup.logBook.toString().replace("<LogBook>", ""),
-                LogBook.class
+                LogBook.class,
+                logBook.getSedaVersion()
             );
         }
     }
@@ -288,7 +288,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                                 bdo.inDataPackageObjectId +
                                 "] utilise un raccordement DataObjectGroup mode SEDA2.0 " +
                                 "dans un DataObjectGroup mode " +
-                                SedaContext.getVersion()
+                                dataObjectPackage.getSedaVersion()
                             );
                             StringType bdoUri = (StringType) bdo.getFirstNamedMetadata("Uri");
                             bdo.setOnDiskPathFromString(
@@ -309,7 +309,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                                 pdo.inDataPackageObjectId +
                                 "] utilise un raccordement DataObjectGroup mode SEDA2.0 " +
                                 "dans un DataObjectGroup mode " +
-                                SedaContext.getVersion()
+                                dataObjectPackage.getSedaVersion()
                             );
                             dog.addDataObject(pdo);
                             break;
@@ -319,7 +319,11 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                 }
                 String nextElementName = xmlReader.peekName();
                 if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
-                    dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+                    dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(
+                        xmlReader,
+                        LogBook.class,
+                        dataObjectPackage.getSedaVersion()
+                    );
                 }
                 xmlReader.endBlockNamed("DataObjectGroup");
             }
@@ -353,7 +357,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             xmlReader.nextUsefullEvent();
             String nextElementName = xmlReader.peekName();
             if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
-                dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+                dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class, getSedaVersion());
             }
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture du DataObjectGroup", e);

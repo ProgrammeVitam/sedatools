@@ -49,6 +49,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.utils.ByteOrderMarkUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -212,6 +213,11 @@ public class CSVMetadataToDataObjectPackageImporter {
     private Map<String, Line> linesMap;
 
     /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
+
+    /**
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
@@ -221,6 +227,7 @@ public class CSVMetadataToDataObjectPackageImporter {
      * <p>
      * It will analyse the csv metadata file, verify that described files exist and associates metadata and file.
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param csvMetadataFileName   the csv metadata file name
      * @param encoding              the encoding format string (most of the time UTF8 or Cp1252)
      * @param separator             the char used as column separator (; or , or \t...)
@@ -228,6 +235,7 @@ public class CSVMetadataToDataObjectPackageImporter {
      * @throws SEDALibException if file doesn't exist
      */
     public CSVMetadataToDataObjectPackageImporter(
+        SedaVersion sedaVersion,
         String csvMetadataFileName,
         String encoding,
         char separator,
@@ -241,6 +249,7 @@ public class CSVMetadataToDataObjectPackageImporter {
 
         this.csvMetadataFileName = csvMetadataFileName;
         this.csvMetadataDirectoryPath = Paths.get(csvMetadataFileName).getParent();
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.encoding = encoding;
         this.separator = separator;
@@ -445,7 +454,7 @@ public class CSVMetadataToDataObjectPackageImporter {
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         boolean needIdRegeneration = readCSVFile();
-        dataObjectPackage = new DataObjectPackage();
+        dataObjectPackage = new DataObjectPackage(sedaVersion);
 
         int lineCount = 0;
         for (Map.Entry<String, Line> e : linesMap.entrySet()) {

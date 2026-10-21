@@ -90,6 +90,12 @@ public class DataObjectPackageSerializer extends StdSerializer<DataObjectPackage
 
             jGen.writeStartObject();
 
+            // first, so that the package exists in its version before its content is read
+            jGen.writeStringField(
+                DataObjectPackageDeserializer.SEDA_VERSION_FIELD,
+                dataObjectPackage.getSedaVersion().toString()
+            );
+
             // DataObjectGroup list sorted by ID
             jGen.writeArrayFieldStart("dataObjectGroupList");
             Set<String> sog = dataObjectPackage.getDogInDataObjectPackageIdMap().keySet();

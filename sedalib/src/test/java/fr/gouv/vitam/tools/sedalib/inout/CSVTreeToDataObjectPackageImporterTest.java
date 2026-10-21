@@ -41,20 +41,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVTreeToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 class CSVTreeToDataObjectPackageImporterTest {
 
     @Test
@@ -71,6 +69,7 @@ class CSVTreeToDataObjectPackageImporterTest {
 
         // When loaded with the csv OK test file
         cti = new CSVTreeToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestOK.csv",
             "Cp1252",
             ';',
@@ -112,6 +111,7 @@ class CSVTreeToDataObjectPackageImporterTest {
 
         // When loaded with the csv KO test file with a line out of all defined series
         cti = new CSVTreeToDataObjectPackageImporter(
+            SedaVersion.V2_1,
             "src/test/resources/PacketSamples/TestKO1.csv",
             "Cp1252",
             ';',

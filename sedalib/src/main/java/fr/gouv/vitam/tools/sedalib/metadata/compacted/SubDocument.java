@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -80,19 +81,22 @@ public class SubDocument extends ComplexListType {
 
     /**
      * Instantiates a new SubDocument.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public SubDocument() {
-        super(ELEMENT_NAME);
+    public SubDocument(SedaVersion sedaVersion) {
+        super(sedaVersion, ELEMENT_NAME);
     }
 
     /**
      * Instantiates a new SubDocument, from content.
      *
+     * @param sedaVersion the SEDA version
      * @param content the content
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public SubDocument(Content content) throws SEDALibException {
-        super(ELEMENT_NAME);
+    public SubDocument(SedaVersion sedaVersion, Content content) throws SEDALibException {
+        super(sedaVersion, ELEMENT_NAME);
         addMetadata(content);
     }
 }

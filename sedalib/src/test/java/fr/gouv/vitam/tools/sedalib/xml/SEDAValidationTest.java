@@ -37,29 +37,24 @@
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.readFileToString;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SedaContextExtension.class)
 public class SEDAValidationTest {
 
     @Test
     public void testSeda2_1ArchiveTransferCompliance() throws SEDALibException {
         // Given
         String sedaFilePath = "src/test/resources/xml/seda2_1ArchiveTransfer.xml"; // Modify with actual path
-        SedaContext.setVersion(SedaVersion.V2_1);
         SEDAXMLValidator validator = new SEDAXMLValidator();
         String sedaContent = readFileToString(sedaFilePath);
 
         // When
-        boolean isValid = validator.checkWithXSDSchema(sedaContent, SEDAXMLValidator.getSEDASchema());
+        boolean isValid = validator.checkWithXSDSchema(sedaContent, SEDAXMLValidator.getSEDASchema(SedaVersion.V2_1));
 
         // Then
         assertThat(isValid).as("Validation process on SEDA 2.1 failed").isTrue();

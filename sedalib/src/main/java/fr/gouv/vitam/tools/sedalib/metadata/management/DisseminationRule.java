@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.time.LocalDate;
 
@@ -57,19 +58,22 @@ public class DisseminationRule extends RuleType {
 
     /**
      * Instantiates a new dissemination rule.
+     *
+     * @param sedaVersion the SEDA version
      */
-    public DisseminationRule() {
-        super(DISSEMINATIONRULE_TAG);
+    public DisseminationRule(SedaVersion sedaVersion) {
+        super(sedaVersion, DISSEMINATIONRULE_TAG);
     }
 
     /**
      * Instantiates a new dissemination rule, with one rule and a date.
      *
+     * @param sedaVersion the SEDA version
      * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
-    public DisseminationRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(DISSEMINATIONRULE_TAG, rule, startDate);
+    public DisseminationRule(SedaVersion sedaVersion, String rule, LocalDate startDate) throws SEDALibException {
+        super(sedaVersion, DISSEMINATIONRULE_TAG, rule, startDate);
     }
 }

@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.sevenz.SevenZFile;
@@ -176,6 +177,11 @@ public class CompressedFileToArchiveTransferImporter {
      * The end instant, for duration computation.
      */
     Instant end;
+
+    /**
+     * The SEDA version of the imported package.
+     */
+    private final SedaVersion sedaVersion;
 
     /**
      * The progress logger.
@@ -322,6 +328,7 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * Instantiates a new compressed file importer.
      *
+     * @param sedaVersion the SEDA version of the imported package
      * @param compressedFile                   the compressed file
      * @param unCompressDirectory              the directory where the compressedfile is uncompressed
      * @param encoding                         the filename encoding charset, if null will be determine considering
@@ -331,6 +338,7 @@ public class CompressedFileToArchiveTransferImporter {
      * @throws SEDALibException if file or directory doesn't exist
      */
     public CompressedFileToArchiveTransferImporter(
+        SedaVersion sedaVersion,
         String compressedFile,
         String unCompressDirectory,
         String encoding,
@@ -341,6 +349,7 @@ public class CompressedFileToArchiveTransferImporter {
         Path unCompressDirectoryPath;
 
         this.onDiskGlobalMetadataPath = null;
+        this.sedaVersion = sedaVersion;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.extractTitleFromFileNameFunction = extractTitleFromFileNameFunction;
         this.diskToDataObjectPackageImporter = null;
@@ -445,12 +454,13 @@ public class CompressedFileToArchiveTransferImporter {
         }
 
         this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            sedaVersion,
             this.onDiskRootPaths,
             true,
             extractTitleFromFileNameFunction,
             sedaLibProgressLogger
         );
-        this.archiveTransfer = new ArchiveTransfer();
+        this.archiveTransfer = new ArchiveTransfer(sedaVersion);
 
         if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(
             processGlobalMetadata(onDiskGlobalMetadataPath)

@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
@@ -48,8 +47,8 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -65,7 +64,6 @@ import java.util.StringTokenizer;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@ExtendWith(SedaContextExtension.class)
 class SIPBuilderTest {
 
     private static String stripFileName(String fileName) {
@@ -82,7 +80,7 @@ class SIPBuilderTest {
             LoggerFactory.getLogger("SIPBuilderTest"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip", pl)) {
+        try (SIPBuilder sb = new SIPBuilder(SedaVersion.V2_1, "target/tmpJunit/SIPBuilder/SIPBuilderTest.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createRootArchiveUnit(
@@ -144,7 +142,9 @@ class SIPBuilderTest {
             LoggerFactory.getLogger("SIPBuilderTest"),
             SEDALibProgressLogger.OBJECTS_GROUP
         );
-        try (SIPBuilder sb = new SIPBuilder("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip", pl)) {
+        try (
+            SIPBuilder sb = new SIPBuilder(SedaVersion.V2_1, "target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip", pl)
+        ) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
             sb.createSystemExistingRootArchiveUnit(
@@ -182,19 +182,19 @@ class SIPBuilderTest {
                 Content content = sb.getContent(procId);
                 content.addNewMetadata("OriginatingSystemId", procId);
                 content.addNewMetadata("RegisteredDate", registeredDate);
-                Event event = new Event();
+                Event event = new Event(SedaVersion.V2_1);
                 event.addNewMetadata("EventTypeCode", "Avis administratif");
                 event.addNewMetadata("EventDateTime", resultDate);
                 event.addNewMetadata("Outcome", result);
                 content.addMetadata(event);
-                AgentType requirer = new AgentType("Requirer");
+                AgentType requirer = new AgentType(SedaVersion.V2_1, "Requirer");
                 requirer.addNewMetadata("Identifier", requirerId);
                 requirer.addNewMetadata("FirstName", firstname);
                 requirer.addNewMetadata("BirthName", birthname);
                 content.addMetadata(requirer);
                 sb.setContent(procId, content);
                 Management management = sb.getManagement(procId);
-                AppraisalRule appraisalRule = new AppraisalRule();
+                AppraisalRule appraisalRule = new AppraisalRule(SedaVersion.V2_1);
                 appraisalRule.addRule("APP-1069001", resultDate.toLocalDate());
                 appraisalRule.setFinalAction("Destroy");
                 management.addMetadata(appraisalRule);
