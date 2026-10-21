@@ -39,7 +39,6 @@ package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
@@ -119,41 +118,20 @@ public class ArchiveTransfer {
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
 
-            final SedaVersion version = SedaContext.getVersion();
-            switch (version) {
-                case V2_1:
-                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
-                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute(
-                        "xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance",
-                        "schemaLocation",
-                        "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd"
-                    );
-                    break;
-                case V2_2:
-                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.2");
-                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute(
-                        "xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance",
-                        "schemaLocation",
-                        "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd"
-                    );
-                    break;
-                case V2_3:
-                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.3");
-                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    xmlWriter.writeAttribute(
-                        "xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance",
-                        "schemaLocation",
-                        "fr:gouv:culture:archivesdefrance:seda:v2.3 seda-2.3-main.xsd"
-                    );
-                    break;
-                default:
-                    throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
-            }
+            final fr.gouv.vitam.tools.sedaschema.SedaVersion schema = SedaContext.getVersion().getSchemaVersion();
+            if (schema == null) throw new SEDALibException(
+                "Version [" + SedaContext.getVersion() + "] sans schéma",
+                null
+            );
+            final String mainXsd = schema.getMainXsdResource();
+            xmlWriter.writeDefaultNamespace(schema.getNamespace());
+            xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            xmlWriter.writeAttribute(
+                "xsi",
+                "http://www.w3.org/2001/XMLSchema-instance",
+                "schemaLocation",
+                schema.getNamespace() + " " + mainXsd.substring(mainXsd.lastIndexOf('/') + 1)
+            );
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML du début du manifest", e);

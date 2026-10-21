@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class LogBook.
@@ -58,17 +52,6 @@ import java.util.Map;
 public class LogBook extends ComplexListType {
 
     static final String EVENT_TAG = "Event";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(EVENT_TAG, new ComplexListMetadataKind(Event.class, true));
-    }
 
     /**
      * Instantiates a new custodial history.

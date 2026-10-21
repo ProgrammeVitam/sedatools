@@ -43,6 +43,8 @@ import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -69,6 +71,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TestSipGeneratorApp class for launching the command.
@@ -293,10 +296,18 @@ public class TestSipGeneratorApp {
         if (cmd.hasOption("gm")) {
             String gms = cmd.getOptionValue("gm");
             if (StringUtils.isNotBlank(gms)) {
+                Map<String, ComplexListMetadataKind> contentMetadataMap;
+                try {
+                    contentMetadataMap = ComplexListInterface.getMetadataMap(Content.class);
+                } catch (SEDALibException e) {
+                    System.err.println("Impossible de lire les métadonnées de Content: " + e.getMessage());
+                    System.exit(1);
+                    return;
+                }
                 for (String metadata : StringUtils.split(gms, ",")) {
                     if (
-                        Content.metadataMap.containsKey(metadata) &&
-                        Content.metadataMap
+                        contentMetadataMap.containsKey(metadata) &&
+                        contentMetadataMap
                             .get(metadata)
                             .getMetadataClass()
                             .getSimpleName()

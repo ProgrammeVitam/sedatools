@@ -37,17 +37,12 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The Class PersistentIdentifier.
@@ -59,20 +54,6 @@ import java.util.Map;
  * Standard quote: "Customize Toolbar…"
  */
 public class PersistentIdentifier extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("PersistentIdentifierType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("PersistentIdentifierOrigin", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("PersistentIdentifierReference", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("PersistentIdentifierContent", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     // Constructors
 

@@ -37,13 +37,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class ReuseRule.
@@ -57,19 +54,6 @@ import java.util.Map;
 public class ReuseRule extends RuleType {
 
     static final String REUSERULE_TAG = "ReuseRule";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
-    }
 
     /**
      * Instantiates a new reuse rule.

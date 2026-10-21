@@ -37,8 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -46,5 +44,13 @@ import java.lang.annotation.RetentionPolicy;
 public @interface ComplexListMetadataMap {
     boolean isExpandable() default false;
 
-    SedaVersion[] sedaVersion() default {};
+    /**
+     * The first SEDA version this map applies to, such as "2.2", empty for no lower bound.
+     */
+    String since() default "";
+
+    /**
+     * The last SEDA version this map applies to, such as "2.2", empty for no upper bound.
+     */
+    String until() default "";
 }
