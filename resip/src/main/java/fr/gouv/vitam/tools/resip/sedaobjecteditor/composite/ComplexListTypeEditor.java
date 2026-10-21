@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
@@ -51,8 +52,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 /**
  * The ComplexListType object editor class.
@@ -148,50 +147,11 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<String> used = new ArrayList<>();
-        List<Pair<String, String>> result = new ArrayList<>();
-        for (SEDAObjectEditor soe : objectEditorList) {
-            used.add(soe.getTag());
-        }
-        for (String metadataName : getComplexListTypeMetadata().getMetadataMap().keySet()) {
-            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
-                .getMetadataMap()
-                .get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName))) result.add(
-                Pair.of(metadataName, translateTag(metadataName))
-            );
-        }
-        if (!getComplexListTypeMetadata().isNotExpandable()) result.add(
-            Pair.of("AnyXMLType", translateTag("AnyXMLType"))
-        );
-
-        result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
-        return result;
+        return toExtensionList(CompositeRules.addableFields(getComplexListTypeMetadata(), getPresentTags()), true);
     }
 
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        int addOrderIndex;
-        int curOrderIndex;
-        int i;
-        boolean manyFlag;
-        addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
-        i = 0;
-        if (addOrderIndex == -1) return Integer.MAX_VALUE;
-        else {
-            manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
-            for (SEDAObjectEditor soe : objectEditorList) {
-                curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
-                if (
-                    ((!manyFlag) && (curOrderIndex == addOrderIndex)) ||
-                    (curOrderIndex == -1) ||
-                    (curOrderIndex > addOrderIndex)
-                ) {
-                    break;
-                }
-                i++;
-            }
-        }
-        return i;
+        return CompositeRules.insertionIndex(getComplexListTypeMetadata(), getPresentTags(), metadataName);
     }
 
     @Override
@@ -216,17 +176,14 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
         if (sedaMetadata != null) {
             int insertionSEDAObjectEditorIndex = getInsertionSEDAObjectEditorIndex(metadataName);
-            SEDAObjectEditor addedSEDAObjectEditor = createSEDAObjectEditor(sedaMetadata, this);
-            if (insertionSEDAObjectEditorIndex == Integer.MAX_VALUE) objectEditorList.add(addedSEDAObjectEditor);
-            else objectEditorList.add(insertionSEDAObjectEditorIndex, addedSEDAObjectEditor);
+            objectEditorList.add(insertionSEDAObjectEditorIndex, createSEDAObjectEditor(sedaMetadata, this));
             ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
         }
     }
 
     @Override
     public boolean canContainsMultiple(String metadataName) throws SEDALibException {
-        if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null) return true;
-        return getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
+        return CompositeRules.isRepeatable(getComplexListTypeMetadata(), metadataName);
     }
 
     /**

@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
@@ -50,7 +51,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -188,41 +188,11 @@ public class DataObjectGroupEditor extends CompositeEditor {
     @Override
     public List<Pair<String, String>> getExtensionList() {
         if (getDataObjectGroupMetadata() == null) return new ArrayList<Pair<String, String>>();
-
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(
-            Arrays.asList(
-                Pair.of("BinaryDataObject", translateTag("BinaryDataObject")),
-                Pair.of("PhysicalDataObject", translateTag("PhysicalDataObject"))
-            )
-        );
-
-        if (
-            (objectEditorList.size() == 0) ||
-            (!objectEditorList.get(objectEditorList.size() - 1).getTag().equals("LogBook"))
-        ) extensionList.add(Pair.of("LogBook", translateTag("LogBook")));
-        return extensionList;
-    }
-
-    private int getOrder(String tag) {
-        switch (tag) {
-            case "BinaryDataObject":
-                return 0;
-            case "PhysicalDataObject":
-                return 1;
-            default:
-                return 2;
-        }
+        return toExtensionList(CompositeRules.addableDataObjectGroupParts(getPresentTags()), false);
     }
 
     private int getInsertionIndex(String metadataName) {
-        int index = 0;
-        int addOrder = getOrder(metadataName);
-
-        for (SEDAObjectEditor me : objectEditorList) {
-            if (getOrder(me.getTag()) > addOrder) break;
-            index++;
-        }
-        return index;
+        return CompositeRules.dataObjectGroupInsertionIndex(getPresentTags(), metadataName);
     }
 
     @Override
@@ -259,7 +229,7 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     @Override
     public boolean canContainsMultiple(String editedObjectName) throws SEDALibException {
-        return !editedObjectName.equals("LogBook");
+        return CompositeRules.isRepeatableInDataObjectGroup(editedObjectName);
     }
 
     /**

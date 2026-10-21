@@ -43,6 +43,9 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 /**
  * Abstract class for composite object editor for structured editedObject list edition.
@@ -64,6 +67,31 @@ public abstract class CompositeEditor extends SEDAObjectEditor {
     protected CompositeEditor(Object editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
         this.objectEditorList = null;
+    }
+
+    /**
+     * Gets the tags of the edited objects held, in their order.
+     *
+     * @return the tags
+     */
+    protected List<String> getPresentTags() {
+        return objectEditorList.stream().map(SEDAObjectEditor::getTag).collect(Collectors.toList());
+    }
+
+    /**
+     * Gets the extension list of tags, with their translation, sorted by translation if asked.
+     *
+     * @param tags   the tags that can be added
+     * @param sorted true to sort them by translation
+     * @return the extension list
+     */
+    protected static List<Pair<String, String>> toExtensionList(List<String> tags, boolean sorted) {
+        List<Pair<String, String>> result = tags
+            .stream()
+            .map(tag -> Pair.of(tag, translateTag(tag)))
+            .collect(Collectors.toList());
+        if (sorted) result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
+        return result;
     }
 
     /**

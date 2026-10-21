@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
@@ -49,7 +50,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -175,20 +175,7 @@ public class ArchiveUnitEditor extends CompositeEditor {
     @Override
     public List<Pair<String, String>> getExtensionList() {
         if (getArchiveUnitMetadata() == null) return new ArrayList<Pair<String, String>>();
-
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(
-            Arrays.asList(
-                Pair.of("ArchiveUnitProfile", translateTag("ArchiveUnitProfile")),
-                Pair.of("Content", translateTag("Content")),
-                Pair.of("Management", translateTag("Management"))
-            )
-        );
-
-        for (SEDAObjectEditor me : objectEditorList) {
-            String name = me.getTag();
-            extensionList.remove(Pair.of(name, translateTag(name)));
-        }
-        return extensionList;
+        return toExtensionList(CompositeRules.addableArchiveUnitParts(getPresentTags()), false);
     }
 
     @Override
