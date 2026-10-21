@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.resip.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -168,6 +169,25 @@ public final class SessionService {
                 pdo.setDataObjectGroup(dog);
             }
         }
+    }
+
+    /**
+     * Reads the paths of the files a session uses, the ones of its BinaryDataObjects, without
+     * loading it.
+     *
+     * @param file the session file
+     * @return the paths of the files
+     * @throws ResipException if the file is not a readable session
+     */
+    public static List<String> readOnDiskPaths(String file) throws ResipException {
+        List<String> paths = new ArrayList<>();
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
+            JsonNode json = new ObjectMapper().readTree(openJson(zis, file));
+            for (JsonNode path : json.findValues("onDiskPath")) if (path.isTextual()) paths.add(path.asText());
+        } catch (IOException e) {
+            throw unreadable(file, e);
+        }
+        return paths;
     }
 
     /**

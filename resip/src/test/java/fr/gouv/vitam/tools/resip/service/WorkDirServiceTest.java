@@ -37,12 +37,18 @@
  */
 package fr.gouv.vitam.tools.resip.service;
 
+import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -80,6 +86,40 @@ class WorkDirServiceTest {
         Files.createFile(workDir.resolve("file-tmpdir"));
 
         assertThat(WorkDirService.findReimportableTmpDirs(workDir.toString())).containsExactly(newer, older);
+    }
+
+    @Test
+    void findsTheSessionsACleaningBreaks(@TempDir Path workDir) throws Exception {
+        ImportService importService = new ImportService(Preferences.getInstance(), ImportService.USE_AS_IS);
+        Work fromSip = importService.importWork(
+            new SIPImportContext("../sedalib/src/test/resources/PacketSamples/TestSip.zip", workDir.toString()),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+        Work fromDisk = importService.importWork(
+            new DiskImportContext(
+                List.of("Thumbs.db"),
+                false,
+                "src/test/resources/PacketSamples/SampleWithoutLinksModelV2",
+                workDir.toString()
+            ),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+        File usingTmpDir = workDir.resolve("sip-session.zip").toFile();
+        File inTmpDir = workDir.resolve("TestSip.zip-tmpdir").resolve("disk-session.zip").toFile();
+        File notUsingTmpDir = workDir.resolve("disk-session.zip").toFile();
+        SessionService.save(fromSip, usingTmpDir.toString());
+        SessionService.save(fromDisk, inTmpDir.toString());
+        SessionService.save(fromDisk, notUsingTmpDir.toString());
+
+        assertThat(SessionService.readOnDiskPaths(usingTmpDir.toString())).isNotEmpty();
+        assertThat(WorkDirService.findSessionsUsingTmpDirs(workDir.toString())).containsExactlyInAnyOrder(
+            usingTmpDir,
+            inTmpDir
+        );
     }
 
     @Test

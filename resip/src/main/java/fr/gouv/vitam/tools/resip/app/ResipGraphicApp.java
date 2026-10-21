@@ -75,6 +75,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -840,6 +841,26 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menu.add(header);
     }
 
+    // a session only holds the paths of its binaries, which may have been deleted or moved since
+    private void warnAboutUnreadableBinaries(String filename) {
+        List<String> problems = currentWork.getDataObjectPackage().getUnreadableBinaryDataObjectDescriptions();
+        if (problems.isEmpty()) return;
+        for (String problem : problems) getGlobalLogger().log(ResipLogger.STEP, "resip: " + problem, null);
+        UserInteractionDialog.getUserAnswer(
+            mainWindow,
+            "Attention, " +
+            problems.size() +
+            " fichier(s) binaire(s) de la session [" +
+            filename +
+            "]\nsont introuvables ou illisibles, l'export échouera tant qu'ils manqueront:\n" +
+            listedItems(problems),
+            "Avertissement",
+            UserInteractionDialog.IMPORTANT_DIALOG,
+            "Les métadonnées sont chargées, mais les fichiers ont pu être effacés par un nettoyage du " +
+            "répertoire de travail, ou déplacés.\nLa liste complète est dans le journal."
+        );
+    }
+
     private boolean canLoadWork() {
         if (importThreadRunning) {
             UserInteractionDialog.getUserAnswer(
@@ -894,6 +915,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
             mainWindow.load();
             mainWindow.setCursor(Cursor.getDefaultCursor());
+            warnAboutUnreadableBinaries(filename);
             setFilenameWork(filename);
             setContextLoaded(true);
             setModifiedContext(false);
@@ -1070,6 +1092,34 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Empty WorkDir
 
+    private static final int MAX_LISTED_ITEMS = 10;
+
+    // lists at most MAX_LISTED_ITEMS lines, the end of a long list is only counted
+    private static String listedItems(List<String> items) {
+        StringBuilder result = new StringBuilder();
+        for (String item : items.subList(0, Math.min(items.size(), MAX_LISTED_ITEMS))) result
+            .append("  - ")
+            .append(item)
+            .append("\n");
+        if (items.size() > MAX_LISTED_ITEMS) result
+            .append("  - ... et ")
+            .append(items.size() - MAX_LISTED_ITEMS)
+            .append(" autre(s)\n");
+        return result.toString();
+    }
+
+    private static String brokenSessionsWarning(List<File> sessions) {
+        if (sessions.isEmpty()) return "";
+        List<String> names = new ArrayList<>();
+        for (File session : sessions) names.add(session.toString());
+        return (
+            "\nAttention, ces sessions sauvegardées utilisent des fichiers qui seront effacés,\n" +
+            "leurs binaires seront perdus:\n" +
+            listedItems(names) +
+            "\n"
+        );
+    }
+
     private void emptyWorkDir() {
         CreationContext cc;
         try {
@@ -1092,6 +1142,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n" +
                     cc.getWorkDir() +
                     "\n" +
+                    brokenSessionsWarning(WorkDirService.findSessionsUsingTmpDirs(cc.getWorkDir())) +
                     "Voulez-vous continuer?",
                     "Confirmation",
                     UserInteractionDialog.WARNING_DIALOG,
