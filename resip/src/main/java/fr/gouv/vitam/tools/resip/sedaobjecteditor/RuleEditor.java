@@ -86,19 +86,6 @@ public class RuleEditor extends SEDAObjectEditor {
         return (Rule) editedObject;
     }
 
-    /**
-     * Gets Rule sample.
-     *
-     * @param elementName the element name, corresponding to the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal) return new Rule("", null);
-        else return new Rule("Text", LocalDate.of(2000, 1, 1));
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         getRuleMetadata().setRuleID(ruleIDTextField.getText());

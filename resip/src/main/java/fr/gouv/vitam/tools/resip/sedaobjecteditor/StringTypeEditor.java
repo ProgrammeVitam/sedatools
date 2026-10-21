@@ -77,19 +77,6 @@ public class StringTypeEditor extends SEDAObjectEditor {
         return (StringType) editedObject;
     }
 
-    /**
-     * Gets StringType sample.
-     *
-     * @param elementName the element name, corresponding to the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal) return new StringType(elementName, "");
-        else return new StringType(elementName, "Text");
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         if (valueTextField != null) getStringTypeMetadata().setValue(valueTextField.getText());

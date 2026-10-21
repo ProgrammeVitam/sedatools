@@ -37,36 +37,22 @@
  */
 package fr.gouv.vitam.tools.resip.threads;
 
-import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.inout.MailImporter;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.service.AddService;
+import fr.gouv.vitam.tools.resip.service.ImportResult;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.io.File;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
@@ -83,12 +69,16 @@ public class MailExtractThread extends SwingWorker<String, String> {
     private BinaryDataObject bdoToExpand;
     private InOutDialog inOutDialog;
     //run output
-    private DiskToArchiveTransferImporter di;
+    private ImportResult imported;
     private String summary;
     private Throwable exitThrowable;
-    private int fileCounter;
     // logger
     private SEDALibProgressLogger spl;
+
+    /**
+     * The expansion, which asks the user what to do with an already used temporary directory.
+     */
+    private final AddService addService;
 
     /**
      * MailExtract a binary data object replacing it by the archive unit hierarchy, in a dedicated thread.
@@ -139,48 +129,11 @@ public class MailExtractThread extends SwingWorker<String, String> {
         this.work = work;
         this.targetNode = targetNode;
         this.bdoToExpand = bdoToExpand;
+        this.addService = new AddService(Preferences.getInstance(), new UsedTmpDirResolver(this, () -> spl));
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
         dialog.setThread(this);
-    }
-
-    private void recursiveDelete(File inFile) throws InterruptedException {
-        if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete();
-        } else {
-            inFile.delete();
-            fileCounter++;
-            doProgressLogIfStep(
-                spl,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                fileCounter,
-                fileCounter + " fichiers effacés"
-            );
-        }
-    }
-
-    private String getTmpDirTarget(String workDir, String srcPathName, String id)
-        throws ResipException, InterruptedException {
-        String subDir = Paths.get(srcPathName).getFileName().toString() + "-" + id + "-tmpdir";
-        String target = workDir + File.separator + subDir;
-        if (Files.exists(Paths.get(target))) {
-            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.mainWindow, workDir, subDir);
-            utdd.setVisible(true);
-            if (utdd.getReturnValue() == STATUS_CLEAN) {
-                fileCounter = 0;
-                recursiveDelete(new File(utdd.getResult()));
-                doProgressLog(spl, SEDALibProgressLogger.STEP, fileCounter + " fichiers effacés au total", null);
-                target = utdd.getResult();
-            } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
-                target = utdd.getResult();
-            } else { // STATUS_CANCEL
-                this.cancel(false);
-                throw new ResipException("Opération annulée");
-            }
-        }
-        return target;
     }
 
     @Override
@@ -220,17 +173,6 @@ public class MailExtractThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            doProgressLog(
-                spl,
-                GLOBAL,
-                "Extraction de massages du BinaryDataObject " +
-                bdoToExpand.getInDataObjectPackageId() +
-                ", fichier [" +
-                bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") +
-                "]",
-                null
-            );
-
             MailExtractProgressLogger mepl = new MailExtractProgressLogger(
                 ResipLogger.getGlobalLogger().getLogger(),
                 localLogLevel,
@@ -245,40 +187,8 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 1000
             );
             mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-            MailImportContext mic = new MailImportContext(Preferences.getInstance());
-            String target = getTmpDirTarget(
-                mic.getWorkDir(),
-                bdoToExpand.getOnDiskPathToString(),
-                bdoToExpand.getInDataObjectPackageId()
-            );
-            MailImporter mi = new MailImporter(
-                mic.isExtractMessageTextFile(),
-                mic.isExtractMessageTextMetadata(),
-                mic.isExtractAttachmentTextFile(),
-                mic.isExtractAttachmentTextMetadata(),
-                StoreExtractor.getProtocolFromDroidFormat(
-                    bdoToExpand.getMetadataFormatIdentification().getSimpleMetadata("FormatId")
-                ),
-                mic.getDefaultCharsetName(),
-                bdoToExpand.getOnDiskPathToString(),
-                "",
-                target,
-                mepl
-            );
-            mi.doExtract();
-            doProgressLog(spl, GLOBAL, "resip: extraction de messages terminée\n" + mi.getSummary(), null);
-            List<Path> lp = new ArrayList<>();
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(mi.getTarget()))) {
-                for (Path path : stream) {
-                    if (!path.toString().endsWith("__ArchiveUnitMetadata.xml")) lp.add(path);
-                }
-            }
-            di = new DiskToArchiveTransferImporter(bdoToExpand.getSedaVersion(), lp, spl);
-            for (String ip : new DiskImportContext(
-                Preferences.getInstance()
-            ).getIgnorePatternList()) di.addIgnorePattern(ip);
-            di.doImport();
-            summary = mi.getSummary() + "\n" + di.getSummary();
+            imported = addService.extractMails(bdoToExpand, spl, mepl);
+            summary = imported.getSummary();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -304,40 +214,13 @@ public class MailExtractThread extends SwingWorker<String, String> {
         );
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
-            List<ArchiveUnit> addedNodes = di
-                .getArchiveTransfer()
-                .getDataObjectPackage()
-                .getGhostRootAu()
-                .getChildrenAuList()
-                .getArchiveUnitList();
-            targetNode
-                .getArchiveUnit()
-                .getDataObjectPackage()
-                .moveContentFromDataObjectPackage(
-                    di.getArchiveTransfer().getDataObjectPackage(),
-                    targetNode.getArchiveUnit()
-                );
-            DataObject dataObject = targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
-            if (dataObject instanceof DataObjectGroup) {
-                DataObjectGroup dog = (DataObjectGroup) dataObject;
-                dog.removeDataObject(bdoToExpand);
-                if (
-                    ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                    dog.getBinaryDataObjectList().isEmpty()
-                ) {
-                    targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
-                    try {
-                        targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");
-                    } catch (SEDALibException e) {
-                        //ignored
-                    }
-                }
-            }
-            try {
-                targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);
-            } catch (InterruptedException ignored) {
-                //ignore
-            }
+            List<ArchiveUnit> addedNodes = addService.replaceByExpansion(
+                work,
+                targetNode.getArchiveUnit(),
+                bdoToExpand,
+                imported.getDataObjectPackage(),
+                spl
+            );
             DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
             int auRecursivCount = 0;
             int ogRecursivCount = 0;
@@ -348,7 +231,6 @@ public class MailExtractThread extends SwingWorker<String, String> {
             }
             targetNode.actualiseRecursivCounts(auRecursivCount, ogRecursivCount);
             treeModel.nodeStructureChanged(targetNode);
-            work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Extraction de messages et ajout terminés", null);

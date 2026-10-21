@@ -39,10 +39,9 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
+import fr.gouv.vitam.tools.resip.service.AnalysisService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -65,10 +64,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     /**
      * Data.
      */
-    private DataObjectPackage dataObjectPackage;
     private LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDogDigestMap;
     private HashMap<String, List<ArchiveUnit>> sortedAuByDogDigestMap;
-    private HashMap<DataObjectGroup, String> dogKeyMap;
     private boolean binaryHash;
     private boolean binaryFilename;
     private boolean physicalAllMD;
@@ -104,53 +101,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         this.physicalAllMD = physicalAllMD;
     }
 
-    /**
-     * Recursively browse the ArchiveUnit tree to sort the DOG by DOG digest map and create the sorted ArchiveUnit by DOG digest map.
-     * The result is then sorted in the natural order of ArchiveUnit tree browsing.
-     *
-     * @param au                the au
-     * @param dogByDogDigestMap the dog by digest map
-     */
-    void followTree(ArchiveUnit au, HashMap<String, List<DataObjectGroup>> dogByDogDigestMap) {
-        List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
-
-        for (ArchiveUnit childUnit : auList) {
-            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId())) continue;
-            for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
-                if (dataObject instanceof DataObjectGroup) {
-                    String dogKey = dogKeyMap.get(dataObject);
-                    if (dogByDogDigestMap.get(dogKey).contains(dataObject)) {
-                        dogByDogDigestMap.get(dogKey).remove(dataObject);
-                        sortedDogByDogDigestMap.get(dogKey).add((DataObjectGroup) dataObject);
-                        sortedAuByDogDigestMap.get(dogKey).add(childUnit);
-                    } else if (sortedDogByDogDigestMap.get(dogKey).contains(dataObject)) sortedAuByDogDigestMap
-                        .get(dogKey)
-                        .add(childUnit);
-                }
-            }
-            dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
-            followTree(childUnit, dogByDogDigestMap);
-        }
-    }
-
-    private LinkedHashMap<String, List<DataObjectGroup>> treeSort(
-        HashMap<String, List<DataObjectGroup>> dogByDogDigestMap
-    ) {
-        dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
-        sortedDogByDogDigestMap = new LinkedHashMap<String, List<DataObjectGroup>>();
-        sortedAuByDogDigestMap = new HashMap<String, List<ArchiveUnit>>();
-        for (String e : dogByDogDigestMap.keySet()) {
-            sortedDogByDogDigestMap.put(e, new ArrayList<DataObjectGroup>());
-            sortedAuByDogDigestMap.put(e, new ArrayList<ArchiveUnit>());
-        }
-        followTree(dataObjectPackage.getGhostRootAu(), dogByDogDigestMap);
-        return sortedDogByDogDigestMap;
-    }
-
     @Override
     public String doInBackground() {
-        String tmp;
-        int counter = 0;
         try {
             int localLogLevel, localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
@@ -170,66 +122,15 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 1000
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-            dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
-
-            doProgressLog(
-                spl,
-                GLOBAL,
-                "resip: recherche de doublons ( " +
-                (binaryHash ? "hachage de fichier " : "") +
-                (binaryFilename ? "nom de fichier " : "") +
-                (physicalAllMD ? "toute MD physique " : "") +
-                ")",
-                null
+            AnalysisService.DuplicatesResult result = AnalysisService.duplicates(
+                ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage(),
+                binaryHash,
+                binaryFilename,
+                physicalAllMD,
+                spl
             );
-            HashMap<String, List<DataObjectGroup>> dogByDigestMap = new HashMap<String, List<DataObjectGroup>>();
-            dogKeyMap = new HashMap<DataObjectGroup, String>();
-            for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
-                tmp = (dog.logBook == null ? "" : dog.logBook.toString());
-                for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
-                    if (binaryHash) {
-                        DigestType md = bdo.getMetadataMessageDigest();
-                        tmp += "|BDO=" + (md == null ? null : md.getValue());
-                    }
-                    if (binaryFilename) {
-                        FileInfo fi = bdo.getMetadataFileInfo();
-                        tmp += "|" + (fi == null ? null : fi.getSimpleMetadata("Filename"));
-                    }
-                }
-                for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
-                    if (physicalAllMD) tmp += "|PDO=" + pdo.toSedaXmlFragments();
-                }
-                dogKeyMap.put(dog, tmp);
-                if (dogByDigestMap.get(tmp) == null) {
-                    ArrayList<DataObjectGroup> dogList = new ArrayList<DataObjectGroup>();
-                    dogList.add(dog);
-                    dogByDigestMap.put(tmp, dogList);
-                } else dogByDigestMap.get(tmp).add(dog);
-                counter++;
-                doProgressLogIfStep(
-                    spl,
-                    SEDALibProgressLogger.OBJECTS,
-                    counter,
-                    "resip: " + counter + " groupes d'objets comparés"
-                );
-            }
-            dogByDigestMap = treeSort(dogByDigestMap);
-            for (
-                Iterator<Map.Entry<String, List<ArchiveUnit>>> it = sortedAuByDogDigestMap.entrySet().iterator();
-                it.hasNext();
-            ) {
-                Map.Entry<String, List<ArchiveUnit>> entry = it.next();
-                if (entry.getValue().size() == 1) {
-                    it.remove();
-                    dogByDigestMap.remove(entry.getKey());
-                }
-            }
-            doProgressLog(
-                spl,
-                GLOBAL,
-                "resip: " + dogByDigestMap.size() + " lots de groupes d'objets semblables",
-                null
-            );
+            sortedDogByDogDigestMap = result.getDataObjectGroupsByKey();
+            sortedAuByDogDigestMap = result.getArchiveUnitsByKey();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";

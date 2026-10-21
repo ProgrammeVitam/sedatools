@@ -40,24 +40,16 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.CompactContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.service.CompactService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.process.Compactor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
@@ -74,7 +66,6 @@ public class CompactThread extends SwingWorker<String, String> {
     private final InOutDialog inOutDialog;
     private String summary;
     private Throwable exitThrowable;
-    private int fileCounter;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -119,63 +110,6 @@ public class CompactThread extends SwingWorker<String, String> {
         dialog.setThread(this);
     }
 
-    private void recursiveDelete(File inFile) throws InterruptedException {
-        if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete();
-        } else {
-            inFile.delete();
-            fileCounter++;
-            doProgressLogIfStep(
-                spl,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                fileCounter,
-                fileCounter + " fichiers effacés"
-            );
-        }
-    }
-
-    private String getTmpDirTarget(String workDir, String srcPathName, String id)
-        throws ResipException, InterruptedException {
-        String subDir = Paths.get(srcPathName).getFileName().toString() + "-" + id + "-tmpdir";
-        String target = workDir + File.separator + subDir;
-        if (Files.exists(Paths.get(target))) {
-            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.mainWindow, workDir, subDir);
-            utdd.setVisible(true);
-            if (utdd.getReturnValue() == STATUS_CLEAN) {
-                fileCounter = 0;
-                recursiveDelete(new File(utdd.getResult()));
-                doProgressLog(spl, SEDALibProgressLogger.STEP, fileCounter + " fichiers effacés au total", null);
-                target = utdd.getResult();
-            } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
-                target = utdd.getResult();
-            } else { // STATUS_CANCEL
-                this.cancel(false);
-                throw new ResipException("Opération annulée");
-            }
-        }
-        return target;
-    }
-
-    private Map<String, Integer> getContentMetadataFilter(CompactContext coc) {
-        Map<String, Integer> contentMetadataFilter = new HashMap<>();
-        for (String m : coc.getKeptMetadataList()) {
-            if (m.trim().isEmpty()) continue;
-            else if (!m.contains(":")) contentMetadataFilter.put(m.trim(), 0);
-            else {
-                int tmp = 0;
-                try {
-                    tmp = Integer.parseInt(m.substring(m.indexOf(":") + 1));
-                } catch (NumberFormatException ignored) {
-                    // no real case
-                }
-                if (tmp < 0) tmp = 0;
-                contentMetadataFilter.put(m.substring(0, m.indexOf(":")).trim(), tmp);
-            }
-        }
-        return contentMetadataFilter;
-    }
-
     @Override
     public String doInBackground() {
         while (ResipGraphicApp.getTheApp().addThreadRunning) {
@@ -213,36 +147,12 @@ public class CompactThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            ArchiveUnit targetArchiveUnit = targetNode.getArchiveUnit();
-            doProgressLog(
-                spl,
-                GLOBAL,
-                "Compactage de l'ArchiveUnit [" +
-                targetArchiveUnit.getInDataObjectPackageId() +
-                "]=" +
-                targetArchiveUnit.getContent().getSimpleMetadata("Title"),
-                null
-            );
-
-            CompactContext coc = new CompactContext(Preferences.getInstance());
-
-            String target = getTmpDirTarget(coc.getWorkDir(), "Compact", targetArchiveUnit.getInDataObjectPackageId());
-            //run output
-            Compactor compactor = new Compactor(targetArchiveUnit, target, spl);
-            compactor.setCompactedDocumentPackLimit(coc.getMaxMetadataSize(), coc.getMaxDocumentNumber());
-            compactor.setObjectVersionFilters(
-                coc.getDocumentKeptDataObjectVersionList(),
-                coc.getSubDocumentKeptDataObjectVersionList()
-            );
-            if (!coc.isMetadataFilterFlag()) compactor.setMetadataFilters(null, null);
-            else {
-                Map<String, Integer> contentMetadataFilter = getContentMetadataFilter(coc);
-                compactor.setMetadataFilters(contentMetadataFilter, contentMetadataFilter);
-            }
-            compactor.setDeflatedFlag(coc.isDeflatedFlag());
-            compactedArchiveUnit = compactor.doCompact();
-
-            summary = compactor.getSummary();
+            CompactService.Result result = new CompactService(
+                Preferences.getInstance(),
+                new UsedTmpDirResolver(this, () -> spl)
+            ).compact(work, targetNode.getArchiveUnit(), spl);
+            compactedArchiveUnit = result.getArchiveUnit();
+            summary = result.getSummary();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -277,7 +187,6 @@ public class CompactThread extends SwingWorker<String, String> {
             }
 
             if (newNode != null) newNode.getTreeModel().nodeStructureChanged(newNode.getParent());
-            work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);

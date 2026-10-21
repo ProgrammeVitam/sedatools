@@ -73,19 +73,6 @@ public class SIPInternalIDTypeEditor extends SEDAObjectEditor {
         return (SIPInternalIDType) editedObject;
     }
 
-    /**
-     * Gets SIPInternalIDType sample.
-     *
-     * @param elementName the element name, corresponding to the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal) return new SIPInternalIDType(elementName, "");
-        else return new SIPInternalIDType(elementName, "ID11");
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         getSIPInternalIDTypeMetadata().setValue(valueTextField.getText());

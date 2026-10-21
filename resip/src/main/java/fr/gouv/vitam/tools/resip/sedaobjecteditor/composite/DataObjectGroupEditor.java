@@ -39,17 +39,17 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -91,58 +91,11 @@ public class DataObjectGroupEditor extends CompositeEditor {
         );
     }
 
-    private void removeDataObject(DataObject dataObject) {
-        getDataObjectGroupMetadata().removeDataObject(dataObject);
-    }
-
-    private void addDataObject(DataObject dataObject) throws SEDALibException {
-        DataObjectGroup og;
-        if (dataObject instanceof BinaryDataObject) {
-            getDataObjectGroupMetadata()
-                .getDataObjectPackage()
-                .addDataObjectPackageIdElement((BinaryDataObject) dataObject);
-            getDataObjectGroupMetadata().addDataObject((BinaryDataObject) dataObject);
-        } else if (dataObject instanceof PhysicalDataObject) {
-            getDataObjectGroupMetadata()
-                .getDataObjectPackage()
-                .addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
-            getDataObjectGroupMetadata().addDataObject((PhysicalDataObject) dataObject);
-        }
-    }
-
     @Override
     public DataObjectGroup extractEditedObject() throws SEDALibException {
-        List<BinaryDataObject> bdoList = new ArrayList<BinaryDataObject>();
-        List<PhysicalDataObject> pdoList = new ArrayList<PhysicalDataObject>();
-        LogBook logBook = null;
-        for (SEDAObjectEditor me : objectEditorList) {
-            Object subObject = me.extractEditedObject();
-            if (subObject instanceof BinaryDataObject) bdoList.add((BinaryDataObject) subObject);
-            else if (subObject instanceof PhysicalDataObject) pdoList.add((PhysicalDataObject) subObject);
-            else if (subObject instanceof LogBook) logBook = (LogBook) subObject;
-        }
-
-        getDataObjectGroupMetadata().setLogBook(logBook);
-        List<BinaryDataObject> previousBdoList = new ArrayList<BinaryDataObject>(
-            getDataObjectGroupMetadata().getBinaryDataObjectList()
-        );
-        for (BinaryDataObject bdo : previousBdoList) {
-            if (!bdoList.contains(bdo)) removeDataObject(bdo);
-        }
-        for (BinaryDataObject bdo : bdoList) {
-            if (!previousBdoList.contains(bdo)) addDataObject(bdo);
-        }
-
-        List<PhysicalDataObject> previousPdoList = new ArrayList<PhysicalDataObject>(
-            getDataObjectGroupMetadata().getPhysicalDataObjectList()
-        );
-        for (PhysicalDataObject pdo : previousPdoList) {
-            if (!pdoList.contains(pdo)) removeDataObject(pdo);
-        }
-        for (PhysicalDataObject pdo : pdoList) {
-            if (!previousPdoList.contains(pdo)) addDataObject(pdo);
-        }
-
+        List<Object> parts = new ArrayList<>();
+        for (SEDAObjectEditor me : objectEditorList) parts.add(me.extractEditedObject());
+        EditedObjects.rebuild(getDataObjectGroupMetadata(), parts);
         return getDataObjectGroupMetadata();
     }
 
@@ -187,41 +140,11 @@ public class DataObjectGroupEditor extends CompositeEditor {
     @Override
     public List<Pair<String, String>> getExtensionList() {
         if (getDataObjectGroupMetadata() == null) return new ArrayList<Pair<String, String>>();
-
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(
-            Arrays.asList(
-                Pair.of("BinaryDataObject", translateTag("BinaryDataObject")),
-                Pair.of("PhysicalDataObject", translateTag("PhysicalDataObject"))
-            )
-        );
-
-        if (
-            (objectEditorList.size() == 0) ||
-            (!objectEditorList.get(objectEditorList.size() - 1).getTag().equals("LogBook"))
-        ) extensionList.add(Pair.of("LogBook", translateTag("LogBook")));
-        return extensionList;
-    }
-
-    private int getOrder(String tag) {
-        switch (tag) {
-            case "BinaryDataObject":
-                return 0;
-            case "PhysicalDataObject":
-                return 1;
-            default:
-                return 2;
-        }
+        return toExtensionList(CompositeRules.addableDataObjectGroupParts(getPresentTags()), false);
     }
 
     private int getInsertionIndex(String metadataName) {
-        int index = 0;
-        int addOrder = getOrder(metadataName);
-
-        for (SEDAObjectEditor me : objectEditorList) {
-            if (getOrder(me.getTag()) > addOrder) break;
-            index++;
-        }
-        return index;
+        return CompositeRules.dataObjectGroupInsertionIndex(getPresentTags(), metadataName);
     }
 
     @Override
@@ -230,21 +153,21 @@ public class DataObjectGroupEditor extends CompositeEditor {
         SEDAObjectEditor addedObjectEditor = null;
         switch (editedObjectName) {
             case "BinaryDataObject":
-                metadata = BinaryDataObjectEditor.createBinaryDataObjectSample(
+                metadata = MetadataSamples.binaryDataObjectSample(
                     getDataObjectGroupMetadata().getDataObjectPackage(),
                     true
                 );
                 addedObjectEditor = new BinaryDataObjectEditor((BinaryDataObject) metadata, this);
                 break;
             case "PhysicalDataObject":
-                metadata = PhysicalDataObjectEditor.createPhysicalDataObjectSample(
+                metadata = MetadataSamples.physicalDataObjectSample(
                     getDataObjectGroupMetadata().getDataObjectPackage(),
                     true
                 );
                 addedObjectEditor = new PhysicalDataObjectEditor((PhysicalDataObject) metadata, this);
                 break;
             case "LogBook":
-                metadata = createSEDAMetadataSample(getSedaVersion(), "LogBook", "LogBook", true);
+                metadata = MetadataSamples.sample(getSedaVersion(), "LogBook", "LogBook", true);
                 addedObjectEditor = createSEDAObjectEditor((SEDAMetadata) metadata, this);
                 break;
         }
@@ -258,7 +181,7 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     @Override
     public boolean canContainsMultiple(String editedObjectName) throws SEDALibException {
-        return !editedObjectName.equals("LogBook");
+        return CompositeRules.isRepeatableInDataObjectGroup(editedObjectName);
     }
 
     /**

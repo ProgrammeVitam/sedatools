@@ -49,6 +49,8 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
+import fr.gouv.vitam.tools.resip.service.SessionService;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
@@ -650,22 +652,22 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     break;
                 // Export Menu
                 case "ExportToSEDASIP":
-                    exportWork(ExportThread.SIP_ALL_EXPORT);
+                    exportWork(ExportType.SIP_ALL);
                     break;
                 case "ExportToSEDAXMLManifest":
-                    exportWork(ExportThread.SIP_MANIFEST_EXPORT);
+                    exportWork(ExportType.SIP_MANIFEST);
                     break;
                 case "ExportToDisk":
-                    exportWork(ExportThread.DISK_EXPORT);
+                    exportWork(ExportType.DISK);
                     break;
                 case "ExportToCSVDisk":
-                    exportWork(ExportThread.CSV_ALL_DISK_EXPORT);
+                    exportWork(ExportType.CSV_ALL_DISK);
                     break;
                 case "ExportToCSVZip":
-                    exportWork(ExportThread.CSV_ALL_ZIP_EXPORT);
+                    exportWork(ExportType.CSV_ALL_ZIP);
                     break;
                 case "ExportToCSVMetadataFile":
-                    exportWork(ExportThread.CSV_METADATA_FILE_EXPORT);
+                    exportWork(ExportType.CSV_METADATA_FILE);
                     break;
                 case "About":
                     about();
@@ -789,7 +791,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
-                final SedaVersion sedaVersionFromWorkspace = Work.getSeda2VersionFromFile(filename);
+                final SedaVersion sedaVersionFromWorkspace = SessionService.readSedaVersion(filename);
 
                 if ((sedaVersionFromWorkspace != null) && (sedaVersionFromWorkspace != sedaVersion)) {
                     if (
@@ -809,7 +811,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     treatmentParameters.toPrefs(Preferences.getInstance());
                 }
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                currentWork = Work.createFromFile(filename);
+                currentWork = SessionService.load(filename);
                 getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
                 mainWindow.load();
                 mainWindow.setCursor(Cursor.getDefaultCursor());
@@ -836,7 +838,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private void saveWork() {
         if (filenameWork != null) try {
             mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            currentWork.save(filenameWork);
+            SessionService.save(currentWork, filenameWork);
             mainWindow.setCursor(Cursor.getDefaultCursor());
             setModifiedContext(false);
         } catch (Exception e) {
@@ -874,7 +876,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         OK_DIALOG)
                 ) return;
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                currentWork.save(filename);
+                SessionService.save(currentWork, filename);
                 mainWindow.setCursor(Cursor.getDefaultCursor());
                 getGlobalLogger().log(ResipLogger.GLOBAL, "Resip.Graphic: Fichier [" + filename + "] sauvegardé", null);
                 setModifiedContext(false);
@@ -1529,7 +1531,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Export Manifest, SIP or disk
 
-    private void exportWork(int exportType) {
+    private void exportWork(ExportType exportType) {
         String defaultFilename;
         try {
             if (completeResipWork()) return;
@@ -1541,18 +1543,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser = new JFileChooser(Preferences.getInstance().getPrefsExportDir());
                 defaultFilename = Preferences.getInstance().getPrefsExportDir() + File.separator;
             }
-            if ((exportType != ExportThread.DISK_EXPORT) && (exportType != ExportThread.CSV_ALL_DISK_EXPORT)) {
+            if ((exportType != ExportType.DISK) && (exportType != ExportType.CSV_ALL_DISK)) {
                 switch (exportType) {
-                    case ExportThread.SIP_ALL_EXPORT:
+                    case SIP_ALL:
                         defaultFilename += "SIP.zip";
                         break;
-                    case ExportThread.SIP_MANIFEST_EXPORT:
+                    case SIP_MANIFEST:
                         defaultFilename += "manifest.xml";
                         break;
-                    case ExportThread.CSV_ALL_ZIP_EXPORT:
+                    case CSV_ALL_ZIP:
                         defaultFilename += "FilesCsv.zip";
                         break;
-                    case ExportThread.CSV_METADATA_FILE_EXPORT:
+                    case CSV_METADATA_FILE:
                         defaultFilename += "metadata.csv";
                         break;
                     default:

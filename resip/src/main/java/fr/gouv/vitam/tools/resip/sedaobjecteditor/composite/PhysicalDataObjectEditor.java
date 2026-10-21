@@ -38,18 +38,8 @@
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The PhysicalDataObject object editor class.
@@ -76,47 +66,7 @@ public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     }
 
     @Override
-    public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        String tmp;
-        for (SEDAMetadata sm : getPhysicalDataObject().getMetadataList()) {
-            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
-        }
-        return String.join(", ", summaryList);
-    }
-
-    @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         prepareSEDAObjectEditorPanel(null);
-    }
-
-    /**
-     * Create physical data object sample binary data object.
-     *
-     * @param dataObjectPackage the DataObjectPackage the sample is built for, in its SEDA version, without being added to it
-     * @param minimal the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the physical data object
-     * @throws SEDALibException the seda lib exception
-     */
-    public static PhysicalDataObject createPhysicalDataObjectSample(
-        DataObjectPackage dataObjectPackage,
-        boolean minimal
-    ) throws SEDALibException {
-        PhysicalDataObject result = new PhysicalDataObject();
-        result.setDataObjectPackage(dataObjectPackage);
-
-        for (Map.Entry<String, ComplexListMetadataKind> e : result.getMetadataMap().entrySet()) {
-            if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey())) result.addMetadata(
-                createSEDAMetadataSample(
-                    result.getSedaVersion(),
-                    e.getValue().getMetadataClass().getName(),
-                    e.getKey(),
-                    minimal
-                )
-            );
-        }
-
-        return result;
     }
 }

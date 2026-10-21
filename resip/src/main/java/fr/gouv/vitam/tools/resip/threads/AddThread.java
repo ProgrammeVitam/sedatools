@@ -41,16 +41,16 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.service.AddService;
+import fr.gouv.vitam.tools.resip.service.ImportResult;
+import fr.gouv.vitam.tools.resip.service.ImportService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -73,11 +73,21 @@ public class AddThread extends SwingWorker<String, String> {
     private List<Path> lp;
     private InOutDialog inOutDialog;
     //run output
-    private DiskToDataObjectPackageImporter di;
+    private ImportResult imported;
     private String summary;
     private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
+
+    /**
+     * The SEDA version of a new work, the one of the interface.
+     */
+    private final SedaVersion sedaVersion;
+
+    /**
+     * The addition, which uses an already used temporary directory as it is.
+     */
+    private final AddService addService;
 
     /**
      * Adds the new files, with a dedicated thread.
@@ -119,8 +129,10 @@ public class AddThread extends SwingWorker<String, String> {
      * @param dialog     the dialog
      */
     public AddThread(Work work, DataObjectPackageTreeNode targetNode, List<File> files, InOutDialog dialog) {
-        if (targetNode != null) this.work = work;
-        else this.work = new Work(null, new DiskImportContext(Preferences.getInstance()), null);
+        // without target, the files make a new work
+        this.work = targetNode != null ? work : null;
+        this.sedaVersion = ResipGraphicApp.getTheApp().treatmentParameters.getSedaVersion();
+        this.addService = new AddService(Preferences.getInstance(), ImportService.USE_AS_IS);
 
         this.targetNode = targetNode;
         this.lp = new ArrayList<>();
@@ -129,15 +141,6 @@ public class AddThread extends SwingWorker<String, String> {
         this.summary = null;
         this.exitThrowable = null;
         dialog.setThread(this);
-    }
-
-    private void setWorkFromDataObjectPackage(DataObjectPackage dataObjectPackage) {
-        work.setDataObjectPackage(dataObjectPackage);
-        ExportContext newExportContext = new ExportContext(Preferences.getInstance());
-        if (dataObjectPackage.getManagementMetadataXmlData() != null) newExportContext.setManagementMetadataXmlData(
-            dataObjectPackage.getManagementMetadataXmlData()
-        );
-        work.setExportContext(newExportContext);
     }
 
     @Override
@@ -178,20 +181,13 @@ public class AddThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            DiskImportContext dic;
-            if (this.work.getCreationContext() instanceof DiskImportContext) dic =
-                (DiskImportContext) this.work.getCreationContext();
-            else dic = new DiskImportContext(Preferences.getInstance());
-            di = new DiskToDataObjectPackageImporter(
-                work.getDataObjectPackage().getSedaVersion(),
-                lp,
-                dic.isNoLinkFlag(),
-                null,
-                spl
-            );
-            for (String ip : dic.getIgnorePatternList()) di.addIgnorePattern(ip);
-            di.doImport();
-            summary = di.getSummary();
+            if (targetNode == null) {
+                work = addService.importNewWork(lp, sedaVersion, spl);
+                summary = work.getCreationContext().getSummary();
+            } else {
+                imported = addService.importFiles(work, lp, spl);
+                summary = imported.getSummary();
+            }
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -216,10 +212,6 @@ public class AddThread extends SwingWorker<String, String> {
             exitThrowable
         );
         else if (targetNode == null) {
-            ((DiskImportContext) work.getCreationContext()).setModelVersion(di.getModelVersion());
-            setWorkFromDataObjectPackage(di.getDataObjectPackage());
-            work.getCreationContext().setOnDiskInput("DragAndDrop");
-            work.getCreationContext().setSummary(summary);
             ResipGraphicApp.getTheApp().currentWork = work;
             ResipGraphicApp.getTheApp().setFilenameWork(null);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
@@ -229,15 +221,11 @@ public class AddThread extends SwingWorker<String, String> {
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         } else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
-            List<ArchiveUnit> addedNodes = di
-                .getDataObjectPackage()
-                .getGhostRootAu()
-                .getChildrenAuList()
-                .getArchiveUnitList();
-            targetNode
-                .getArchiveUnit()
-                .getDataObjectPackage()
-                .moveContentFromDataObjectPackage(di.getDataObjectPackage(), targetNode.getArchiveUnit());
+            List<ArchiveUnit> addedNodes = addService.addTo(
+                work,
+                targetNode.getArchiveUnit(),
+                imported.getDataObjectPackage()
+            );
             DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
             int auRecursivCount = 0;
             int ogRecursivCount = 0;
@@ -248,7 +236,6 @@ public class AddThread extends SwingWorker<String, String> {
             }
             targetNode.actualiseRecursivCounts(auRecursivCount, ogRecursivCount);
             treeModel.nodeStructureChanged(targetNode);
-            work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.getTheWindow().treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout terminé", null);

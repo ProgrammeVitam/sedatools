@@ -39,15 +39,12 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
+import fr.gouv.vitam.tools.resip.service.AnalysisService;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The type Search thread.
@@ -55,26 +52,24 @@ import java.util.regex.Pattern;
 public class SearchThread extends SwingWorker<String, String> {
 
     // input
-    private ArchiveUnit searchUnit;
-    private boolean isWithoutChildArchiveUnitCheck;
-    private boolean isWithoutDataObjectGroupCheck;
-    private boolean isIdCheck;
-    private boolean isMetadataCheck;
-    private boolean isRegExpCheck;
-    private boolean isCaseCheck;
-    private String searchText;
-    private Consumer<List<ArchiveUnit>> callBack;
-
-    // treatment
-    private String searchExp;
-    private DataObjectPackage dataObjectPackage;
-    private Pattern searchPattern;
+    private final ArchiveUnit searchUnit;
+    private final AnalysisService.SearchCriteria criteria;
+    private final Consumer<List<ArchiveUnit>> callBack;
+    // run output
     private List<ArchiveUnit> searchResult;
 
     /**
      * Instantiates a new Search thread.
      *
-     * @param au the au
+     * @param au                             the ArchiveUnit under which to search
+     * @param isWithoutChildArchiveUnitCheck true to keep only the ArchiveUnits without child
+     * @param isWithoutDataObjectGroupCheck  true to keep only the ArchiveUnits without DataObject
+     * @param isIdCheck                      true to search the identifiers
+     * @param isMetadataCheck                true to search the content metadata, instead of the title
+     * @param isRegExpCheck                  true if the text is a regular expression
+     * @param isCaseCheck                    true to respect the case
+     * @param searchText                     the searched text
+     * @param callBack                       the consumer of the found ArchiveUnits
      */
     public SearchThread(
         ArchiveUnit au,
@@ -88,79 +83,23 @@ public class SearchThread extends SwingWorker<String, String> {
         Consumer<List<ArchiveUnit>> callBack
     ) {
         this.searchUnit = au;
-        this.isWithoutChildArchiveUnitCheck = isWithoutChildArchiveUnitCheck;
-        this.isWithoutDataObjectGroupCheck = isWithoutDataObjectGroupCheck;
-        this.isIdCheck = isIdCheck;
-        this.isMetadataCheck = isMetadataCheck;
-        this.isRegExpCheck = isRegExpCheck;
-        this.isCaseCheck = isCaseCheck;
-        this.searchText = searchText;
+        this.criteria = new AnalysisService.SearchCriteria(
+            searchText,
+            isWithoutChildArchiveUnitCheck,
+            isWithoutDataObjectGroupCheck,
+            isIdCheck,
+            isMetadataCheck,
+            isRegExpCheck,
+            isCaseCheck
+        );
         this.callBack = callBack;
-    }
-
-    /**
-     * Search in archive unit.
-     *
-     * @param au the au
-     */
-    void searchInArchiveUnit(ArchiveUnit au) {
-        List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
-        TreeDataObjectPackageEditorPanel treePane = ResipGraphicApp.getTheWindow().treePane;
-
-        for (ArchiveUnit childUnit : auList) {
-            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId())) continue;
-            try {
-                String tmp;
-                int dataObjectCount = 0;
-                if (childUnit.getTheDataObjectGroup() != null) {
-                    DataObjectGroup dataObjectGroup = childUnit.getTheDataObjectGroup();
-                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size() +
-                    dataObjectGroup.getPhysicalDataObjectList().size();
-                }
-                if (
-                    !(isWithoutChildArchiveUnitCheck && (childUnit.getChildrenAuList().getCount() != 0)) &&
-                    !(isWithoutDataObjectGroupCheck && (dataObjectCount != 0))
-                ) {
-                    if (isIdCheck) {
-                        tmp = "<" + childUnit.getInDataObjectPackageId() + ">";
-                        for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
-                            tmp += "<" + dataObject.getInDataObjectPackageId() + ">";
-                            if (dataObject instanceof DataObjectGroup) {
-                                for (BinaryDataObject bo : ((DataObjectGroup) dataObject).getBinaryDataObjectList()) tmp +=
-                                "<" + bo.getInDataObjectPackageId() + ">";
-                                for (PhysicalDataObject po : ((DataObjectGroup) dataObject).getPhysicalDataObjectList()) tmp +=
-                                "<" + po.getInDataObjectPackageId() + ">";
-                            }
-                        }
-                    } else if (isMetadataCheck) {
-                        tmp = childUnit.getContent().toString();
-                    } else tmp = treePane.getTreeTitle(childUnit);
-
-                    if (isRegExpCheck) {
-                        Matcher matcher = searchPattern.matcher(tmp);
-                        if (matcher.matches()) searchResult.add(childUnit);
-                    } else {
-                        if (!isCaseCheck) tmp = tmp.toLowerCase();
-                        if (tmp.contains(searchExp)) searchResult.add(childUnit);
-                    }
-                }
-                dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
-            } catch (SEDALibException ignored) {}
-            searchInArchiveUnit(childUnit);
-        }
     }
 
     @Override
     public String doInBackground() {
-        searchExp = searchText;
-        if (isRegExpCheck) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
-        else if (!isCaseCheck) searchExp = searchExp.toLowerCase();
-        if (isIdCheck) searchExp = "<" + searchExp + ">";
-        dataObjectPackage = searchUnit.getDataObjectPackage();
-        dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
-        searchResult = new LinkedList<ArchiveUnit>();
-
-        searchInArchiveUnit(searchUnit);
+        // the title is the one shown in the tree
+        TreeDataObjectPackageEditorPanel treePane = ResipGraphicApp.getTheWindow().treePane;
+        searchResult = AnalysisService.search(searchUnit, criteria, treePane::getTreeTitle);
         return "OK";
     }
 

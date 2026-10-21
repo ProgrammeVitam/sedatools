@@ -39,11 +39,12 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.AbstractUnitaryDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -97,32 +98,17 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public AbstractUnitaryDataObject extractEditedObject() throws SEDALibException {
-        AbstractUnitaryDataObject tmpAbstractUnitaryDataObject =
-            ((AbstractUnitaryDataObject) editedObject).getEmptySameAbstractUnitaryDataObjet();
-
-        for (SEDAObjectEditor objectEditor : objectEditorList) {
-            SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
-            tmpAbstractUnitaryDataObject.addMetadata(subMetadata);
-        }
-        getAbstractUnitaryDataObject().setMetadataList(tmpAbstractUnitaryDataObject.getMetadataList());
-
+        List<SEDAMetadata> fields = new ArrayList<>();
+        for (SEDAObjectEditor objectEditor : objectEditorList) fields.add(
+            (SEDAMetadata) objectEditor.extractEditedObject()
+        );
+        EditedObjects.rebuild(getAbstractUnitaryDataObject(), fields);
         return getAbstractUnitaryDataObject();
-    }
-
-    protected String getItOrUnknown(String str) {
-        if ((str == null) || (str.isEmpty())) return translateTag(UNKNOWN);
-        return str;
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        String tmp;
-        for (SEDAMetadata sm : getAbstractUnitaryDataObject().getMetadataList()) {
-            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
-        }
-        return String.join(", ", summaryList);
+        return EditedObjects.summary(getAbstractUnitaryDataObject(), translateTag(UNKNOWN));
     }
 
     protected void updateObjectEditorList() throws SEDALibException {
@@ -141,26 +127,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<String> used = new ArrayList<>();
-        List<Pair<String, String>> result = new ArrayList<>();
-        for (SEDAObjectEditor soe : objectEditorList) {
-            used.add(soe.getTag());
-        }
-        for (String metadataName : getAbstractUnitaryDataObject().getMetadataMap().keySet()) {
-            if (metadataName.endsWith("SystemId")) continue;
-            ComplexListMetadataKind complexListMetadataKind = getAbstractUnitaryDataObject()
-                .getMetadataMap()
-                .get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName))) result.add(
-                Pair.of(metadataName, translateTag(metadataName))
-            );
-        }
-        if (!getAbstractUnitaryDataObject().isNotExpandable()) result.add(
-            Pair.of("AnyXMLType", translateTag("AnyXMLType"))
-        );
-
-        result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
-        return result;
+        return toExtensionList(CompositeRules.addableFields(getAbstractUnitaryDataObject(), getPresentTags()), true);
     }
 
     protected void replaceOrAddObjectEditor(SEDAObjectEditor newObjectEditor) throws SEDALibException {
@@ -178,34 +145,13 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     }
 
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        int addOrderIndex;
-        int curOrderIndex;
-        int i;
-        boolean manyFlag;
-        addOrderIndex = getAbstractUnitaryDataObject().indexOfMetadata(metadataName);
-        i = 0;
-        if (addOrderIndex == -1) return Integer.MAX_VALUE;
-        else {
-            manyFlag = getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).isMany();
-            for (SEDAObjectEditor soe : objectEditorList) {
-                curOrderIndex = getAbstractUnitaryDataObject().indexOfMetadata(soe.getTag());
-                if (
-                    ((!manyFlag) && (curOrderIndex == addOrderIndex)) ||
-                    (curOrderIndex == -1) ||
-                    (curOrderIndex > addOrderIndex)
-                ) {
-                    break;
-                }
-                i++;
-            }
-        }
-        return i;
+        return CompositeRules.insertionIndex(getAbstractUnitaryDataObject(), getPresentTags(), metadataName);
     }
 
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata;
-        SEDAMetadata sm = createSEDAMetadataSample(
+        SEDAMetadata sm = MetadataSamples.sample(
             getSedaVersion(),
             getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(),
             metadataName,
@@ -224,9 +170,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     @Override
     public boolean canContainsMultiple(String metadataName) {
         try {
-            ComplexListMetadataKind cmk = getAbstractUnitaryDataObject().getMetadataMap().get(metadataName);
-            if (cmk != null) return cmk.isMany();
-            return !getAbstractUnitaryDataObject().isNotExpandable();
+            return CompositeRules.isRepeatable(getAbstractUnitaryDataObject(), metadataName);
         } catch (SEDALibException ignored) {
             // Exception impossible
             return false;

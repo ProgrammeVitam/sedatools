@@ -37,32 +37,15 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.resip.event.EventBus;
-import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
@@ -77,16 +60,6 @@ public class Work {
      * The Constant CURRENT_SERIALIZATION_VERSION.
      */
     static final String CURRENT_SERIALIZATION_VERSION = "1.0";
-
-    /**
-     * The default inner filename in zipped save file.
-     */
-    static final String JSON_FILENAME = "work.json";
-
-    /**
-     * The SEDA version assumed for save files created before the version was serialized.
-     */
-    static final SedaVersion DEFAULT_SEDA_VERSION = SedaVersion.V2_1;
 
     /**
      * The version of this object used for to distinct serialization in prefs or on
@@ -134,8 +107,6 @@ public class Work {
         this.dataObjectPackage = dataObjectPackage;
         this.creationContext = creationContext;
         this.exportContext = exportContext;
-
-        EventBus.subscribe(SedaVersionChangedEvent.class, event -> this.version = event.getNewVersion());
     }
 
     /**
@@ -168,123 +139,6 @@ public class Work {
             null
         );
         return "Vérification de l'absence de cycle et normalisation Vitam effectuées";
-    }
-
-    /**
-     * Get SEDA 2 version the from file.
-     *
-     * @param file the file
-     * @return the SEDA 2 version
-     * @throws ResipException the resip exception
-     */
-    public static SedaVersion getSeda2VersionFromFile(String file) throws ResipException {
-        Work ow;
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
-            ObjectMapper mapper = new ObjectMapper();
-            SimpleModule module = new SimpleModule();
-            module.addDeserializer(DataObjectPackage.class, new NullDeserializer<DataObjectPackage>());
-            module.addDeserializer(ExportContext.class, new NullDeserializer<ExportContext>());
-            module.addDeserializer(CreationContext.class, new NullDeserializer<CreationContext>());
-            mapper.registerModule(module);
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
-                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
-            );
-            ow = mapper.readValue(zis, Work.class);
-        } catch (IOException e) {
-            throw new ResipException(
-                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
-                e
-            );
-        }
-        return ow.version == null ? DEFAULT_SEDA_VERSION : ow.version;
-    }
-
-    /**
-     * Creates the from file.
-     *
-     * @param file the file
-     * @return the work
-     * @throws ResipException the resip exception
-     */
-    public static Work createFromFile(String file) throws ResipException {
-        // a DataObjectPackage saved before it held its version is in the one of the session
-        SedaVersion savedVersion = getSeda2VersionFromFile(file);
-        Work ow;
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
-            ObjectMapper mapper = new ObjectMapper();
-            SimpleModule module = new SimpleModule();
-            module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
-            module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
-            mapper.registerModule(module);
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
-                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
-            );
-            ow = mapper
-                .readerFor(Work.class)
-                .withAttribute(DataObjectPackageDeserializer.SEDA_VERSION_ATTRIBUTE, savedVersion)
-                .readValue(zis);
-
-            // some fields need to be computed or defined after the load phase from Json
-            if (ow.version == null) ow.version = ow.getDataObjectPackage().getSedaVersion();
-            ow.getDataObjectPackage().getGhostRootAu().setDataObjectPackage(ow.getDataObjectPackage());
-            for (Map.Entry<String, ArchiveUnit> pair : ow
-                .getDataObjectPackage()
-                .getAuInDataObjectPackageIdMap()
-                .entrySet()) {
-                pair.getValue().setDataObjectPackage(ow.getDataObjectPackage());
-            }
-            for (Map.Entry<String, DataObjectGroup> pair : ow
-                .getDataObjectPackage()
-                .getDogInDataObjectPackageIdMap()
-                .entrySet()) {
-                DataObjectGroup dog = pair.getValue();
-                dog.setDataObjectPackage(ow.getDataObjectPackage());
-                for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
-                    bdo.setDataObjectPackage(ow.getDataObjectPackage());
-                    bdo.setDataObjectGroup(dog);
-                }
-                for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
-                    pdo.setDataObjectPackage(ow.getDataObjectPackage());
-                    pdo.setDataObjectGroup(dog);
-                }
-            }
-        } catch (IOException e) {
-            throw new ResipException(
-                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
-                e
-            );
-        }
-        return ow;
-    }
-
-    /**
-     * Save.
-     *
-     * @param file the file
-     */
-    public void save(String file) {
-        try {
-            // the version of the session is the one of its package
-            if (dataObjectPackage != null) version = dataObjectPackage.getSedaVersion();
-            ObjectMapper mapper = new ObjectMapper();
-            SimpleModule module = new SimpleModule();
-            module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
-            module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
-            mapper.registerModule(module);
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
-                ZipEntry e = new ZipEntry(JSON_FILENAME);
-                zos.putNextEntry(e);
-                mapper.writeValue(zos, this);
-                zos.closeEntry();
-            }
-        } catch (IOException e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de sauvegarder la session", e);
-        }
     }
 
     /**
@@ -324,18 +178,19 @@ public class Work {
     }
 
     /**
-     * Gets the SEDA version of this work.
+     * Gets the SEDA version of this work, the one of its package. It is also saved apart, so as to
+     * be read without the package.
      *
-     * @return the SEDA version
+     * @return the SEDA version, null for a work without package and saved without version
      */
     public SedaVersion getVersion() {
-        return version;
+        return dataObjectPackage != null ? dataObjectPackage.getSedaVersion() : version;
     }
 
     /**
-     * Sets the SEDA version of this work.
+     * Sets the SEDA version read from a save, the one of the work when it has no package.
      *
-     * @param version the new SEDA version
+     * @param version the SEDA version
      */
     public void setVersion(SedaVersion version) {
         this.version = version;

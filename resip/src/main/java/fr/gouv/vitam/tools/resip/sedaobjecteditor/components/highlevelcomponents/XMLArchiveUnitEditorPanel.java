@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ArchiveUnitEditor;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
@@ -210,7 +211,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         String macroMetadata = choiceName.substring(0, 3);
         String elementName = choiceName.substring(3, choiceName.indexOf(' '));
         if (macroMetadata.equals("[A]")) {
-            result = SEDAObjectEditor.createSEDAMetadataSample(
+            result = MetadataSamples.sample(
                 archiveUnit.getSedaVersion(),
                 "ArchiveUnitProfile",
                 "ArchiveUnitProfile",
@@ -223,13 +224,13 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             } else {
                 metadataMap = new Management(archiveUnit.getSedaVersion()).getMetadataMap();
             }
-            if (elementName.equals("AnyOtherMetadata")) result = SEDAObjectEditor.createSEDAMetadataSample(
+            if (elementName.equals("AnyOtherMetadata")) result = MetadataSamples.sample(
                 archiveUnit.getSedaVersion(),
                 "AnyXMLType",
                 elementName,
                 false
             );
-            else result = SEDAObjectEditor.createSEDAMetadataSample(
+            else result = MetadataSamples.sample(
                 archiveUnit.getSedaVersion(),
                 metadataMap.get(elementName).getMetadataClass().getSimpleName(),
                 elementName,

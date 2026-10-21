@@ -44,6 +44,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.gouv.vitam.tools.resip.UseTestFiles;
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.service.SessionService;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
@@ -163,10 +164,10 @@ class WorkTest implements UseTestFiles {
         new File("./target/tmpJunit").mkdirs();
 
         Work ow = new Work(new DataObjectPackage(SedaVersion.V2_2), null, new ExportContext());
-        ow.save(file);
+        SessionService.save(ow, file);
 
-        assertEquals(SedaVersion.V2_2, Work.getSeda2VersionFromFile(file));
-        assertEquals(SedaVersion.V2_2, Work.createFromFile(file).getVersion());
+        assertEquals(SedaVersion.V2_2, SessionService.readSedaVersion(file));
+        assertEquals(SedaVersion.V2_2, SessionService.load(file).getVersion());
     }
 
     /**
@@ -182,10 +183,10 @@ class WorkTest implements UseTestFiles {
         String legacyFile = "./target/tmpJunit/junit_resipWork_legacy.rsp";
         new File("./target/tmpJunit").mkdirs();
 
-        new Work(new DataObjectPackage(SedaVersion.V2_2), null, new ExportContext()).save(file);
+        SessionService.save(new Work(new DataObjectPackage(SedaVersion.V2_2), null, new ExportContext()), file);
         removeVersionFromSaveFile(file, legacyFile);
 
-        assertEquals(SedaVersion.V2_1, Work.getSeda2VersionFromFile(legacyFile));
+        assertEquals(SedaVersion.V2_1, SessionService.readSedaVersion(legacyFile));
     }
 
     private void removeVersionFromSaveFile(String source, String destination) throws IOException {

@@ -40,21 +40,18 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 /**
  * The ComplexListType object editor class.
@@ -87,125 +84,21 @@ public class ComplexListTypeEditor extends CompositeEditor {
         return (ComplexListType) editedObject;
     }
 
-    /**
-     * Gets ComplexListType sample.
-     *
-     * @param complexListSubType the complex list sub type
-     * @param sedaVersion        the SEDA version of the sample
-     * @param elementName        the element name, corresponding to the XML tag in SEDA
-     * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(
-        Class<?> complexListSubType,
-        SedaVersion sedaVersion,
-        String elementName,
-        boolean minimal
-    ) throws SEDALibException {
-        ComplexListType result;
-        try {
-            result = (ComplexListType) complexListSubType.getConstructor(SedaVersion.class).newInstance(sedaVersion);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e1) {
-            try {
-                result = (ComplexListType) complexListSubType
-                    .getConstructor(SedaVersion.class, String.class)
-                    .newInstance(sedaVersion, elementName);
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e2) {
-                throw new SEDALibException(
-                    "La création d'une métadonnée de type [" + complexListSubType + "] n'est pas possible",
-                    e2
-                );
-            } catch (InvocationTargetException te) {
-                throw new SEDALibException(
-                    "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
-                    te.getTargetException()
-                );
-            }
-        } catch (InvocationTargetException te) {
-            throw new SEDALibException(
-                "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
-                te.getTargetException()
-            );
-        }
-        result.elementName = elementName;
-        for (String metadataName : result.getMetadataMap().keySet()) {
-            if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
-                ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
-                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
-                    sedaVersion,
-                    complexListMetadataKind.getMetadataClass().getSimpleName(),
-                    metadataName,
-                    minimal
-                );
-                try {
-                    result.addMetadata(metadataObject);
-                } catch (SEDALibException ignored) {
-                    // no real case
-                }
-                if ((complexListMetadataKind.isMany()) && !minimal) {
-                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
-                        sedaVersion,
-                        complexListMetadataKind.getMetadataClass().getSimpleName(),
-                        metadataName,
-                        minimal
-                    );
-                    try {
-                        result.addMetadata(metadataObject);
-                    } catch (SEDALibException ignored) {
-                        // no real case
-                    }
-                }
-            }
-        }
-        if (!result.isNotExpandable() && !minimal) try {
-            result.addNewMetadata(
-                "AnyXMLType",
-                "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>"
-            );
-        } catch (SEDALibException ignored) {
-            // no real case
-        }
-        return result;
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        setEditedObject(getEmptySameSEDAMetadata(getComplexListTypeMetadata()));
-        for (SEDAObjectEditor objectEditor : objectEditorList) {
-            SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
-            ((ComplexListType) editedObject).addMetadata(subMetadata);
-        }
+        List<SEDAMetadata> fields = new ArrayList<>();
+        for (SEDAObjectEditor objectEditor : objectEditorList) fields.add(
+            (SEDAMetadata) objectEditor.extractEditedObject()
+        );
+        setEditedObject(EditedObjects.rebuild(getComplexListTypeMetadata(), fields));
         return getComplexListTypeMetadata();
-    }
-
-    // Cut length for SEDAMetadata summary generation before expansion
-    private static final int SUMMARY_CUT = 160;
-
-    // Create a summary not constructed from systematic sub editors extraction
-    // but from metadata original value before expansion
-    private String getSEDAMetadataSummary(SEDAMetadata sm, int depth, int length) {
-        String result;
-        if (sm instanceof ComplexListType) {
-            List<String> summaryList = new ArrayList<>(objectEditorList.size());
-            for (SEDAMetadata innerSM : ((ComplexListType) sm).getMetadataList()) {
-                result = getSEDAMetadataSummary(innerSM, depth + 1, length);
-                length += result.length() + 2;
-                summaryList.add(result);
-                if (length > SUMMARY_CUT) break;
-            }
-            result = String.join(", ", summaryList) + (length > SUMMARY_CUT ? "..." : "");
-            if (depth > 0) result = "{" + result + "}";
-        } else if ((sm instanceof NamedTypeMetadata)) {
-            result = ((NamedTypeMetadata) sm).getValue().toString();
-        } else result = "?";
-        return result;
     }
 
     @Override
     public String getSummary() throws SEDALibException {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        if (hasSubeditorsCreatedWhenExpandedFlag()) return getSEDAMetadataSummary((SEDAMetadata) editedObject, 0, 0);
+        // before its expansion, from the metadata values instead of the sub editors
+        if (hasSubeditorsCreatedWhenExpandedFlag()) return EditedObjects.summary((SEDAMetadata) editedObject);
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             String summary = objectEditor.getSummary().trim();
             if (!summary.isEmpty() && !summary.equals("{}")) {
@@ -232,57 +125,18 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<String> used = new ArrayList<>();
-        List<Pair<String, String>> result = new ArrayList<>();
-        for (SEDAObjectEditor soe : objectEditorList) {
-            used.add(soe.getTag());
-        }
-        for (String metadataName : getComplexListTypeMetadata().getMetadataMap().keySet()) {
-            ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
-                .getMetadataMap()
-                .get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName))) result.add(
-                Pair.of(metadataName, translateTag(metadataName))
-            );
-        }
-        if (!getComplexListTypeMetadata().isNotExpandable()) result.add(
-            Pair.of("AnyXMLType", translateTag("AnyXMLType"))
-        );
-
-        result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
-        return result;
+        return toExtensionList(CompositeRules.addableFields(getComplexListTypeMetadata(), getPresentTags()), true);
     }
 
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        int addOrderIndex;
-        int curOrderIndex;
-        int i;
-        boolean manyFlag;
-        addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
-        i = 0;
-        if (addOrderIndex == -1) return Integer.MAX_VALUE;
-        else {
-            manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
-            for (SEDAObjectEditor soe : objectEditorList) {
-                curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
-                if (
-                    ((!manyFlag) && (curOrderIndex == addOrderIndex)) ||
-                    (curOrderIndex == -1) ||
-                    (curOrderIndex > addOrderIndex)
-                ) {
-                    break;
-                }
-                i++;
-            }
-        }
-        return i;
+        return CompositeRules.insertionIndex(getComplexListTypeMetadata(), getPresentTags(), metadataName);
     }
 
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
         if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
-            createSEDAMetadataSample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
+            MetadataSamples.sample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
                 .getMetadataMap()
@@ -290,7 +144,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             if (complexListMetadataKind == null) throw new SEDALibException(
                 "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
             );
-            sedaMetadata = createSEDAMetadataSample(
+            sedaMetadata = MetadataSamples.sample(
                 getSedaVersion(),
                 complexListMetadataKind.getMetadataClass().getSimpleName(),
                 metadataName,
@@ -300,17 +154,14 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
         if (sedaMetadata != null) {
             int insertionSEDAObjectEditorIndex = getInsertionSEDAObjectEditorIndex(metadataName);
-            SEDAObjectEditor addedSEDAObjectEditor = createSEDAObjectEditor(sedaMetadata, this);
-            if (insertionSEDAObjectEditorIndex == Integer.MAX_VALUE) objectEditorList.add(addedSEDAObjectEditor);
-            else objectEditorList.add(insertionSEDAObjectEditorIndex, addedSEDAObjectEditor);
+            objectEditorList.add(insertionSEDAObjectEditorIndex, createSEDAObjectEditor(sedaMetadata, this));
             ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
         }
     }
 
     @Override
     public boolean canContainsMultiple(String metadataName) throws SEDALibException {
-        if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null) return true;
-        return getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
+        return CompositeRules.isRepeatable(getComplexListTypeMetadata(), metadataName);
     }
 
     /**

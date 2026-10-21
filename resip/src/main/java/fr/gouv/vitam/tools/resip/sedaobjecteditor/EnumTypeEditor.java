@@ -73,20 +73,6 @@ public class EnumTypeEditor extends SEDAObjectEditor {
         return (EnumType) editedObject;
     }
 
-    /**
-     * Gets EnumType sample.
-     *
-     * @param elementName the element name, corresponding to the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        List<String> enumValues = EnumTypeConstants.enumListMap.get(elementName);
-        if (enumValues == null) throw new SEDALibException("Type Enuméré [" + elementName + "] inconnu");
-        return new EnumType(elementName, enumValues.get(0));
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         getEnumTypeMetadata().setValue((String) (valueComboBox.getSelectedItem()));

@@ -42,9 +42,9 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.ManifestWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.service.ExportService;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -105,7 +105,6 @@ public class SeeManifestThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        ArchiveTransfer archiveTransfer = new ArchiveTransfer(work.getDataObjectPackage().getSedaVersion());
         try {
             int localLogLevel, localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
@@ -130,21 +129,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            work
-                .getDataObjectPackage()
-                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-            if (work.getExportContext().isMetadataFilterFlag()) work
-                .getDataObjectPackage()
-                .setExportMetadataList(work.getExportContext().getKeptMetadataList());
-            else work.getDataObjectPackage().setExportMetadataList(null);
-
-            ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
-            manifestString = sm.getSEDAXMLManifest(
-                work.getExportContext().isHierarchicalArchiveUnits(),
-                work.getExportContext().isIndented()
-            );
+            manifestString = new ExportService(Preferences.getInstance()).getManifest(work, spl);
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
