@@ -50,6 +50,7 @@ import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.List;
@@ -135,6 +136,25 @@ class SessionServiceTest {
         assertThatThrownBy(() -> SessionService.readSedaVersion(dir.resolve("missing.rsp").toString()))
             .isInstanceOf(ResipException.class)
             .hasMessageContaining("ne permet pas de retrouver une session Resip");
+    }
+
+    @Test
+    void findsTheSessionsOfADirectoryAndOfItsSubdirectories(@TempDir Path dir) throws Exception {
+        Work work = sampleWork(SedaVersion.V2_1);
+        File older = dir.resolve("older.rsp").toFile();
+        File newer = dir.resolve("sample-tmpdir").resolve("newer.zip").toFile();
+        newer.getParentFile().mkdirs();
+        SessionService.save(work, older.toString());
+        SessionService.save(work, newer.toString());
+        older.setLastModified(newer.lastModified() - 10_000);
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(dir.resolve("other.zip").toFile()))) {
+            zos.putNextEntry(new ZipEntry("other.txt"));
+            zos.closeEntry();
+        }
+        dir.resolve("preferences.properties").toFile().createNewFile();
+
+        assertThat(SessionService.findSessions(dir.toString())).containsExactly(newer, older);
+        assertThat(SessionService.findSessions(dir.resolve("missing").toString())).isEmpty();
     }
 
     @Test

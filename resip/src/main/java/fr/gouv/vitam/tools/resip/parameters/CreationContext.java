@@ -59,6 +59,7 @@ import java.nio.file.Paths;
         @JsonSubTypes.Type(value = SIPImportContext.class, name = "SIPImportContext"),
         @JsonSubTypes.Type(value = DIPImportContext.class, name = "DIPImportContext"),
         @JsonSubTypes.Type(value = MailImportContext.class, name = "MailImportContext"),
+        @JsonSubTypes.Type(value = TmpDirImportContext.class, name = "TmpDirImportContext"),
     }
 )
 public class CreationContext {

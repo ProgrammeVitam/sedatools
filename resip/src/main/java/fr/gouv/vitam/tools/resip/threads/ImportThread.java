@@ -106,6 +106,7 @@ public class ImportThread extends SwingWorker<String, String> {
         else if (cc instanceof CSVTreeImportContext) source = "un csv d'arbre de classement";
         else if (cc instanceof CSVMetadataImportContext) source = "un csv de métadonnées";
         else if (cc instanceof MailImportContext) source = "un conteneur courriel";
+        else if (cc instanceof TmpDirImportContext) source = "un répertoire temporaire";
         else source = "une source inconnue";
         return "Import depuis " + source + " en " + cc.getOnDiskInput() + "\n";
     }
@@ -212,7 +213,8 @@ public class ImportThread extends SwingWorker<String, String> {
             ResipGraphicApp.getTheWindow().load();
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, work.getCreationContext().getSummary(), null);
-            try {
+            // a temporary directory is not where the user imports from
+            if (!(creationContext instanceof TmpDirImportContext)) try {
                 Preferences.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
             } catch (ResipException e) {
                 doProgressLogWithoutInterruption(
