@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.AbstractUnitaryDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
@@ -205,7 +206,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata;
-        SEDAMetadata sm = createSEDAMetadataSample(
+        SEDAMetadata sm = MetadataSamples.sample(
             getSedaVersion(),
             getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(),
             metadataName,

@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
@@ -92,7 +93,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     public void addChildTo(String metadataName, Rule ruleParent) throws SEDALibException {
         SEDAMetadata sedaMetadata;
         if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
-            createSEDAMetadataSample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
+            MetadataSamples.sample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
                 .getMetadataMap()
@@ -100,7 +101,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             if (complexListMetadataKind == null) throw new SEDALibException(
                 "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
             );
-            sedaMetadata = createSEDAMetadataSample(
+            sedaMetadata = MetadataSamples.sample(
                 getSedaVersion(),
                 complexListMetadataKind.getMetadataClass().getSimpleName(),
                 metadataName,

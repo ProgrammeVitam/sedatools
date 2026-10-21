@@ -40,17 +40,15 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,88 +83,6 @@ public class ComplexListTypeEditor extends CompositeEditor {
      */
     public ComplexListType getComplexListTypeMetadata() {
         return (ComplexListType) editedObject;
-    }
-
-    /**
-     * Gets ComplexListType sample.
-     *
-     * @param complexListSubType the complex list sub type
-     * @param sedaVersion        the SEDA version of the sample
-     * @param elementName        the element name, corresponding to the XML tag in SEDA
-     * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(
-        Class<?> complexListSubType,
-        SedaVersion sedaVersion,
-        String elementName,
-        boolean minimal
-    ) throws SEDALibException {
-        ComplexListType result;
-        try {
-            result = (ComplexListType) complexListSubType.getConstructor(SedaVersion.class).newInstance(sedaVersion);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e1) {
-            try {
-                result = (ComplexListType) complexListSubType
-                    .getConstructor(SedaVersion.class, String.class)
-                    .newInstance(sedaVersion, elementName);
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e2) {
-                throw new SEDALibException(
-                    "La création d'une métadonnée de type [" + complexListSubType + "] n'est pas possible",
-                    e2
-                );
-            } catch (InvocationTargetException te) {
-                throw new SEDALibException(
-                    "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
-                    te.getTargetException()
-                );
-            }
-        } catch (InvocationTargetException te) {
-            throw new SEDALibException(
-                "La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur",
-                te.getTargetException()
-            );
-        }
-        result.elementName = elementName;
-        for (String metadataName : result.getMetadataMap().keySet()) {
-            if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
-                ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
-                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
-                    sedaVersion,
-                    complexListMetadataKind.getMetadataClass().getSimpleName(),
-                    metadataName,
-                    minimal
-                );
-                try {
-                    result.addMetadata(metadataObject);
-                } catch (SEDALibException ignored) {
-                    // no real case
-                }
-                if ((complexListMetadataKind.isMany()) && !minimal) {
-                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(
-                        sedaVersion,
-                        complexListMetadataKind.getMetadataClass().getSimpleName(),
-                        metadataName,
-                        minimal
-                    );
-                    try {
-                        result.addMetadata(metadataObject);
-                    } catch (SEDALibException ignored) {
-                        // no real case
-                    }
-                }
-            }
-        }
-        if (!result.isNotExpandable() && !minimal) try {
-            result.addNewMetadata(
-                "AnyXMLType",
-                "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>"
-            );
-        } catch (SEDALibException ignored) {
-            // no real case
-        }
-        return result;
     }
 
     @Override
@@ -282,7 +198,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
         if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType")) sedaMetadata =
-            createSEDAMetadataSample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
+            MetadataSamples.sample(getSedaVersion(), "AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata()
                 .getMetadataMap()
@@ -290,7 +206,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             if (complexListMetadataKind == null) throw new SEDALibException(
                 "La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]"
             );
-            sedaMetadata = createSEDAMetadataSample(
+            sedaMetadata = MetadataSamples.sample(
                 getSedaVersion(),
                 complexListMetadataKind.getMetadataClass().getSimpleName(),
                 metadataName,

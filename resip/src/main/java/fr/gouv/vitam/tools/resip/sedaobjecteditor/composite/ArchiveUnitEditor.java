@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
@@ -195,15 +196,15 @@ public class ArchiveUnitEditor extends CompositeEditor {
         SEDAMetadata sedaMetadata = null;
         switch (metadataName) {
             case "Content":
-                sedaMetadata = createSEDAMetadataSample(getSedaVersion(), "Content", "Content", true);
+                sedaMetadata = MetadataSamples.sample(getSedaVersion(), "Content", "Content", true);
                 objectEditorArray[0] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Management":
-                sedaMetadata = createSEDAMetadataSample(getSedaVersion(), "Management", "Management", true);
+                sedaMetadata = MetadataSamples.sample(getSedaVersion(), "Management", "Management", true);
                 objectEditorArray[1] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "ArchiveUnitProfile":
-                sedaMetadata = createSEDAMetadataSample(
+                sedaMetadata = MetadataSamples.sample(
                     getSedaVersion(),
                     "ArchiveUnitProfile",
                     "ArchiveUnitProfile",

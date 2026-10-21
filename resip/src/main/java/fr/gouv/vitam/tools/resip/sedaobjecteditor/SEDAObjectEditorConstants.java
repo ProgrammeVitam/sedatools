@@ -52,11 +52,6 @@ public class SEDAObjectEditorConstants {
     public static final Map<String, String> sedaMetadataInformationMap;
 
     /**
-     * The list of tags selected in minimal SEDAMetadata generation.
-     */
-    public static final List<String> minimalTagList;
-
-    /**
      * The list of tag for which the editor is a multilines text.
      */
     public static final List<String> largeAreaTagList;
@@ -159,55 +154,6 @@ public class SEDAObjectEditorConstants {
             "DetachedSigningRole",
             "Référence aux rôles des unités d'archives encapsulées sous la racine contenant le document signé"
         );
-
-        minimalTagList = new ArrayList<>();
-        minimalTagList.add("DescriptionLevel");
-        minimalTagList.add("Title");
-        minimalTagList.add("Description");
-        minimalTagList.add("CustodialHistoryItem");
-        minimalTagList.add("KeywordContent");
-        minimalTagList.add("Identifier");
-        minimalTagList.add("FirstName");
-        minimalTagList.add("BirthName");
-        minimalTagList.add("Address");
-        minimalTagList.add("PostalCode");
-        minimalTagList.add("City");
-        minimalTagList.add("Region");
-        minimalTagList.add("Country");
-        minimalTagList.add("EventType");
-        minimalTagList.add("EventDateTime");
-        minimalTagList.add("EventDetail");
-        minimalTagList.add("Signer");
-        minimalTagList.add("SigningTime");
-        minimalTagList.add("Validator");
-        minimalTagList.add("ValidationTime");
-        minimalTagList.add("ReferencedObject");
-        minimalTagList.add("SignedObjectId");
-        minimalTagList.add("SignedObjectDigest");
-        minimalTagList.add("GpsVersionID");
-        minimalTagList.add("GpsAltitude");
-        minimalTagList.add("GpsAltitudeRef");
-        minimalTagList.add("GpsLatitude");
-        minimalTagList.add("GpsLatitudeRef");
-        minimalTagList.add("GpsLongitude");
-        minimalTagList.add("GpsLongitudeRef");
-        minimalTagList.add("AppraisalRule");
-        minimalTagList.add("AccessRule");
-        minimalTagList.add("HoldRule");
-        minimalTagList.add("Rule");
-        minimalTagList.add("ClassificationLevel");
-        minimalTagList.add("FinalAction");
-        minimalTagList.add("FormatLitteral");
-        minimalTagList.add("MimeType");
-        minimalTagList.add("FormatId");
-        minimalTagList.add("Filename");
-        minimalTagList.add("LastModified");
-        minimalTagList.add("LinkingAgentIdentifierType");
-        minimalTagList.add("LinkingAgentIdentifierValue");
-        // Seda 2.3
-        minimalTagList.add("PersistentIdentifierType");
-        minimalTagList.add("PersistentIdentifierContent");
-        minimalTagList.add("SigningRole");
 
         largeAreaTagList = new ArrayList<>();
         largeAreaTagList.add("Address");

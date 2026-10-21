@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -121,7 +122,7 @@ public class XmlEditDialog extends JDialog {
      * @throws SEDALibException the seda lib exception
      */
     public XmlEditDialog(JFrame owner) throws SEDALibException {
-        this(owner, createSEDAMetadataSample(SedaVersion.V2_1, "AgentType", "Writer", false));
+        this(owner, MetadataSamples.sample(SedaVersion.V2_1, "AgentType", "Writer", false));
     }
 
     /**

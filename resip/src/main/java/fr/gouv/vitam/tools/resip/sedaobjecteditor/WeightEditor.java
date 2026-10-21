@@ -74,19 +74,6 @@ public class WeightEditor extends SEDAObjectEditor {
         return (Weight) editedObject;
     }
 
-    /**
-     * Gets Weight sample.
-     *
-     * @param elementName the element name, corresponding to the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal) return new Weight();
-        else return new Weight(42.42, "gram");
-    }
-
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         if (valueTextField.getText().isEmpty()) getWeightMetadata().setValue(null);

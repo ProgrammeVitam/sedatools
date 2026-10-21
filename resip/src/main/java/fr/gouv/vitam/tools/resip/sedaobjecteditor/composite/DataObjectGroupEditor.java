@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
@@ -230,21 +231,21 @@ public class DataObjectGroupEditor extends CompositeEditor {
         SEDAObjectEditor addedObjectEditor = null;
         switch (editedObjectName) {
             case "BinaryDataObject":
-                metadata = BinaryDataObjectEditor.createBinaryDataObjectSample(
+                metadata = MetadataSamples.binaryDataObjectSample(
                     getDataObjectGroupMetadata().getDataObjectPackage(),
                     true
                 );
                 addedObjectEditor = new BinaryDataObjectEditor((BinaryDataObject) metadata, this);
                 break;
             case "PhysicalDataObject":
-                metadata = PhysicalDataObjectEditor.createPhysicalDataObjectSample(
+                metadata = MetadataSamples.physicalDataObjectSample(
                     getDataObjectGroupMetadata().getDataObjectPackage(),
                     true
                 );
                 addedObjectEditor = new PhysicalDataObjectEditor((PhysicalDataObject) metadata, this);
                 break;
             case "LogBook":
-                metadata = createSEDAMetadataSample(getSedaVersion(), "LogBook", "LogBook", true);
+                metadata = MetadataSamples.sample(getSedaVersion(), "LogBook", "LogBook", true);
                 addedObjectEditor = createSEDAObjectEditor((SEDAMetadata) metadata, this);
                 break;
         }

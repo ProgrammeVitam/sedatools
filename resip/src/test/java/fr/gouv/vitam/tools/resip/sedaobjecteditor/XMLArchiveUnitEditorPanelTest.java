@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
@@ -69,21 +70,11 @@ public class XMLArchiveUnitEditorPanelTest {
         SEDAMetadata sedaMetadata;
 
         archiveUnit.setInDataObjectPackageId("TestID");
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(
-            dop.getSedaVersion(),
-            "ArchiveUnitProfile",
-            "ArchiveUnitProfile",
-            true
-        );
+        sedaMetadata = MetadataSamples.sample(dop.getSedaVersion(), "ArchiveUnitProfile", "ArchiveUnitProfile", true);
         archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(dop.getSedaVersion(), "Content", "Content", true);
+        sedaMetadata = MetadataSamples.sample(dop.getSedaVersion(), "Content", "Content", true);
         archiveUnit.setContent((Content) sedaMetadata);
-        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample(
-            dop.getSedaVersion(),
-            "Management",
-            "Management",
-            true
-        );
+        sedaMetadata = MetadataSamples.sample(dop.getSedaVersion(), "Management", "Management", true);
         archiveUnit.setManagement((Management) sedaMetadata);
         dop.addArchiveUnit(archiveUnit);
 

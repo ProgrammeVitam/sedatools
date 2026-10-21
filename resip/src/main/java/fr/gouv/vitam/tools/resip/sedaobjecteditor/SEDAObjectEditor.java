@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.RuleTypeEditor;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageElement;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
@@ -165,84 +166,6 @@ public abstract class SEDAObjectEditor {
     // All static methods dealing with SEDAMetadata and SEDAMetadata editors
     //
 
-    private static Class getMetadataClass(String simpleMetadataType) throws SEDALibException {
-        Class result;
-        String metadataType = "fr.gouv.vitam.tools.sedalib.metadata.content." + simpleMetadataType;
-        try {
-            result = Class.forName(metadataType);
-        } catch (ClassNotFoundException e1) {
-            metadataType = "fr.gouv.vitam.tools.sedalib.metadata.namedtype." + simpleMetadataType;
-            try {
-                result = Class.forName(metadataType);
-            } catch (ClassNotFoundException e2) {
-                metadataType = "fr.gouv.vitam.tools.sedalib.metadata.management." + simpleMetadataType;
-                try {
-                    result = Class.forName(metadataType);
-                } catch (ClassNotFoundException e3) {
-                    metadataType = "fr.gouv.vitam.tools.sedalib.metadata.data." + simpleMetadataType;
-                    try {
-                        result = Class.forName(metadataType);
-                    } catch (ClassNotFoundException e4) {
-                        metadataType = "fr.gouv.vitam.tools.sedalib.metadata." + simpleMetadataType;
-                        try {
-                            result = Class.forName(metadataType);
-                        } catch (ClassNotFoundException e5) {
-                            throw new SEDALibException(
-                                "Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu"
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Create sample SEDA metadata.
-     *
-     * @param sedaVersion  the SEDA version of the sample, used by the complex list types
-     * @param metadataType the SEDAMetadata type used for this editedObject
-     * @param elementName        the XML tag in SEDA
-     * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the seda editedObject
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata createSEDAMetadataSample(
-        SedaVersion sedaVersion,
-        String metadataType,
-        String elementName,
-        boolean minimal
-    ) throws SEDALibException {
-        SEDAMetadata result;
-        try {
-            String objectEditorType = "fr.gouv.vitam.tools.resip.sedaobjecteditor." + metadataType + "Editor";
-            Class<?> objectEditorClass = Class.forName(objectEditorType);
-            try {
-                result = (SEDAMetadata) objectEditorClass
-                    .getMethod("getSEDAMetadataSample", String.class, boolean.class)
-                    .invoke(null, elementName, minimal);
-            } catch (IllegalAccessException | NoSuchMethodException e) {
-                throw new SEDALibException(
-                    "La création d'un exemple de la métadonnée de type [" + metadataType + "] n'est pas possible",
-                    e
-                );
-            } catch (InvocationTargetException te) {
-                throw new SEDALibException(
-                    "La création d'un exemple de la métadonnée [" + metadataType + "] a généré une erreur",
-                    te.getTargetException()
-                );
-            }
-        } catch (ClassNotFoundException e1) {
-            Class objectClass = getMetadataClass(metadataType);
-            if (!ComplexListType.class.isAssignableFrom(objectClass)) throw new SEDALibException(
-                "L'éditeur de métadonnée [" + metadataType + "] n'existe pas"
-            );
-            result = ComplexListTypeEditor.getSEDAMetadataSample(objectClass, sedaVersion, elementName, minimal);
-        }
-        return result;
-    }
-
     /**
      * Create SEDA object editor for a SEDA metadata.
      *
@@ -306,7 +229,7 @@ public abstract class SEDAObjectEditor {
         SEDAObjectEditor father
     ) throws SEDALibException {
         return createSEDAObjectEditor(
-            createSEDAMetadataSample(father.getSedaVersion(), metadataType, elementName, minimal),
+            MetadataSamples.sample(father.getSedaVersion(), metadataType, elementName, minimal),
             father
         );
     }
@@ -350,18 +273,6 @@ public abstract class SEDAObjectEditor {
             );
         }
         return sedaMetadata;
-    }
-
-    /**
-     * Gets SEDA metadata sample.
-     *
-     * @param elementName the XML tag in SEDA
-     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
-     * @return the SEDA metadata sample
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        throw new SEDALibException("Métadonnée non implémentée pour [" + elementName + "]");
     }
 
     /**
