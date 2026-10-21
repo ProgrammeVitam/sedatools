@@ -47,8 +47,10 @@ class SchemaMetadataMapBuilderTest {
             "DocumentContainer",
             "DocumentPack"
         );
+        // History is a Vitam extension in 2.3 too
         assertThat(SchemaMetadataMapBuilder.build(Content.class, SedaVersion.V2_3).keySet()).endsWith(
             "PersistentIdentifier",
+            "History",
             "DocumentContainer",
             "DocumentPack"
         );

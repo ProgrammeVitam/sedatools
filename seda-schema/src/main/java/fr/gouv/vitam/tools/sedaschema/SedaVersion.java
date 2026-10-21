@@ -57,8 +57,13 @@ public enum SedaVersion {
         "sedaschema/xsd/official/seda2_2/seda-2.2-main.xsd",
         "sedaschema/xsd/vitam/seda2_2/seda-vitam-2.2-main.xsd"
     ),
-    // Vitam doesn't alter the 2.3: the single bundled XSD is the official one
-    V2_3(2, 3, "fr:gouv:culture:archivesdefrance:seda:v2.3", "sedaschema/xsd/official/seda2_3/seda-2.3-main.xsd", null);
+    V2_3(
+        2,
+        3,
+        "fr:gouv:culture:archivesdefrance:seda:v2.3",
+        "sedaschema/xsd/official/seda2_3/seda-2.3-main.xsd",
+        "sedaschema/xsd/vitam/seda2_3/seda-vitam-2.3-main.xsd"
+    );
 
     private final int major;
     private final int minor;

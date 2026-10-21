@@ -41,10 +41,11 @@ package fr.gouv.vitam.tools.sedaschema;
  * Which flavour of a SEDA version to load.
  * <p>
  * The standard published by the Archives de France ({@link #OFFICIAL}) and the variant Vitam
- * actually implements ({@link #VITAM}) are not the same schemas for 2.1 and 2.2: the Vitam one
- * replaces the {@code *Abstract} extension points with {@code xsd:any}, and adds the metadata
- * Vitam needs (UpdateOperation, DataObjectGroup, ManagementHistory, and HoldRule back ported to
- * 2.1). From 2.3 on the additions entered the standard and both flavours are the same schema.
+ * actually implements ({@link #VITAM}) are not the same schemas: the Vitam one replaces the
+ * {@code *Abstract} extension points with {@code xsd:any}, opens {@code OpenType} to the SEDA
+ * namespace, and adds the metadata Vitam needs (UpdateOperation, DataObjectGroup,
+ * ManagementHistory, HoldRule back ported to 2.1, a concrete type for the SigningInformation
+ * Extended of 2.3).
  */
 public enum SedaFlavor {
     /**

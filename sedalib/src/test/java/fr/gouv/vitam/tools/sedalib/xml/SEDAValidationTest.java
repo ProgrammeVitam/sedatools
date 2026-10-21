@@ -37,12 +37,18 @@
  */
 package fr.gouv.vitam.tools.sedalib.xml;
 
+import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.readFileToString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SEDAValidationTest {
 
@@ -59,5 +65,49 @@ public class SEDAValidationTest {
         // Then
         assertThat(isValid).as("Validation process on SEDA 2.1 failed").isTrue();
     }
-    // TODO test seda 2.2 et 2.3
+
+    private static String manifestIn(SedaVersion sedaVersion) throws Exception {
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            sedaVersion,
+            "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
+            null
+        );
+        di.doImport();
+        GlobalMetadata globalMetadata = new GlobalMetadata();
+        globalMetadata.messageIdentifier = "MessageIdentifier0";
+        globalMetadata.archivalAgreement = "ArchivalAgreement0";
+        globalMetadata.codeListVersionsXmlData =
+            "<CodeListVersions><ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion></CodeListVersions>";
+        globalMetadata.archivalAgencyIdentifier = "Identifier4";
+        globalMetadata.transferringAgencyIdentifier = "Identifier5";
+        di.getArchiveTransfer().setGlobalMetadata(globalMetadata);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+            di.getArchiveTransfer().toSedaXml(xmlWriter, true, null);
+        }
+        return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    @Test
+    public void testSeda2_3ExtendedOfSigningInformationCompliance() throws Exception {
+        // free metadata in the SEDA namespace, as ReSIP writes them
+        String manifest = manifestIn(SedaVersion.V2_3).replaceFirst(
+            "</Content>",
+            "<SigningInformation><SigningRole>SignedDocument</SigningRole>" +
+            "<Extended><ExtraField1>Val1</ExtraField1></Extended></SigningInformation></Content>"
+        );
+        SEDAXMLValidator validator = new SEDAXMLValidator();
+
+        assertThat(validator.checkWithXSDSchema(manifest, SEDAXMLValidator.getSEDASchema(SedaVersion.V2_3))).isTrue();
+        // the official XSD types Extended with the abstract OpenType, closed to the SEDA namespace
+        assertThatThrownBy(
+            () ->
+                validator.checkWithXSDSchema(
+                    manifest,
+                    SEDAXMLValidator.getSchemaFromXSDResource(
+                        SEDAValidationTest.class.getClassLoader().getResource(SedaVersion.V2_3.getMainXsdResource())
+                    )
+                )
+        ).hasMessageContaining("Extended");
+    }
 }

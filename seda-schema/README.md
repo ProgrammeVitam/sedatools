@@ -20,14 +20,16 @@ SedaSchema vitam      = SedaSchema.of(SedaVersion.V2_1, SedaFlavor.VITAM);
 | | `sedaschema/xsd/official/` | `sedaschema/xsd/vitam/` |
 |---|---|---|
 | Points d'extension `*Abstract` (`OtherManagementAbstract`, `EventAbstract`…) | déclarés, substituables | mis en commentaire, remplacés par `xsd:any processContents="lax"` |
-| `Management/UpdateOperation` (+ `UpdateOperationType`, `ArchiveUnitIdentifierKeyType`) | absent | présent en 2.1 et 2.2 |
-| `ArchiveUnit/Management/History` (`ManagementHistoryType`) | absent | présent en 2.1 et 2.2 |
-| `ArchiveUnit/DataObjectGroup` (`ObjectGroupRefType`) | absent | présent en 2.1 et 2.2 |
+| `OpenType` | `xsd:any namespace="##other"` : extension hors namespace SEDA | `xsd:any` sans contrainte de namespace |
+| `Management/UpdateOperation` (+ `UpdateOperationType`, `ArchiveUnitIdentifierKeyType`) | absent | présent en 2.1, 2.2 et 2.3 |
+| `ArchiveUnit/Management/History` (`ManagementHistoryType`) | absent | présent en 2.1, 2.2 et 2.3 |
+| `ArchiveUnit/DataObjectGroup` (`ObjectGroupRefType`) | absent | présent en 2.1, 2.2 et 2.3 |
 | `HoldRule` | depuis 2.2 | rétroporté en 2.1 |
-| 2.3 | — | identique à l'officielle, rien n'est dupliqué |
+| `SigningInformation/Extended` (2.3) | de type `OpenType`, abstrait : inutilisable sans `xsi:type` | de type concret `ExtendedType` |
 
-`SedaVersion.hasVitamVariant()` dit si la version diverge ; à partir de 2.3 les ajouts Vitam sont
-entrés dans le standard et `getMainXsdResource(VITAM)` renvoie la ressource officielle.
+Les trois versions ont leur variante Vitam (`SedaVersion.hasVitamVariant()`). Celle de 2.3 est la
+XSD de validation de Vitam (`seda-2.3/vitam-validation` dans les sources de Vitam), renommée
+`seda-vitam-2.3-*.xsd`.
 
 ### Conformité de la variante Vitam au standard
 
@@ -77,7 +79,8 @@ Deux conséquences pratiques :
   permissif ; l'inverse est faux dès qu'une métadonnée Vitam apparaît. Exception en sens inverse en
   2.2, où Vitam restreint `MessageIdentifier` de `IdentifierType` à `NonEmptyTokenType` : un
   `MessageIdentifier` vide, valide pour le standard, est refusé par Vitam.
-- **Les XSD Vitam 2.1 et 2.2 ne sont pas des schémas XSD valides.** Un `xsd:any` sans restriction de
+- **Les XSD Vitam ne sont pas des schémas XSD valides** (constaté en 2.1 et 2.2, la 2.3 reprend la
+  même construction). Un `xsd:any` sans restriction de
   namespace dans un `choice` répété, à côté d'éléments nommés, viole la règle *Unique Particle
   Attribution*. libxml2 refuse de les compiler (`complex type 'ArchiveUnitType': The content model
   is not determinist`). Elles se chargent ici parce que Xerces désactive par défaut
