@@ -31,6 +31,36 @@ Les trois versions ont leur variante Vitam (`SedaVersion.hasVitamVariant()`). Ce
 XSD de validation de Vitam (`seda-2.3/vitam-validation` dans les sources de Vitam), renommée
 `seda-vitam-2.3-*.xsd`.
 
+### Provenance des XSD
+
+Les XSD officielles sont celles du dépôt des Archives de France,
+[github.com/culturegouv/seda](https://github.com/culturegouv/seda) (anciennement
+`culturecommunication/seda`), répertoire `schema/`. Elles y sont identiques octet pour octet
+(vérifié le 21/10/2026) :
+
+| Version | Référence du dépôt officiel | Commit |
+|---|---|---|
+| 2.1 | tag `seda_v2.1` (et branche `seda-2.1`) | `072c7ac638712b375d5c35c6f17e09782bb20df4` (29/12/2022) |
+| 2.2 | tag `seda_v2.2` (et branche `seda-2.2`) | `f8c05f1bf93e3549115573c177a7379d0edfb5db` (29/12/2022) |
+| 2.3 | branche `seda-2.3`, sans tag | `28dfcfca865387a5f8943db9a4574e3d96192407` (27/06/2024) |
+
+Pour refaire la vérification, comparer chaque `official/seda2_x/seda-2.x-*.xsd` à
+`https://raw.githubusercontent.com/culturegouv/seda/<référence>/schema/seda-2.x-*.xsd`. Le dépôt a
+aussi une branche `seda-2.4`, pas encore embarquée.
+
+Le répertoire `seda-2.3/` des sources de Vitam n'est pas la XSD officielle : copié et retouché en
+2023, avant la publication, il en diffère (`LinkingAgentIdentifier` non répétable,
+`HoldRuleCodeListGroup` absent…). Il ne sert pas ici.
+
+Les XSD Vitam viennent de `sources/common/common-private/src/main/resources/seda-2.x/vitam-validation/`
+du dépôt Vitam, fichiers `seda-vitam-*.xsd` renommés `seda-vitam-2.x-*.xsd` (seuls les `include`
+changent) :
+
+- 2.3 : identique à `develop` (dernière modification de ces fichiers : commit `b491585985`,
+  27/09/2023) ;
+- 2.1 et 2.2 : copies plus anciennes, qui diffèrent de `develop` (notamment l'ontologie, où Vitam a
+  depuis ajouté `SigningInformation`). Ces écarts ne sont pas analysés.
+
 ### Conformité de la variante Vitam au standard
 
 Les ajouts Vitam sont dans l'esprit du standard, mais pas dans sa forme.
