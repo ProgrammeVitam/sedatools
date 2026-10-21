@@ -51,6 +51,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
 import fr.gouv.vitam.tools.resip.service.SessionService;
+import fr.gouv.vitam.tools.resip.service.WorkDirService;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
@@ -62,6 +63,8 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +74,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -303,6 +309,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "LoadWork");
         fileMenu.add(menuItem);
+
+        fileMenu.add(createWorkDirSessionsMenu());
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
@@ -759,67 +767,137 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Load
 
     private void loadWork() {
+        if (!canLoadWork()) return;
+        JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsLoadDir());
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) loadWork(
+            fileChooser.getSelectedFile()
+        );
+    }
+
+    // the sessions are listed when the menu opens, the work directory and its content may change
+    private JMenu createWorkDirSessionsMenu() {
+        JMenu sessionsMenu = new JMenu("Charger depuis le répertoire de travail");
+        sessionsMenu.addMenuListener(
+            new MenuListener() {
+                @Override
+                public void menuSelected(MenuEvent e) {
+                    fillWorkDirSessionsMenu(sessionsMenu);
+                }
+
+                @Override
+                public void menuDeselected(MenuEvent e) {
+                    // nothing to do
+                }
+
+                @Override
+                public void menuCanceled(MenuEvent e) {
+                    // nothing to do
+                }
+            }
+        );
+        return sessionsMenu;
+    }
+
+    private void fillWorkDirSessionsMenu(JMenu sessionsMenu) {
+        sessionsMenu.removeAll();
+        Path workDir = Paths.get(new CreationContext(Preferences.getInstance()).getWorkDir());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        addMenuHeader(sessionsMenu, "Sessions sauvegardées");
+        List<File> sessions = SessionService.findSessions(workDir.toString());
+        if (sessions.isEmpty()) addMenuHeader(sessionsMenu, "  aucune");
+        for (File session : sessions) {
+            JMenuItem sessionMenuItem = new JMenuItem(
+                workDir.relativize(session.toPath()) + " (" + dateFormat.format(new Date(session.lastModified())) + ")"
+            );
+            sessionMenuItem.setToolTipText(session.toString());
+            sessionMenuItem.addActionListener(e -> {
+                if (canLoadWork()) loadWork(session);
+            });
+            sessionsMenu.add(sessionMenuItem);
+        }
+
+        sessionsMenu.addSeparator();
+        addMenuHeader(sessionsMenu, "Répertoires temporaires à réimporter (sans les modifications)");
+        List<File> tmpDirs = WorkDirService.findReimportableTmpDirs(workDir.toString());
+        if (tmpDirs.isEmpty()) addMenuHeader(sessionsMenu, "  aucun");
+        for (File tmpDir : tmpDirs) {
+            JMenuItem tmpDirMenuItem = new JMenuItem(
+                tmpDir.getName() + " (" + dateFormat.format(new Date(tmpDir.lastModified())) + ")"
+            );
+            tmpDirMenuItem.setToolTipText(tmpDir.toString());
+            tmpDirMenuItem.addActionListener(e -> {
+                if (!isImportActionWrong()) importWork(new TmpDirImportContext(tmpDir.toString(), workDir.toString()));
+            });
+            sessionsMenu.add(tmpDirMenuItem);
+        }
+    }
+
+    private static void addMenuHeader(JMenu menu, String text) {
+        JMenuItem header = new JMenuItem(text);
+        header.setEnabled(false);
+        menu.add(header);
+    }
+
+    private boolean canLoadWork() {
+        if (importThreadRunning) {
+            UserInteractionDialog.getUserAnswer(
+                mainWindow,
+                "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un chargement.",
+                "Information",
+                UserInteractionDialog.IMPORTANT_DIALOG,
+                null
+            );
+            return false;
+        }
+        return (
+            (currentWork == null) ||
+            !modifiedWork ||
+            (UserInteractionDialog.getUserAnswer(
+                    mainWindow,
+                    "Vous avez un contexte en cours non sauvegardé, un chargement l'écrasera.\n" +
+                    "Voulez-vous continuer?",
+                    "Confirmation",
+                    UserInteractionDialog.WARNING_DIALOG,
+                    null
+                ) ==
+                OK_DIALOG)
+        );
+    }
+
+    private void loadWork(File file) {
         String filename = "Non défini";
         try {
-            if (importThreadRunning) {
-                UserInteractionDialog.getUserAnswer(
-                    mainWindow,
-                    "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un chargement.",
-                    "Information",
-                    UserInteractionDialog.IMPORTANT_DIALOG,
-                    null
-                );
-                return;
-            }
+            filename = file.getCanonicalPath();
+            final SedaVersion sedaVersionFromWorkspace = SessionService.readSedaVersion(filename);
 
-            if (
-                (currentWork != null) &&
-                modifiedWork &&
-                (UserInteractionDialog.getUserAnswer(
+            if ((sedaVersionFromWorkspace != null) && (sedaVersionFromWorkspace != sedaVersion)) {
+                if (
+                    UserInteractionDialog.getUserAnswer(
                         mainWindow,
-                        "Vous avez un contexte en cours non sauvegardé, un chargement l'écrasera.\n" +
+                        "Pour charger ce fichier il faut faire passer l'interface en " +
+                        sedaVersionFromWorkspace +
+                        "\n" +
                         "Voulez-vous continuer?",
                         "Confirmation",
                         UserInteractionDialog.WARNING_DIALOG,
                         null
                     ) !=
-                    OK_DIALOG)
-            ) return;
-
-            JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsLoadDir());
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
-                filename = fileChooser.getSelectedFile().getCanonicalPath();
-                final SedaVersion sedaVersionFromWorkspace = SessionService.readSedaVersion(filename);
-
-                if ((sedaVersionFromWorkspace != null) && (sedaVersionFromWorkspace != sedaVersion)) {
-                    if (
-                        UserInteractionDialog.getUserAnswer(
-                            mainWindow,
-                            "Pour charger ce fichier il faut faire passer l'interface en " +
-                            sedaVersionFromWorkspace +
-                            "\n" +
-                            "Voulez-vous continuer?",
-                            "Confirmation",
-                            UserInteractionDialog.WARNING_DIALOG,
-                            null
-                        ) !=
-                        OK_DIALOG
-                    ) return;
-                    EventBus.publish(new SedaVersionChangedEvent(sedaVersionFromWorkspace));
-                    treatmentParameters.toPrefs(Preferences.getInstance());
-                }
-                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                currentWork = SessionService.load(filename);
-                getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
-                mainWindow.load();
-                mainWindow.setCursor(Cursor.getDefaultCursor());
-                setFilenameWork(filename);
-                setContextLoaded(true);
-                setModifiedContext(false);
-                Preferences.getInstance().setPrefsLoadDirFromChild(filename);
+                    OK_DIALOG
+                ) return;
+                EventBus.publish(new SedaVersionChangedEvent(sedaVersionFromWorkspace));
+                treatmentParameters.toPrefs(Preferences.getInstance());
             }
+            mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            currentWork = SessionService.load(filename);
+            getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
+            mainWindow.load();
+            mainWindow.setCursor(Cursor.getDefaultCursor());
+            setFilenameWork(filename);
+            setContextLoaded(true);
+            setModifiedContext(false);
+            Preferences.getInstance().setPrefsLoadDirFromChild(filename);
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(
                 mainWindow,
@@ -859,8 +937,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private void saveAsWork() {
         String filename = "Non défini";
         try {
-            JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsLoadDir());
+            JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setSelectedFile(defaultSessionFile());
 
             if (fileChooser.showSaveDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
@@ -894,6 +973,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             getGlobalLogger().log(ResipLogger.STEP, "Erreur de sauvegarde de [" + filename + "]", e);
             mainWindow.setCursor(Cursor.getDefaultCursor());
         }
+    }
+
+    // a new session goes in the work directory, where the menu lists it, next to its files
+    private File defaultSessionFile() {
+        if (filenameWork != null) return new File(filenameWork);
+        String onDiskInput = currentWork.getCreationContext() == null
+            ? null
+            : currentWork.getCreationContext().getOnDiskInput();
+        String name = onDiskInput == null
+            ? "session"
+            : Paths.get(onDiskInput).getFileName().toString().replaceFirst("-tmpdir$", "");
+        return new File(new CreationContext(Preferences.getInstance()).getWorkDir(), name + "-session.zip");
     }
 
     // MenuItem Close

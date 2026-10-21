@@ -40,6 +40,9 @@ package fr.gouv.vitam.tools.resip.service;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.OBJECTS_GROUP;
@@ -82,6 +85,30 @@ public final class WorkDirService {
             doProgressLogIfStep(spl, OBJECTS_GROUP, deletedCount, deletedCount + " fichiers effacés");
         }
         return deletedCount;
+    }
+
+    /**
+     * Finds the temporary directories of the work directory which can be imported again, all but
+     * the ones of compacting and decompacting operations (see
+     * {@link CompactService#tmpSubDirOf}).
+     *
+     * @param workDir the work directory
+     * @return the temporary directories, the most recently modified first
+     */
+    public static List<File> findReimportableTmpDirs(String workDir) {
+        List<File> tmpDirs = new ArrayList<>();
+        File[] files = new File(workDir).listFiles();
+        if (files != null) for (File f : files) {
+            String name = f.getName();
+            if (
+                f.isDirectory() &&
+                name.endsWith("-tmpdir") &&
+                !name.startsWith("Compact-") &&
+                !name.startsWith("DeCompact-")
+            ) tmpDirs.add(f);
+        }
+        tmpDirs.sort(Comparator.comparingLong(File::lastModified).reversed());
+        return tmpDirs;
     }
 
     /**

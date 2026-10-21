@@ -114,6 +114,99 @@ class ImportServiceTest {
     }
 
     @Test
+    void reimportsTheTemporaryDirectoryOfASipInTheVersionOfItsManifest() throws Exception {
+        String sip = SEDALIB_SAMPLES + "TestSip.zip";
+        ImportResult imported = importService.doImport(
+            new SIPImportContext(sip, WORK_DIR),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+        String tmpDir = new File(WORK_DIR, "TestSip.zip-tmpdir").toString();
+
+        ImportResult result = importService.doImport(
+            new TmpDirImportContext(tmpDir, WORK_DIR),
+            SedaVersion.V2_3,
+            null,
+            null
+        );
+
+        assertThat(result.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_1);
+        assertThat(result.getGlobalMetadata()).isNotNull();
+        assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).hasSameSizeAs(
+            imported.getDataObjectPackage().getAuInDataObjectPackageIdMap()
+        );
+        assertThat(result.getDataObjectPackage().getBdoInDataObjectPackageIdMap().values()).allSatisfy(
+            bdo -> assertThat(bdo.getOnDiskPath()).exists()
+        );
+        // nothing is extracted again
+        assertThat(resolvedSubDirs).containsExactly("TestSip.zip-tmpdir");
+    }
+
+    @Test
+    void reimportsTheTemporaryDirectoryOfADip() throws Exception {
+        String dip = SEDALIB_SAMPLES + "TestDIP.zip";
+        ImportResult imported = importService.doImport(
+            new DIPImportContext(dip, WORK_DIR),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+        String tmpDir = new File(WORK_DIR, "TestDIP.zip-tmpdir").toString();
+
+        ImportResult result = importService.doImport(
+            new TmpDirImportContext(tmpDir, WORK_DIR),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+
+        assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).hasSameSizeAs(
+            imported.getDataObjectPackage().getAuInDataObjectPackageIdMap()
+        );
+        assertThat(result.getSummary()).contains("DIP");
+    }
+
+    @Test
+    void reimportsTheTemporaryDirectoryOfACompressedFileAsADirectory() throws Exception {
+        String zip = "../sedalib/src/test/resources/zip/TestImport.zip";
+        ImportResult imported = importService.doImport(
+            new ZipImportContext(List.of(), zip, WORK_DIR),
+            SedaVersion.V2_2,
+            null,
+            null
+        );
+        String tmpDir = new File(WORK_DIR, "TestImport.zip-tmpdir").toString();
+
+        ImportResult result = importService.doImport(
+            new TmpDirImportContext(tmpDir, WORK_DIR),
+            SedaVersion.V2_2,
+            null,
+            null
+        );
+
+        assertThat(result.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_2);
+        assertThat(result.getDataObjectPackage().getAuInDataObjectPackageIdMap()).hasSameSizeAs(
+            imported.getDataObjectPackage().getAuInDataObjectPackageIdMap()
+        );
+    }
+
+    @Test
+    void refusesAMissingTemporaryDirectory() {
+        assertThatThrownBy(
+            () ->
+                importService.doImport(
+                    new TmpDirImportContext(WORK_DIR + "/missing-tmpdir", WORK_DIR),
+                    SedaVersion.V2_1,
+                    null,
+                    null
+                )
+        )
+            .isInstanceOf(ResipException.class)
+            .hasMessageContaining("n'existe pas");
+    }
+
+    @Test
     void importsACompressedFileInTheGivenVersion() throws Exception {
         String zip = "../sedalib/src/test/resources/zip/TestImport.zip";
 

@@ -47,9 +47,17 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -132,6 +140,11 @@ public class ImportService {
         );
         if (creationContext instanceof CSVMetadataImportContext) return doCSVMetadataImport(
             (CSVMetadataImportContext) creationContext,
+            sedaVersion,
+            spl
+        );
+        if (creationContext instanceof TmpDirImportContext) return doTmpDirImport(
+            (TmpDirImportContext) creationContext,
             sedaVersion,
             spl
         );
@@ -259,6 +272,84 @@ public class ImportService {
         );
         cmi.doImport();
         return new ImportResult(cmi.getDataObjectPackage(), null, cmi.getSummary());
+    }
+
+    /**
+     * Finds the manifest a SIP or a DIP import extracted in a directory, the one whose name holds
+     * "manifest" as in the importers.
+     *
+     * @param dir the directory
+     * @return the manifest, or null if there is none
+     * @throws ResipException if there are several
+     */
+    public static File findManifest(File dir) throws ResipException {
+        File manifest = null;
+        File[] files = dir.listFiles();
+        if (files != null) for (File f : files) {
+            if (f.isFile() && f.getName().toLowerCase().matches(".*manifest.*\\.xml")) {
+                if (manifest != null) throw new ResipException(
+                    "Plusieurs fichiers manifest potentiels dans le répertoire [" + dir + "]"
+                );
+                manifest = f;
+            }
+        }
+        return manifest;
+    }
+
+    // the root element tells a SIP manifest from a DIP one
+    private static String rootElementOf(File manifest) throws ResipException {
+        try (InputStream is = new FileInputStream(manifest)) {
+            XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(is);
+            try {
+                while (reader.hasNext()) {
+                    XMLEvent event = reader.nextEvent();
+                    if (event.isStartElement()) return event.asStartElement().getName().getLocalPart();
+                }
+            } finally {
+                reader.close();
+            }
+        } catch (IOException | XMLStreamException e) {
+            throw new ResipException("Impossible de lire le manifest [" + manifest + "]", e);
+        }
+        throw new ResipException("Le manifest [" + manifest + "] est vide");
+    }
+
+    private ImportResult doTmpDirImport(TmpDirImportContext tdic, SedaVersion sedaVersion, SEDALibProgressLogger spl)
+        throws ResipException, InterruptedException, SEDALibException {
+        File dir = new File(tdic.getOnDiskInput());
+        if (!dir.isDirectory()) throw new ResipException("Le répertoire [" + dir + "] n'existe pas");
+        File manifest = findManifest(dir);
+        if (manifest == null) {
+            // the links are ignored as when the compressed file was imported, they point outside
+            DiskImportContext dic = new DiskImportContext(
+                new DiskImportContext(preferences).getIgnorePatternList(),
+                true,
+                tdic.getOnDiskInput(),
+                tdic.getWorkDir()
+            );
+            return doDiskImport(dic, sedaVersion, spl);
+        }
+        String rootDir = dir.getAbsolutePath();
+        try (
+            FileInputStream fis = new FileInputStream(manifest);
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(fis)
+        ) {
+            if ("ArchiveDeliveryRequestReply".equals(rootElementOf(manifest))) {
+                ArchiveDeliveryRequestReply reply = ArchiveDeliveryRequestReply.fromSedaXml(xmlReader, rootDir, spl);
+                return new ImportResult(
+                    reply.getDataObjectPackage(),
+                    reply.getGlobalMetadata(),
+                    "DIP extrait réimporté depuis [" + dir + "]\n" + reply.getDescription()
+                );
+            }
+            ArchiveTransfer archiveTransfer = ArchiveTransfer.fromSedaXml(xmlReader, rootDir, spl);
+            return of(
+                archiveTransfer,
+                "SIP extrait réimporté depuis [" + dir + "]\n" + archiveTransfer.getDescription()
+            );
+        } catch (IOException | XMLStreamException e) {
+            throw new SEDALibException("Impossible d'importer le fichier [" + manifest + "] comme manifest", e);
+        }
     }
 
     private ImportResult doMailImport(

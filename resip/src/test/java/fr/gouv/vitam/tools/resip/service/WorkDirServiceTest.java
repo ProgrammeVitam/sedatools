@@ -70,6 +70,19 @@ class WorkDirServiceTest {
     }
 
     @Test
+    void findsTheTemporaryDirectoriesWhichCanBeImportedAgain(@TempDir Path workDir) throws Exception {
+        File older = Files.createDirectory(workDir.resolve("Sip.zip-tmpdir")).toFile();
+        File newer = Files.createDirectory(workDir.resolve("Mail.pst-tmpdir")).toFile();
+        older.setLastModified(newer.lastModified() - 10_000);
+        Files.createDirectory(workDir.resolve("Compact-ID10-tmpdir"));
+        Files.createDirectory(workDir.resolve("DeCompact-ID58-tmpdir"));
+        Files.createDirectory(workDir.resolve("other"));
+        Files.createFile(workDir.resolve("file-tmpdir"));
+
+        assertThat(WorkDirService.findReimportableTmpDirs(workDir.toString())).containsExactly(newer, older);
+    }
+
+    @Test
     void deletesAFileOrADirectoryRecursively(@TempDir Path dir) throws Exception {
         Files.createDirectories(dir.resolve("a/b"));
         Files.writeString(dir.resolve("a/b/c.txt"), "c");

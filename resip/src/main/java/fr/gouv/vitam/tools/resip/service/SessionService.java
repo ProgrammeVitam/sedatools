@@ -55,9 +55,13 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -164,6 +168,42 @@ public final class SessionService {
                 pdo.setDataObjectGroup(dog);
             }
         }
+    }
+
+    /**
+     * Tells if a file is a session file, a zip whose first entry is the json of a work.
+     *
+     * @param file the file
+     * @return true if the file is a session file
+     */
+    public static boolean isSession(File file) {
+        if (!file.isFile()) return false;
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
+            ZipEntry ze = zis.getNextEntry();
+            return (ze != null) && ze.getName().equals(JSON_FILENAME);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Finds the session files of a directory and of its direct subdirectories, such as the
+     * temporary directories of the work directory.
+     *
+     * @param dir the directory
+     * @return the session files, the most recently modified first
+     */
+    public static List<File> findSessions(String dir) {
+        List<File> sessions = new ArrayList<>();
+        File[] files = new File(dir).listFiles();
+        if (files != null) for (File f : files) {
+            if (f.isDirectory()) {
+                File[] children = f.listFiles();
+                if (children != null) for (File child : children) if (isSession(child)) sessions.add(child);
+            } else if (isSession(f)) sessions.add(f);
+        }
+        sessions.sort(Comparator.comparingLong(File::lastModified).reversed());
+        return sessions;
     }
 
     /**
