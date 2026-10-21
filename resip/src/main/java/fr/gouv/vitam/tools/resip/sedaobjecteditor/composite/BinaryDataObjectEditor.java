@@ -42,15 +42,11 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.FileMetadata;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
-import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
-import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,56 +173,18 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
 
     private void extractFileMetadataInEditors() {
         try {
-            replaceOrAddObjectEditor(
-                createSEDAObjectEditor(
-                    new DigestType("MessageDigest", DigestSha512.compute(editedOnDiskPath), "SHA-512"),
-                    this
-                )
-            );
-            replaceOrAddObjectEditor(
-                createSEDAObjectEditor(new IntegerType("Size", Files.size(editedOnDiskPath)), this)
-            );
-
-            boolean expanded = false;
-            SEDAObjectEditor formatInformationObjectEditor = getSEDAObjectEditor("FormatIdentification");
-            if (formatInformationObjectEditor != null) expanded =
-                ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
-            IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(editedOnDiskPath);
-            FormatIdentification formatIdentification;
-            if (ir != null) formatIdentification = new FormatIdentification(
-                getSedaVersion(),
-                ir.getName(),
-                ir.getMimeType(),
-                ir.getPuid(),
-                null
-            );
-            else formatIdentification = new FormatIdentification(
-                getSedaVersion(),
-                translateTag(UNKNOWN),
-                null,
-                translateTag(UNKNOWN),
-                null
-            );
-            formatInformationObjectEditor = createSEDAObjectEditor(formatIdentification, this);
-            ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).setExpanded(
-                    expanded
-                );
-            replaceOrAddObjectEditor(formatInformationObjectEditor);
-
-            expanded = false;
-            SEDAObjectEditor fileInfoObjectEditor = getSEDAObjectEditor("FileInfo");
-            if (fileInfoObjectEditor != null) expanded =
-                ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
-            FileInfo fileInfo = new FileInfo(getSedaVersion());
-            fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
-            fileInfo.addNewMetadata(
-                "LastModified",
-                LocalDateTimeUtil.getFormattedDateTime(Files.getLastModifiedTime(editedOnDiskPath))
-            );
-            fileInfoObjectEditor = createSEDAObjectEditor(fileInfo, this);
-            ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).setExpanded(expanded);
-            replaceOrAddObjectEditor(fileInfoObjectEditor);
-
+            for (SEDAMetadata sm : FileMetadata.of(editedOnDiskPath, getSedaVersion(), translateTag(UNKNOWN))) {
+                SEDAObjectEditor previous = getSEDAObjectEditor(sm.getXmlElementName());
+                SEDAObjectEditor editor = createSEDAObjectEditor(sm, this);
+                // the composite ones keep the folding of the editor they replace
+                if (sm instanceof ComplexListType) {
+                    boolean expanded =
+                        (previous != null) &&
+                        ((SEDAObjectEditorCompositePanel) previous.getSEDAObjectEditorPanel()).isExpanded();
+                    ((SEDAObjectEditorCompositePanel) editor.getSEDAObjectEditorPanel()).setExpanded(expanded);
+                }
+                replaceOrAddObjectEditor(editor);
+            }
             updateObjectEditorList();
         } catch (SEDALibException | IOException e) {
             e.printStackTrace();
