@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.resip.service;
 
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.parameters.DIPImportContext;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
@@ -120,6 +121,75 @@ class WorkDirServiceTest {
             usingTmpDir,
             inTmpDir
         );
+    }
+
+    private static Work importedIn(Path workDir, String sample, boolean dip) throws Exception {
+        String input = "../sedalib/src/test/resources/PacketSamples/" + sample;
+        return new ImportService(Preferences.getInstance(), ImportService.USE_AS_IS).importWork(
+            dip ? new DIPImportContext(input, workDir.toString()) : new SIPImportContext(input, workDir.toString()),
+            SedaVersion.V2_1,
+            null,
+            null
+        );
+    }
+
+    @Test
+    void describesTheSessions(@TempDir Path workDir) throws Exception {
+        File session = workDir.resolve("sip-session.zip").toFile();
+        SessionService.save(importedIn(workDir, "TestSip.zip", false), session.toString());
+        File tmpDir = workDir.resolve("TestSip.zip-tmpdir").toFile();
+
+        SessionInfo info = WorkDirService.describeSessions(workDir.toString()).get(0);
+
+        assertThat(info.getFile()).isEqualTo(session);
+        assertThat(info.getSedaVersion()).isEqualTo(SedaVersion.V2_1);
+        assertThat(info.getError()).isNull();
+        assertThat(info.getMissingBinaryCount()).isZero();
+        assertThat(info.getUsedTmpDirs()).containsExactly(tmpDir);
+
+        String onDiskPath = SessionService.readOnDiskPaths(session.toString()).get(0);
+        Files.delete(Path.of(onDiskPath));
+
+        assertThat(WorkDirService.describeSessions(workDir.toString()).get(0).getMissingBinaryCount()).isEqualTo(1);
+    }
+
+    @Test
+    void deletesSessionsAndTheTemporaryDirectoriesOnlyTheyUse(@TempDir Path workDir) throws Exception {
+        Work fromSip = importedIn(workDir, "TestSip.zip", false);
+        Work fromDip = importedIn(workDir, "TestDIP.zip", true);
+        File sipA = workDir.resolve("sip-a.zip").toFile();
+        File sipB = workDir.resolve("sip-b.zip").toFile();
+        File dip = workDir.resolve("dip.zip").toFile();
+        SessionService.save(fromSip, sipA.toString());
+        SessionService.save(fromSip, sipB.toString());
+        SessionService.save(fromDip, dip.toString());
+        File sipTmpDir = workDir.resolve("TestSip.zip-tmpdir").toFile();
+        File dipTmpDir = workDir.resolve("TestDIP.zip-tmpdir").toFile();
+        String sipFile = SessionService.readOnDiskPaths(sipA.toString()).get(0);
+
+        // another session uses it
+        assertThat(WorkDirService.deleteSessions(workDir.toString(), List.of(sipA), true, List.of(), null)).isEmpty();
+        assertThat(sipA).doesNotExist();
+        assertThat(sipTmpDir).isDirectory();
+
+        // without the option, it is kept
+        assertThat(WorkDirService.deleteSessions(workDir.toString(), List.of(dip), false, List.of(), null)).isEmpty();
+        assertThat(dip).doesNotExist();
+        assertThat(dipTmpDir).isDirectory();
+
+        // the opened work uses it
+        assertThat(
+            WorkDirService.deleteSessions(workDir.toString(), List.of(sipB), true, List.of(sipFile), null)
+        ).isEmpty();
+        assertThat(sipB).doesNotExist();
+        assertThat(sipTmpDir).isDirectory();
+
+        SessionService.save(fromSip, sipA.toString());
+        assertThat(
+            WorkDirService.deleteSessions(workDir.toString(), List.of(sipA), true, List.of(), null)
+        ).containsExactly(sipTmpDir);
+        assertThat(sipTmpDir).doesNotExist();
+        assertThat(dipTmpDir).isDirectory();
     }
 
     @Test

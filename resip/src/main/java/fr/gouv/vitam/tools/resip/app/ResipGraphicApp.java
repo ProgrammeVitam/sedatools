@@ -58,6 +58,7 @@ import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
@@ -312,6 +313,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         fileMenu.add(menuItem);
 
         fileMenu.add(createWorkDirSessionsMenu());
+
+        menuItem = new JMenuItem("Gérer les sessions...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ManageSessions");
+        fileMenu.add(menuItem);
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
@@ -593,6 +599,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 case "Exit":
                     exit();
                     break;
+                case "ManageSessions":
+                    manageSessions();
+                    break;
                 case "EmptyWorkDir":
                     emptyWorkDir();
                     break;
@@ -839,6 +848,25 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         JMenuItem header = new JMenuItem(text);
         header.setEnabled(false);
         menu.add(header);
+    }
+
+    // MenuItem ManageSessions
+
+    private void manageSessions() {
+        List<String> pathsInUse = new ArrayList<>();
+        if (currentWork != null) for (BinaryDataObject bdo : currentWork
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .values()) if (bdo.getOnDiskPath() != null) pathsInUse.add(bdo.getOnDiskPath().toString());
+        SessionsDialog sessionsDialog = new SessionsDialog(
+            mainWindow,
+            new CreationContext(Preferences.getInstance()).getWorkDir(),
+            (currentWork == null) || (filenameWork == null) ? null : new File(filenameWork),
+            pathsInUse
+        );
+        sessionsDialog.setVisible(true);
+        File sessionToLoad = sessionsDialog.getSessionToLoad();
+        if ((sessionToLoad != null) && canLoadWork()) loadWork(sessionToLoad);
     }
 
     // a session only holds the paths of its binaries, which may have been deleted or moved since

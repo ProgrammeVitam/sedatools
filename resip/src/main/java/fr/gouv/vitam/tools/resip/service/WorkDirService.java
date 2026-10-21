@@ -39,14 +39,21 @@ package fr.gouv.vitam.tools.resip.service;
 
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.OBJECTS_GROUP;
@@ -127,26 +134,98 @@ public final class WorkDirService {
      * @return the sessions, the most recently modified first
      */
     public static List<File> findSessionsUsingTmpDirs(String workDir) {
-        List<Path> tmpDirs = new ArrayList<>();
-        File[] files = new File(workDir).listFiles();
-        if (files != null) for (File f : files) if (isTmpDir(f)) tmpDirs.add(normalized(f.getPath()));
         List<File> sessions = new ArrayList<>();
-        if (tmpDirs.isEmpty()) return sessions;
-        for (File session : SessionService.findSessions(workDir)) {
-            if (isInOneOf(normalized(session.getPath()), tmpDirs)) sessions.add(session);
-            else try {
-                for (String onDiskPath : SessionService.readOnDiskPaths(session.getPath())) {
-                    Path path = normalized(onDiskPath);
-                    if ((path != null) && isInOneOf(path, tmpDirs)) {
-                        sessions.add(session);
-                        break;
-                    }
-                }
-            } catch (ResipException e) {
-                // a session which can't be read isn't broken by the cleaning
-            }
-        }
+        for (SessionInfo info : describeSessions(workDir)) if (
+            info.getUsedTmpDirs().stream().anyMatch(File::isDirectory)
+        ) sessions.add(info.getFile());
         return sessions;
+    }
+
+    /**
+     * Describes the sessions of the work directory and of its direct subdirectories.
+     *
+     * @param workDir the work directory
+     * @return the descriptions, the most recently modified session first
+     */
+    public static List<SessionInfo> describeSessions(String workDir) {
+        Path workDirPath = normalized(workDir);
+        List<SessionInfo> infos = new ArrayList<>();
+        for (File session : SessionService.findSessions(workDir)) infos.add(describe(session, workDirPath));
+        return infos;
+    }
+
+    private static SessionInfo describe(File session, Path workDir) {
+        Set<File> usedTmpDirs = new TreeSet<>();
+        addTmpDirOf(normalized(session.getPath()), workDir, usedTmpDirs);
+        try {
+            SedaVersion sedaVersion = SessionService.readSedaVersion(session.getPath());
+            int missingBinaryCount = 0;
+            for (String onDiskPath : SessionService.readOnDiskPaths(session.getPath())) {
+                Path path = normalized(onDiskPath);
+                if ((path == null) || !Files.isReadable(path)) missingBinaryCount++;
+                addTmpDirOf(path, workDir, usedTmpDirs);
+            }
+            return new SessionInfo(session, sedaVersion, missingBinaryCount, new ArrayList<>(usedTmpDirs), null);
+        } catch (ResipException e) {
+            return new SessionInfo(session, null, 0, new ArrayList<>(usedTmpDirs), e.getMessage());
+        }
+    }
+
+    // adds the temporary directory of the work directory a path is in, if any
+    private static void addTmpDirOf(Path path, Path workDir, Set<File> tmpDirs) {
+        if ((path == null) || (workDir == null) || !path.startsWith(workDir) || path.equals(workDir)) return;
+        Path first = workDir.relativize(path).getName(0);
+        if (first.toString().endsWith("-tmpdir")) tmpDirs.add(workDir.resolve(first).toFile());
+    }
+
+    /**
+     * Deletes sessions of the work directory and, if asked, the temporary directories only they use:
+     * the ones no other session of the work directory and no path in use needs.
+     *
+     * @param workDir     the work directory
+     * @param sessions    the session files to delete
+     * @param withTmpDirs true to also delete the temporary directories only these sessions use
+     * @param pathsInUse  the paths of the files used elsewhere, such as the ones of the opened work,
+     *                    whose temporary directories are kept
+     * @param spl         the progress logger, or null
+     * @return the deleted temporary directories
+     * @throws ResipException       if a session file can't be deleted
+     * @throws InterruptedException if the deletion is interrupted
+     */
+    public static List<File> deleteSessions(
+        String workDir,
+        List<File> sessions,
+        boolean withTmpDirs,
+        Collection<String> pathsInUse,
+        SEDALibProgressLogger spl
+    ) throws ResipException, InterruptedException {
+        Path workDirPath = normalized(workDir);
+        Set<File> deletedSessions = new HashSet<>();
+        for (File session : sessions) deletedSessions.add(session.getAbsoluteFile());
+        Set<File> candidates = new TreeSet<>();
+        Set<File> kept = new HashSet<>();
+        for (SessionInfo info : describeSessions(workDir)) {
+            if (deletedSessions.contains(info.getFile().getAbsoluteFile())) candidates.addAll(info.getUsedTmpDirs());
+            else kept.addAll(info.getUsedTmpDirs());
+        }
+        for (String path : pathsInUse) addTmpDirOf(normalized(path), workDirPath, kept);
+
+        for (File session : sessions) {
+            try {
+                Files.deleteIfExists(session.toPath());
+            } catch (IOException e) {
+                throw new ResipException("Impossible de supprimer la session [" + session + "]", e);
+            }
+            doProgressLog(spl, STEP, "Session supprimée: " + session, null);
+        }
+        List<File> deletedTmpDirs = new ArrayList<>();
+        if (withTmpDirs) for (File tmpDir : candidates) {
+            if (kept.contains(tmpDir) || !tmpDir.isDirectory()) continue;
+            deleteRecursively(tmpDir, spl);
+            doProgressLog(spl, STEP, "Répertoire temporaire supprimé: " + tmpDir, null);
+            deletedTmpDirs.add(tmpDir);
+        }
+        return deletedTmpDirs;
     }
 
     private static Path normalized(String path) {
@@ -155,11 +234,6 @@ public final class WorkDirService {
         } catch (InvalidPathException e) {
             return null;
         }
-    }
-
-    private static boolean isInOneOf(Path path, List<Path> dirs) {
-        for (Path dir : dirs) if (path.startsWith(dir)) return true;
-        return false;
     }
 
     /**
