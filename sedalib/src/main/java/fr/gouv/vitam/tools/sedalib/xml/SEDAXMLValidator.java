@@ -70,9 +70,27 @@ public class SEDAXMLValidator {
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
+    /**
+     * Gets the XSD Vitam implements for a SEDA version, the one sedalib writes manifests for.
+     *
+     * @param sedaVersion the SEDA version
+     * @return the schema
+     * @throws SEDALibException if the schema can't be loaded
+     */
     public static Schema getSEDASchema(SedaVersion sedaVersion) throws SEDALibException {
-        // the XSD Vitam implements, bundled by seda-schema along with the official one
-        String resource = sedaVersion.getMainXsdResource(SedaFlavor.VITAM);
+        return getSEDASchema(sedaVersion, SedaFlavor.VITAM);
+    }
+
+    /**
+     * Gets the XSD of a SEDA version in a flavour, both bundled by seda-schema.
+     *
+     * @param sedaVersion the SEDA version
+     * @param sedaFlavor  the flavour, official or Vitam
+     * @return the schema
+     * @throws SEDALibException if the schema can't be loaded
+     */
+    public static Schema getSEDASchema(SedaVersion sedaVersion, SedaFlavor sedaFlavor) throws SEDALibException {
+        String resource = sedaVersion.getMainXsdResource(sedaFlavor);
         return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(resource));
     }
 

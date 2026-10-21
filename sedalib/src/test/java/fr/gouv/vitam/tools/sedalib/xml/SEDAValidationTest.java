@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.sedalib.xml;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -124,9 +125,7 @@ public class SEDAValidationTest {
             () ->
                 validator.checkWithXSDSchema(
                     manifest,
-                    SEDAXMLValidator.getSchemaFromXSDResource(
-                        SEDAValidationTest.class.getClassLoader().getResource(SedaVersion.V2_3.getMainXsdResource())
-                    )
+                    SEDAXMLValidator.getSEDASchema(SedaVersion.V2_3, SedaFlavor.OFFICIAL)
                 )
         ).hasMessageContaining("Extended");
     }

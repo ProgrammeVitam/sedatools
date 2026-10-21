@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.xml.stream.XMLStreamException;
@@ -390,7 +391,27 @@ public class ArchiveTransfer {
 
     // SEDA Validator
 
+    /**
+     * Validates the manifest against the XSD Vitam implements for its SEDA version.
+     *
+     * @param sedaLibProgressLogger the progress logger, or null
+     * @throws SEDALibException     if the manifest is not valid
+     * @throws InterruptedException if the validation is interrupted
+     */
     public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException, InterruptedException {
+        sedaSchemaValidate(SedaFlavor.VITAM, sedaLibProgressLogger);
+    }
+
+    /**
+     * Validates the manifest against the XSD of its SEDA version in a flavour.
+     *
+     * @param sedaFlavor            the flavour, official or Vitam
+     * @param sedaLibProgressLogger the progress logger, or null
+     * @throws SEDALibException     if the manifest is not valid
+     * @throws InterruptedException if the validation is interrupted
+     */
+    public void sedaSchemaValidate(SedaFlavor sedaFlavor, SEDALibProgressLogger sedaLibProgressLogger)
         throws SEDALibException, InterruptedException {
         String manifest;
         try (
@@ -403,7 +424,7 @@ public class ArchiveTransfer {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
-        Schema sedaSchema = SEDAXMLValidator.getSEDASchema(getSedaVersion());
+        Schema sedaSchema = SEDAXMLValidator.getSEDASchema(getSedaVersion(), sedaFlavor);
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 

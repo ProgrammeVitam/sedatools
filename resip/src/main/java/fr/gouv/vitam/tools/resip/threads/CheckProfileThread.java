@@ -108,7 +108,12 @@ public class CheckProfileThread extends SwingWorker<String, String> {
 
             if (work == null) throw new ResipException("Pas de contenu à valider");
 
-            new ExportService(Preferences.getInstance()).validate(work, profileFileName, spl);
+            new ExportService(Preferences.getInstance()).validate(
+                work,
+                profileFileName,
+                ResipGraphicApp.getTheApp().treatmentParameters.getSedaFlavor(),
+                spl
+            );
             if (work.getExportContext().isReindex()) ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;

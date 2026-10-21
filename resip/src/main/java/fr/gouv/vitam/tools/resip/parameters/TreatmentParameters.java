@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.parameters;
 
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,6 +68,11 @@ public class TreatmentParameters {
      * The SEDA2 subversion.
      */
     SedaVersion sedaVersion;
+
+    /**
+     * The SEDA flavour the conformity is checked against, Vitam by default.
+     */
+    SedaFlavor sedaFlavor = SedaFlavor.VITAM;
 
     /**
      * Instantiates a new creation context.
@@ -123,6 +129,19 @@ public class TreatmentParameters {
             .getProperty("treatmentParameters.seda2Version", defaultConfiguredSedaVersion);
 
         EventBus.publish(new SedaVersionChangedEvent(parseSedaVersion(configuredSedaVersion)));
+
+        sedaFlavor = parseSedaFlavor(
+            preferences.getPrefProperties().getProperty("treatmentParameters.sedaFlavor", SedaFlavor.VITAM.name())
+        );
+    }
+
+    // an unknown flavour, from a hand edited preferences file, falls back on the default one
+    private static SedaFlavor parseSedaFlavor(String value) {
+        try {
+            return SedaFlavor.valueOf(value.trim());
+        } catch (IllegalArgumentException e) {
+            return SedaFlavor.VITAM;
+        }
     }
 
     /**
@@ -149,6 +168,7 @@ public class TreatmentParameters {
                 "treatmentParameters.seda2Version",
                 (sedaVersion == null ? SedaVersion.V2_1 : sedaVersion).toString()
             );
+        preferences.getPrefProperties().setProperty("treatmentParameters.sedaFlavor", sedaFlavor.name());
     }
 
     /**
@@ -384,9 +404,28 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Autres...", List.of("Other"));
         dupMax = 1000;
         sedaVersion = SedaVersion.V2_1;
+        sedaFlavor = SedaFlavor.VITAM;
     }
 
     // Getters and setters
+
+    /**
+     * Gets the SEDA flavour the conformity is checked against.
+     *
+     * @return the SEDA flavour
+     */
+    public SedaFlavor getSedaFlavor() {
+        return sedaFlavor;
+    }
+
+    /**
+     * Sets the SEDA flavour the conformity is checked against.
+     *
+     * @param sedaFlavor the SEDA flavour
+     */
+    public void setSedaFlavor(SedaFlavor sedaFlavor) {
+        this.sedaFlavor = sedaFlavor;
+    }
 
     /**
      * Gets the format by category map.
