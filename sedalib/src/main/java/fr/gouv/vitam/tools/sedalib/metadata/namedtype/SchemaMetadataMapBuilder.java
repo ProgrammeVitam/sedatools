@@ -302,20 +302,6 @@ public final class SchemaMetadataMapBuilder {
         // Vitam compaction extension, outside of the standard
         ADDITIONS.add(new Addition(Content.class, null, null, "DocumentContainer", DocumentContainer.class, false));
         ADDITIONS.add(new Addition(Content.class, null, null, "DocumentPack", DocumentPack.class, false));
-        // UpdateOperation left the XSD in 2.3, sedalib keeps it as the Vitam extension it was
-        ADDITIONS.add(
-            new Addition(Management.class, SedaVersion.V2_3, null, "UpdateOperation", UpdateOperation.class, false)
-        );
-        ADDITIONS.add(
-            new Addition(
-                ManagementMetadata.class,
-                SedaVersion.V2_3,
-                null,
-                "UpdateOperation",
-                UpdateOperation.class,
-                false
-            )
-        );
     }
 
     /**

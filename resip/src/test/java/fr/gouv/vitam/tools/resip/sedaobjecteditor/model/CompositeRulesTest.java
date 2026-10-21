@@ -68,8 +68,11 @@ class CompositeRulesTest {
 
     @Test
     void proposesTheFieldsOfTheVersion() throws Exception {
-        assertThat(CompositeRules.addableFields(new Content(SedaVersion.V2_1), List.of())).doesNotContain("Agent");
-        assertThat(CompositeRules.addableFields(new Content(SedaVersion.V2_2), List.of())).contains("Agent");
+        // Signature is superseded by SigningInformation in 2.3
+        assertThat(CompositeRules.addableFields(new Content(SedaVersion.V2_1), List.of())).contains("Signature");
+        assertThat(CompositeRules.addableFields(new Content(SedaVersion.V2_3), List.of()))
+            .contains("SigningInformation")
+            .doesNotContain("Signature");
     }
 
     @Test

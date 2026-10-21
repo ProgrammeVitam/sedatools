@@ -32,6 +32,8 @@ class SchemaMetadataMapBuilderTest {
             .startsWith("DescriptionLevel", "Title", "FilePlanPosition", "SystemId", "OriginatingSystemId")
             .endsWith(
                 "Gps",
+                "SigningInformation",
+                "PersistentIdentifier",
                 "History",
                 "OriginatingSystemIdReplyTo",
                 "TextContent",
@@ -43,6 +45,8 @@ class SchemaMetadataMapBuilderTest {
             "Gps",
             "OriginatingSystemIdReplyTo",
             "TextContent",
+            "SigningInformation",
+            "PersistentIdentifier",
             "History",
             "DocumentContainer",
             "DocumentPack"
@@ -56,9 +60,10 @@ class SchemaMetadataMapBuilderTest {
         );
     }
 
-    @Test
-    void keepsUpdateOperationInManagementWhenItLeftTheSchema() throws Exception {
-        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_1).keySet()).containsExactly(
+    @ParameterizedTest
+    @EnumSource(SedaVersion.class)
+    void putsTheVitamUpdateOperationAfterHoldRuleInManagement(SedaVersion version) throws Exception {
+        assertThat(SchemaMetadataMapBuilder.build(Management.class, version).keySet()).containsExactly(
             "StorageRule",
             "AppraisalRule",
             "AccessRule",
@@ -67,18 +72,10 @@ class SchemaMetadataMapBuilderTest {
             "ClassificationRule",
             "LogBook",
             "NeedAuthorization",
-            "UpdateOperation",
-            "HoldRule"
-        );
-        // HoldRule before UpdateOperation from 2.2, and UpdateOperation left the 2.3 schema
-        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_2).keySet()).endsWith(
             "HoldRule",
             "UpdateOperation"
         );
-        assertThat(SchemaMetadataMapBuilder.build(Management.class, SedaVersion.V2_3).keySet()).endsWith(
-            "HoldRule",
-            "UpdateOperation"
-        );
+        assertThat(SchemaMetadataMapBuilder.build(ManagementMetadata.class, version)).containsKey("UpdateOperation");
     }
 
     @ParameterizedTest

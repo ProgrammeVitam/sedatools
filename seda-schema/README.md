@@ -24,12 +24,14 @@ SedaSchema vitam      = SedaSchema.of(SedaVersion.V2_1, SedaFlavor.VITAM);
 | `Management/UpdateOperation` (+ `UpdateOperationType`, `ArchiveUnitIdentifierKeyType`) | absent | présent en 2.1, 2.2 et 2.3 |
 | `ArchiveUnit/Management/History` (`ManagementHistoryType`) | absent | présent en 2.1, 2.2 et 2.3 |
 | `ArchiveUnit/DataObjectGroup` (`ObjectGroupRefType`) | absent | présent en 2.1, 2.2 et 2.3 |
-| `HoldRule` | depuis 2.2 | rétroporté en 2.1 |
-| `SigningInformation/Extended` (2.3) | de type `OpenType`, abstrait : inutilisable sans `xsi:type` | de type concret `ExtendedType` |
+| `HoldRule` | depuis 2.2 | rétroporté en 2.1, avant `UpdateOperation` dans `Management` |
+| `Content/Agent` | depuis 2.2 (`AgentAbstract` en 2.1) | rétroporté en 2.1 |
+| `Content/SigningInformation` | depuis 2.3 | rétroporté en 2.1 et 2.2, au choix avec l'ancien bloc (`Signature`, `Gps`…) |
+| `Content/PersistentIdentifier` | depuis 2.3 | rétroporté en 2.1 et 2.2 |
+| `SigningInformation/Extended` | de type `OpenType`, abstrait : inutilisable sans `xsi:type` | de type concret `ExtendedType` |
 
-Les trois versions ont leur variante Vitam (`SedaVersion.hasVitamVariant()`). Celle de 2.3 est la
-XSD de validation de Vitam (`seda-2.3/vitam-validation` dans les sources de Vitam), renommée
-`seda-vitam-2.3-*.xsd`.
+Les trois versions ont leur variante Vitam (`SedaVersion.hasVitamVariant()`) : la XSD de
+validation de Vitam, voir la provenance ci-dessous.
 
 ### Provenance des XSD
 
@@ -56,10 +58,13 @@ Les XSD Vitam viennent de `sources/common/common-private/src/main/resources/seda
 du dépôt Vitam, fichiers `seda-vitam-*.xsd` renommés `seda-vitam-2.x-*.xsd` (seuls les `include`
 changent) :
 
-- 2.3 : identique à `develop` (dernière modification de ces fichiers : commit `b491585985`,
-  27/09/2023) ;
-- 2.1 et 2.2 : copies plus anciennes, qui diffèrent de `develop` (notamment l'ontologie, où Vitam a
-  depuis ajouté `SigningInformation`). Ces écarts ne sont pas analysés.
+toutes trois identiques à `develop` (dernière modification de ces fichiers : commit `b491585985`,
+27/09/2023).
+
+Jusqu'au 21/10/2026, les variantes 2.1 et 2.2 embarquées dataient de mai 2022 (commit Vitam
+`71c6261c75`), avec en 2.1 `AgentAbstract` à la place d'`Agent`. Vitam y a depuis ajouté
+`SigningInformation` et `PersistentIdentifier`, et placé en 2.1 `HoldRule` avant
+`UpdateOperation`.
 
 ### Conformité de la variante Vitam au standard
 
@@ -81,8 +86,8 @@ Le second vecteur, `OpenType`, est un `<xsd:any namespace="##other" processConte
 l'extension est permise, mais obligatoirement dans un autre namespace que celui du SEDA.
 
 La variante Vitam n'emprunte ni l'un ni l'autre. Elle met les points d'extension en commentaire,
-les remplace par des jokers sans contrainte de namespace — un en officiel, huit en Vitam 2.1 et
-2.2 — et déclare ses métadonnées comme éléments locaux dans le namespace SEDA lui-même :
+les remplace par des jokers sans contrainte de namespace — un en officiel, huit en Vitam dans
+chaque version — et déclare ses métadonnées comme éléments locaux dans le namespace SEDA lui-même :
 
 ```xml
 <!--xsd:element ref="ArchiveUnitReferenceAbstract"> … </xsd:element-->

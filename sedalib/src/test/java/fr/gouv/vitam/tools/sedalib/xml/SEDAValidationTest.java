@@ -42,6 +42,8 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -86,6 +88,24 @@ public class SEDAValidationTest {
             di.getArchiveTransfer().toSedaXml(xmlWriter, true, null);
         }
         return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    @ParameterizedTest
+    @EnumSource(SedaVersion.class)
+    public void testVitamAcceptsSigningInformationAndPersistentIdentifier(SedaVersion sedaVersion) throws Exception {
+        // Vitam back ports them from 2.3 to 2.1 and 2.2
+        String manifest = manifestIn(sedaVersion).replaceFirst(
+            "</Content>",
+            "<SigningInformation><SigningRole>SignedDocument</SigningRole>" +
+            "<Extended><ExtraField1>Val1</ExtraField1></Extended></SigningInformation>" +
+            "<PersistentIdentifier><PersistentIdentifierType>ark</PersistentIdentifierType>" +
+            "<PersistentIdentifierContent>ark:/12345/x</PersistentIdentifierContent></PersistentIdentifier>" +
+            "</Content>"
+        );
+
+        assertThat(
+            new SEDAXMLValidator().checkWithXSDSchema(manifest, SEDAXMLValidator.getSEDASchema(sedaVersion))
+        ).isTrue();
     }
 
     @Test
