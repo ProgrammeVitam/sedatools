@@ -50,6 +50,7 @@ import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
@@ -60,6 +61,8 @@ import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
@@ -127,6 +130,7 @@ public class PreferencesDialog extends JDialog {
     private JTextArea compactSubDocumentDataObjectVersionFilterTextArea;
 
     private final SedaVersionSelector sedaVersionSelector;
+    private final Map<SedaFlavor, JRadioButton> sedaFlavorButtons = new EnumMap<>(SedaFlavor.class);
     private final JTextField dupMaxTextField;
     private final JRadioButton structuredInterfaceRadioButton;
     private final JCheckBox debugModeCheckBox;
@@ -1427,12 +1431,35 @@ public class PreferencesDialog extends JDialog {
         final SedaVersion selectedVersion = this.currentVersion;
         sedaVersionSelector = new SedaVersionSelector(selectedVersion);
 
+        // the flavour only chooses the XSD of the conformity check, the metadata stay the Vitam ones
+        JPanel sedaFlavorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        sedaFlavorPanel.add(new JLabel("Vérification de conformité:"));
+        ButtonGroup sedaFlavorGroup = new ButtonGroup();
+        for (SedaFlavor sedaFlavor : SedaFlavor.values()) {
+            JRadioButton sedaFlavorButton = new JRadioButton("XSD " + sedaFlavor.getLabel());
+            sedaFlavorButton.setSelected(sedaFlavor == tp.getSedaFlavor());
+            sedaFlavorGroup.add(sedaFlavorButton);
+            sedaFlavorPanel.add(sedaFlavorButton);
+            sedaFlavorButtons.put(sedaFlavor, sedaFlavorButton);
+        }
+        sedaFlavorPanel.setToolTipText(
+            "La XSD Vitam accepte les extensions de Vitam (UpdateOperation, History...), " +
+            "la XSD officielle est celle publiée par les Archives de France."
+        );
+
+        JPanel sedaPanel = new JPanel();
+        sedaPanel.setLayout(new BoxLayout(sedaPanel, BoxLayout.Y_AXIS));
+        sedaVersionSelector.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sedaFlavorPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sedaPanel.add(sedaVersionSelector);
+        sedaPanel.add(sedaFlavorPanel);
+
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1; // Position du groupe.
         gbc.gridy = 5;
-        treatmentParametersPanel.add(sedaVersionSelector, gbc);
+        treatmentParametersPanel.add(sedaPanel, gbc);
 
         JLabel interfaceLabel = new JLabel("Interface");
         interfaceLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -1764,6 +1791,9 @@ public class PreferencesDialog extends JDialog {
             return false;
         }
         tp.setDupMax(tmp);
+        for (Map.Entry<SedaFlavor, JRadioButton> e : sedaFlavorButtons.entrySet()) if (
+            e.getValue().isSelected()
+        ) tp.setSedaFlavor(e.getKey());
 
         SedaVersion selectedVersion = sedaVersionSelector.getSelectedVersion();
 

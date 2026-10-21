@@ -59,6 +59,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
@@ -273,13 +274,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      */
     private void refreshSedaVersionDisplay() {
         if (sedaVersion == null) return;
-        if (mainWindow != null) mainWindow.setTitle(getAppName() + " - " + sedaVersion.displayString());
+        if (mainWindow != null) mainWindow.setTitle(getAppName() + " - " + sedaDisplayString());
         if (sedaValidationMenuItem != null) sedaValidationMenuItem.setText(
-            "Vérifier la conformité " + sedaVersion.displayString() + "..."
+            "Vérifier la conformité " + sedaDisplayString() + "..."
         );
         if (sedaProfileValidationMenuItem != null) sedaProfileValidationMenuItem.setText(
             "Vérifier la conformité à un profil " + sedaVersion.displayString() + "..."
         );
+    }
+
+    // the SEDA version and the flavour the conformity is checked against, as "SEDA 2.2 (Vitam)"
+    private String sedaDisplayString() {
+        SedaFlavor sedaFlavor = treatmentParameters == null ? SedaFlavor.VITAM : treatmentParameters.getSedaFlavor();
+        return sedaVersion.displayString() + " (" + sedaFlavor.getLabel() + ")";
     }
 
     // Menu controller
@@ -421,7 +428,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
-        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + sedaVersion.displayString() + "...");
+        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + sedaDisplayString() + "...");
         sedaValidationMenuItem.addActionListener(this);
         sedaValidationMenuItem.setAccelerator(
             KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx())
@@ -952,6 +959,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 preferencesDialog.gmc.toPrefs(Preferences.getInstance());
                 preferencesDialog.cic.toPrefs(Preferences.getInstance());
                 preferencesDialog.tp.toPrefs(Preferences.getInstance());
+                treatmentParameters.setSedaFlavor(preferencesDialog.tp.getSedaFlavor());
+                refreshSedaVersionDisplay();
                 preferencesDialog.ip.toPrefs(Preferences.getInstance());
                 Preferences.getInstance().save();
                 interfaceParameters = preferencesDialog.ip;
@@ -1108,7 +1117,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * Check seda schema.
      */
     void checkSEDASchema() {
-        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification " + sedaVersion.displayString());
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification " + sedaDisplayString());
         CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
         completeResipWork();
         checkProfileThread.execute();

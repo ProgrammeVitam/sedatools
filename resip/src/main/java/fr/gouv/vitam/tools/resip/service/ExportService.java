@@ -48,6 +48,7 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -200,16 +201,17 @@ public class ExportService {
      *
      * @param work            the work
      * @param profileFileName the profile file, or null to validate against the XSD
+     * @param sedaFlavor      the flavour of the XSD, official or Vitam, unused with a profile
      * @param spl             the progress logger, or null
      * @throws SEDALibException     if the archive transfer is not valid
      * @throws InterruptedException if the validation is interrupted
      */
-    public void validate(Work work, String profileFileName, SEDALibProgressLogger spl)
+    public void validate(Work work, String profileFileName, SedaFlavor sedaFlavor, SEDALibProgressLogger spl)
         throws SEDALibException, InterruptedException {
         reindexIfAsked(work);
         // the metadata filter is an export choice, the validation is of the whole archive transfer
         ArchiveTransfer archiveTransfer = toArchiveTransfer(work, false);
-        if (profileFileName == null) archiveTransfer.sedaSchemaValidate(spl);
+        if (profileFileName == null) archiveTransfer.sedaSchemaValidate(sedaFlavor, spl);
         else archiveTransfer.sedaProfileValidate(profileFileName, spl);
     }
 

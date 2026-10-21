@@ -42,6 +42,10 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,6 +58,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * The exports and validations of ReSIP, without its graphic interface.
@@ -139,9 +144,24 @@ class ExportServiceTest {
         work.getExportContext().setMetadataFilterFlag(true);
         work.getExportContext().setKeptMetadataList(List.of("DescriptionLevel", "Title"));
 
-        exportService.validate(work, null, null);
+        exportService.validate(work, null, SedaFlavor.VITAM, null);
 
         // the filter is an export choice, not applied to the validation
         assertThat(work.getDataObjectPackage().getExportMetadataList()).isNull();
+    }
+
+    @ParameterizedTest
+    @EnumSource(SedaVersion.class)
+    void validatesAVitamExtensionAgainstTheVitamXsdOnly(SedaVersion sedaVersion) throws Exception {
+        Work work = workIn(sedaVersion);
+        ArchiveUnit au = work.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList().get(0);
+        Management management = au.getManagement() == null ? new Management(sedaVersion) : au.getManagement();
+        management.addMetadata(new UpdateOperation(sedaVersion, "SystemId0"));
+        au.setManagement(management);
+
+        exportService.validate(work, null, SedaFlavor.VITAM, null);
+        assertThatThrownBy(() -> exportService.validate(work, null, SedaFlavor.OFFICIAL, null)).hasMessageContaining(
+            "UpdateOperation"
+        );
     }
 }

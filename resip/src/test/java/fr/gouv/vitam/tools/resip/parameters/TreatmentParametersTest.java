@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.resip.parameters;
 import fr.gouv.vitam.tools.resip.UseTestFiles;
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
@@ -82,5 +83,45 @@ class TreatmentParametersTest implements UseTestFiles {
         EventBus.publish(new SedaVersionChangedEvent(null));
 
         assertDoesNotThrow(() -> treatmentParameters.toPrefs(Preferences.getInstance()));
+    }
+
+    /**
+     * Test that the conformity is checked against the Vitam XSD when the preferences don't say
+     * otherwise, an unknown value included.
+     */
+    @Test
+    void TestSedaFlavorIsVitamByDefault() {
+        Properties properties = Preferences.getInstance().getPrefProperties();
+        String saved = properties.getProperty("treatmentParameters.sedaFlavor");
+        try {
+            properties.remove("treatmentParameters.sedaFlavor");
+            assertEquals(SedaFlavor.VITAM, new TreatmentParameters(Preferences.getInstance()).getSedaFlavor());
+
+            properties.setProperty("treatmentParameters.sedaFlavor", "UNKNOWN");
+            assertEquals(SedaFlavor.VITAM, new TreatmentParameters(Preferences.getInstance()).getSedaFlavor());
+        } finally {
+            if (saved == null) properties.remove("treatmentParameters.sedaFlavor");
+            else properties.setProperty("treatmentParameters.sedaFlavor", saved);
+        }
+    }
+
+    /**
+     * Test that the chosen SEDA flavour is kept in the preferences.
+     */
+    @Test
+    void TestSedaFlavorIsKeptInPreferences() {
+        Properties properties = Preferences.getInstance().getPrefProperties();
+        String saved = properties.getProperty("treatmentParameters.sedaFlavor");
+        try {
+            TreatmentParameters treatmentParameters = new TreatmentParameters(Preferences.getInstance());
+            treatmentParameters.setSedaFlavor(SedaFlavor.OFFICIAL);
+            treatmentParameters.toPrefs(Preferences.getInstance());
+
+            assertEquals("OFFICIAL", properties.getProperty("treatmentParameters.sedaFlavor"));
+            assertEquals(SedaFlavor.OFFICIAL, new TreatmentParameters(Preferences.getInstance()).getSedaFlavor());
+        } finally {
+            if (saved == null) properties.remove("treatmentParameters.sedaFlavor");
+            else properties.setProperty("treatmentParameters.sedaFlavor", saved);
+        }
     }
 }

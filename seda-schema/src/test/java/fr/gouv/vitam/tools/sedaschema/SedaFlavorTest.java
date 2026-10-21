@@ -13,8 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SedaFlavorTest {
 
     @ParameterizedTest
-    @EnumSource(value = SedaVersion.class, names = { "V2_1", "V2_2" })
-    void vitamAddsItsOwnMetadataIn21And22(SedaVersion version) throws Exception {
+    @EnumSource(SedaVersion.class)
+    void vitamAddsItsOwnMetadata(SedaVersion version) throws Exception {
         SedaSchema official = SedaSchema.of(version, SedaFlavor.OFFICIAL);
         SedaSchema vitam = SedaSchema.of(version, SedaFlavor.VITAM);
 
@@ -52,13 +52,13 @@ class SedaFlavorTest {
     }
 
     @Test
-    void bothFlavoursAreTheSameSchemaFrom23() throws Exception {
-        assertThat(SedaVersion.V2_3.hasVitamVariant()).isFalse();
-        assertThat(SedaVersion.V2_3.getMainXsdResource(SedaFlavor.VITAM)).isEqualTo(
+    void vitamGivesAConcreteTypeToTheExtendedOfSigningInformationIn23() throws Exception {
+        // the official Extended is of the abstract OpenType, which no element can have without
+        // an xsi:type
+        assertThat(SedaSchema.of(SedaVersion.V2_3, SedaFlavor.OFFICIAL).getComplexType("ExtendedType")).isNull();
+        assertThat(SedaSchema.of(SedaVersion.V2_3, SedaFlavor.VITAM).getComplexType("ExtendedType")).isNotNull();
+        assertThat(SedaVersion.V2_3.getMainXsdResource(SedaFlavor.VITAM)).isNotEqualTo(
             SedaVersion.V2_3.getMainXsdResource(SedaFlavor.OFFICIAL)
-        );
-        assertThat(SedaSchema.of(SedaVersion.V2_3, SedaFlavor.VITAM).getNamedTypes().keySet()).isEqualTo(
-            SedaSchema.of(SedaVersion.V2_3, SedaFlavor.OFFICIAL).getNamedTypes().keySet()
         );
     }
 }

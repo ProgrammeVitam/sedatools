@@ -20,14 +20,51 @@ SedaSchema vitam      = SedaSchema.of(SedaVersion.V2_1, SedaFlavor.VITAM);
 | | `sedaschema/xsd/official/` | `sedaschema/xsd/vitam/` |
 |---|---|---|
 | Points d'extension `*Abstract` (`OtherManagementAbstract`, `EventAbstract`…) | déclarés, substituables | mis en commentaire, remplacés par `xsd:any processContents="lax"` |
-| `Management/UpdateOperation` (+ `UpdateOperationType`, `ArchiveUnitIdentifierKeyType`) | absent | présent en 2.1 et 2.2 |
-| `ArchiveUnit/Management/History` (`ManagementHistoryType`) | absent | présent en 2.1 et 2.2 |
-| `ArchiveUnit/DataObjectGroup` (`ObjectGroupRefType`) | absent | présent en 2.1 et 2.2 |
-| `HoldRule` | depuis 2.2 | rétroporté en 2.1 |
-| 2.3 | — | identique à l'officielle, rien n'est dupliqué |
+| `OpenType` | `xsd:any namespace="##other"` : extension hors namespace SEDA | `xsd:any` sans contrainte de namespace |
+| `Management/UpdateOperation` (+ `UpdateOperationType`, `ArchiveUnitIdentifierKeyType`) | absent | présent en 2.1, 2.2 et 2.3 |
+| `ArchiveUnit/Management/History` (`ManagementHistoryType`) | absent | présent en 2.1, 2.2 et 2.3 |
+| `ArchiveUnit/DataObjectGroup` (`ObjectGroupRefType`) | absent | présent en 2.1, 2.2 et 2.3 |
+| `HoldRule` | depuis 2.2 | rétroporté en 2.1, avant `UpdateOperation` dans `Management` |
+| `Content/Agent` | depuis 2.2 (`AgentAbstract` en 2.1) | rétroporté en 2.1 |
+| `Content/SigningInformation` | depuis 2.3 | rétroporté en 2.1 et 2.2, au choix avec l'ancien bloc (`Signature`, `Gps`…) |
+| `Content/PersistentIdentifier` | depuis 2.3 | rétroporté en 2.1 et 2.2 |
+| `SigningInformation/Extended` | de type `OpenType`, abstrait : inutilisable sans `xsi:type` | de type concret `ExtendedType` |
 
-`SedaVersion.hasVitamVariant()` dit si la version diverge ; à partir de 2.3 les ajouts Vitam sont
-entrés dans le standard et `getMainXsdResource(VITAM)` renvoie la ressource officielle.
+Les trois versions ont leur variante Vitam (`SedaVersion.hasVitamVariant()`) : la XSD de
+validation de Vitam, voir la provenance ci-dessous.
+
+### Provenance des XSD
+
+Les XSD officielles sont celles du dépôt des Archives de France,
+[github.com/culturegouv/seda](https://github.com/culturegouv/seda) (anciennement
+`culturecommunication/seda`), répertoire `schema/`. Elles y sont identiques octet pour octet
+(vérifié le 21/10/2026) :
+
+| Version | Référence du dépôt officiel | Commit |
+|---|---|---|
+| 2.1 | tag `seda_v2.1` (et branche `seda-2.1`) | `072c7ac638712b375d5c35c6f17e09782bb20df4` (29/12/2022) |
+| 2.2 | tag `seda_v2.2` (et branche `seda-2.2`) | `f8c05f1bf93e3549115573c177a7379d0edfb5db` (29/12/2022) |
+| 2.3 | branche `seda-2.3`, sans tag | `28dfcfca865387a5f8943db9a4574e3d96192407` (27/06/2024) |
+
+Pour refaire la vérification, comparer chaque `official/seda2_x/seda-2.x-*.xsd` à
+`https://raw.githubusercontent.com/culturegouv/seda/<référence>/schema/seda-2.x-*.xsd`. Le dépôt a
+aussi une branche `seda-2.4`, pas encore embarquée.
+
+Le répertoire `seda-2.3/` des sources de Vitam n'est pas la XSD officielle : copié et retouché en
+2023, avant la publication, il en diffère (`LinkingAgentIdentifier` non répétable,
+`HoldRuleCodeListGroup` absent…). Il ne sert pas ici.
+
+Les XSD Vitam viennent de `sources/common/common-private/src/main/resources/seda-2.x/vitam-validation/`
+du dépôt Vitam, fichiers `seda-vitam-*.xsd` renommés `seda-vitam-2.x-*.xsd` (seuls les `include`
+changent) :
+
+toutes trois identiques à `develop` (dernière modification de ces fichiers : commit `b491585985`,
+27/09/2023).
+
+Jusqu'au 21/10/2026, les variantes 2.1 et 2.2 embarquées dataient de mai 2022 (commit Vitam
+`71c6261c75`), avec en 2.1 `AgentAbstract` à la place d'`Agent`. Vitam y a depuis ajouté
+`SigningInformation` et `PersistentIdentifier`, et placé en 2.1 `HoldRule` avant
+`UpdateOperation`.
 
 ### Conformité de la variante Vitam au standard
 
@@ -49,8 +86,8 @@ Le second vecteur, `OpenType`, est un `<xsd:any namespace="##other" processConte
 l'extension est permise, mais obligatoirement dans un autre namespace que celui du SEDA.
 
 La variante Vitam n'emprunte ni l'un ni l'autre. Elle met les points d'extension en commentaire,
-les remplace par des jokers sans contrainte de namespace — un en officiel, huit en Vitam 2.1 et
-2.2 — et déclare ses métadonnées comme éléments locaux dans le namespace SEDA lui-même :
+les remplace par des jokers sans contrainte de namespace — un en officiel, huit en Vitam dans
+chaque version — et déclare ses métadonnées comme éléments locaux dans le namespace SEDA lui-même :
 
 ```xml
 <!--xsd:element ref="ArchiveUnitReferenceAbstract"> … </xsd:element-->
@@ -77,7 +114,8 @@ Deux conséquences pratiques :
   permissif ; l'inverse est faux dès qu'une métadonnée Vitam apparaît. Exception en sens inverse en
   2.2, où Vitam restreint `MessageIdentifier` de `IdentifierType` à `NonEmptyTokenType` : un
   `MessageIdentifier` vide, valide pour le standard, est refusé par Vitam.
-- **Les XSD Vitam 2.1 et 2.2 ne sont pas des schémas XSD valides.** Un `xsd:any` sans restriction de
+- **Les XSD Vitam ne sont pas des schémas XSD valides** (constaté en 2.1 et 2.2, la 2.3 reprend la
+  même construction). Un `xsd:any` sans restriction de
   namespace dans un `choice` répété, à côté d'éléments nommés, viole la règle *Unique Particle
   Attribution*. libxml2 refuse de les compiler (`complex type 'ArchiveUnitType': The content model
   is not determinist`). Elles se chargent ici parce que Xerces désactive par défaut

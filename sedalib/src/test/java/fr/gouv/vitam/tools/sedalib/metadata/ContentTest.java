@@ -327,13 +327,14 @@ class ContentTest {
             c.addNewMetadata("Keyword", "TestKeywordContent", null, null);
         }
 
-        // When adding an Agent, it is refused in SEDA 2.1
-        assertThatThrownBy(() -> c21.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
-            .isInstanceOf(SEDALibException.class)
-            .hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
-
-        // and accepted in SEDA 2.2
-        c22.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
+        // When adding an Agent, it is accepted in both: Vitam back ports it to SEDA 2.1
+        for (Content c : List.of(c21, c22)) c.addNewMetadata(
+            "Agent",
+            "TestFirstName",
+            "TestBirthName",
+            "TestIdentifier"
+        );
+        assertThat(c21.toString()).isEqualTo(c22.toString());
         String cOut = c22.toString();
         String testOut =
             "<Content>\n" +
