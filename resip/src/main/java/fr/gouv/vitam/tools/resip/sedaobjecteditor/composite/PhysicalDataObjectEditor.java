@@ -39,13 +39,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The PhysicalDataObject object editor class.
@@ -69,17 +63,6 @@ public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     @Override
     public PhysicalDataObject extractEditedObject() throws SEDALibException {
         return (PhysicalDataObject) super.extractEditedObject();
-    }
-
-    @Override
-    public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        String tmp;
-        for (SEDAMetadata sm : getPhysicalDataObject().getMetadataList()) {
-            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
-        }
-        return String.join(", ", summaryList);
     }
 
     @Override

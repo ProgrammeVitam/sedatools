@@ -40,12 +40,10 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -107,26 +105,9 @@ public class ArchiveUnitEditor extends CompositeEditor {
 
     @Override
     public ArchiveUnit extractEditedObject() throws SEDALibException {
-        ArchiveUnit tmpAu = new ArchiveUnit();
-        for (SEDAObjectEditor me : objectEditorList) {
-            SEDAMetadata sedaMetadata = (SEDAMetadata) me.extractEditedObject();
-            switch (sedaMetadata.getXmlElementName()) {
-                case "ArchiveUnitProfile":
-                    tmpAu.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
-                    break;
-                case "Content":
-                    tmpAu.setContent((Content) sedaMetadata);
-                    break;
-                case "Management":
-                    tmpAu.setManagement((Management) sedaMetadata);
-                    break;
-            }
-        }
-
-        getArchiveUnitMetadata().setContent(tmpAu.getContent());
-        getArchiveUnitMetadata().setManagement(tmpAu.getManagement());
-        getArchiveUnitMetadata().setArchiveUnitProfile(tmpAu.getArchiveUnitProfile());
-
+        List<SEDAMetadata> parts = new ArrayList<>();
+        for (SEDAObjectEditor me : objectEditorList) parts.add((SEDAMetadata) me.extractEditedObject());
+        EditedObjects.rebuild(getArchiveUnitMetadata(), parts);
         return getArchiveUnitMetadata();
     }
 

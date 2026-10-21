@@ -44,8 +44,6 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
@@ -60,7 +58,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -99,24 +96,6 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     public BinaryDataObject extractEditedObject() throws SEDALibException {
         getBinaryDataObject().setOnDiskPath(editedOnDiskPath);
         return (BinaryDataObject) super.extractEditedObject();
-    }
-
-    @Override
-    public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        String tmp;
-        for (SEDAMetadata sm : getBinaryDataObject().getMetadataList()) {
-            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
-            else if (sm instanceof FileInfo) {
-                summaryList.add(getItOrUnknown(((FileInfo) sm).getSimpleMetadata("Filename")));
-                summaryList.add(getItOrUnknown(((FileInfo) sm).getSimpleMetadata("LastModified")));
-            } else if (sm instanceof FormatIdentification) {
-                summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("MimeType")));
-                summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("FormatId")));
-            }
-        }
-        return String.join(", ", summaryList);
     }
 
     @Override

@@ -40,12 +40,11 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.core.AbstractUnitaryDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -99,32 +98,17 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public AbstractUnitaryDataObject extractEditedObject() throws SEDALibException {
-        AbstractUnitaryDataObject tmpAbstractUnitaryDataObject =
-            ((AbstractUnitaryDataObject) editedObject).getEmptySameAbstractUnitaryDataObjet();
-
-        for (SEDAObjectEditor objectEditor : objectEditorList) {
-            SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
-            tmpAbstractUnitaryDataObject.addMetadata(subMetadata);
-        }
-        getAbstractUnitaryDataObject().setMetadataList(tmpAbstractUnitaryDataObject.getMetadataList());
-
+        List<SEDAMetadata> fields = new ArrayList<>();
+        for (SEDAObjectEditor objectEditor : objectEditorList) fields.add(
+            (SEDAMetadata) objectEditor.extractEditedObject()
+        );
+        EditedObjects.rebuild(getAbstractUnitaryDataObject(), fields);
         return getAbstractUnitaryDataObject();
-    }
-
-    protected String getItOrUnknown(String str) {
-        if ((str == null) || (str.isEmpty())) return translateTag(UNKNOWN);
-        return str;
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        String tmp;
-        for (SEDAMetadata sm : getAbstractUnitaryDataObject().getMetadataList()) {
-            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
-        }
-        return String.join(", ", summaryList);
+        return EditedObjects.summary(getAbstractUnitaryDataObject(), translateTag(UNKNOWN));
     }
 
     protected void updateObjectEditorList() throws SEDALibException {

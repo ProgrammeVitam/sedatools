@@ -51,7 +51,6 @@ import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -232,47 +231,6 @@ public abstract class SEDAObjectEditor {
             MetadataSamples.sample(father.getSedaVersion(), metadataType, elementName, minimal),
             father
         );
-    }
-
-    /**
-     * Gets empty same type SEDA metadata.
-     *
-     * @param sedaMetadata the SEDAMetadata
-     * @return a SEDAMetadata of same type but empty
-     * @throws SEDALibException the seda lib exception
-     */
-    public static SEDAMetadata getEmptySameSEDAMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
-        Constructor<?> cons;
-        try {
-            if (sedaMetadata instanceof ComplexListType) {
-                // in the SEDA version of the copied metadata
-                SedaVersion sedaVersion = ((ComplexListType) sedaMetadata).getSedaVersion();
-                if (sedaMetadata.getClass().getName().contains("namedtype")) {
-                    cons = sedaMetadata.getClass().getConstructor(SedaVersion.class, String.class);
-                    sedaMetadata = (SEDAMetadata) cons.newInstance(sedaVersion, sedaMetadata.getXmlElementName());
-                } else {
-                    cons = sedaMetadata.getClass().getConstructor(SedaVersion.class);
-                    sedaMetadata = (SEDAMetadata) cons.newInstance(sedaVersion);
-                }
-            } else if (sedaMetadata.getClass().getName().contains("namedtype")) {
-                cons = sedaMetadata.getClass().getConstructor(String.class);
-                sedaMetadata = (SEDAMetadata) cons.newInstance(sedaMetadata.getXmlElementName());
-            } else {
-                cons = sedaMetadata.getClass().getConstructor();
-                sedaMetadata = (SEDAMetadata) cons.newInstance();
-            }
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-            throw new SEDALibException(
-                "Pas de constructeur vide pour la métadonnée de type [" + sedaMetadata.getClass() + "]",
-                e
-            );
-        } catch (InvocationTargetException e) {
-            throw new SEDALibException(
-                "Erreur durant la création de la métadonnée vide de type [" + sedaMetadata.getClass() + "]",
-                e.getTargetException()
-            );
-        }
-        return sedaMetadata;
     }
 
     /**

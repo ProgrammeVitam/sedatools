@@ -42,11 +42,11 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.CompositeRules;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.EditedObjects;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.MetadataSamples;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -86,41 +86,19 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        setEditedObject(getEmptySameSEDAMetadata(getComplexListTypeMetadata()));
-        for (SEDAObjectEditor objectEditor : objectEditorList) {
-            SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
-            ((ComplexListType) editedObject).addMetadata(subMetadata);
-        }
+        List<SEDAMetadata> fields = new ArrayList<>();
+        for (SEDAObjectEditor objectEditor : objectEditorList) fields.add(
+            (SEDAMetadata) objectEditor.extractEditedObject()
+        );
+        setEditedObject(EditedObjects.rebuild(getComplexListTypeMetadata(), fields));
         return getComplexListTypeMetadata();
-    }
-
-    // Cut length for SEDAMetadata summary generation before expansion
-    private static final int SUMMARY_CUT = 160;
-
-    // Create a summary not constructed from systematic sub editors extraction
-    // but from metadata original value before expansion
-    private String getSEDAMetadataSummary(SEDAMetadata sm, int depth, int length) {
-        String result;
-        if (sm instanceof ComplexListType) {
-            List<String> summaryList = new ArrayList<>(objectEditorList.size());
-            for (SEDAMetadata innerSM : ((ComplexListType) sm).getMetadataList()) {
-                result = getSEDAMetadataSummary(innerSM, depth + 1, length);
-                length += result.length() + 2;
-                summaryList.add(result);
-                if (length > SUMMARY_CUT) break;
-            }
-            result = String.join(", ", summaryList) + (length > SUMMARY_CUT ? "..." : "");
-            if (depth > 0) result = "{" + result + "}";
-        } else if ((sm instanceof NamedTypeMetadata)) {
-            result = ((NamedTypeMetadata) sm).getValue().toString();
-        } else result = "?";
-        return result;
     }
 
     @Override
     public String getSummary() throws SEDALibException {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
-        if (hasSubeditorsCreatedWhenExpandedFlag()) return getSEDAMetadataSummary((SEDAMetadata) editedObject, 0, 0);
+        // before its expansion, from the metadata values instead of the sub editors
+        if (hasSubeditorsCreatedWhenExpandedFlag()) return EditedObjects.summary((SEDAMetadata) editedObject);
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             String summary = objectEditor.getSummary().trim();
             if (!summary.isEmpty() && !summary.equals("{}")) {
