@@ -53,6 +53,7 @@ import javax.xml.validation.Schema;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
@@ -382,18 +383,39 @@ public class ArchiveTransfer {
 
     // SEDA Validator
 
-    public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger)
+    /**
+     * Generates the manifest to validate, the whole package whatever the export metadata filter.
+     * <p>
+     * The export metadata list is an export choice left on the DataObjectPackage by the last export
+     * or manifest view. Validating with it would check a filtered manifest, and the anomalies carried
+     * by a filtered out metadata would no longer be reported while the package didn't change. It's
+     * set aside during the generation and restored after.
+     *
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @return the manifest
+     * @throws SEDALibException     if the manifest can't be written
+     * @throws InterruptedException if the generation is interrupted
+     */
+    private String toUnfilteredManifest(SEDALibProgressLogger sedaLibProgressLogger)
         throws SEDALibException, InterruptedException {
-        String manifest;
+        List<String> exportMetadataList = dataObjectPackage.getExportMetadataList();
+        dataObjectPackage.setExportMetadataList(null);
         try (
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)
         ) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest = baos.toString(StandardCharsets.UTF_8);
+            return baos.toString(StandardCharsets.UTF_8);
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
+        } finally {
+            dataObjectPackage.setExportMetadataList(exportMetadataList);
         }
+    }
+
+    public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException, InterruptedException {
+        String manifest = toUnfilteredManifest(sedaLibProgressLogger);
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema = SEDAXMLValidator.getSEDASchema();
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
@@ -401,16 +423,7 @@ public class ArchiveTransfer {
 
     public void sedaProfileValidate(String profileFileName, SEDALibProgressLogger sedaLibProgressLogger)
         throws SEDALibException, InterruptedException {
-        String manifest;
-        try (
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)
-        ) {
-            toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest = baos.toString(StandardCharsets.UTF_8);
-        } catch (XMLStreamException | IOException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest", e);
-        }
+        String manifest = toUnfilteredManifest(sedaLibProgressLogger);
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema;
         if (profileFileName.endsWith(".rng")) sedaSchema = sedaXMLvalidator.getSchemaFromRNGFile(profileFileName);
