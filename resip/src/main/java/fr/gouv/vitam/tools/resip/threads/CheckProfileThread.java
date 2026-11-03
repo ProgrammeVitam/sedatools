@@ -119,7 +119,6 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
             archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
             archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-            // the whole package is checked, whatever the metadata filter left by the last export or manifest view
             work.getDataObjectPackage().setExportMetadataList(null);
 
             if (profileFileName == null) {
