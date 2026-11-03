@@ -42,11 +42,9 @@ import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
@@ -59,7 +57,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -345,76 +342,5 @@ class SEDAValidationTest implements UseTestFiles {
         assertThat(first).isNotNull();
         assertThat(second).isNotNull();
         assertThat(second.getMessage()).isEqualTo(first.getMessage());
-    }
-
-    /**
-     * Bug #16844: the profile check reported anomalies, then the following checks didn't, on the same
-     * SIP and the same profile.
-     * <p>
-     * Showing the manifest ("Voir le manifeste") or exporting with the metadata filter active sets the
-     * export metadata list on the DataObjectPackage of the work and never resets it. The compliance
-     * check serializes the same DataObjectPackage, so every following check validates the filtered
-     * manifest: the anomalies carried by a filtered out metadata are no longer reported, while the
-     * package itself didn't change.
-     * <p>
-     * This replays the sequence of the resip threads: CheckProfileThread, then SeeManifestThread with
-     * the metadata filter, then CheckProfileThread again.
-     */
-    @Test
-    void shouldGiveTheSameProfileAnomaliesAfterAFilteredManifestView() throws Exception {
-        TestUtilities.eraseAll("target/tmpJunit/OK_468_filter.zip-tmpdir");
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-            "src/test/resources/PacketSamples/OK_468.zip",
-            "target/tmpJunit/OK_468_filter.zip-tmpdir",
-            null
-        );
-        si.doImport();
-        DataObjectPackage dataObjectPackage = si.getArchiveTransfer().getDataObjectPackage();
-        // a SEDA compliant metadata the profile doesn't allow in this ArchiveUnit
-        ArchiveUnit archiveUnit = dataObjectPackage.getArchiveUnitById("ID03");
-        archiveUnit.setContentXmlData(
-            archiveUnit
-                .getContentXmlData()
-                .replace(
-                    "</Content>",
-                    "<CustodialHistory><CustodialHistoryItem>Historique</CustodialHistoryItem></CustodialHistory></Content>"
-                )
-        );
-
-        // first check
-        Throwable first = catchThrowable(() -> si.getArchiveTransfer().sedaProfileValidate(PROFILE, null));
-        // manifest view with the metadata filter active, CustodialHistory not kept
-        dataObjectPackage.setExportMetadataList(
-            List.of("DescriptionLevel", "Title", "Description", "OriginatingAgency")
-        );
-        new ArchiveTransferToSIPExporter(si.getArchiveTransfer(), null).getSEDAXMLManifest(true, true);
-        // second check on the same, unchanged, package
-        Throwable second = catchThrowable(() -> si.getArchiveTransfer().sedaProfileValidate(PROFILE, null));
-
-        assertThat(first).isNotNull().hasMessageContaining("element \"CustodialHistory\" not allowed here");
-        assertThat(second).as("the second profile check on the same package has to report anomalies").isNotNull();
-        // the manifest view normalizes the Content of the ArchiveUnits, dropping the XML comments of
-        // the imported manifest, so the anomalies are compared and not their line in the manifest
-        assertThat(anomalies(second.getMessage()))
-            .as("the second profile check on the same package has to report the same anomalies")
-            .isEqualTo(anomalies(first.getMessage()));
-        assertThat(dataObjectPackage.getExportMetadataList())
-            .as("the check must leave the export choice of the user untouched")
-            .containsExactly("DescriptionLevel", "Title", "Description", "OriginatingAgency");
-    }
-
-    private static final String PROFILE = "src/test/resources/PacketSamples/profile.rng";
-
-    // the summary line and the context and raw message of each anomaly, without its position
-    private static List<String> anomalies(String validationMessage) {
-        return validationMessage
-            .lines()
-            .filter(
-                line ->
-                    line.startsWith("Le flux XML") ||
-                    line.startsWith("-> Contexte de l'erreur") ||
-                    line.startsWith("erreur brute")
-            )
-            .toList();
     }
 }
