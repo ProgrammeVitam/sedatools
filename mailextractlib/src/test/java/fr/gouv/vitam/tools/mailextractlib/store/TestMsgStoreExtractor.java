@@ -46,7 +46,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -111,13 +110,7 @@ public class TestMsgStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/msg/results/embeddedMail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/msg/results/embeddedMail.eml");
 
         // mail eml
         mail = FileUtils.readFileToString(
@@ -126,12 +119,6 @@ public class TestMsgStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/msg/results/mail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/msg/results/mail.eml");
     }
 }

@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -114,6 +115,33 @@ public interface AllTests {
             throw new IllegalArgumentException("File must not be null");
         }
         return Files.readString(file.toPath(), charset);
+    }
+
+    /**
+     * Asserts that an extracted eml matches the expected one, ignoring the content that varies between executions.
+     *
+     * @param actualMail       the extracted eml content
+     * @param expectedMailPath the path of the expected eml file, read as UTF-8
+     * @throws IOException if an I/O error occurs while reading the expected file
+     */
+    static void assertThatEmlMatches(String actualMail, String expectedMailPath) throws IOException {
+        String expectedMail = readFileToString(new File(expectedMailPath), StandardCharsets.UTF_8);
+        assertThat(normalizeEml(actualMail)).isEqualToNormalizingNewlines(normalizeEml(expectedMail));
+    }
+
+    /**
+     * Removes from an eml the content that varies between executions:
+     * <ul>
+     *     <li>the generated MIME boundaries,</li>
+     *     <li>the time zone comment of the Date header (e.g. "(CEST)"), whose name depends on the JVM time zone
+     *     data and can be rendered as "(GMT+02:00)". The numeric offset is kept.</li>
+     * </ul>
+     *
+     * @param mail the eml content
+     * @return the normalized eml content
+     */
+    static String normalizeEml(String mail) {
+        return mail.replaceAll("----=_Part.*", "").replaceAll("(?m)^(Date: .*[+-]\\d{4}) \\([^)]*\\)$", "$1");
     }
 
     /**

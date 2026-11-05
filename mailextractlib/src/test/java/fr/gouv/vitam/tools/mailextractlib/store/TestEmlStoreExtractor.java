@@ -46,7 +46,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -111,13 +110,7 @@ public class TestEmlStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/eml/results/embeddedMail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/eml/results/embeddedMail.eml");
 
         // mail eml
         mail = FileUtils.readFileToString(
@@ -126,13 +119,7 @@ public class TestEmlStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/eml/results/mail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/eml/results/mail.eml");
     }
 
     @Test
@@ -181,13 +168,7 @@ public class TestEmlStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/eml/results/pgpmail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/eml/results/pgpmail.eml");
     }
 
     @Test
@@ -236,12 +217,6 @@ public class TestEmlStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/eml/results/pkcs7mail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/eml/results/pkcs7mail.eml");
     }
 }
