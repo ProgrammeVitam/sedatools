@@ -119,6 +119,7 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
             archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
             archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
+            work.getDataObjectPackage().setExportMetadataList(null);
 
             if (profileFileName == null) {
                 archiveTransfer.sedaSchemaValidate(spl);
