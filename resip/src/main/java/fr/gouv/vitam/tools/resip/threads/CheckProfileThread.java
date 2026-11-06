@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -113,23 +114,37 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 ResipGraphicApp.getTheWindow().treePane.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
-            work
-                .getDataObjectPackage()
-                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-            work.getDataObjectPackage().setExportMetadataList(null);
-
-            if (profileFileName == null) {
-                archiveTransfer.sedaSchemaValidate(spl);
-            } else {
-                archiveTransfer.sedaProfileValidate(profileFileName, spl);
-            }
+            validate(work, profileFileName, spl);
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }
         return "OK";
+    }
+
+    /**
+     * Validates the package of the work against the SEDA schema, or against the profile when given.
+     *
+     * @param work            the work
+     * @param profileFileName the profile file name, or null to validate against the SEDA schema
+     * @param spl             the progress logger or null if no progress log expected
+     * @throws SEDALibException     if the package is not valid
+     * @throws InterruptedException if the validation is interrupted
+     */
+    static void validate(Work work, String profileFileName, SEDALibProgressLogger spl)
+        throws SEDALibException, InterruptedException {
+        ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+        work
+            .getDataObjectPackage()
+            .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
+        archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
+        archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
+        work.getDataObjectPackage().setExportMetadataList(null);
+
+        if (profileFileName == null) {
+            archiveTransfer.sedaSchemaValidate(spl);
+        } else {
+            archiveTransfer.sedaProfileValidate(profileFileName, spl);
+        }
     }
 
     @Override
