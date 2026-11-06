@@ -263,23 +263,6 @@
                 <version>3.6.0</version>
                 <executions>
                     <execution>
-                        <id>jar-with-deps-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>zip-with-jdk-21-assembly</id>
                         <phase>package</phase>
                         <goals>
