@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
@@ -156,6 +157,12 @@ public class DataObjectPackage {
      */
     private final SedaVersion sedaVersion;
 
+    /**
+     * The algorithm of the digests computed in this package: by the importers, when a file is
+     * added and when digests are recomputed.
+     */
+    private String digestAlgorithm;
+
     // Constructors
 
     /**
@@ -179,6 +186,7 @@ public class DataObjectPackage {
         this.resetInOutCounter();
         this.touchedInDataObjectPackageIdMap = new HashMap<>();
         this.vitamNormalizationStatus = NORMALIZATION_STATUS_UNKNOWN;
+        this.digestAlgorithm = DigestComputer.DEFAULT_ALGORITHM;
     }
 
     // Methods
@@ -1543,6 +1551,28 @@ public class DataObjectPackage {
      */
     public void setVitamNormalizationStatus(int vitamNormalizationStatus) {
         this.vitamNormalizationStatus = vitamNormalizationStatus;
+    }
+
+    /**
+     * Gets the algorithm of the digests computed in this package.
+     *
+     * @return the digest algorithm, SHA-512 by default
+     */
+    public String getDigestAlgorithm() {
+        return digestAlgorithm;
+    }
+
+    /**
+     * Sets the algorithm of the digests computed from now on in this package. The digests already
+     * computed are not changed.
+     *
+     * @param digestAlgorithm the digest algorithm, any one, even one Vitam doesn't accept (see
+     *                        {@link DigestComputer#getAlgorithmWarnings}); the default one if null or blank
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = (digestAlgorithm == null) || digestAlgorithm.isBlank()
+            ? DigestComputer.DEFAULT_ALGORITHM
+            : digestAlgorithm;
     }
 
     /**

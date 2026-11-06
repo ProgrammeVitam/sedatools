@@ -120,6 +120,11 @@ public class DataObjectPackageSerializer extends StdSerializer<DataObjectPackage
 
             jGen.writeObjectField("vitamNormalizationStatus", dataObjectPackage.getVitamNormalizationStatus());
 
+            jGen.writeStringField(
+                DataObjectPackageDeserializer.DIGEST_ALGORITHM_FIELD,
+                dataObjectPackage.getDigestAlgorithm()
+            );
+
             jGen.writeEndObject();
         }
     }

@@ -40,6 +40,8 @@ package fr.gouv.vitam.tools.sedalib.utils.digest;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,8 +51,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class DigestSha512Test {
+class DigestComputerTest {
 
     @TempDir
     Path tempDir;
@@ -63,7 +66,7 @@ class DigestSha512Test {
         Files.writeString(file, content);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -80,7 +83,7 @@ class DigestSha512Test {
         Files.createFile(file);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -103,7 +106,7 @@ class DigestSha512Test {
         Files.write(file, data);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -125,7 +128,7 @@ class DigestSha512Test {
         }
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         // We know a sparse file reads as zeros.
@@ -144,6 +147,112 @@ class DigestSha512Test {
         String expected = bytesToHex(md.digest());
 
         assertThat(digest).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "SHA-512", "SHA-384", "SHA-256" })
+    void shouldComputeDigestWithEachSupportedAlgorithm(String algorithm)
+        throws IOException, SEDALibException, NoSuchAlgorithmException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When
+        String digest = DigestComputer.compute(file, algorithm);
+
+        // Then
+        assertThat(digest).isEqualTo(bytesToHex(MessageDigest.getInstance(algorithm).digest("Hello World".getBytes())));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "MD5", "SHA-1", "SHA3-512", "MD2", "SHA-224" })
+    void shouldComputeDigestWithAnAlgorithmVitamDoesNotPropose(String algorithm)
+        throws IOException, SEDALibException, NoSuchAlgorithmException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When
+        String digest = DigestComputer.compute(file, algorithm);
+
+        // Then
+        assertThat(digest).isEqualTo(bytesToHex(MessageDigest.getInstance(algorithm).digest("Hello World".getBytes())));
+    }
+
+    @Test
+    void shouldRefuseToComputeDigestWithAnAlgorithmUnknownToJava() throws IOException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When / Then
+        assertThatThrownBy(() -> DigestComputer.compute(file, "UNKNOWN-ALGORITHM"))
+            .isInstanceOf(SEDALibException.class)
+            .hasMessageContaining("UNKNOWN-ALGORITHM");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "SHA-512", "SHA-384", "SHA-256", "SHA-1", "MD5" })
+    void shouldNotWarnAboutAnAlgorithmVitamAccepts(String algorithm) {
+        assertThat(DigestComputer.getAlgorithmWarnings(algorithm)).isEmpty();
+    }
+
+    @Test
+    void shouldWarnAboutAnAlgorithmVitamDoesNotAccept() {
+        assertThat(DigestComputer.getAlgorithmWarnings("SHA3-512")).singleElement().asString().contains("Vitam");
+    }
+
+    @Test
+    void shouldWarnAboutAnAlgorithmUnknownToJava() {
+        assertThat(DigestComputer.getAlgorithmWarnings("UNKNOWN-ALGORITHM"))
+            .hasSize(2)
+            .anyMatch(warning -> warning.contains("Vitam"))
+            .anyMatch(warning -> warning.contains("Java"));
+    }
+
+    @Test
+    void shouldWarnAboutAMissingAlgorithm() {
+        assertThat(DigestComputer.getAlgorithmWarnings(null)).singleElement().asString().contains("absent");
+        assertThat(DigestComputer.getAlgorithmWarnings(" ")).singleElement().asString().contains("absent");
+    }
+
+    @Test
+    void shouldNotWarnAboutADigestValueOfTheLengthOfItsAlgorithm() {
+        // Given
+        String sha256 = "a".repeat(64);
+
+        // When / Then
+        assertThat(DigestComputer.getValueWarnings(sha256, "SHA-256")).isEmpty();
+        assertThat(DigestComputer.getValueWarnings(sha256.toUpperCase(), "SHA-256")).isEmpty();
+    }
+
+    @Test
+    void shouldWarnAboutADigestValueOfAnotherLengthThanItsAlgorithm() {
+        // Given
+        String sha256 = "a".repeat(64);
+
+        // When / Then
+        assertThat(DigestComputer.getValueWarnings(sha256, "SHA-512")).singleElement().asString().contains("128");
+    }
+
+    @Test
+    void shouldWarnAboutADigestValueThatIsNotHexadecimal() {
+        assertThat(DigestComputer.getValueWarnings("not-a-digest", "SHA-512"))
+            .singleElement()
+            .asString()
+            .contains("hexadécimale");
+        assertThat(DigestComputer.getValueWarnings(null, "SHA-512"))
+            .singleElement()
+            .asString()
+            .contains("hexadécimale");
+    }
+
+    @Test
+    void shouldOnlyWarnAboutTheAlgorithmOfADigestOfAnAlgorithmUnknownToJava() {
+        assertThat(DigestComputer.getValueWarnings("abcd", "UNKNOWN-ALGORITHM")).noneMatch(
+            w -> w.contains("caractères")
+        );
+        assertThat(DigestComputer.getValueWarnings("abcd", null)).singleElement().asString().contains("absent");
     }
 
     private String bytesToHex(byte[] bytes) {

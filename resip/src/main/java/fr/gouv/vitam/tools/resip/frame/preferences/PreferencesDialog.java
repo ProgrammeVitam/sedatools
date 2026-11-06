@@ -50,16 +50,21 @@ import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
@@ -127,6 +132,8 @@ public class PreferencesDialog extends JDialog {
     private JTextArea compactSubDocumentDataObjectVersionFilterTextArea;
 
     private final SedaVersionSelector sedaVersionSelector;
+    private final JComboBox<String> digestAlgorithmComboBox;
+    private final JLabel digestAlgorithmWarningLabel;
     private final JTextField dupMaxTextField;
     private final JRadioButton structuredInterfaceRadioButton;
     private final JCheckBox debugModeCheckBox;
@@ -1334,8 +1341,8 @@ public class PreferencesDialog extends JDialog {
             null
         );
         GridBagLayout gblTreatmentParametersPanel = new GridBagLayout();
-        gblTreatmentParametersPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        gblTreatmentParametersPanel.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 1.0 };
+        gblTreatmentParametersPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        gblTreatmentParametersPanel.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0 };
         treatmentParametersPanel.setLayout(gblTreatmentParametersPanel);
 
         JLabel workDirLabel = new JLabel("Répertoire de travail");
@@ -1434,6 +1441,78 @@ public class PreferencesDialog extends JDialog {
         gbc.gridy = 5;
         treatmentParametersPanel.add(sedaVersionSelector, gbc);
 
+        JLabel digestLabel = new JLabel("Empreintes des objets");
+        digestLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        treatmentParametersPanel.add(digestLabel, gbc);
+
+        JLabel digestAlgorithmLabel = new JLabel("Algorithme des nouveaux travaux :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        treatmentParametersPanel.add(digestAlgorithmLabel, gbc);
+
+        // the proposed algorithms first, then the other ones Vitam accepts; any other one Java can
+        // compute may be typed, to build erroneous packages for testing
+        List<String> digestAlgorithms = new ArrayList<>(DigestComputer.PROPOSED_ALGORITHMS);
+        for (String algorithm : DigestComputer.VITAM_ALGORITHMS) {
+            if (!digestAlgorithms.contains(algorithm)) digestAlgorithms.add(algorithm);
+        }
+        digestAlgorithmComboBox = new JComboBox<>(digestAlgorithms.toArray(new String[0]));
+        digestAlgorithmComboBox.setEditable(true);
+        digestAlgorithmComboBox.setSelectedItem(tp.getDigestAlgorithm());
+        digestAlgorithmComboBox.setToolTipText(
+            "Algorithme de hachage des empreintes des nouveaux travaux. Un travail ouvert garde le sien, " +
+            "à changer par Traiter > Calculer les empreintes..."
+        );
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        treatmentParametersPanel.add(digestAlgorithmComboBox, gbc);
+
+        digestAlgorithmWarningLabel = new JLabel(" ");
+        digestAlgorithmWarningLabel.setForeground(new Color(0xB3, 0x5C, 0x00));
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 3;
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        treatmentParametersPanel.add(digestAlgorithmWarningLabel, gbc);
+        updateDigestAlgorithmWarning();
+        digestAlgorithmComboBox.addActionListener(arg -> updateDigestAlgorithmWarning());
+        ((JTextField) digestAlgorithmComboBox.getEditor().getEditorComponent()).getDocument()
+            .addDocumentListener(
+                new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        updateDigestAlgorithmWarning();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        updateDigestAlgorithmWarning();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        updateDigestAlgorithmWarning();
+                    }
+                }
+            );
+
         JLabel interfaceLabel = new JLabel("Interface");
         interfaceLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -1443,7 +1522,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 9;
         treatmentParametersPanel.add(interfaceLabel, gbc);
 
         JLabel interfaceTypeLabel = new JLabel("Interface par défaut:");
@@ -1451,7 +1530,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         treatmentParametersPanel.add(interfaceTypeLabel, gbc);
 
         structuredInterfaceRadioButton = new JRadioButton("Structurée");
@@ -1459,7 +1538,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         treatmentParametersPanel.add(structuredInterfaceRadioButton, gbc);
 
         JRadioButton classicInterfaceRadioButton = new JRadioButton("XML-expert");
@@ -1467,7 +1546,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         treatmentParametersPanel.add(classicInterfaceRadioButton, gbc);
 
         ButtonGroup interfaceTypeButtonGroup = new ButtonGroup();
@@ -1482,7 +1561,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 11;
         treatmentParametersPanel.add(debugModeLabel, gbc);
 
         debugModeCheckBox = new JCheckBox("debug");
@@ -1491,7 +1570,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 11;
         treatmentParametersPanel.add(debugModeCheckBox, gbc);
 
         experimentalModeCheckBox = new JCheckBox("experimental");
@@ -1500,7 +1579,7 @@ public class PreferencesDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 8;
+        gbc.gridy = 11;
         treatmentParametersPanel.add(experimentalModeCheckBox, gbc);
 
         // Buttons
@@ -1531,6 +1610,18 @@ public class PreferencesDialog extends JDialog {
     }
 
     // actions
+
+    private String getTypedDigestAlgorithm() {
+        Object typed = digestAlgorithmComboBox.getEditor().getItem();
+        return typed == null ? null : typed.toString().trim();
+    }
+
+    private void updateDigestAlgorithmWarning() {
+        List<String> warnings = DigestComputer.getAlgorithmWarnings(getTypedDigestAlgorithm());
+        digestAlgorithmWarningLabel.setText(
+            warnings.isEmpty() ? " " : "Avertissement : " + String.join(" ; ", warnings)
+        );
+    }
 
     private void metadataFilterEvent(ItemEvent event) {
         if (event.getStateChange() == SELECTED) {
@@ -1764,6 +1855,8 @@ public class PreferencesDialog extends JDialog {
             return false;
         }
         tp.setDupMax(tmp);
+        // never refused: a warning is shown, as an erroneous package may be built on purpose
+        tp.setDigestAlgorithm(getTypedDigestAlgorithm());
 
         SedaVersion selectedVersion = sedaVersionSelector.getSelectedVersion();
 

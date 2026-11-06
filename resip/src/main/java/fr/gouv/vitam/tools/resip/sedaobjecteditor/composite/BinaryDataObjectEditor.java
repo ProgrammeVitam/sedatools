@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.DigestTypeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.model.FileMetadata;
@@ -127,6 +128,22 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         defineButton.addActionListener(arg -> this.defineButton());
         moreButtons.add(defineButton);
 
+        JButton digestButton = new JButton();
+        digestButton.setIcon(new ImageIcon(getClass().getResource("/icon/view-refresh.png")));
+        digestButton.setToolTipText(
+            "Recalculer l'empreinte (" + getBinaryDataObject().getDigestAlgorithm() + ") depuis le fichier associé"
+        );
+        digestButton.setText("");
+        digestButton.setMaximumSize(new Dimension(16, 16));
+        digestButton.setMinimumSize(new Dimension(16, 16));
+        digestButton.setPreferredSize(new Dimension(16, 16));
+        digestButton.setBorderPainted(false);
+        digestButton.setContentAreaFilled(false);
+        digestButton.setFocusPainted(false);
+        digestButton.setFocusable(false);
+        digestButton.addActionListener(arg -> this.digestButton());
+        moreButtons.add(digestButton);
+
         prepareSEDAObjectEditorPanel(moreButtons);
     }
 
@@ -173,7 +190,12 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
 
     private void extractFileMetadataInEditors() {
         try {
-            for (SEDAMetadata sm : FileMetadata.of(editedOnDiskPath, getSedaVersion(), translateTag(UNKNOWN))) {
+            for (SEDAMetadata sm : FileMetadata.of(
+                editedOnDiskPath,
+                getSedaVersion(),
+                getBinaryDataObject().getDigestAlgorithm(),
+                translateTag(UNKNOWN)
+            )) {
                 SEDAObjectEditor previous = getSEDAObjectEditor(sm.getXmlElementName());
                 SEDAObjectEditor editor = createSEDAObjectEditor(sm, this);
                 // the composite ones keep the folding of the editor they replace
@@ -188,6 +210,46 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
             updateObjectEditorList();
         } catch (SEDALibException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // recomputes only the digest, in the algorithm of the package; the value can then still be edited
+    // by hand, even to a wrong one, the anomalies being shown as warnings by the digest editor
+    private void digestButton() {
+        if ((editedOnDiskPath == null) || !Files.isRegularFile(editedOnDiskPath)) {
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "Pas de fichier associé à cet objet, l'empreinte ne peut pas être calculée.",
+                "Information",
+                UserInteractionDialog.IMPORTANT_DIALOG,
+                null
+            );
+            return;
+        }
+        try {
+            DigestType digest = FileMetadata.messageDigestOf(
+                editedOnDiskPath,
+                getBinaryDataObject().getDigestAlgorithm()
+            );
+            SEDAObjectEditor previous = getSEDAObjectEditor("MessageDigest");
+            if (previous instanceof DigestTypeEditor) ((DigestTypeEditor) previous).setValue(
+                    digest.getValue(),
+                    digest.getAlgorithm()
+                );
+            else {
+                replaceOrAddObjectEditor(createSEDAObjectEditor(digest, this));
+                updateObjectEditorList();
+            }
+            sedaObjectEditorPanel.revalidate();
+            sedaObjectEditorPanel.repaint();
+        } catch (SEDALibException e) {
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "Impossible de calculer l'empreinte\n->" + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
         }
     }
 

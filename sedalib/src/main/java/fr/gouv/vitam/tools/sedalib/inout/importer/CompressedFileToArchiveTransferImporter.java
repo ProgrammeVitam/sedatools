@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -157,6 +158,11 @@ public class CompressedFileToArchiveTransferImporter {
      * The disk to archive transfer importer
      */
     private DiskToDataObjectPackageImporter diskToDataObjectPackageImporter;
+
+    /**
+     * The algorithm of the digests computed by this import.
+     */
+    private String digestAlgorithm = DigestComputer.DEFAULT_ALGORITHM;
 
     /**
      * The on disk root paths.
@@ -381,6 +387,17 @@ public class CompressedFileToArchiveTransferImporter {
     }
 
     /**
+     * Sets the algorithm of the digests computed by this import, SHA-512 by default. The imported
+     * package keeps it for the digests computed afterwards.
+     *
+     * @param digestAlgorithm the digest algorithm, any one, even one Vitam doesn't accept
+     *                        (see {@link fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer#getAlgorithmWarnings})
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
+    }
+
+    /**
      * Adds the ignore pattern string.
      *
      * @param patternString the pattern string
@@ -460,6 +477,7 @@ public class CompressedFileToArchiveTransferImporter {
             extractTitleFromFileNameFunction,
             sedaLibProgressLogger
         );
+        diskToDataObjectPackageImporter.setDigestAlgorithm(digestAlgorithm);
         this.archiveTransfer = new ArchiveTransfer(sedaVersion);
 
         if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(

@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.CompactThread;
 import fr.gouv.vitam.tools.resip.threads.DeCompactThread;
+import fr.gouv.vitam.tools.resip.threads.DigestThread;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.resip.threads.MailExtractThread;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -187,6 +188,10 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             mi.addActionListener(thisSTV);
                             mi.setActionCommand("NewSubArchiveUnit");
                             popup.add(mi);
+                            mi = new JMenuItem("Calculer les empreintes de la branche...");
+                            mi.addActionListener(thisSTV);
+                            mi.setActionCommand("ComputeDigests");
+                            popup.add(mi);
                             if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
                                 boolean isDocumentContainer = false;
                                 try {
@@ -305,6 +310,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             scrollPathToVisible(path);
         } else if (ae.getActionCommand().equals("NewSubArchiveUnit")) {
             addArchiveUnit(new TreePath(((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
+        } else if (ae.getActionCommand().equals("ComputeDigests")) {
+            DigestThread.launchDigestThread(popupSTN.get(0).getArchiveUnit());
         } else if (ae.getActionCommand().equals("CompactArchiveUnit")) {
             CompactThread.launchCompactThread(popupSTN.get(0));
         } else if (ae.getActionCommand().equals("DeCompactArchiveUnit")) {

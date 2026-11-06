@@ -112,6 +112,26 @@ public class ImportService {
         SEDALibProgressLogger spl,
         MailExtractProgressLogger mepl
     ) throws ResipException, SEDALibException, InterruptedException {
+        ImportResult result = dispatchImport(creationContext, sedaVersion, spl, mepl);
+        // a new work computes its digests in the algorithm of the preferences, even when it is
+        // imported from a SIP or a DIP whose digests are read from the manifest
+        result.getDataObjectPackage().setDigestAlgorithm(getDigestAlgorithm());
+        return result;
+    }
+
+    /**
+     * @return the digest algorithm of the new works, from the preferences
+     */
+    public String getDigestAlgorithm() {
+        return TreatmentParameters.digestAlgorithmOf(preferences);
+    }
+
+    private ImportResult dispatchImport(
+        CreationContext creationContext,
+        SedaVersion sedaVersion,
+        SEDALibProgressLogger spl,
+        MailExtractProgressLogger mepl
+    ) throws ResipException, SEDALibException, InterruptedException {
         // a zip import context is a disk one, so it is tested first
         if (creationContext instanceof ZipImportContext) return doZipImport(
             (ZipImportContext) creationContext,
@@ -192,6 +212,7 @@ public class ImportService {
             spl
         );
         for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
+        zi.setDigestAlgorithm(getDigestAlgorithm());
         zi.doImport();
         return of(zi.getArchiveTransfer(), zi.getSummary());
     }
@@ -206,6 +227,7 @@ public class ImportService {
             spl
         );
         for (String ip : dic.getIgnorePatternList()) di.addIgnorePattern(ip);
+        di.setDigestAlgorithm(getDigestAlgorithm());
         di.doImport();
         dic.setModelVersion(di.getModelVersion());
         return of(di.getArchiveTransfer(), di.getSummary());
@@ -241,6 +263,7 @@ public class ImportService {
             ctic.getDelimiter(),
             spl
         );
+        cti.setDigestAlgorithm(getDigestAlgorithm());
         cti.doImport();
         return new ImportResult(cti.getDataObjectPackage(), null, cti.getSummary());
     }
@@ -257,6 +280,7 @@ public class ImportService {
             cmic.getDelimiter(),
             spl
         );
+        cmi.setDigestAlgorithm(getDigestAlgorithm());
         cmi.doImport();
         return new ImportResult(cmi.getDataObjectPackage(), null, cmi.getSummary());
     }
@@ -279,7 +303,8 @@ public class ImportService {
             mic.getOnDiskInput(),
             mic.getMailFolder(),
             target,
-            mepl
+            mepl,
+            new InterfaceParameters(preferences).isDebugFlag()
         );
         mi.doExtract();
         doProgressLog(spl, GLOBAL, "resip: extraction terminée\n" + mi.getSummary(), null);
@@ -287,6 +312,7 @@ public class ImportService {
         List<Path> lp = List.of(Paths.get(mi.getTarget()));
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(sedaVersion, lp, spl);
         for (String ip : new DiskImportContext(preferences).getIgnorePatternList()) di.addIgnorePattern(ip);
+        di.setDigestAlgorithm(getDigestAlgorithm());
         di.doImport();
         return of(di.getArchiveTransfer(), mi.getSummary() + "\n" + di.getSummary());
     }

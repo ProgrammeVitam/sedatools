@@ -35,61 +35,52 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.utils.digest;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
+import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Utility class for computing file digests using optimized methods.
+ * The warnings about a digest edited by hand, which never refuse it.
  */
-public class DigestSha512 {
+class DigestTypeEditorTest {
 
-    private static final String SHA512_ALGORITHM = "SHA-512";
-
-    // Private constructor to hide the implicit public one
-    private DigestSha512() {}
-
-    /**
-     * compute SHA-512 digest for a file.
-     * Automatically switches between standard IO and parallel prefetching based on
-     * file size.
-     *
-     * @param path   the file path
-     * @param logger the logger (can be null)
-     * @return the hex string of the digest
-     * @throws SEDALibException if an error occurs
-     */
-    public static String compute(Path path, SEDALibProgressLogger logger) throws SEDALibException {
-        try {
-            MessageDigest digest = MessageDigest.getInstance(SHA512_ALGORITHM);
-            byte[] hash = new NioDigestComputer().compute(digest, path, logger);
-            return bytesToHex(hash);
-        } catch (NoSuchAlgorithmException e) {
-            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage " + SHA512_ALGORITHM, e);
-        }
+    @Test
+    void shouldNotWarnAboutAConsistentDigest() {
+        assertThat(DigestTypeEditor.getWarnings("a".repeat(64), "SHA-256")).isEmpty();
     }
 
-    /**
-     * compute SHA-512 digest for a file (no logger).
-     *
-     * @param path the file path
-     * @return the hex string of the digest
-     * @throws SEDALibException if an error occurs
-     */
-    public static String compute(Path path) throws SEDALibException {
-        return compute(path, null);
+    @Test
+    void shouldWarnAboutAWrongDigestTypedByHand() {
+        assertThat(DigestTypeEditor.getWarnings("not-a-digest", "SHA-256"))
+            .singleElement()
+            .asString()
+            .contains("hexadécimale");
+        assertThat(DigestTypeEditor.getWarnings("a".repeat(64), "SHA-512")).singleElement().asString().contains("128");
     }
 
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder(bytes.length * 2);
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b));
-        }
-        return sb.toString();
+    @Test
+    void shouldWarnAboutAMissingOrNonVitamAlgorithm() {
+        assertThat(DigestTypeEditor.getWarnings("abcd", " ")).singleElement().asString().contains("absent");
+        assertThat(DigestTypeEditor.getWarnings("a".repeat(64), "SHA3-256"))
+            .singleElement()
+            .asString()
+            .contains("Vitam");
+    }
+
+    @Test
+    void shouldKeepAWrongDigestTypedByHand() throws Exception {
+        // Given
+        DigestType digest = new DigestType("MessageDigest", "a".repeat(64), "SHA-256");
+
+        // When an erroneous value is set, as the editor does on extraction
+        digest.setValue("not-a-digest");
+        digest.setAlgorithm("UNKNOWN-ALGORITHM");
+
+        // Then
+        assertThat(digest.getValue()).isEqualTo("not-a-digest");
+        assertThat(digest.getAlgorithm()).isEqualTo("UNKNOWN-ALGORITHM");
     }
 }
