@@ -51,6 +51,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
@@ -133,6 +134,7 @@ public class ExportService {
         ArchiveTransfer archiveTransfer = toArchiveTransfer(work, true);
         switch (exportType) {
             case SIP_MANIFEST: {
+                String digestWarnings = logDigestWarnings(work.getDataObjectPackage(), spl);
                 ArchiveTransferToSIPExporter exporter = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
                 exporter.doExportToSEDAXMLManifest(
                     output,
@@ -140,9 +142,10 @@ public class ExportService {
                     exportContext.isIndented()
                 );
                 logSavedFileSize(output, spl);
-                return exporter.getSummary();
+                return exporter.getSummary() + digestWarnings;
             }
             case SIP_ALL: {
+                String digestWarnings = logDigestWarnings(work.getDataObjectPackage(), spl);
                 ArchiveTransferToSIPExporter exporter = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
                 exporter.doExportToSEDASIP(
                     output,
@@ -150,7 +153,7 @@ public class ExportService {
                     exportContext.isIndented()
                 );
                 logSavedFileSize(output, spl);
-                return exporter.getSummary();
+                return exporter.getSummary() + digestWarnings;
             }
             case DISK: {
                 ArchiveTransferToDiskExporter exporter = new ArchiveTransferToDiskExporter(archiveTransfer, spl);
@@ -245,6 +248,31 @@ public class ExportService {
             exportContext.getMaxNameSize(),
             spl
         );
+    }
+
+    /**
+     * Lists the warnings about the digests of an exported package, which never prevent the export:
+     * an erroneous SIP may be built on purpose for testing.
+     *
+     * @param dataObjectPackage the exported package
+     * @return the warnings as a summary paragraph, empty if none
+     */
+    public static String getDigestWarningsSummary(DataObjectPackage dataObjectPackage) {
+        List<String> warnings = DigestService.getDigestWarnings(dataObjectPackage);
+        if (warnings.isEmpty()) return "";
+        return (
+            "\nAvertissement : " +
+            warnings.size() +
+            " anomalie(s) d'empreinte, le SIP risque d'être refusé à l'entrée dans Vitam :\n" +
+            String.join("\n", warnings)
+        );
+    }
+
+    private static String logDigestWarnings(DataObjectPackage dataObjectPackage, SEDALibProgressLogger spl)
+        throws InterruptedException {
+        String summary = getDigestWarningsSummary(dataObjectPackage);
+        if (!summary.isEmpty()) doProgressLog(spl, GLOBAL, "resip:" + summary, null);
+        return summary;
     }
 
     private static void logSavedFileSize(String output, SEDALibProgressLogger spl) throws InterruptedException {
