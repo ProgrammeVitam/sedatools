@@ -149,13 +149,7 @@ public class TestPstStoreExtractor implements AllTests {
             ),
             defaultCharset()
         );
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/pst/results/mail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/pst/results/mail.eml");
     }
 
     @Test
@@ -271,12 +265,6 @@ public class TestPstStoreExtractor implements AllTests {
             } catch (IOException ignored) {}
         }
         assertThat(mail).isNotNull();
-        mail = mail.replaceAll("----=_Part.*", "");
-        String resultMail = FileUtils.readFileToString(
-            new File("src/test/resources/pst/results/mail.eml"),
-            StandardCharsets.UTF_8
-        );
-        resultMail = resultMail.replaceAll("----=_Part.*", "");
-        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
+        AllTests.assertThatEmlMatches(mail, "src/test/resources/pst/results/mail.eml");
     }
 }
