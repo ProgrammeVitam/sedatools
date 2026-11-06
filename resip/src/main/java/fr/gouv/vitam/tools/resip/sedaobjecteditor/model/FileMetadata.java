@@ -63,23 +63,32 @@ public final class FileMetadata {
     private FileMetadata() {}
 
     /**
-     * Reads the technical metadata of a file: its SHA-512 digest, its size, its format identified
-     * by DROID and its file information.
+     * Computes the MessageDigest metadata of a file.
      *
-     * @param file        the file
-     * @param sedaVersion the SEDA version of the BinaryDataObject
-     * @param unknown     the text standing for a format DROID doesn't identify
+     * @param file            the file
+     * @param digestAlgorithm the digest algorithm, any algorithm Java can compute
+     * @return the MessageDigest metadata
+     * @throws SEDALibException if the digest can't be computed
+     */
+    public static DigestType messageDigestOf(Path file, String digestAlgorithm) throws SEDALibException {
+        return new DigestType("MessageDigest", DigestComputer.compute(file, digestAlgorithm), digestAlgorithm);
+    }
+
+    /**
+     * Reads the technical metadata of a file: its digest, its size, its format identified by DROID
+     * and its file information.
+     *
+     * @param file            the file
+     * @param sedaVersion     the SEDA version of the BinaryDataObject
+     * @param digestAlgorithm the digest algorithm, the one of the package of the BinaryDataObject
+     * @param unknown         the text standing for a format DROID doesn't identify
      * @return the MessageDigest, Size, FormatIdentification and FileInfo metadata, in this order
      * @throws SEDALibException if the digest or the format can't be computed
      * @throws IOException      if the file can't be read
      */
-    public static List<SEDAMetadata> of(Path file, SedaVersion sedaVersion, String unknown)
+    public static List<SEDAMetadata> of(Path file, SedaVersion sedaVersion, String digestAlgorithm, String unknown)
         throws SEDALibException, IOException {
-        DigestType digest = new DigestType(
-            "MessageDigest",
-            DigestComputer.compute(file, DigestComputer.DEFAULT_ALGORITHM),
-            DigestComputer.DEFAULT_ALGORITHM
-        );
+        DigestType digest = messageDigestOf(file, digestAlgorithm);
         IntegerType size = new IntegerType("Size", Files.size(file));
         IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(file);
         FormatIdentification formatIdentification = ir != null

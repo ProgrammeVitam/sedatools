@@ -173,7 +173,12 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
 
     private void extractFileMetadataInEditors() {
         try {
-            for (SEDAMetadata sm : FileMetadata.of(editedOnDiskPath, getSedaVersion(), translateTag(UNKNOWN))) {
+            for (SEDAMetadata sm : FileMetadata.of(
+                editedOnDiskPath,
+                getSedaVersion(),
+                getBinaryDataObject().getDigestAlgorithm(),
+                translateTag(UNKNOWN)
+            )) {
                 SEDAObjectEditor previous = getSEDAObjectEditor(sm.getXmlElementName());
                 SEDAObjectEditor editor = createSEDAObjectEditor(sm, this);
                 // the composite ones keep the folding of the editor they replace

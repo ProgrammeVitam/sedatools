@@ -48,6 +48,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -197,5 +198,68 @@ class ImportServiceTest {
         assertThatThrownBy(() -> importService.doImport(new CreationContext(), SedaVersion.V2_1, null, null))
             .isInstanceOf(ResipException.class)
             .hasMessageContaining("Type d'import inconnu");
+    }
+
+    // runs an import with a digest algorithm in the preferences, which are restored afterwards
+    private <T> T withDigestAlgorithmPreference(String algorithm, ThrowingSupplier<T> importer) throws Exception {
+        Properties properties = Preferences.getInstance().getPrefProperties();
+        String previous = properties.getProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF);
+        properties.setProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF, algorithm);
+        try {
+            return importer.get();
+        } finally {
+            if (previous == null) properties.remove(TreatmentParameters.DIGEST_ALGORITHM_PREF);
+            else properties.setProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF, previous);
+        }
+    }
+
+    @FunctionalInterface
+    private interface ThrowingSupplier<T> {
+        T get() throws Exception;
+    }
+
+    private static void assertAllDigestsIn(ImportResult result, String algorithm) {
+        assertThat(result.getDataObjectPackage().getDigestAlgorithm()).isEqualTo(algorithm);
+        assertThat(result.getDataObjectPackage().getBdoInDataObjectPackageIdMap().values())
+            .isNotEmpty()
+            .allMatch(bdo -> algorithm.equals(bdo.getMetadataMessageDigest().getAlgorithm()));
+    }
+
+    @Test
+    void shouldImportADirectoryInTheDigestAlgorithmOfThePreferences() throws Exception {
+        // Given
+        DiskImportContext context = new DiskImportContext(
+            List.of("Thumbs.db"),
+            false,
+            RESIP_SAMPLES + "SampleWithoutLinksModelV2",
+            WORK_DIR
+        );
+
+        // When
+        ImportResult result = withDigestAlgorithmPreference(
+            "SHA-256",
+            () -> importService.doImport(context, SedaVersion.V2_1, null, null)
+        );
+
+        // Then
+        assertAllDigestsIn(result, "SHA-256");
+    }
+
+    @Test
+    void shouldGiveTheDigestAlgorithmOfThePreferencesToAnImportedSip() throws Exception {
+        // When
+        ImportResult result = withDigestAlgorithmPreference(
+            "SHA-384",
+            () ->
+                importService.doImport(
+                    new SIPImportContext(SEDALIB_SAMPLES + "TestSip.zip", WORK_DIR),
+                    SedaVersion.V2_1,
+                    null,
+                    null
+                )
+        );
+
+        // Then the digests of the manifest are kept, and the new ones will be in SHA-384
+        assertThat(result.getDataObjectPackage().getDigestAlgorithm()).isEqualTo("SHA-384");
     }
 }

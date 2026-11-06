@@ -83,4 +83,43 @@ class TreatmentParametersTest implements UseTestFiles {
 
         assertDoesNotThrow(() -> treatmentParameters.toPrefs(Preferences.getInstance()));
     }
+
+    @Test
+    void shouldUseSha512AsDefaultDigestAlgorithm() {
+        TreatmentParameters treatmentParameters = new TreatmentParameters();
+        treatmentParameters.setDefaultPrefs();
+
+        assertEquals("SHA-512", treatmentParameters.getDigestAlgorithm());
+    }
+
+    @Test
+    void shouldPersistTheDigestAlgorithmInThePreferences() {
+        Properties properties = Preferences.getInstance().getPrefProperties();
+        String previous = properties.getProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF);
+        try {
+            TreatmentParameters treatmentParameters = new TreatmentParameters();
+            treatmentParameters.setDefaultPrefs();
+            treatmentParameters.setDigestAlgorithm("SHA-256");
+
+            treatmentParameters.toPrefs(Preferences.getInstance());
+
+            assertEquals("SHA-256", properties.getProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF));
+            assertEquals("SHA-256", TreatmentParameters.digestAlgorithmOf(Preferences.getInstance()));
+            assertEquals("SHA-256", new TreatmentParameters(Preferences.getInstance()).getDigestAlgorithm());
+        } finally {
+            if (previous == null) properties.remove(TreatmentParameters.DIGEST_ALGORITHM_PREF);
+            else properties.setProperty(TreatmentParameters.DIGEST_ALGORITHM_PREF, previous);
+        }
+    }
+
+    @Test
+    void shouldAcceptADigestAlgorithmVitamDoesNotAccept() {
+        TreatmentParameters treatmentParameters = new TreatmentParameters();
+
+        treatmentParameters.setDigestAlgorithm("MD2");
+        assertEquals("MD2", treatmentParameters.getDigestAlgorithm());
+
+        treatmentParameters.setDigestAlgorithm(" ");
+        assertEquals("SHA-512", treatmentParameters.getDigestAlgorithm());
+    }
 }

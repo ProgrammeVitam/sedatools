@@ -64,7 +64,7 @@ class FileMetadataTest {
 
     @Test
     void readsTheDigestSizeFormatAndFileInformation() throws Exception {
-        List<SEDAMetadata> metadata = FileMetadata.of(ZIP, SedaVersion.V2_3, "Inconnu");
+        List<SEDAMetadata> metadata = FileMetadata.of(ZIP, SedaVersion.V2_3, "SHA-512", "Inconnu");
 
         assertThat(metadata.stream().map(SEDAMetadata::getXmlElementName).collect(Collectors.toList())).containsExactly(
             "MessageDigest",
@@ -80,5 +80,27 @@ class FileMetadataTest {
         FileInfo fileInfo = (FileInfo) metadata.get(3);
         assertThat(fileInfo.getSimpleMetadata("Filename")).isEqualTo("OK-RULES-MDRULES.zip");
         assertThat(fileInfo.getSimpleMetadata("LastModified")).isNotBlank();
+    }
+
+    @Test
+    void shouldReadTheDigestInTheAlgorithmOfThePackage() throws Exception {
+        // When
+        List<SEDAMetadata> metadata = FileMetadata.of(ZIP, SedaVersion.V2_3, "SHA-256", "Inconnu");
+
+        // Then
+        DigestType digest = (DigestType) metadata.get(0);
+        assertThat(digest.getAlgorithm()).isEqualTo("SHA-256");
+        assertThat(digest.getValue()).hasSize(64);
+    }
+
+    @Test
+    void shouldComputeTheMessageDigestInAnAlgorithmVitamDoesNotAccept() throws Exception {
+        // When
+        DigestType digest = FileMetadata.messageDigestOf(ZIP, "SHA3-256");
+
+        // Then
+        assertThat(digest.getXmlElementName()).isEqualTo("MessageDigest");
+        assertThat(digest.getAlgorithm()).isEqualTo("SHA3-256");
+        assertThat(digest.getValue()).hasSize(64);
     }
 }

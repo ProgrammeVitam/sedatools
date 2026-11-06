@@ -130,4 +130,40 @@ class AddServiceTest {
         assertThat(archiveUnit.getContent().getSimpleMetadata("DescriptionLevel")).isEqualTo("RecordGrp");
         assertThat(work.getDataObjectPackage().getSedaVersion()).isEqualTo(SedaVersion.V2_3);
     }
+
+    @Test
+    void shouldAddDroppedFilesInTheDigestAlgorithmOfTheWork() throws Exception {
+        // Given a work whose algorithm is not the one of the preferences
+        Work work = addService.importNewWork(List.of(SAMPLE.resolve("Node 1")), SedaVersion.V2_1, null);
+        work.getDataObjectPackage().setDigestAlgorithm("SHA-256");
+
+        // When
+        ImportResult imported = addService.importFiles(work, List.of(SAMPLE.resolve("Node 2")), null);
+
+        // Then
+        assertThat(imported.getDataObjectPackage().getBdoInDataObjectPackageIdMap().values())
+            .isNotEmpty()
+            .allMatch(bdo -> "SHA-256".equals(bdo.getMetadataMessageDigest().getAlgorithm()));
+    }
+
+    @Test
+    void shouldExpandACompressedFileInTheDigestAlgorithmOfTheWork() throws Exception {
+        // Given
+        Work work = addService.importNewWork(List.of(ZIP), SedaVersion.V2_1, null);
+        work.getDataObjectPackage().setDigestAlgorithm("SHA-384");
+        ArchiveUnit archiveUnit = roots(work).get(0);
+        DataObjectGroup dog = (DataObjectGroup) archiveUnit.getDataObjectRefList().getDataObjectList().get(0);
+        BinaryDataObject zip = dog.getBinaryDataObjectList().get(0);
+
+        // When
+        ImportResult imported = addService.expandCompressedFile(zip, null);
+
+        // Then the computed digests are in the algorithm of the work (the one declared in a
+        // __BinaryDataObjectMetadata.xml file of the zip is kept as it is)
+        assertThat(imported.getDataObjectPackage().getDigestAlgorithm()).isEqualTo("SHA-384");
+        assertThat(imported.getDataObjectPackage().getBdoInDataObjectPackageIdMap().values())
+            .filteredOn(bdo -> bdo.getOnDiskPath().getFileName().toString().endsWith(".jpg"))
+            .singleElement()
+            .matches(bdo -> "SHA-384".equals(bdo.getMetadataMessageDigest().getAlgorithm()));
+    }
 }

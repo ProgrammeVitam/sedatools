@@ -45,6 +45,7 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
+import fr.gouv.vitam.tools.resip.parameters.TreatmentParameters;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -114,7 +115,13 @@ public class AddService {
     public Work importNewWork(List<Path> paths, SedaVersion sedaVersion, SEDALibProgressLogger spl)
         throws SEDALibException, InterruptedException {
         DiskImportContext diskImportContext = new DiskImportContext(preferences);
-        DiskToDataObjectPackageImporter di = importPaths(paths, diskImportContext, sedaVersion, spl);
+        DiskToDataObjectPackageImporter di = importPaths(
+            paths,
+            diskImportContext,
+            sedaVersion,
+            TreatmentParameters.digestAlgorithmOf(preferences),
+            spl
+        );
         diskImportContext.setModelVersion(di.getModelVersion());
         diskImportContext.setOnDiskInput(DRAG_AND_DROP);
         diskImportContext.setSummary(di.getSummary());
@@ -125,8 +132,8 @@ public class AddService {
     }
 
     /**
-     * Reads dropped files to be added to a work, in its SEDA version and with its disk import
-     * options, or the default ones if it was not imported from disk.
+     * Reads dropped files to be added to a work, in its SEDA version and digest algorithm and with
+     * its disk import options, or the default ones if it was not imported from disk.
      *
      * @param work  the work the files are added to
      * @param paths the dropped files and directories
@@ -144,6 +151,7 @@ public class AddService {
             paths,
             diskImportContext,
             work.getDataObjectPackage().getSedaVersion(),
+            work.getDataObjectPackage().getDigestAlgorithm(),
             spl
         );
         return new ImportResult(di.getDataObjectPackage(), null, di.getSummary());
@@ -153,6 +161,7 @@ public class AddService {
         List<Path> paths,
         DiskImportContext diskImportContext,
         SedaVersion sedaVersion,
+        String digestAlgorithm,
         SEDALibProgressLogger spl
     ) throws SEDALibException, InterruptedException {
         DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(
@@ -163,6 +172,7 @@ public class AddService {
             spl
         );
         for (String ip : diskImportContext.getIgnorePatternList()) di.addIgnorePattern(ip);
+        di.setDigestAlgorithm(digestAlgorithm);
         di.doImport();
         return di;
     }
@@ -181,7 +191,7 @@ public class AddService {
     }
 
     /**
-     * Reads the content of a compressed BinaryDataObject, in its SEDA version.
+     * Reads the content of a compressed BinaryDataObject, in its SEDA version and digest algorithm.
      *
      * @param bdo the compressed BinaryDataObject
      * @param spl the progress logger, or null
@@ -205,12 +215,14 @@ public class AddService {
             spl
         );
         for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
+        zi.setDigestAlgorithm(bdo.getDigestAlgorithm());
         zi.doImport();
         return new ImportResult(zi.getArchiveTransfer().getDataObjectPackage(), null, zi.getSummary());
     }
 
     /**
-     * Reads the messages of a mail container BinaryDataObject, in its SEDA version.
+     * Reads the messages of a mail container BinaryDataObject, in its SEDA version and digest
+     * algorithm.
      *
      * @param bdo  the mail container BinaryDataObject
      * @param spl  the progress logger, or null
@@ -252,6 +264,7 @@ public class AddService {
         }
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(bdo.getSedaVersion(), lp, spl);
         for (String ip : new DiskImportContext(preferences).getIgnorePatternList()) di.addIgnorePattern(ip);
+        di.setDigestAlgorithm(bdo.getDigestAlgorithm());
         di.doImport();
         return new ImportResult(
             di.getArchiveTransfer().getDataObjectPackage(),

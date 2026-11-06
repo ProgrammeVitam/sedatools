@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.resip.parameters;
 
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,6 +68,28 @@ public class TreatmentParameters {
      * The SEDA2 subversion.
      */
     SedaVersion sedaVersion;
+
+    /**
+     * The preference key of the digest algorithm of the new works.
+     */
+    public static final String DIGEST_ALGORITHM_PREF = "treatmentParameters.digestAlgorithm";
+
+    /**
+     * The digest algorithm of the new works. An opened work keeps the algorithm of its package.
+     */
+    String digestAlgorithm = DigestComputer.DEFAULT_ALGORITHM;
+
+    /**
+     * Gets the digest algorithm of the new works from the preferences, without instantiating the
+     * treatment parameters (which publishes the SEDA version).
+     *
+     * @param preferences the prefs
+     * @return the digest algorithm, the default one if not set
+     */
+    public static String digestAlgorithmOf(Preferences preferences) {
+        String algorithm = preferences.getPrefProperties().getProperty(DIGEST_ALGORITHM_PREF, null);
+        return (algorithm == null) || algorithm.isBlank() ? DigestComputer.DEFAULT_ALGORITHM : algorithm.trim();
+    }
 
     /**
      * Instantiates a new creation context.
@@ -117,6 +140,8 @@ public class TreatmentParameters {
             dupMax = 1000;
         }
 
+        digestAlgorithm = digestAlgorithmOf(preferences);
+
         final String defaultConfiguredSedaVersion = SedaVersion.V2_1.toString();
         final String configuredSedaVersion = preferences
             .getPrefProperties()
@@ -143,6 +168,7 @@ public class TreatmentParameters {
                 );
         }
         preferences.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
+        preferences.getPrefProperties().setProperty(DIGEST_ALGORITHM_PREF, getDigestAlgorithm());
         preferences
             .getPrefProperties()
             .setProperty(
@@ -384,6 +410,30 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Autres...", List.of("Other"));
         dupMax = 1000;
         sedaVersion = SedaVersion.V2_1;
+        digestAlgorithm = DigestComputer.DEFAULT_ALGORITHM;
+    }
+
+    /**
+     * Gets the digest algorithm of the new works.
+     *
+     * @return the digest algorithm
+     */
+    public String getDigestAlgorithm() {
+        return (digestAlgorithm == null) || digestAlgorithm.isBlank()
+            ? DigestComputer.DEFAULT_ALGORITHM
+            : digestAlgorithm;
+    }
+
+    /**
+     * Sets the digest algorithm of the new works: any one, even one Vitam doesn't accept, to build
+     * erroneous packages for testing (see {@link DigestComputer#getAlgorithmWarnings}).
+     *
+     * @param digestAlgorithm the digest algorithm, the default one if null or blank
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = (digestAlgorithm == null) || digestAlgorithm.isBlank()
+            ? DigestComputer.DEFAULT_ALGORITHM
+            : digestAlgorithm.trim();
     }
 
     // Getters and setters
