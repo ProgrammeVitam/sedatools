@@ -44,7 +44,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
@@ -282,9 +282,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         }
 
         updateFileInfo(lastModifiedTime);
-        addMetadata(
-            new DigestType("MessageDigest", DigestSha512.compute(onDiskPath, sedaLibProgressLogger), "SHA-512")
-        );
+        computeMessageDigest(getDigestAlgorithm(), sedaLibProgressLogger);
         addMetadata(new IntegerType("Size", size));
 
         IdentificationResult idResult = identifyFormat(sedaLibProgressLogger, onDiskPath);
@@ -298,6 +296,55 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
             )
         );
         else addMetadata(new FormatIdentification(getSedaVersion(), "Unknown", null, "UNKNOWN", null));
+    }
+
+    /**
+     * Gets the algorithm of the digests computed for this BinaryDataObject: the one of its
+     * DataObjectPackage, or the default one when it has none.
+     *
+     * @return the digest algorithm
+     */
+    @JsonIgnore
+    public String getDigestAlgorithm() {
+        return getDataObjectPackage() == null
+            ? DigestComputer.DEFAULT_ALGORITHM
+            : getDataObjectPackage().getDigestAlgorithm();
+    }
+
+    /**
+     * Computes the digest of the file in the algorithm of the DataObjectPackage and replaces the
+     * MessageDigest metadata. The other metadata (size, format, file information) are not
+     * changed.
+     *
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @throws SEDALibException if there is no file or it can't be read
+     */
+    public void computeMessageDigest(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+        computeMessageDigest(getDigestAlgorithm(), sedaLibProgressLogger);
+    }
+
+    /**
+     * Computes the digest of the file in a given algorithm and replaces the MessageDigest metadata.
+     * The other metadata (size, format, file information) are not changed.
+     *
+     * @param algorithm             the digest algorithm, one of
+     *                              {@link DigestComputer#SUPPORTED_ALGORITHMS}
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @throws SEDALibException if the algorithm is not supported, or there is no file or it can't
+     *                          be read
+     */
+    public void computeMessageDigest(String algorithm, SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException {
+        if (onDiskPath == null) throw new SEDALibException(
+            "Le BinaryDataObject [" + getInDataObjectPackageId() + "] n'a pas de fichier associé"
+        );
+        addMetadata(
+            new DigestType(
+                "MessageDigest",
+                DigestComputer.compute(onDiskPath, algorithm, sedaLibProgressLogger),
+                algorithm
+            )
+        );
     }
 
     /**

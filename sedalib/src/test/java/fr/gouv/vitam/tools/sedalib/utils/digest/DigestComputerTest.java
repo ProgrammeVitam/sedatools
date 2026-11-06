@@ -40,6 +40,8 @@ package fr.gouv.vitam.tools.sedalib.utils.digest;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,8 +51,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class DigestSha512Test {
+class DigestComputerTest {
 
     @TempDir
     Path tempDir;
@@ -63,7 +66,7 @@ class DigestSha512Test {
         Files.writeString(file, content);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -80,7 +83,7 @@ class DigestSha512Test {
         Files.createFile(file);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -103,7 +106,7 @@ class DigestSha512Test {
         Files.write(file, data);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -125,7 +128,7 @@ class DigestSha512Test {
         }
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         // We know a sparse file reads as zeros.
@@ -144,6 +147,69 @@ class DigestSha512Test {
         String expected = bytesToHex(md.digest());
 
         assertThat(digest).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "SHA-512", "SHA-384", "SHA-256" })
+    void shouldComputeDigestWithEachSupportedAlgorithm(String algorithm)
+        throws IOException, SEDALibException, NoSuchAlgorithmException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When
+        String digest = DigestComputer.compute(file, algorithm);
+
+        // Then
+        assertThat(digest).isEqualTo(bytesToHex(MessageDigest.getInstance(algorithm).digest("Hello World".getBytes())));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "MD5", "SHA-1", "SHA3-512", "MD2", "unknown" })
+    void shouldRefuseAnAlgorithmVitamDoesNotAccept(String algorithm) throws IOException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When / Then
+        assertThatThrownBy(() -> DigestComputer.compute(file, algorithm))
+            .isInstanceOf(SEDALibException.class)
+            .hasMessageContaining(algorithm);
+    }
+
+    @Test
+    void shouldAcceptADigestValueOfTheLengthOfItsAlgorithm() throws SEDALibException {
+        // Given
+        String sha256 = "a".repeat(64);
+
+        // When / Then
+        DigestComputer.checkValue(sha256, "SHA-256");
+        DigestComputer.checkValue(sha256.toUpperCase(), "SHA-256");
+    }
+
+    @Test
+    void shouldRefuseADigestValueOfAnotherLengthThanItsAlgorithm() {
+        // Given
+        String sha256 = "a".repeat(64);
+
+        // When / Then
+        assertThatThrownBy(() -> DigestComputer.checkValue(sha256, "SHA-512"))
+            .isInstanceOf(SEDALibException.class)
+            .hasMessageContaining("128");
+    }
+
+    @Test
+    void shouldRefuseADigestValueThatIsNotHexadecimal() {
+        assertThatThrownBy(() -> DigestComputer.checkValue("not-a-digest", "SHA-512")).isInstanceOf(
+            SEDALibException.class
+        );
+        assertThatThrownBy(() -> DigestComputer.checkValue(null, "SHA-512")).isInstanceOf(SEDALibException.class);
+    }
+
+    @Test
+    void shouldOnlyCheckTheHexadecimalFormOfADigestOfAnAlgorithmUnknownToJava() throws SEDALibException {
+        DigestComputer.checkValue("abcd", "UNKNOWN-ALGORITHM");
+        DigestComputer.checkValue("abcd", null);
     }
 
     private String bytesToHex(byte[] bytes) {

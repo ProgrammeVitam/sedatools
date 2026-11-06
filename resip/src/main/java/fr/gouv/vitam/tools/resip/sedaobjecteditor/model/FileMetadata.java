@@ -45,7 +45,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
@@ -75,7 +75,11 @@ public final class FileMetadata {
      */
     public static List<SEDAMetadata> of(Path file, SedaVersion sedaVersion, String unknown)
         throws SEDALibException, IOException {
-        DigestType digest = new DigestType("MessageDigest", DigestSha512.compute(file), "SHA-512");
+        DigestType digest = new DigestType(
+            "MessageDigest",
+            DigestComputer.compute(file, DigestComputer.DEFAULT_ALGORITHM),
+            DigestComputer.DEFAULT_ALGORITHM
+        );
         IntegerType size = new IntegerType("Size", Files.size(file));
         IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(file);
         FormatIdentification formatIdentification = ir != null

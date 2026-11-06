@@ -74,6 +74,12 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
     public static final String SEDA_VERSION_ATTRIBUTE = "sedalib.sedaVersion";
 
     /**
+     * The JSON field holding the digest algorithm of the package. A package saved without it, before
+     * the algorithm was configurable, is in SHA-512.
+     */
+    public static final String DIGEST_ALGORITHM_FIELD = "digestAlgorithm";
+
+    /**
      * Instantiates a new DataObjectPackage deserializer.
      */
     public DataObjectPackageDeserializer() {
@@ -137,6 +143,9 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                     case "vitamNormalizationStatus":
                         int status = parser.readValueAs(Integer.class);
                         dataObjectPackage.setVitamNormalizationStatus(status);
+                        break;
+                    case DIGEST_ALGORITHM_FIELD:
+                        dataObjectPackage.setDigestAlgorithm(parser.getText());
                         break;
                     default:
                     // ignore other fields

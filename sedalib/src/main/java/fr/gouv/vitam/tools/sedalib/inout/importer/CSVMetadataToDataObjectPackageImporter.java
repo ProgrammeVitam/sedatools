@@ -49,6 +49,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.utils.ByteOrderMarkUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 
 import java.io.FileInputStream;
@@ -203,6 +204,11 @@ public class CSVMetadataToDataObjectPackageImporter {
      * The archive transfer.
      */
     private DataObjectPackage dataObjectPackage;
+
+    /**
+     * The algorithm of the digests computed by this import.
+     */
+    private String digestAlgorithm = DigestComputer.DEFAULT_ALGORITHM;
 
     /**
      * The start and end instants, for duration computation.
@@ -455,6 +461,7 @@ public class CSVMetadataToDataObjectPackageImporter {
 
         boolean needIdRegeneration = readCSVFile();
         dataObjectPackage = new DataObjectPackage(sedaVersion);
+        dataObjectPackage.setDigestAlgorithm(digestAlgorithm);
 
         int lineCount = 0;
         for (Map.Entry<String, Line> e : linesMap.entrySet()) {
@@ -505,6 +512,18 @@ public class CSVMetadataToDataObjectPackageImporter {
             "sedalib: import du fichier csv de métadonnées terminé",
             null
         );
+    }
+
+    /**
+     * Sets the algorithm of the digests computed by this import, SHA-512 by default. The imported
+     * package keeps it for the digests computed afterwards.
+     *
+     * @param digestAlgorithm the digest algorithm, one of
+     *                        {@link fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer#SUPPORTED_ALGORITHMS}
+     * @throws SEDALibException if the algorithm is not supported
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) throws SEDALibException {
+        this.digestAlgorithm = DigestComputer.checkSupported(digestAlgorithm);
     }
 
     /**
