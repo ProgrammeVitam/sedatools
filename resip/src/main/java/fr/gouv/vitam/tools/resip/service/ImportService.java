@@ -303,7 +303,8 @@ public class ImportService {
             mic.getOnDiskInput(),
             mic.getMailFolder(),
             target,
-            mepl
+            mepl,
+            new InterfaceParameters(preferences).isDebugFlag()
         );
         mi.doExtract();
         doProgressLog(spl, GLOBAL, "resip: extraction terminée\n" + mi.getSummary(), null);

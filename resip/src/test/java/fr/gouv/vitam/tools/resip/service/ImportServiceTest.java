@@ -37,6 +37,8 @@
  */
 package fr.gouv.vitam.tools.resip.service;
 
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -44,6 +46,7 @@ import fr.gouv.vitam.tools.sedaschema.SedaVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -261,5 +264,36 @@ class ImportServiceTest {
 
         // Then the digests of the manifest are kept, and the new ones will be in SHA-384
         assertThat(result.getDataObjectPackage().getDigestAlgorithm()).isEqualTo("SHA-384");
+    }
+
+    @Test
+    void shouldExtractAMailContainerInTheDigestAlgorithmOfThePreferences() throws Exception {
+        // Given a mail container, as in the issue of a mailbox archived in a SAE expecting SHA-256
+        MailImportContext context = new MailImportContext(
+            false,
+            false,
+            false,
+            false,
+            false,
+            "mbox",
+            "windows-1252",
+            "../mailextractlib/src/test/resources/mbox/Sent.mbox",
+            WORK_DIR
+        );
+        // registered at the start of the application
+        StoreExtractor.initDefaultExtractors(false);
+        MailExtractProgressLogger mepl = new MailExtractProgressLogger(
+            LoggerFactory.getLogger(ImportServiceTest.class),
+            MailExtractProgressLogger.GLOBAL
+        );
+
+        // When
+        ImportResult result = withDigestAlgorithmPreference(
+            "SHA-256",
+            () -> importService.doImport(context, SedaVersion.V2_1, null, mepl)
+        );
+
+        // Then
+        assertAllDigestsIn(result, "SHA-256");
     }
 }

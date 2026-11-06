@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
+import fr.gouv.vitam.tools.resip.parameters.InterfaceParameters;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.TreatmentParameters;
@@ -251,7 +252,8 @@ public class AddService {
             bdo.getOnDiskPathToString(),
             "",
             target,
-            mepl
+            mepl,
+            new InterfaceParameters(preferences).isDebugFlag()
         );
         mi.doExtract();
         doProgressLog(spl, GLOBAL, "resip: extraction de messages terminée\n" + mi.getSummary(), null);

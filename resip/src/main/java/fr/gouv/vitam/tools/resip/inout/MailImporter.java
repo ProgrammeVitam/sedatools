@@ -43,7 +43,6 @@ package fr.gouv.vitam.tools.resip.inout;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
@@ -121,6 +120,7 @@ public class MailImporter {
      * @param mailfolder                 the mailfolder
      * @param target                     the work dir
      * @param mailExtractProgressLogger  the logge
+     * @param debugFlag                  true to extract in debug mode
      */
     public MailImporter(
         boolean extractMessageTextFile,
@@ -132,7 +132,8 @@ public class MailImporter {
         String container,
         String mailfolder,
         String target,
-        MailExtractProgressLogger mailExtractProgressLogger
+        MailExtractProgressLogger mailExtractProgressLogger,
+        boolean debugFlag
     ) {
         this.protocol = protocol;
         this.container = container;
@@ -143,7 +144,7 @@ public class MailImporter {
         this.storeExtractorOptions = new StoreExtractorOptions(
             true,
             true,
-            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag(),
+            debugFlag,
             12,
             defaultCharsetName,
             true,
