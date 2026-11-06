@@ -271,10 +271,10 @@ public class DigestThread extends SwingWorker<String, String> {
                 null
             );
         }
-        // even cancelled, some digests may have changed
+        // even cancelled, some digests may have changed; the tree is unchanged, so the selection is kept
         if ((result != null) || isCancelled()) {
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.mainWindow.treePane.reset();
+            ResipGraphicApp.mainWindow.treePane.refreshDisplayedArchiveUnit();
         }
         ResipGraphicApp.getTheApp().addThreadRunning = false;
     }

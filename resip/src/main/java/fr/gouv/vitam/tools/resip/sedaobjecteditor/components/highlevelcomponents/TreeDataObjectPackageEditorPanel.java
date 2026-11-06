@@ -360,6 +360,27 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
     }
 
     /**
+     * Reload in the editors the displayed ArchiveUnit and its DataObjectGroup, keeping the selection,
+     * after a treatment changed their metadata without changing the tree (for example the digests).
+     */
+    public void refreshDisplayedArchiveUnit() {
+        refreshTreeLabel();
+        if (displayedTreeNode == null) return;
+        try {
+            ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(displayedTreeNode.getArchiveUnit());
+        } catch (SEDALibException e) {
+            ResipLogger.getGlobalLogger()
+                .log(
+                    ResipLogger.STEP,
+                    "Resip.InOut: Erreur au rafraîchissement de l'ArchiveUnit [" +
+                    displayedTreeNode.getArchiveUnit().getInDataObjectPackageId() +
+                    "]",
+                    e
+                );
+        }
+    }
+
+    /**
      * Select for edition an ArchiveUnit determined by it's tree path.
      *
      * @param path the path
