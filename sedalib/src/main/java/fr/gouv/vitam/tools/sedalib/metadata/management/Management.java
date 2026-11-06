@@ -56,31 +56,16 @@ import java.util.Map;
  */
 public class Management extends ComplexListType {
 
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true)
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
-        metadataMap.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
-        metadataMap.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
-        metadataMap.put(
-            DisseminationRule.DISSEMINATIONRULE_TAG,
-            new ComplexListMetadataKind(DisseminationRule.class, false)
-        );
-        metadataMap.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
-        metadataMap.put(
+    private static void putRules(Map<String, ComplexListMetadataKind> map) {
+        map.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
+        map.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
+        map.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
+        map.put(DisseminationRule.DISSEMINATIONRULE_TAG, new ComplexListMetadataKind(DisseminationRule.class, false));
+        map.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
+        map.put(
             ClassificationRule.CLASSIFICATIONRULE_TAG,
             new ComplexListMetadataKind(ClassificationRule.class, false)
         );
-        metadataMap.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
-        metadataMap.put("LogBook", new ComplexListMetadataKind(LogBook.class, false));
-        metadataMap.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
-        // Vitam extension
-        metadataMap.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
     }
 
     /**

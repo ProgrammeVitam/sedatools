@@ -37,15 +37,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class SignatureDescription.
@@ -57,19 +52,6 @@ import java.util.Map;
  * Standard quote: "Bloc permettant de décrire la signature dans un contexte de signature"
  */
 public class SignatureDescription extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("Signer", new ComplexListMetadataKind(Signer.class, false));
-        metadataMap.put("Validator", new ComplexListMetadataKind(Validator.class, false));
-        metadataMap.put("SigningType", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     // Constructors
 

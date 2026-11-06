@@ -38,17 +38,12 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
-import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class PhysicalDataObject.
@@ -56,58 +51,6 @@ import java.util.Map;
  * Class for SEDA element PhysicalDataObject. It contains metadata.
  */
 public class PhysicalDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
-
-    static {
-        METADATA_MAP_V1 = new LinkedHashMap<>();
-        METADATA_MAP_V1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-
-        METADATA_MAP_V1.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
-    }
-
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
-
-    static {
-        METADATA_MAP_V2 = new LinkedHashMap<>();
-        METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-
-        METADATA_MAP_V2.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
-    }
-
-    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
-
-    static {
-        METADATA_MAP_V3 = new LinkedHashMap<>();
-        METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
-        METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
-
-        METADATA_MAP_V3.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
-    }
 
     /**
      * {@inheritDoc}

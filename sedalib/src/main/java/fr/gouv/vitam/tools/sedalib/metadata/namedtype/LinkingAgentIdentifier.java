@@ -37,26 +37,9 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class LinkingAgentIdentifier extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("LinkingAgentIdentifierType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("LinkingAgentIdentifierValue", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("LinkingAgentRole", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     /**
      * Instantiates a new linking agent identifier type.

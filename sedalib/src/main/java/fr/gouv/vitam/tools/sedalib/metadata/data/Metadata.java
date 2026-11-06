@@ -39,9 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class Metadata.
  * <p>
@@ -53,21 +50,6 @@ import java.util.Map;
  * fonction de sa nature technique (texte, document, image, audio, vidéo, etc.)."
  */
 public class Metadata extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true)
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("Text", new ComplexListMetadataKind(AnyXMLListType.class, false));
-        metadataMap.put("Document", new ComplexListMetadataKind(AnyXMLListType.class, false));
-        metadataMap.put("Image", new ComplexListMetadataKind(AnyXMLListType.class, false));
-        metadataMap.put("Audio", new ComplexListMetadataKind(AnyXMLListType.class, false));
-        metadataMap.put("Video", new ComplexListMetadataKind(AnyXMLListType.class, false));
-    }
 
     // Constructors
 

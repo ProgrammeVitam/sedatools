@@ -37,12 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class ClassificationRule.
@@ -58,23 +54,6 @@ public class ClassificationRule extends RuleType {
     static final String CLASSIFICATIONRULE_TAG = "ClassificationRule";
     static final String CLASSIFICATIONLEVEL_TAG = "ClassificationLevel";
     static final String CLASSIFICATIONOWNER_TAG = "ClassificationOwner";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put(CLASSIFICATIONLEVEL_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(CLASSIFICATIONOWNER_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("ClassificationReassessingDate", new ComplexListMetadataKind(DateType.class, false));
-        metadataMap.put("NeedReassessingAuthorization", new ComplexListMetadataKind(BooleanType.class, false));
-    }
 
     /**
      * Instantiates a new classification rule.

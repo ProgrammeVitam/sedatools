@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class ArchiveUnitIdentifierKey.
@@ -59,18 +53,6 @@ public class ArchiveUnitIdentifierKey extends ComplexListType {
 
     static final String METADATANAME = "MetadataName";
     static final String METADATAVALUE = "MetadataValue";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(METADATANAME, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(METADATAVALUE, new ComplexListMetadataKind(StringType.class, false));
-    }
 
     /**
      * Instantiates a new ArchiveUnit identifier key type.

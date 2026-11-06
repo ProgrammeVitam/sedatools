@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DataObjectOrArchiveUnitReferenceType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class RelatedObjectReference.
@@ -56,21 +50,6 @@ import java.util.Map;
  * Standard quote: "Référence à un objet faisant ou ne faisant pas partie du présent paquet d'information."
  */
 public class RelatedObjectReference extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("IsVersionOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
-        metadataMap.put("Replaces", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
-        metadataMap.put("Requires", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
-        metadataMap.put("IsPartOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
-        metadataMap.put("References", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
-    }
 
     /**
      * Instantiates a new reference object type.

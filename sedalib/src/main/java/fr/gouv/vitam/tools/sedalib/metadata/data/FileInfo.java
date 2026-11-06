@@ -42,8 +42,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class FileInfo.
@@ -56,23 +54,6 @@ import java.util.Map;
  * logiciel de création, système d’exploitation de création)"
  */
 public class FileInfo extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("Filename", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("CreatingApplicationName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("CreatingApplicationVersion", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("DateCreatedByApplication", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap.put("CreatingOs", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("CreatingOsVersion", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("LastModified", new ComplexListMetadataKind(DateTimeType.class, false));
-    }
 
     // Constructors
 

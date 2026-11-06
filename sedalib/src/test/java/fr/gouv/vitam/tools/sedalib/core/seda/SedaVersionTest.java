@@ -37,7 +37,13 @@
  */
 package fr.gouv.vitam.tools.sedalib.core.seda;
 
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.FileObject;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,5 +87,36 @@ class SedaVersionTest {
         assertThrows(IllegalArgumentException.class, () -> SedaVersion.from("2.1.0"));
         assertThrows(NumberFormatException.class, () -> SedaVersion.from("a"));
         assertThrows(NumberFormatException.class, () -> SedaVersion.from("2.a"));
+    }
+
+    @Test
+    void shouldMatchEachVersionBundledBySedaSchema() {
+        for (fr.gouv.vitam.tools.sedaschema.SedaVersion schema : fr.gouv.vitam.tools.sedaschema.SedaVersion.values()) {
+            assertEquals(schema, SedaVersion.from(schema.getLabel()).getSchemaVersion());
+        }
+        // no XSD is bundled for the 2.0
+        assertNull(SedaVersion.V2_0.getSchemaVersion());
+        assertEquals(List.of(SedaVersion.V2_1, SedaVersion.V2_2, SedaVersion.V2_3), SedaVersion.withSchema());
+    }
+
+    @Test
+    void shouldCompareAsVersionsDo() {
+        assertTrue(SedaVersion.V2_2.isBetween(null, null));
+        assertTrue(SedaVersion.V2_2.isBetween(SedaVersion.V2_2, SedaVersion.V2_2));
+        assertFalse(SedaVersion.V2_2.isBetween(SedaVersion.V2_3, null));
+        assertTrue(SedaVersion.V2_3.isBetween(SedaVersion.V2_1, null));
+        assertFalse(SedaVersion.V2_3.isBetween(null, SedaVersion.V2_2));
+    }
+
+    @Test
+    void shouldServeTheAnnotatedMapsByVersionRange() {
+        Map<SedaVersion, Map<String, ComplexListMetadataKind>> maps = ComplexListInterface.metadataDefinitions(
+            FileObject.class
+        );
+
+        assertSame(FileObject.METADATA_MAP_V1, maps.get(SedaVersion.V2_0));
+        assertSame(FileObject.METADATA_MAP_V1, maps.get(SedaVersion.V2_1));
+        assertSame(FileObject.METADATA_MAP_V2, maps.get(SedaVersion.V2_2));
+        assertSame(FileObject.METADATA_MAP_V3, maps.get(SedaVersion.V2_3));
     }
 }

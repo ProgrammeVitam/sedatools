@@ -41,8 +41,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class TimestampingInformation.
@@ -54,18 +52,6 @@ import java.util.Map;
  * Standard quote: "Bloc permettant de conserver les informations d'horodatage dans un contexte de signature"
  */
 public class TimestampingInformation extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("TimeStamp", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap.put("AdditionalTimestampingInformation", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     // Constructors
 

@@ -37,14 +37,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The Class UpdateOperation.
@@ -59,21 +53,6 @@ public class UpdateOperation extends ComplexListType {
 
     static final String SYSTEMID_TAG = "SystemId";
     static final String ARCHIVEUNITIDENTIFIERKEY_TAG = "ArchiveUnitIdentifierKey";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(SYSTEMID_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(
-            ARCHIVEUNITIDENTIFIERKEY_TAG,
-            new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false)
-        );
-    }
 
     /**
      * Instantiates a new validator type.

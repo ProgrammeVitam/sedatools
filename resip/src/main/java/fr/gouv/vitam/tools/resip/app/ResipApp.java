@@ -77,7 +77,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -403,10 +403,8 @@ public class ResipApp {
 
         // define the SEDA 2 version
         if (cmd.hasOption("sedaversion")) {
-            final Map<String, SedaVersion> supportedSedaVersions = new HashMap<>();
-            supportedSedaVersions.put("2.1", SedaVersion.V2_1);
-            supportedSedaVersions.put("2.2", SedaVersion.V2_2);
-            supportedSedaVersions.put("2.3", SedaVersion.V2_3);
+            final Map<String, SedaVersion> supportedSedaVersions = new LinkedHashMap<>();
+            for (SedaVersion version : SedaVersion.withSchema()) supportedSedaVersions.put(version.toString(), version);
 
             String sedaVersion = cmd.getOptionValue("sedaversion");
             boolean isNotSupportedVersion = !supportedSedaVersions.containsKey(sedaVersion);

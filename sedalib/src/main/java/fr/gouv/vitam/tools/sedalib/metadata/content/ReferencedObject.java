@@ -40,9 +40,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class ReferencedObject.
  * <p>
@@ -53,18 +50,6 @@ import java.util.Map;
  * Standard quote: "Référence à l'objet signé."
  */
 public class ReferencedObject extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("SignedObjectId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
-        metadataMap.put("SignedObjectDigest", new ComplexListMetadataKind(DigestType.class, false));
-    }
 
     /**
      * Instantiates a new reference object type.

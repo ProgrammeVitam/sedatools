@@ -39,9 +39,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class PhysicalDimensions.
  * <p>
@@ -52,25 +49,6 @@ import java.util.Map;
  * Standard quote: "Dimensions d'un objet-données physique."
  */
 public class PhysicalDimensions extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("Width", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Height", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Depth", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Shape", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Diameter", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Length", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Thickness", new ComplexListMetadataKind(LinearDimensionType.class, false));
-        metadataMap.put("Weight", new ComplexListMetadataKind(Weight.class, false));
-        metadataMap.put("NumberOfPage", new ComplexListMetadataKind(IntegerType.class, false));
-    }
 
     // Constructors
 

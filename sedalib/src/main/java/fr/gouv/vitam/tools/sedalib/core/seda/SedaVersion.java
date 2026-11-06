@@ -37,6 +37,15 @@
  */
 package fr.gouv.vitam.tools.sedalib.core.seda;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The SEDA versions sedalib handles, declared in chronological order so that they compare as
+ * versions do.
+ * <p>
+ * The XSD of each version are bundled by seda-schema, see {@link #getSchemaVersion()}.
+ */
 public enum SedaVersion {
     V2_0(2, 0),
     V2_1(2, 1),
@@ -66,6 +75,31 @@ public enum SedaVersion {
 
     public String displayString() {
         return "SEDA " + major + "." + minor;
+    }
+
+    /**
+     * @return the version of the XSD bundled by seda-schema, or null when there is none (2.0)
+     */
+    public fr.gouv.vitam.tools.sedaschema.SedaVersion getSchemaVersion() {
+        return fr.gouv.vitam.tools.sedaschema.SedaVersion.fromLabel(toString());
+    }
+
+    /**
+     * @param since the first version of the range, null for no lower bound
+     * @param until the last version of the range, null for no upper bound
+     * @return true if this version is in the range
+     */
+    public boolean isBetween(SedaVersion since, SedaVersion until) {
+        return (since == null || compareTo(since) >= 0) && (until == null || compareTo(until) <= 0);
+    }
+
+    /**
+     * @return the versions with bundled XSD, the ones a manifest can be written and validated in
+     */
+    public static List<SedaVersion> withSchema() {
+        List<SedaVersion> result = new ArrayList<>();
+        for (SedaVersion version : values()) if (version.getSchemaVersion() != null) result.add(version);
+        return result;
     }
 
     public static SedaVersion from(int major, int minor) {

@@ -39,6 +39,7 @@ package fr.gouv.vitam.tools.sedalib.xml;
 
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedaschema.SedaFlavor;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -64,31 +65,17 @@ import java.util.Scanner;
 
 public class SEDAXMLValidator {
 
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_1 = "seda2_1/seda-vitam-2.1-main.xsd";
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda2_2/seda-vitam-2.2-main.xsd";
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_3 = "seda2_3/seda-2.3-main.xsd";
     private static final String HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1 = "http://www.w3.org/XML/XMLSchema/v1.1";
-    private static final String CATALOG_FILENAME = "xsd_validation/catalog.xml";
+    private static final String CATALOG_FILENAME = "sedaschema/xsd/catalog.xml";
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
     public static Schema getSEDASchema() throws SEDALibException {
-        switch (SedaContext.getVersion()) {
-            case V2_1:
-                return getSchemaFromXSDResource(
-                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1)
-                );
-            case V2_2:
-                return getSchemaFromXSDResource(
-                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2)
-                );
-            case V2_3:
-                return getSchemaFromXSDResource(
-                    SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_3)
-                );
-            default:
-                throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
-        }
+        fr.gouv.vitam.tools.sedaschema.SedaVersion version = SedaContext.getVersion().getSchemaVersion();
+        if (version == null) throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
+        // the XSD Vitam implements, bundled by seda-schema along with the official one
+        String resource = version.getMainXsdResource(SedaFlavor.VITAM);
+        return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(resource));
     }
 
     public static Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {

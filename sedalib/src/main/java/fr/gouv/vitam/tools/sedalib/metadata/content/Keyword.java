@@ -40,9 +40,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.content;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class Keyword.
  * <p>
@@ -54,19 +51,6 @@ import java.util.Map;
  * utiliser Tag ou Keyword en fonction de ce que l'on souhaite décrire."
  */
 public class Keyword extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("KeywordContent", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("KeywordReference", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("KeywordType", new ComplexListMetadataKind(EnumType.class, false));
-    }
 
     /**
      * Instantiates a new keyword type.

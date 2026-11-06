@@ -40,9 +40,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * The Class FormatIdentification.
  * <p>
@@ -55,20 +52,6 @@ import java.util.Map;
  * Standard quote: "Identification du format de l'objet-données"
  */
 public class FormatIdentification extends ComplexListType {
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("FormatLitteral", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("MimeType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("FormatId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Encoding", new ComplexListMetadataKind(StringType.class, false));
-    }
 
     // Constructors
 

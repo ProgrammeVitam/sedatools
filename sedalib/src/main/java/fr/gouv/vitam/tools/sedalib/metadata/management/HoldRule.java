@@ -37,18 +37,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.BooleanType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -62,25 +54,6 @@ public class HoldRule extends RuleType {
     static final String HOLDREASSESSINGDATE_TAG = "HoldReassessingDate";
     static final String HOLDREASON_TAG = "HoldReason";
     static final String HOLDPREVENTREARRANGEMENT_TAG = "PreventRearrangement";
-
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(isExpandable = true)
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
-
-    static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put(HOLDENDDATE_TAG, new RuleMetadataKind(DateType.class, true));
-        metadataMap.put(HOLDOWNER_TAG, new RuleMetadataKind(StringType.class, true));
-        metadataMap.put(HOLDREASSESSINGDATE_TAG, new RuleMetadataKind(DateType.class, true));
-        metadataMap.put(HOLDREASON_TAG, new RuleMetadataKind(StringType.class, true));
-        metadataMap.put(HOLDPREVENTREARRANGEMENT_TAG, new RuleMetadataKind(BooleanType.class, true));
-
-        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
-    }
 
     /**
      * Instantiates a new hold rule.
