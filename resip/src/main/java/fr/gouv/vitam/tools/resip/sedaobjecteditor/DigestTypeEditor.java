@@ -41,11 +41,15 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponent
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.util.List;
 
 /**
  * The DigestType object editor class.
@@ -69,6 +73,9 @@ public class DigestTypeEditor extends SEDAObjectEditor {
     private JButton algorithmButton;
     private GridBagLayout labelGBL;
     private int algorithmWidth;
+    private Color valueForeground;
+
+    private static final Color WARNING_COLOR = new Color(0xB3, 0x5C, 0x00);
 
     /**
      * Instantiates a new DigestType editor.
@@ -187,7 +194,55 @@ public class DigestTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueTextField, gbc);
 
+        valueForeground = valueTextField.getForeground();
+        DocumentListener warningUpdater = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateWarnings();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateWarnings();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateWarnings();
+            }
+        };
+        valueTextField.getDocument().addDocumentListener(warningUpdater);
+        attributeTextField.getDocument().addDocumentListener(warningUpdater);
+        updateWarnings();
+
         this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
+    }
+
+    /**
+     * Lists the warnings about the edited digest, which never prevent from keeping it: an erroneous
+     * package may be built on purpose for testing.
+     *
+     * @param value     the edited value
+     * @param algorithm the edited algorithm, empty or null if none
+     * @return the warnings, empty if none
+     */
+    public static List<String> getWarnings(String value, String algorithm) {
+        return DigestComputer.getValueWarnings(
+            value,
+            (algorithm == null) || algorithm.trim().isEmpty() ? null : algorithm.trim()
+        );
+    }
+
+    // shows the anomalies of the edited digest, without refusing it
+    private void updateWarnings() {
+        List<String> warnings = getWarnings(valueTextField.getText(), attributeTextField.getText());
+        if (warnings.isEmpty()) {
+            valueTextField.setForeground(valueForeground);
+            valueTextField.setToolTipText(null);
+        } else {
+            valueTextField.setForeground(WARNING_COLOR);
+            valueTextField.setToolTipText("<html>Avertissement :<br>" + String.join("<br>", warnings) + "</html>");
+        }
     }
 
     private void algorithmActivate() {

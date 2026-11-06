@@ -53,6 +53,7 @@ import fr.gouv.vitam.tools.resip.service.ExportService.ExportType;
 import fr.gouv.vitam.tools.resip.service.SessionService;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
+import fr.gouv.vitam.tools.resip.threads.DigestThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -458,6 +459,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Calculer les empreintes...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ComputeDigests");
+        treatMenu.add(menuItem);
+
         importMenu = new JMenu("Import");
         menuBar.add(importMenu);
 
@@ -617,6 +623,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     break;
                 case "RegenerateContinuousIds":
                     doRegenerateContinuousIds();
+                    break;
+                case "ComputeDigests":
+                    DigestThread.launchDigestThread(null);
                     break;
                 case "SortTreeViewer":
                     doSortTreeViewer();
