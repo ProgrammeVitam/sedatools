@@ -1566,11 +1566,13 @@ public class DataObjectPackage {
      * Sets the algorithm of the digests computed from now on in this package. The digests already
      * computed are not changed.
      *
-     * @param digestAlgorithm the digest algorithm, one of {@link DigestComputer#SUPPORTED_ALGORITHMS}
-     * @throws SEDALibException if the algorithm is not supported
+     * @param digestAlgorithm the digest algorithm, any one, even one Vitam doesn't accept (see
+     *                        {@link DigestComputer#getAlgorithmWarnings}); the default one if null or blank
      */
-    public void setDigestAlgorithm(String digestAlgorithm) throws SEDALibException {
-        this.digestAlgorithm = DigestComputer.checkSupported(digestAlgorithm);
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = (digestAlgorithm == null) || digestAlgorithm.isBlank()
+            ? DigestComputer.DEFAULT_ALGORITHM
+            : digestAlgorithm;
     }
 
     /**

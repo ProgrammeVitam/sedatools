@@ -165,51 +165,94 @@ class DigestComputerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "MD5", "SHA-1", "SHA3-512", "MD2", "unknown" })
-    void shouldRefuseAnAlgorithmVitamDoesNotAccept(String algorithm) throws IOException {
+    @ValueSource(strings = { "MD5", "SHA-1", "SHA3-512", "MD2", "SHA-224" })
+    void shouldComputeDigestWithAnAlgorithmVitamDoesNotPropose(String algorithm)
+        throws IOException, SEDALibException, NoSuchAlgorithmException {
+        // Given
+        Path file = tempDir.resolve("small.txt");
+        Files.writeString(file, "Hello World");
+
+        // When
+        String digest = DigestComputer.compute(file, algorithm);
+
+        // Then
+        assertThat(digest).isEqualTo(bytesToHex(MessageDigest.getInstance(algorithm).digest("Hello World".getBytes())));
+    }
+
+    @Test
+    void shouldRefuseToComputeDigestWithAnAlgorithmUnknownToJava() throws IOException {
         // Given
         Path file = tempDir.resolve("small.txt");
         Files.writeString(file, "Hello World");
 
         // When / Then
-        assertThatThrownBy(() -> DigestComputer.compute(file, algorithm))
+        assertThatThrownBy(() -> DigestComputer.compute(file, "UNKNOWN-ALGORITHM"))
             .isInstanceOf(SEDALibException.class)
-            .hasMessageContaining(algorithm);
+            .hasMessageContaining("UNKNOWN-ALGORITHM");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "SHA-512", "SHA-384", "SHA-256", "SHA-1", "MD5" })
+    void shouldNotWarnAboutAnAlgorithmVitamAccepts(String algorithm) {
+        assertThat(DigestComputer.getAlgorithmWarnings(algorithm)).isEmpty();
     }
 
     @Test
-    void shouldAcceptADigestValueOfTheLengthOfItsAlgorithm() throws SEDALibException {
+    void shouldWarnAboutAnAlgorithmVitamDoesNotAccept() {
+        assertThat(DigestComputer.getAlgorithmWarnings("SHA3-512")).singleElement().asString().contains("Vitam");
+    }
+
+    @Test
+    void shouldWarnAboutAnAlgorithmUnknownToJava() {
+        assertThat(DigestComputer.getAlgorithmWarnings("UNKNOWN-ALGORITHM"))
+            .hasSize(2)
+            .anyMatch(warning -> warning.contains("Vitam"))
+            .anyMatch(warning -> warning.contains("Java"));
+    }
+
+    @Test
+    void shouldWarnAboutAMissingAlgorithm() {
+        assertThat(DigestComputer.getAlgorithmWarnings(null)).singleElement().asString().contains("absent");
+        assertThat(DigestComputer.getAlgorithmWarnings(" ")).singleElement().asString().contains("absent");
+    }
+
+    @Test
+    void shouldNotWarnAboutADigestValueOfTheLengthOfItsAlgorithm() {
         // Given
         String sha256 = "a".repeat(64);
 
         // When / Then
-        DigestComputer.checkValue(sha256, "SHA-256");
-        DigestComputer.checkValue(sha256.toUpperCase(), "SHA-256");
+        assertThat(DigestComputer.getValueWarnings(sha256, "SHA-256")).isEmpty();
+        assertThat(DigestComputer.getValueWarnings(sha256.toUpperCase(), "SHA-256")).isEmpty();
     }
 
     @Test
-    void shouldRefuseADigestValueOfAnotherLengthThanItsAlgorithm() {
+    void shouldWarnAboutADigestValueOfAnotherLengthThanItsAlgorithm() {
         // Given
         String sha256 = "a".repeat(64);
 
         // When / Then
-        assertThatThrownBy(() -> DigestComputer.checkValue(sha256, "SHA-512"))
-            .isInstanceOf(SEDALibException.class)
-            .hasMessageContaining("128");
+        assertThat(DigestComputer.getValueWarnings(sha256, "SHA-512")).singleElement().asString().contains("128");
     }
 
     @Test
-    void shouldRefuseADigestValueThatIsNotHexadecimal() {
-        assertThatThrownBy(() -> DigestComputer.checkValue("not-a-digest", "SHA-512")).isInstanceOf(
-            SEDALibException.class
+    void shouldWarnAboutADigestValueThatIsNotHexadecimal() {
+        assertThat(DigestComputer.getValueWarnings("not-a-digest", "SHA-512"))
+            .singleElement()
+            .asString()
+            .contains("hexadécimale");
+        assertThat(DigestComputer.getValueWarnings(null, "SHA-512"))
+            .singleElement()
+            .asString()
+            .contains("hexadécimale");
+    }
+
+    @Test
+    void shouldOnlyWarnAboutTheAlgorithmOfADigestOfAnAlgorithmUnknownToJava() {
+        assertThat(DigestComputer.getValueWarnings("abcd", "UNKNOWN-ALGORITHM")).noneMatch(
+            w -> w.contains("caractères")
         );
-        assertThatThrownBy(() -> DigestComputer.checkValue(null, "SHA-512")).isInstanceOf(SEDALibException.class);
-    }
-
-    @Test
-    void shouldOnlyCheckTheHexadecimalFormOfADigestOfAnAlgorithmUnknownToJava() throws SEDALibException {
-        DigestComputer.checkValue("abcd", "UNKNOWN-ALGORITHM");
-        DigestComputer.checkValue("abcd", null);
+        assertThat(DigestComputer.getValueWarnings("abcd", null)).singleElement().asString().contains("absent");
     }
 
     private String bytesToHex(byte[] bytes) {

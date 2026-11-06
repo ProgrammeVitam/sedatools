@@ -327,10 +327,10 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * Computes the digest of the file in a given algorithm and replaces the MessageDigest metadata.
      * The other metadata (size, format, file information) are not changed.
      *
-     * @param algorithm             the digest algorithm, one of
-     *                              {@link DigestComputer#SUPPORTED_ALGORITHMS}
+     * @param algorithm             the digest algorithm, any algorithm Java can compute, even one
+     *                              Vitam doesn't accept
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
-     * @throws SEDALibException if the algorithm is not supported, or there is no file or it can't
+     * @throws SEDALibException if Java can't compute the algorithm, or there is no file or it can't
      *                          be read
      */
     public void computeMessageDigest(String algorithm, SEDALibProgressLogger sedaLibProgressLogger)

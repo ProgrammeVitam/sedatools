@@ -95,10 +95,25 @@ class DigestAlgorithmTest {
     }
 
     @Test
-    void shouldRefuseAnUnsupportedDigestAlgorithm() {
+    void shouldAcceptAnyDigestAlgorithmToBuildErroneousPackages() {
         DataObjectPackage dataObjectPackage = new DataObjectPackage(SedaVersion.V2_1);
 
-        assertThatThrownBy(() -> dataObjectPackage.setDigestAlgorithm("MD5")).isInstanceOf(SEDALibException.class);
+        dataObjectPackage.setDigestAlgorithm("MD2");
+        assertThat(dataObjectPackage.getDigestAlgorithm()).isEqualTo("MD2");
+
+        dataObjectPackage.setDigestAlgorithm("UNKNOWN-ALGORITHM");
+        assertThat(dataObjectPackage.getDigestAlgorithm()).isEqualTo("UNKNOWN-ALGORITHM");
+    }
+
+    @Test
+    void shouldUseTheDefaultDigestAlgorithmWhenNoneIsGiven() {
+        DataObjectPackage dataObjectPackage = new DataObjectPackage(SedaVersion.V2_1);
+        dataObjectPackage.setDigestAlgorithm("SHA-256");
+
+        dataObjectPackage.setDigestAlgorithm(null);
+        assertThat(dataObjectPackage.getDigestAlgorithm()).isEqualTo("SHA-512");
+
+        dataObjectPackage.setDigestAlgorithm(" ");
         assertThat(dataObjectPackage.getDigestAlgorithm()).isEqualTo("SHA-512");
     }
 
@@ -130,10 +145,49 @@ class DigestAlgorithmTest {
     }
 
     @Test
-    void shouldRefuseAJsonPackageWithAnUnsupportedDigestAlgorithm() {
-        String json = "{\"sedaVersion\":\"2.1\",\"digestAlgorithm\":\"MD2\"}";
+    void shouldReadAJsonPackageWithADigestAlgorithmVitamDoesNotAccept() throws Exception {
+        // Given
+        String json =
+            "{\"sedaVersion\":\"2.1\",\"digestAlgorithm\":\"MD2\",\"dataObjectGroupList\":[],\"ArchiveUnitList\":[]}";
 
-        assertThatThrownBy(() -> mapper().readValue(json, DataObjectPackage.class)).hasMessageContaining("MD2");
+        // When
+        DataObjectPackage read = mapper().readValue(json, DataObjectPackage.class);
+
+        // Then
+        assertThat(read.getDigestAlgorithm()).isEqualTo("MD2");
+    }
+
+    @Test
+    void shouldComputeTheMessageDigestInAnAlgorithmVitamDoesNotAccept() throws Exception {
+        // Given a package built on purpose with an algorithm Vitam rejects
+        DataObjectPackage dataObjectPackage = new DataObjectPackage(SedaVersion.V2_1);
+        dataObjectPackage.setDigestAlgorithm("SHA3-256");
+        BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage, file(), null, "BinaryMaster_1");
+
+        // When
+        bdo.computeMessageDigest(null);
+
+        // Then
+        assertThat(bdo.getMetadataMessageDigest().getAlgorithm()).isEqualTo("SHA3-256");
+        assertThat(bdo.getMetadataMessageDigest().getValue()).isEqualTo(digestOf(CONTENT, "SHA3-256"));
+    }
+
+    @Test
+    void shouldKeepAWrongMessageDigestSetByHand() throws Exception {
+        // Given
+        BinaryDataObject bdo = new BinaryDataObject(
+            new DataObjectPackage(SedaVersion.V2_1),
+            file(),
+            null,
+            "BinaryMaster_1"
+        );
+
+        // When
+        bdo.addMetadata(new DigestType("MessageDigest", "not-a-digest", "UNKNOWN-ALGORITHM"));
+
+        // Then
+        assertThat(bdo.getMetadataMessageDigest().getValue()).isEqualTo("not-a-digest");
+        assertThat(bdo.getMetadataMessageDigest().getAlgorithm()).isEqualTo("UNKNOWN-ALGORITHM");
     }
 
     @Test

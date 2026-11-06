@@ -43,6 +43,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -57,12 +58,16 @@ public class DigestComputer {
     public static final String DEFAULT_ALGORITHM = "SHA-512";
 
     /**
-     * The digest algorithms a package can be built with, the strongest first.
-     * <p>
-     * Vitam accepts MD5, SHA-1, SHA-256, SHA-384 and SHA-512; MD5 and SHA-1 are obsolete, so only the
-     * SHA-2 ones are proposed.
+     * The digest algorithms proposed to build a package, the strongest first. Any other algorithm
+     * Java can compute may still be used, for example to build erroneous packages for testing.
      */
-    public static final List<String> SUPPORTED_ALGORITHMS = List.of(DEFAULT_ALGORITHM, "SHA-384", "SHA-256");
+    public static final List<String> PROPOSED_ALGORITHMS = List.of(DEFAULT_ALGORITHM, "SHA-384", "SHA-256");
+
+    /**
+     * The digest algorithms Vitam accepts (its {@code DigestType}). The SEDA schema itself accepts any
+     * algorithm name.
+     */
+    public static final List<String> VITAM_ALGORITHMS = List.of("MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512");
 
     private static final Pattern HEXADECIMAL = Pattern.compile("[0-9a-fA-F]+");
 
@@ -70,60 +75,84 @@ public class DigestComputer {
     private DigestComputer() {}
 
     /**
-     * Tells if a digest algorithm is one a package can be built with.
+     * Tells if Vitam accepts a digest algorithm.
      *
      * @param algorithm the algorithm name, as in the SEDA MessageDigest algorithm attribute
-     * @return true if supported
+     * @return true if accepted by Vitam
      */
-    public static boolean isSupported(String algorithm) {
-        return SUPPORTED_ALGORITHMS.contains(algorithm);
+    public static boolean isAcceptedByVitam(String algorithm) {
+        return VITAM_ALGORITHMS.contains(algorithm);
     }
 
     /**
-     * Checks that a digest algorithm is one a package can be built with.
+     * Tells if Java can compute digests with an algorithm.
      *
      * @param algorithm the algorithm name
-     * @return the algorithm
-     * @throws SEDALibException if the algorithm is not supported
+     * @return true if computable
      */
-    public static String checkSupported(String algorithm) throws SEDALibException {
-        if (!isSupported(algorithm)) throw new SEDALibException(
-            "Algorithme de hachage [" +
-            algorithm +
-            "] non supporté, les algorithmes possibles sont " +
-            SUPPORTED_ALGORITHMS
-        );
-        return algorithm;
+    public static boolean isComputable(String algorithm) {
+        if (algorithm == null) return false;
+        try {
+            MessageDigest.getInstance(algorithm);
+            return true;
+        } catch (NoSuchAlgorithmException e) {
+            return false;
+        }
     }
 
     /**
-     * Checks that a digest value is consistent with its algorithm: an hexadecimal string of the
-     * length the algorithm produces. An algorithm unknown to Java is not checked further than being
-     * hexadecimal, as a manifest may declare any algorithm.
+     * Lists the warnings about a digest algorithm. They never prevent from using it, as erroneous
+     * packages may be built on purpose.
+     *
+     * @param algorithm the algorithm name, or null
+     * @return the warnings, empty if none
+     */
+    public static List<String> getAlgorithmWarnings(String algorithm) {
+        List<String> warnings = new ArrayList<>();
+        if ((algorithm == null) || algorithm.isBlank()) {
+            warnings.add("Algorithme de hachage absent");
+            return warnings;
+        }
+        if (!isAcceptedByVitam(algorithm)) warnings.add(
+            "Algorithme de hachage [" + algorithm + "] non accepté par Vitam " + VITAM_ALGORITHMS
+        );
+        if (!isComputable(algorithm)) warnings.add(
+            "Algorithme de hachage [" + algorithm + "] inconnu de Java : les empreintes ne pourront pas être calculées"
+        );
+        return warnings;
+    }
+
+    /**
+     * Lists the warnings about a digest value: not hexadecimal, or not of the length its algorithm
+     * produces, plus the warnings about the algorithm. They never prevent from using the value, as
+     * erroneous packages may be built on purpose.
      *
      * @param value     the digest value
      * @param algorithm the digest algorithm, or null
-     * @throws SEDALibException if the value is not consistent
+     * @return the warnings, empty if none
      */
-    public static void checkValue(String value, String algorithm) throws SEDALibException {
-        if ((value == null) || !HEXADECIMAL.matcher(value).matches()) throw new SEDALibException(
-            "L'empreinte [" + value + "] n'est pas une valeur hexadécimale"
-        );
-        if (algorithm == null) return;
+    public static List<String> getValueWarnings(String value, String algorithm) {
+        List<String> warnings = new ArrayList<>(getAlgorithmWarnings(algorithm));
+        if ((value == null) || !HEXADECIMAL.matcher(value).matches()) {
+            warnings.add("L'empreinte [" + value + "] n'est pas une valeur hexadécimale");
+            return warnings;
+        }
+        if (!isComputable(algorithm)) return warnings;
         int expectedLength;
         try {
             expectedLength = MessageDigest.getInstance(algorithm).getDigestLength() * 2;
         } catch (NoSuchAlgorithmException e) {
-            return;
+            return warnings;
         }
-        if (value.length() != expectedLength) throw new SEDALibException(
+        if (value.length() != expectedLength) warnings.add(
             "L'empreinte " +
             algorithm +
-            " doit compter " +
+            " devrait compter " +
             expectedLength +
             " caractères hexadécimaux, et non " +
             value.length()
         );
+        return warnings;
     }
 
     /**
@@ -132,13 +161,15 @@ public class DigestComputer {
      * file size.
      *
      * @param path      the file path
-     * @param algorithm the digest algorithm, one of {@link #SUPPORTED_ALGORITHMS}
+     * @param algorithm the digest algorithm, any algorithm Java can compute
      * @param logger    the logger (can be null)
      * @return the hex string of the digest
-     * @throws SEDALibException if the algorithm is not supported or the file can't be read
+     * @throws SEDALibException if Java can't compute the algorithm or the file can't be read
      */
     public static String compute(Path path, String algorithm, SEDALibProgressLogger logger) throws SEDALibException {
-        checkSupported(algorithm);
+        if (!isComputable(algorithm)) throw new SEDALibException(
+            "Impossible de calculer une empreinte avec l'algorithme de hachage [" + algorithm + "], inconnu de Java"
+        );
         try {
             MessageDigest digest = MessageDigest.getInstance(algorithm);
             byte[] hash = new NioDigestComputer().compute(digest, path, logger);
@@ -152,9 +183,9 @@ public class DigestComputer {
      * Compute the digest of a file (no logger).
      *
      * @param path      the file path
-     * @param algorithm the digest algorithm, one of {@link #SUPPORTED_ALGORITHMS}
+     * @param algorithm the digest algorithm, any algorithm Java can compute
      * @return the hex string of the digest
-     * @throws SEDALibException if the algorithm is not supported or the file can't be read
+     * @throws SEDALibException if Java can't compute the algorithm or the file can't be read
      */
     public static String compute(Path path, String algorithm) throws SEDALibException {
         return compute(path, algorithm, null);

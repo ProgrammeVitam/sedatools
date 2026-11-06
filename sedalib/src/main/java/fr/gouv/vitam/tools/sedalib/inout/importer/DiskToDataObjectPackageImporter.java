@@ -1006,11 +1006,10 @@ public class DiskToDataObjectPackageImporter {
      * Sets the algorithm of the digests computed by this import, SHA-512 by default. The imported
      * package keeps it for the digests computed afterwards.
      *
-     * @param digestAlgorithm the digest algorithm, one of
-     *                        {@link fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer#SUPPORTED_ALGORITHMS}
-     * @throws SEDALibException if the algorithm is not supported
+     * @param digestAlgorithm the digest algorithm, any one, even one Vitam doesn't accept
+     *                        (see {@link fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer#getAlgorithmWarnings})
      */
-    public void setDigestAlgorithm(String digestAlgorithm) throws SEDALibException {
+    public void setDigestAlgorithm(String digestAlgorithm) {
         dataObjectPackage.setDigestAlgorithm(digestAlgorithm);
     }
 
